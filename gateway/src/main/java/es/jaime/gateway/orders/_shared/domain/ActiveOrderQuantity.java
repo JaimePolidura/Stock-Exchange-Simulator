@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.domain;
+package es.jaime.gateway.orders._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.IntegerValueObject;
 

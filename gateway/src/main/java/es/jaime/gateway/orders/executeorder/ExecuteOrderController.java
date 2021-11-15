@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders;
+package es.jaime.gateway.orders.executeorder;
 
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
