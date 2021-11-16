@@ -7,7 +7,7 @@ public class DoubleValueObject extends ValueObject{
         this.value = value;
     }
 
-    public double getValue() {
+    public double value() {
         return value;
     }
 }

@@ -1,5 +1,8 @@
 package es.jaime.gateway.orders._shared.domain;
 
-public interface ActiveOrderRepository {
+import org.springframework.stereotype.Repository;
 
+@Repository
+public interface ActiveOrderRepository {
+    void save(ActiveOrder activeOrder);
 }

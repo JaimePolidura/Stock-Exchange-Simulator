@@ -1,4 +1,6 @@
 package es.jaime.gateway._shared.domain.bus.command;
 
-public interface Command {
+import java.io.Serializable;
+
+public interface Command extends Serializable {
 }

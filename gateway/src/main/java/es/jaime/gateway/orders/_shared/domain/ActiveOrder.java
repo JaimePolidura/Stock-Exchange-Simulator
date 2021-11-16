@@ -26,7 +26,7 @@ public final class ActiveOrder extends Aggregate {
             put("date", date.value());
             put("quantity", quantity.value());
             put("type", type);
-            put("executionPrice", executionPrice.getValue());
+            put("executionPrice", executionPrice.value());
         }};
     }
 

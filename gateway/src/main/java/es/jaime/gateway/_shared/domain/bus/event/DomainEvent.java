@@ -1,5 +1,7 @@
 package es.jaime.gateway._shared.domain.bus.event;
 
 
-public abstract class DomainEvent {
+import java.io.Serializable;
+
+public abstract class DomainEvent implements Serializable {
 }
