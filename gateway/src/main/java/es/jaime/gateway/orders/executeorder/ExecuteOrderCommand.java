@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.Command;
+import es.jaime.gateway._shared.domain.bus.queue.QueueMessage;
 import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;
 

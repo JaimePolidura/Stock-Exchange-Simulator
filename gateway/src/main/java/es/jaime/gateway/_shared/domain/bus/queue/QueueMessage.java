@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders._shared.domain;
+package es.jaime.gateway._shared.domain.bus.queue;
 
 import java.util.Map;
 
