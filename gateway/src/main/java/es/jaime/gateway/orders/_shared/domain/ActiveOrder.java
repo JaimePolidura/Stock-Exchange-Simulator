@@ -1,22 +1,46 @@
 package es.jaime.gateway.orders._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
+import es.jaime.gateway.orders._shared.infrastrocture.converters.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Entity
+@Table(name = "activeorders")
 @AllArgsConstructor
 public final class ActiveOrder extends Aggregate {
-    @Getter private ActiveOrderID activeorderId;
-    @Getter private ActiveOrderClientID clientId;
-    @Getter private ActiveOrderDate date;
-    @Getter private ActiveOrderQuantity quantity;
-    @Getter private ActiveOrderTicker ticker;
-    @Getter private ActiveOrderType type;
-    @Getter private ActiveOrderExecutionPrice executionPrice;
+    @Id
+    @Convert(converter = ActiveOrderIdConverter.class)
+    private ActiveOrderID activeorderId;
+
+    @Column
+    @Convert(converter = ActiveOrderIdConverter.class)
+    private ActiveOrderClientID clientId;
+
+    @Column
+    @Convert(converter = ActiveOrderDateConverter.class)
+    private ActiveOrderDate date;
+
+    @Column
+    @Convert(converter = ActiveOrderQuantityConverter.class)
+    private ActiveOrderQuantity quantity;
+
+    @Column
+    @Convert(converter = ActiveOrderTickerConverter.class)
+    private ActiveOrderTicker ticker;
+
+    @Column
+    private ActiveOrderType type;
+
+    @Column
+    @Convert(converter = ActiveOrderExecutionDateConverter.class)
+    private ActiveOrderExecutionPrice executionPrice;
+
+    public ActiveOrder(){}
 
     @Override
     public Map<String, Object> toPrimitives() {
@@ -45,5 +69,61 @@ public final class ActiveOrder extends Aggregate {
 
     private UUID primitiveObjectToUUID(Map<String, Object> values, String key){
         return UUID.fromString(String.valueOf(values.get(key)));
+    }
+
+    public ActiveOrderID getActiveorderId() {
+        return activeorderId;
+    }
+
+    public void setActiveorderId(ActiveOrderID activeorderId) {
+        this.activeorderId = activeorderId;
+    }
+
+    public ActiveOrderClientID getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(ActiveOrderClientID clientId) {
+        this.clientId = clientId;
+    }
+
+    public ActiveOrderDate getDate() {
+        return date;
+    }
+
+    public void setDate(ActiveOrderDate date) {
+        this.date = date;
+    }
+
+    public ActiveOrderQuantity getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(ActiveOrderQuantity quantity) {
+        this.quantity = quantity;
+    }
+
+    public ActiveOrderTicker getTicker() {
+        return ticker;
+    }
+
+    public void setTicker(ActiveOrderTicker ticker) {
+        this.ticker = ticker;
+    }
+
+    public ActiveOrderType getType() {
+        return type;
+    }
+
+    public void setType(ActiveOrderType type) {
+        this.type = type;
+    }
+
+    public ActiveOrderExecutionPrice getExecutionPrice() {
+        return executionPrice;
+    }
+
+    public void setExecutionPrice(ActiveOrderExecutionPrice executionPrice) {
+        this.executionPrice = executionPrice;
     }
 }

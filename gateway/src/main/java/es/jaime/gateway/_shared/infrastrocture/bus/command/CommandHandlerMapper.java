@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public final class CommandHandlerMapper {
+public class CommandHandlerMapper {
     private final Map<Class<Command>, CommandHandler> commandsHandlers;
     private final ApplicationContext context;
     private final ApplicationCQRSClassMapper mapper;

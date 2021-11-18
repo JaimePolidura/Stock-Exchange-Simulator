@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public final class QueryHandlerMapper {
+public class QueryHandlerMapper {
     private final Map<Class<Query>, QueryHandler> queryHandlers;
     private final ApplicationCQRSClassMapper mapper;
     private final ApplicationContext context;

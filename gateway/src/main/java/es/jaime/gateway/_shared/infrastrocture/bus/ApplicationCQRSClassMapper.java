@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public final class ApplicationCQRSClassMapper {
+public class ApplicationCQRSClassMapper {
     private final ApplicationContext context;
     private final Reflections reflections;
 

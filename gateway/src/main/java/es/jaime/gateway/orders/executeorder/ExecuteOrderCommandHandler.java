@@ -3,15 +3,17 @@ package es.jaime.gateway.orders.executeorder;
 import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
 import es.jaime.gateway._shared.domain.bus.event.EventBus;
 import es.jaime.gateway.orders._shared.domain.ActiveOrder;
-import es.jaime.gateway.orders._shared.domain.ActiveOrderRepository;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
+import es.jaime.gateway.orders._shared.infrastrocture.ActiveOrderRepositoryJPA;
+import org.springframework.stereotype.Service;
 
+@Service
 public final class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
     private final EventBus eventBus;
     private final QueuePublisher queuePublisher;
-    private final ActiveOrderRepository repository;
+    private final ActiveOrderRepositoryJPA repository;
 
-    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepository repository) {
+    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepositoryJPA repository) {
         this.eventBus = eventBus;
         this.queuePublisher = queuePublisher;
         this.repository = repository;

@@ -6,14 +6,14 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public final class ListedCompanyTickerConverter implements AttributeConverter<String, ListedCompnayTicker> {
+public class ListedCompanyTickerConverter implements AttributeConverter<ListedCompnayTicker, String> {
     @Override
-    public ListedCompnayTicker convertToDatabaseColumn(String value) {
-        return value == null ? null : ListedCompnayTicker.of(value);
+    public String convertToDatabaseColumn(ListedCompnayTicker listedCompnayTicker) {
+        return listedCompnayTicker.value();
     }
 
     @Override
-    public String convertToEntityAttribute(ListedCompnayTicker value) {
-        return value == null ? null : value.value();
+    public ListedCompnayTicker convertToEntityAttribute(String toConvert) {
+        return ListedCompnayTicker.of(toConvert);
     }
 }

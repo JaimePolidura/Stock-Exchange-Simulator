@@ -1,10 +1,11 @@
 package es.jaime.gateway.orders._shared.infrastrocture;
 
 import es.jaime.gateway.orders._shared.domain.ActiveOrder;
-import es.jaime.gateway.orders._shared.domain.ActiveOrderRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import es.jaime.gateway.orders._shared.domain.ActiveOrderID;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
-public interface ActiveOrderRepositoryJPA extends JpaRepository<ActiveOrder, UUID>, ActiveOrderRepository {
+@Repository
+public interface ActiveOrderRepositoryJPA extends CrudRepository<ActiveOrder, ActiveOrderID> {
+    @Override <S extends ActiveOrder> S save(S entity);
 }

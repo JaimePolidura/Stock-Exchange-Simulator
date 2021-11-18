@@ -6,7 +6,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class QueuePublisherRabbitMQ implements QueuePublisher {
+public class QueuePublisherRabbitMQ implements QueuePublisher {
     private final RabbitTemplate rabbitTemplate;
 
     public QueuePublisherRabbitMQ(RabbitTemplate rabbitTemplate) {
