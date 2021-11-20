@@ -1,4 +1,4 @@
-package es.jaime.gateway.authentication._shared.infrastrocture;
+package es.jaime.gateway.authentication._shared.infrastructure;
 
 import es.jaime.gateway.authentication._shared.domain.User;
 import es.jaime.gateway.authentication._shared.domain.UserName;

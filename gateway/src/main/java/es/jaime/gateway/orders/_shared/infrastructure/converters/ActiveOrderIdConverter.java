@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders._shared.infrastrocture.converters;
+package es.jaime.gateway.orders._shared.infrastructure.converters;
 
 import es.jaime.gateway.orders._shared.domain.ActiveOrderID;
 

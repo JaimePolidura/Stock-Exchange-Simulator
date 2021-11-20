@@ -1,4 +1,4 @@
-package es.jaime.gateway.authentication._shared.infrastrocture;
+package es.jaime.gateway.authentication._shared.infrastructure;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package es.jaime.gateway.authentication._shared.infrastrocture;
+package es.jaime.gateway.authentication._shared.infrastructure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

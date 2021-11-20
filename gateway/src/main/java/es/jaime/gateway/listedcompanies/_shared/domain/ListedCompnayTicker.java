@@ -1,4 +1,4 @@
-package es.jaime.gateway.listedcompanies.domain;
+package es.jaime.gateway.listedcompanies._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
 

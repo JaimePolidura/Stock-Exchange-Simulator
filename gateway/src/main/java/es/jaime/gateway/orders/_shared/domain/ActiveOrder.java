@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
-import es.jaime.gateway.orders._shared.infrastrocture.converters.*;
+import es.jaime.gateway.orders._shared.infrastructure.converters.*;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
 package es.jaime.gateway.authentication.login;
 
 import es.jaime.gateway._shared.domain.bus.query.QueryHandler;
-import es.jaime.gateway.authentication._shared.infrastrocture.JWTUtils;
+import es.jaime.gateway.authentication._shared.infrastructure.JWTUtils;
 import org.springframework.stereotype.Service;
 
 

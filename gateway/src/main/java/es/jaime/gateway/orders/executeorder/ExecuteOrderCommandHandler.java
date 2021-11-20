@@ -5,7 +5,7 @@ import es.jaime.gateway._shared.domain.bus.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration;
 import es.jaime.gateway.orders._shared.domain.ActiveOrder;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
-import es.jaime.gateway.orders._shared.infrastrocture.ActiveOrderRepositoryJPA;
+import es.jaime.gateway.orders._shared.infrastructure.ActiveOrderRepositoryJPA;
 import org.springframework.stereotype.Service;
 
 @Service

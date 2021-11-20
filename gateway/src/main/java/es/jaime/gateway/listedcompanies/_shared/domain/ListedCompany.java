@@ -1,7 +1,7 @@
-package es.jaime.gateway.listedcompanies.domain;
+package es.jaime.gateway.listedcompanies._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
-import es.jaime.gateway.listedcompanies.infrastrocture.converters.ListedCompanyTickerConverter;
+import es.jaime.gateway.listedcompanies._shared.infrastructure.converters.ListedCompanyTickerConverter;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "listedcompanies")
-public class ListedCompany extends Aggregate {
+public final class ListedCompany extends Aggregate {
     @Id
     @Convert(converter = ListedCompanyTickerConverter.class)
     private ListedCompnayTicker ticker;

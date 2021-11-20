@@ -1,7 +1,5 @@
 package es.jaime.gateway;
 
-import es.jaime.gateway.listedcompanies.domain.ListedCompnayTicker;
-import es.jaime.gateway.listedcompanies.infrastrocture.ListedCompaniesRepositoryJPA;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

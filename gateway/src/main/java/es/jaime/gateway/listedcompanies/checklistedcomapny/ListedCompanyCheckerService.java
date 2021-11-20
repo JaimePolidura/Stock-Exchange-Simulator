@@ -1,13 +1,12 @@
-package es.jaime.gateway.listedcompanies.application;
+package es.jaime.gateway.listedcompanies.checklistedcomapny;
 
 import es.jaime.gateway._shared.application.UseCase;
-import es.jaime.gateway.listedcompanies.domain.ListedCompnayTicker;
-import es.jaime.gateway.listedcompanies.infrastrocture.ListedCompaniesRepositoryJPA;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompnayTicker;
 import org.springframework.stereotype.Service;
 
 @Service
 public final class ListedCompanyCheckerService extends UseCase {
-    private final ListedCompaniesRepositoryJPA repository;
+    private final Listed repository;
 
     public ListedCompanyCheckerService(ListedCompaniesRepositoryJPA repository) {
         this.repository = repository;

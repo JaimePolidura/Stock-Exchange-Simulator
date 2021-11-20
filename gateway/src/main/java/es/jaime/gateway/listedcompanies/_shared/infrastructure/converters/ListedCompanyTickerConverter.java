@@ -1,6 +1,6 @@
-package es.jaime.gateway.listedcompanies.infrastrocture.converters;
+package es.jaime.gateway.listedcompanies._shared.infrastructure.converters;
 
-import es.jaime.gateway.listedcompanies.domain.ListedCompnayTicker;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompnayTicker;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
