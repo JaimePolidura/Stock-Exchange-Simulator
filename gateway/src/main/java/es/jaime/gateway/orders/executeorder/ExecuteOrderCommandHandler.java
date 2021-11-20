@@ -2,6 +2,7 @@ package es.jaime.gateway.orders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
 import es.jaime.gateway._shared.domain.bus.event.EventBus;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration;
 import es.jaime.gateway.orders._shared.domain.ActiveOrder;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
 import es.jaime.gateway.orders._shared.infrastrocture.ActiveOrderRepositoryJPA;
@@ -21,7 +22,7 @@ public final class ExecuteOrderCommandHandler implements CommandHandler<ExecuteO
 
     @Override
     public void handle(ExecuteOrderCommand command) {
-        this.queuePublisher.enqueue(command);
+        this.queuePublisher.enqueue(RabbitMQConfiguration.queueName, command);
 
         this.eventBus.publish(new OrderExecutionPublished(command));
 

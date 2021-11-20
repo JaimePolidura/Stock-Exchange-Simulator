@@ -1,10 +1,13 @@
 package es.jaime.gateway.orders.executeorder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jaime.gateway._shared.domain.bus.command.Command;
 import es.jaime.gateway._shared.domain.bus.queue.QueueMessage;
 import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;
+import lombok.SneakyThrows;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -29,7 +32,12 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
     }
 
     @Override
-    public Map<String, Object> toPrimitives() {
+    @SneakyThrows
+    public String toJson() {
+        return new ObjectMapper().writeValueAsString(toPrimitives());
+    }
+
+    private Map<String, Serializable> toPrimitives() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
             put("clientID", clientID.value());

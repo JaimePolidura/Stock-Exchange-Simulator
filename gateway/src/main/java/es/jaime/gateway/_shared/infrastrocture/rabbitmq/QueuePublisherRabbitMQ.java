@@ -5,6 +5,8 @@ import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration.*;
+
 @Service
 public class QueuePublisherRabbitMQ implements QueuePublisher {
     private final RabbitTemplate rabbitTemplate;
@@ -14,7 +16,7 @@ public class QueuePublisherRabbitMQ implements QueuePublisher {
     }
 
     @Override
-    public void enqueue(QueueMessage queueMessage) {
-        this.rabbitTemplate.convertAndSend(queueMessage.toPrimitives());
+    public void enqueue(String queueName, QueueMessage queueMessage) {
+        this.rabbitTemplate.convertAndSend(topicExchangeName, queueName, queueMessage.toJson());
     }
 }

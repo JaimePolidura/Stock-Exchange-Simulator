@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "listedcompanies")
-public final class ListedCompany extends Aggregate {
+public class ListedCompany extends Aggregate {
     @Id
     @Convert(converter = ListedCompanyTickerConverter.class)
     private ListedCompnayTicker ticker;

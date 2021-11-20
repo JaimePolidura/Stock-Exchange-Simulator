@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class Test implements CommandLineRunner {
+public class Test implements CommandLineRunner {
     private ListedCompaniesRepositoryJPA repositoryJPA;
 
     public Test(ListedCompaniesRepositoryJPA repositoryJPA) {
@@ -15,8 +15,6 @@ public final class Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        boolean exits = repositoryJPA.existsByTicker(ListedCompnayTicker.of("ADBE"));
-
-        System.out.println(exits);
+        System.out.println(repositoryJPA.existsByTicker(ListedCompnayTicker.of("V")));
     }
 }
