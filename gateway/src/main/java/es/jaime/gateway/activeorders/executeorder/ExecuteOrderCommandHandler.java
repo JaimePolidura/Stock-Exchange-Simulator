@@ -2,10 +2,14 @@ package es.jaime.gateway.activeorders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
 import es.jaime.gateway._shared.domain.bus.event.EventBus;
+import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
+import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
+import es.jaime.gateway.listedcompanies.checklistedcomapny.ListedCompanyCheckerService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,16 +17,22 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
     private final EventBus eventBus;
     private final QueuePublisher queuePublisher;
     private final ActiveOrderRepository repository;
+    private final ListedCompanyCheckerService listedCompanyCheckerService;
 
-    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepository repository) {
+    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepository repository,
+                                      ListedCompanyCheckerService listedCompanyCheckerService) {
         this.eventBus = eventBus;
         this.queuePublisher = queuePublisher;
         this.repository = repository;
+        this.listedCompanyCheckerService = listedCompanyCheckerService;
     }
 
     @Override
     public void handle(ExecuteOrderCommand command) {
-        this.queuePublisher.enqueue(RabbitMQConfiguration.queueName, command);
+        ensureTickerExists(command);
+        ensureCorrectQuantity(command);
+
+        this.queuePublisher.enqueue(RabbitMQConfiguration.newOrders, command);
 
         this.eventBus.publish(new OrderExecutionPublished(command));
 
@@ -35,5 +45,17 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
                 command.getType(),
                 command.getExecutionPrice()
         ));
+    }
+
+    private void ensureTickerExists(ExecuteOrderCommand command){
+        if(!listedCompanyCheckerService.isListedCompany(ListedCompanyTicker.of(command.getTicker()))){
+            throw new ResourceNotFound("Stock not listed");
+        }
+    }
+
+    private void ensureCorrectQuantity(ExecuteOrderCommand command){
+        if(command.getQuantity().value() <= 0){
+            throw new IllegalQuantity("Quantity cannot be smaller or equal to 0");
+        }
     }
 }

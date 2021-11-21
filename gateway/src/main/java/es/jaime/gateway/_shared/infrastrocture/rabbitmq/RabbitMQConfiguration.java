@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
     public static final String topicExchangeName = "sxs";
-    public static final String queueName = "sxs.new-orders";
+    public static final String newOrders = "sxs.new-orders";
 
     @Bean
     public Queue queue() {
-        return new Queue(queueName, false);
+        return new Queue(newOrders, false);
     }
 
     @Bean

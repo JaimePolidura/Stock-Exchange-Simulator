@@ -14,7 +14,7 @@ public class ListedCompanyCheckerService extends UseCase {
     }
 
 
-    public boolean isListedCompany(String ticker){
-        return repository.existsByTicker(ListedCompanyTicker.of(ticker));
+    public boolean isListedCompany(ListedCompanyTicker ticker){
+        return repository.existsByTicker(ticker);
     }
 }

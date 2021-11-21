@@ -2,6 +2,8 @@ package es.jaime.gateway.activeorders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.CommandBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +20,28 @@ public class ExecuteOrderController extends Controller {
     }
 
     @PostMapping("/executeorder")
-    public ResponseEntity<String> executeorder(@RequestBody ExecuteOrderRequest request){
-        this.commandBus.dispatch(new ExecuteOrderCommand(
-                request.clientId,
+    public ResponseEntity<ActiveOrderID> executeorder(@RequestBody ExecuteOrderRequest request){
+        //Order-id generated in commandExecute order
+        ExecuteOrderCommand commandExecuteOrder = new ExecuteOrderCommand(
+                getUsername(),
                 request.quantity,
                 request.ticker,
                 request.orderType,
                 request.executionType
-        ));
+        );
 
-        return buildNewHttpResponseOK("Order pending to execute");
+        this.commandBus.dispatch(commandExecuteOrder);
+
+        return buildNewHttpResponseOK(commandExecuteOrder.getOrderID());
     }
 
 
+    @AllArgsConstructor
+    private static final class ExecuteOrderRequest{
+        public final String clientId;
+        public final String ticker;
+        public final int quantity;
+        public final String orderType;
+        public final double executionType;
+    }
 }
