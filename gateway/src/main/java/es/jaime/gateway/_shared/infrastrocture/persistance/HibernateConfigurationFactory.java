@@ -63,14 +63,16 @@ public class HibernateConfigurationFactory {
     }
 
     private List<Resource> searchMappingFiles(String contextName) {
-        List<String> modules  = subdirectoriesFor(contextName.toLowerCase());
+        List<String> modules = subdirectoriesFor(contextName.toLowerCase());
         List<String> goodPaths = new ArrayList<>();
 
         for (String module : modules) {
-            String[] files = mappingFilesIn(module + "/_shared/infrastructure/persistence/hibernate/");
+            String[] files = mappingFilesIn(module + "/_shared/infrastructure/persistence/");
 
             for (String file : files) {
-                goodPaths.add(module + "/_shared/infrastructure/persistence/hibernate/" + file);
+                goodPaths.add(module + "/_shared/infrastructure/persistence/" + file);
+
+                System.out.println(goodPaths.get(goodPaths.size() - 1));
             }
         }
 
@@ -78,7 +80,7 @@ public class HibernateConfigurationFactory {
     }
 
     private List<String> subdirectoriesFor(String contextName) {
-        String path = "./src/" + contextName + "/es/jaime/" + contextName + "/";
+        String path = "./src/main/java/es/jaime/" + contextName + "/";
 
         String[] files = new File(path).list((current, name) -> new File(current, name).isDirectory());
 

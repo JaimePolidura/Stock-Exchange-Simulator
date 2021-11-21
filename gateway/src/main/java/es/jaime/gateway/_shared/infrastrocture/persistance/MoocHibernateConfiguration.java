@@ -22,7 +22,7 @@ public class MoocHibernateConfiguration {
     }
 
     @Bean
-    public PlatformTransactionManager hibernateTransactionManager() throws IOException {
+    public PlatformTransactionManager hibernateTransactionManager() {
         return this.hibernateTransactionManager(sessionFactory());
     }
 

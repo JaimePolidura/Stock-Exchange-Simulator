@@ -5,14 +5,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UUIDValueObject extends ValueObject {
-    private final UUID uuid;
+    private final UUID value;
 
     public UUIDValueObject(UUID uuid) {
-        this.uuid = uuid;
+        this.value = uuid;
     }
 
     public UUID value(){
-        return this.uuid;
+        return this.value;
     }
 
     @Override
@@ -20,11 +20,11 @@ public class UUIDValueObject extends ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UUIDValueObject that = (UUIDValueObject) o;
-        return Objects.equals(uuid, that.uuid);
+        return Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(value);
     }
 }

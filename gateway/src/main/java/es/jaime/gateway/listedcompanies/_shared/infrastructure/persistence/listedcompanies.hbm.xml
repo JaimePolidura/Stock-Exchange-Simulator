@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="es.jaime.gateway.listedcompanies._shared.domain.ListedCompany" table="listedcompanies">
+        <composite-id name="ticker" class="es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker" access="field">
+            <key-property column="ticker" name="value" length="10" access="field"/>
+        </composite-id>
+    </class>
+</hibernate-mapping>

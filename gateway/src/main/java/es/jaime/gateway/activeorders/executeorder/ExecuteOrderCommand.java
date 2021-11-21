@@ -1,9 +1,9 @@
-package es.jaime.gateway.orders.executeorder;
+package es.jaime.gateway.activeorders.executeorder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jaime.gateway._shared.domain.bus.command.Command;
 import es.jaime.gateway._shared.domain.bus.queue.QueueMessage;
-import es.jaime.gateway.orders._shared.domain.*;
+import es.jaime.gateway.activeorders._shared.domain.*;
 import lombok.Getter;
 import lombok.SneakyThrows;
 

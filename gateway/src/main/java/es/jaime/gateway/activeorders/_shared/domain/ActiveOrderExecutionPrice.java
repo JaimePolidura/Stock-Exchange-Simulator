@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders._shared.domain;
+package es.jaime.gateway.activeorders._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.DoubleValueObject;
 
@@ -6,7 +6,6 @@ public final class ActiveOrderExecutionPrice extends DoubleValueObject {
     public ActiveOrderExecutionPrice(double value) {
         super(value);
     }
-
 
     public boolean isTypeLimit(){
         return value() != -1;

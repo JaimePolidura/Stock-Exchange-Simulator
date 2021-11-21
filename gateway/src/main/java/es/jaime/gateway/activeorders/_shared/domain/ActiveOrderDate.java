@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders._shared.domain;
+package es.jaime.gateway.activeorders._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.DateValueObject;
 

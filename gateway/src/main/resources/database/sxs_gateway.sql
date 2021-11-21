@@ -18,8 +18,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for activeorders
 -- ----------------------------
-DROP TABLE IF EXISTS `activeorders`;
-CREATE TABLE `activeorders` (
+CREATE TABLE IF NOT EXISTS `activeorders` (
   `activeorderId` varchar(36) NOT NULL,
   `clientId` varchar(36) NOT NULL,
   `date` varchar(15) NOT NULL,
@@ -37,8 +36,7 @@ CREATE TABLE `activeorders` (
 -- ----------------------------
 -- Table structure for listedcompanies
 -- ----------------------------
-DROP TABLE IF EXISTS `listedcompanies`;
-CREATE TABLE `listedcompanies` (
+CREATE TABLE IF NOT EXISTS `listedcompanies` (
   `ticker` varchar(10) NOT NULL,
   PRIMARY KEY (`ticker`),
   UNIQUE KEY `ticker` (`ticker`) USING HASH
@@ -47,18 +45,18 @@ CREATE TABLE `listedcompanies` (
 -- ----------------------------
 -- Records of listedcompanies
 -- ----------------------------
-INSERT INTO `listedcompanies` VALUES ('ADBE');
-INSERT INTO `listedcompanies` VALUES ('AMZN');
-INSERT INTO `listedcompanies` VALUES ('BAC');
-INSERT INTO `listedcompanies` VALUES ('BRK.A');
-INSERT INTO `listedcompanies` VALUES ('FB');
-INSERT INTO `listedcompanies` VALUES ('GOOG');
-INSERT INTO `listedcompanies` VALUES ('HD');
-INSERT INTO `listedcompanies` VALUES ('JNJ');
-INSERT INTO `listedcompanies` VALUES ('JPM');
-INSERT INTO `listedcompanies` VALUES ('MA');
-INSERT INTO `listedcompanies` VALUES ('MSFT');
-INSERT INTO `listedcompanies` VALUES ('NVDA');
-INSERT INTO `listedcompanies` VALUES ('PG');
-INSERT INTO `listedcompanies` VALUES ('TSLA');
-INSERT INTO `listedcompanies` VALUES ('V');
+# INSERT INTO `listedcompanies` VALUES ('ADBE');
+# INSERT INTO `listedcompanies` VALUES ('AMZN');
+# INSERT INTO `listedcompanies` VALUES ('BAC');
+# INSERT INTO `listedcompanies` VALUES ('BRK.A');
+# INSERT INTO `listedcompanies` VALUES ('FB');
+# INSERT INTO `listedcompanies` VALUES ('GOOG');
+# INSERT INTO `listedcompanies` VALUES ('HD');
+# INSERT INTO `listedcompanies` VALUES ('JNJ');
+# INSERT INTO `listedcompanies` VALUES ('JPM');
+# INSERT INTO `listedcompanies` VALUES ('MA');
+# INSERT INTO `listedcompanies` VALUES ('MSFT');
+# INSERT INTO `listedcompanies` VALUES ('NVDA');
+# INSERT INTO `listedcompanies` VALUES ('PG');
+# INSERT INTO `listedcompanies` VALUES ('TSLA');
+# INSERT INTO `listedcompanies` VALUES ('V');

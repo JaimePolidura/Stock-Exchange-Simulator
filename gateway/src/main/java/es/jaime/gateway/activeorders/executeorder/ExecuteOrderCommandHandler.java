@@ -1,20 +1,20 @@
-package es.jaime.gateway.orders.executeorder;
+package es.jaime.gateway.activeorders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
 import es.jaime.gateway._shared.domain.bus.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration;
-import es.jaime.gateway.orders._shared.domain.ActiveOrder;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
-import es.jaime.gateway.orders._shared.infrastructure.ActiveOrderRepositoryJPA;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public final class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
     private final EventBus eventBus;
     private final QueuePublisher queuePublisher;
-    private final ActiveOrderRepositoryJPA repository;
+    private final ActiveOrderRepository repository;
 
-    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepositoryJPA repository) {
+    public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepository repository) {
         this.eventBus = eventBus;
         this.queuePublisher = queuePublisher;
         this.repository = repository;

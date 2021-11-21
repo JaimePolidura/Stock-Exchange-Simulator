@@ -1,7 +1,7 @@
-package es.jaime.gateway.orders.executeorder;
+package es.jaime.gateway.activeorders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.event.DomainEvent;
-import es.jaime.gateway.orders._shared.domain.*;
+import es.jaime.gateway.activeorders._shared.domain.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

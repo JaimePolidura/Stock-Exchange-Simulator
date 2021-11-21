@@ -1,46 +1,23 @@
-package es.jaime.gateway.orders._shared.domain;
+package es.jaime.gateway.activeorders._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
-import es.jaime.gateway.orders._shared.infrastructure.converters.*;
 import lombok.AllArgsConstructor;
 
-import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Entity
-@Table(name = "activeorders")
 @AllArgsConstructor
 public final class ActiveOrder extends Aggregate {
-    @Id
-    @Convert(converter = ActiveOrderIdConverter.class)
     private ActiveOrderID activeorderId;
-
-    @Column
-    @Convert(converter = ActiveOrderIdConverter.class)
     private ActiveOrderClientID clientId;
-
-    @Column
-    @Convert(converter = ActiveOrderDateConverter.class)
     private ActiveOrderDate date;
-
-    @Column
-    @Convert(converter = ActiveOrderQuantityConverter.class)
     private ActiveOrderQuantity quantity;
-
-    @Column
-    @Convert(converter = ActiveOrderTickerConverter.class)
     private ActiveOrderTicker ticker;
-
-    @Column
     private ActiveOrderType type;
-
-    @Column
-    @Convert(converter = ActiveOrderExecutionDateConverter.class)
     private ActiveOrderExecutionPrice executionPrice;
 
-    public ActiveOrder(){}
+    private ActiveOrder () {}
 
     @Override
     public Map<String, Object> toPrimitives() {
@@ -61,7 +38,7 @@ public final class ActiveOrder extends Aggregate {
         this.date = ActiveOrderDate.of(String.valueOf(values.get("date")));
         this.quantity = ActiveOrderQuantity.of((Integer) values.get("quantity"));
         this.ticker = ActiveOrderTicker.of(String.valueOf(values.get("ticker")));
-        this.type = ActiveOrderType.valueOf(String.valueOf(values.get("executionType")));
+        this.type = ActiveOrderType.valueOf(String.valueOf(values.get("type")));
         this.executionPrice = ActiveOrderExecutionPrice.of(Double.parseDouble(String.valueOf(values.get("executionPrice"))));
 
         return this;
@@ -71,59 +48,32 @@ public final class ActiveOrder extends Aggregate {
         return UUID.fromString(String.valueOf(values.get(key)));
     }
 
-    public ActiveOrderID getActiveorderId() {
+    public ActiveOrderID activeorderId() {
         return activeorderId;
     }
 
-    public void setActiveorderId(ActiveOrderID activeorderId) {
-        this.activeorderId = activeorderId;
-    }
-
-    public ActiveOrderClientID getClientId() {
+    public ActiveOrderClientID clientId() {
         return clientId;
     }
 
-    public void setClientId(ActiveOrderClientID clientId) {
-        this.clientId = clientId;
-    }
 
-    public ActiveOrderDate getDate() {
+    public ActiveOrderDate date() {
         return date;
     }
 
-    public void setDate(ActiveOrderDate date) {
-        this.date = date;
-    }
-
-    public ActiveOrderQuantity getQuantity() {
+    public ActiveOrderQuantity quantity() {
         return quantity;
     }
 
-    public void setQuantity(ActiveOrderQuantity quantity) {
-        this.quantity = quantity;
-    }
-
-    public ActiveOrderTicker getTicker() {
+    public ActiveOrderTicker ticker() {
         return ticker;
     }
 
-    public void setTicker(ActiveOrderTicker ticker) {
-        this.ticker = ticker;
-    }
-
-    public ActiveOrderType getType() {
+    public ActiveOrderType type() {
         return type;
     }
 
-    public void setType(ActiveOrderType type) {
-        this.type = type;
-    }
-
-    public ActiveOrderExecutionPrice getExecutionPrice() {
+    public ActiveOrderExecutionPrice executionPrice() {
         return executionPrice;
-    }
-
-    public void setExecutionPrice(ActiveOrderExecutionPrice executionPrice) {
-        this.executionPrice = executionPrice;
     }
 }
