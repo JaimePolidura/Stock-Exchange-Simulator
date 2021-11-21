@@ -26,7 +26,7 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
         this.clientID = ActiveOrderClientID.of(UUID.fromString(clientId));
         this.quantity = ActiveOrderQuantity.of(quantity);
         this.ticker = ActiveOrderTicker.of(ticker);
-        this.type = ActiveOrderType.valueOf(orderType);
+        this.type = ActiveOrderType.of(orderType);
         this.date = ActiveOrderDate.now();
         this.executionPrice = ActiveOrderExecutionPrice.of(executionPrice);
     }
@@ -45,7 +45,7 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
             put("executionPrice", executionPrice.value());
             put("quantity", quantity.value());
             put("ticker", ticker.value());
-            put("type", type.toString());
+            put("type", type.valueString());
         }};
     }
 }

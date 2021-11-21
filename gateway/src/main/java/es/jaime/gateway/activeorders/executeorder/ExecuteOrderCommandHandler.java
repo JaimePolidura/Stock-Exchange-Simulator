@@ -9,7 +9,7 @@ import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
+public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
     private final EventBus eventBus;
     private final QueuePublisher queuePublisher;
     private final ActiveOrderRepository repository;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-public final class ExecuteOrderController extends Controller {
+public class ExecuteOrderController extends Controller {
     private final CommandBus commandBus;
 
     public ExecuteOrderController(CommandBus commandBus) {

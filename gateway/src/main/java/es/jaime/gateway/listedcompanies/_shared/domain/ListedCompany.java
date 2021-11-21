@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ListedCompany extends Aggregate {
-    private final ListedCompanyTicker ticker;
+    private ListedCompanyTicker ticker;
 
     public ListedCompany(ListedCompanyTicker ticker) {
         this.ticker = ticker;
     }
+
+    public ListedCompany () {}
 
     public ListedCompanyTicker ticker() {
         return ticker;

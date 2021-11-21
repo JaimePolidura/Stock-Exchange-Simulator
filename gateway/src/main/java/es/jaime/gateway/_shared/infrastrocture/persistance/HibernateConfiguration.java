@@ -7,17 +7,18 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
 @EnableTransactionManagement
-public class MoocHibernateConfiguration {
+public class HibernateConfiguration {
     private final HibernateConfigurationFactory factory;
     private final String CONTEXT = "GATEWAY";
 
-    public MoocHibernateConfiguration(HibernateConfigurationFactory factory) {
+    public HibernateConfiguration(HibernateConfigurationFactory factory) {
         this.factory = factory;
     }
 

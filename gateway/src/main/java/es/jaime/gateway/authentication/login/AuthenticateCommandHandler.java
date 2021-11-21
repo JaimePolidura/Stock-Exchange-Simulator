@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public final class AuthenticateCommandHandler implements CommandHandler<AuthenticateCommand> {
+public class AuthenticateCommandHandler implements CommandHandler<AuthenticateCommand> {
     private final UserRepository userRepository;
 
     public AuthenticateCommandHandler(UserRepository userRepository) {

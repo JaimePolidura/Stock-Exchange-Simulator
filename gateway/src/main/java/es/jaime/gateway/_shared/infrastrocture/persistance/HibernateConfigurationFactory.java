@@ -5,10 +5,8 @@ import org.hibernate.cfg.AvailableSettings;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -71,8 +69,6 @@ public class HibernateConfigurationFactory {
 
             for (String file : files) {
                 goodPaths.add(module + "/_shared/infrastructure/persistence/" + file);
-
-                System.out.println(goodPaths.get(goodPaths.size() - 1));
             }
         }
 

@@ -38,7 +38,7 @@ public final class ActiveOrder extends Aggregate {
         this.date = ActiveOrderDate.of(String.valueOf(values.get("date")));
         this.quantity = ActiveOrderQuantity.of((Integer) values.get("quantity"));
         this.ticker = ActiveOrderTicker.of(String.valueOf(values.get("ticker")));
-        this.type = ActiveOrderType.valueOf(String.valueOf(values.get("type")));
+        this.type = ActiveOrderType.of(String.valueOf(values.get("type")));
         this.executionPrice = ActiveOrderExecutionPrice.of(Double.parseDouble(String.valueOf(values.get("executionPrice"))));
 
         return this;
@@ -55,7 +55,6 @@ public final class ActiveOrder extends Aggregate {
     public ActiveOrderClientID clientId() {
         return clientId;
     }
-
 
     public ActiveOrderDate date() {
         return date;

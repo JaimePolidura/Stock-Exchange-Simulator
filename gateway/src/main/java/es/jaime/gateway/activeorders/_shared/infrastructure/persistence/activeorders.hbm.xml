@@ -26,7 +26,7 @@
         </component>
 
         <component name="type" class="es.jaime.gateway.activeorders._shared.domain.ActiveOrderType" access="field">
-            <property column="type" name="name" type="string" access="field"/>
+            <property column="type" name="valueString" type="string" access="field"/>
         </component>
 
         <component name="executionPrice" class="es.jaime.gateway.activeorders._shared.domain.ActiveOrderExecutionPrice" access="field">
