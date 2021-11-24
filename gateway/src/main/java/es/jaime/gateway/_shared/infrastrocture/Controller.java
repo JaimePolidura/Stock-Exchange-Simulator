@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Controller {
-    public String getUsername() { return SecurityContextHolder.getContext().getAuthentication().getName(); }
+    public String getLoggedUsername() { return SecurityContextHolder.getContext().getAuthentication().getName(); }
 
     protected ResponseEntity<String> buildNewHttpResponseOK() {
         return ResponseEntity.ok().body("");

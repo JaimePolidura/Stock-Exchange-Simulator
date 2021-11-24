@@ -19,14 +19,13 @@ public final class CheckOrderController extends Controller {
     }
 
     @GetMapping("/checkorder}")
-    public ResponseEntity<String> checkorder(@RequestParam Request request){
-        Object response = this.queryBus.ask(new CheckOrderQuery(
+    public ResponseEntity<CheckOrderQueryResponse> checkorder(@RequestParam Request request){
+        CheckOrderQueryResponse response = this.queryBus.ask(new CheckOrderQuery(
                 request.activeOrderId,
-                request.username
+                getLoggedUsername()
         ));
 
-        //TODO change type
-        return buildNewHttpResponseOK(response.toString());
+        return buildNewHttpResponseOK(response);
     }
 
     @AllArgsConstructor

@@ -23,7 +23,7 @@ public class ExecuteOrderController extends Controller {
     public ResponseEntity<ActiveOrderID> executeorder(@RequestBody ExecuteOrderRequest request){
         //Order-id generated in commandExecute order
         ExecuteOrderCommand commandExecuteOrder = new ExecuteOrderCommand(
-                getUsername(),
+                getLoggedUsername(),
                 request.quantity,
                 request.ticker,
                 request.orderType,

@@ -8,8 +8,10 @@ import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrderStatus;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.listedcompanies.checklistedcomapny.ListedCompanyCheckerService;
+import net.bytebuddy.dynamic.TypeResolutionStrategy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +45,8 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
                 command.getQuantity(),
                 command.getTicker(),
                 command.getType(),
-                command.getExecutionPrice()
+                command.getExecutionPrice(),
+                ActiveOrderStatus.of(ActiveOrderStatus.Status.SENDING)
         ));
     }
 

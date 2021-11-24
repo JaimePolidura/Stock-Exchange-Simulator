@@ -32,5 +32,9 @@
         <component name="executionPrice" class="es.jaime.gateway.activeorders._shared.domain.ActiveOrderExecutionPrice" access="field">
             <property column="executionPrice" name="value" type="double" access="field"/>
         </component>
+
+        <component name="status" class="es.jaime.gateway.activeorders._shared.domain.ActiveOrderStatus" access="field">
+            <property column="status" name="valueString" type="string" access="field"/>
+        </component>
     </class>
 </hibernate-mapping>

@@ -16,6 +16,7 @@ public final class ActiveOrder extends Aggregate {
     private ActiveOrderTicker ticker;
     private ActiveOrderType type;
     private ActiveOrderExecutionPrice executionPrice;
+    private ActiveOrderStatus status;
 
     private ActiveOrder () {}
 
@@ -28,6 +29,7 @@ public final class ActiveOrder extends Aggregate {
             put("quantity", quantity.value());
             put("type", type);
             put("executionPrice", executionPrice.value());
+            put("status", status.valueString());
         }};
     }
 
@@ -40,6 +42,7 @@ public final class ActiveOrder extends Aggregate {
         this.ticker = ActiveOrderTicker.of(String.valueOf(values.get("ticker")));
         this.type = ActiveOrderType.of(String.valueOf(values.get("type")));
         this.executionPrice = ActiveOrderExecutionPrice.of(Double.parseDouble(String.valueOf(values.get("executionPrice"))));
+        this.status = ActiveOrderStatus.of(String.valueOf(values.get("status")));
 
         return this;
     }
@@ -74,5 +77,9 @@ public final class ActiveOrder extends Aggregate {
 
     public ActiveOrderExecutionPrice executionPrice() {
         return executionPrice;
+    }
+
+    public ActiveOrderStatus status() {
+        return status;
     }
 }

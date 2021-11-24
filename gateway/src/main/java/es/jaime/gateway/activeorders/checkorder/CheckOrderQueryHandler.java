@@ -6,10 +6,12 @@ import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import es.jaime.gateway.authentication._shared.domain.UserName;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-public final class CheckOrderQueryHandler implements QueryHandler<CheckOrderQuery, CheckOrderQueryResponse> {
+@Component
+public class CheckOrderQueryHandler implements QueryHandler<CheckOrderQuery, CheckOrderQueryResponse> {
     private final ActiveOrderRepository repository;
 
     public CheckOrderQueryHandler(ActiveOrderRepository repository) {
@@ -25,7 +27,10 @@ public final class CheckOrderQueryHandler implements QueryHandler<CheckOrderQuer
 
         var activeOrder = activeOrderOptional.get();
 
-        return null;
+        return new CheckOrderQueryResponse(
+                activeOrder.status().valueString(),
+                activeOrder.quantity().value()
+        );
     }
 
     private void ensureOrderFound(Optional<ActiveOrder> optionalActiveOrder){
