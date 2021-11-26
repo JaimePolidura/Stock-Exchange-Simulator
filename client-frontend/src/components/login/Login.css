@@ -1,0 +1,24 @@
+.title{
+    text-align: center;
+}
+
+.form-body {
+    padding: 2%;
+}
+
+.myContainer {
+    top: 40%;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+}
+
+.footer .myButton {
+    width: 60%;
+}
+
+.myButton{
+
+}

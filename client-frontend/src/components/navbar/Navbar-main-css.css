@@ -1,0 +1,19 @@
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 9999;
+
+    background: rgb(40, 44, 52);
+    padding: 1%;
+    color: white;
+}
+
+.main-title {
+    margin-left: 5%;
+    font-family: "Arial", serif;
+
+    font-size: x-large;
+}
