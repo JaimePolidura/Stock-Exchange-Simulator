@@ -2,12 +2,22 @@ import React, {Component} from "react";
 import '../../index.css';
 import './Login.css';
 import { useForm } from 'react-hook-form';
+import auth from "../../services/AuthenticationService";
 
 const Login = () => {
     const {register, handleSubmit} = useForm();
 
     const onSubmit = (data) => {
-        console.log(data);
+        auth.login(data,
+                response => onSuccessLogin(response),
+                error => onFailureLogin(error))
+    }
+
+    const onSuccessLogin = (response) => {
+        window.location.href = "http://localhost:3000/profile";
+    }
+
+    const onFailureLogin = (error) => {
     }
 
     return (
