@@ -1,23 +1,31 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import '../../index.css';
 import './Login.css';
 import { useForm } from 'react-hook-form';
-import auth from "../../services/AuthenticationService";
+import redirectService from "../../services/RedirectService";
+import backendService from "../../services/BackendService";
 
 const Login = () => {
     const {register, handleSubmit} = useForm();
 
-    const onSubmit = (data) => {
-        auth.login(data,
-                response => onSuccessLogin(response),
-                error => onFailureLogin(error))
+    const [token, setToken] = useState();
+    const [username, setUsername] = useState();
+
+    const onSubmit = (request) => {
+        backendService.login(request)
+            .then(response => onSuccess(request.username, response.data))
+            .catch(error => onFailure(error));
     }
 
-    const onSuccessLogin = (response) => {
-        window.location.href = "http://localhost:3000/profile";
+    const onSuccess = (username, response) => {
+        setToken(response.token);
+        setUsername(username);
+
+        redirectService.redirect("/profile");
     }
 
-    const onFailureLogin = (error) => {
+    const onFailure = error => {
+        //TODO reset form, error message
     }
 
     return (

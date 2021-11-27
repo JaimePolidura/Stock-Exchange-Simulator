@@ -1,4 +1,5 @@
 import React from "react";
+import redirectService from "../../services/RedirectService";
 
 const Profile = () => {
     return (
