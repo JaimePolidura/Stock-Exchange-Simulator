@@ -2,7 +2,6 @@ import React, {Component, useState} from "react";
 import '../../index.css';
 import './Login.css';
 import { useForm } from 'react-hook-form';
-import redirectService from "../../services/RedirectService";
 import auth from "../../services/AuthenticationService";
 
 const Login = props => {
@@ -20,14 +19,15 @@ const Login = props => {
     }
 
     const onFailure = error => {
-        //TODO reset form, error message
+        window.alert("User not found");
+        document.getElementById("login-form").reset();
     }
 
     return (
         <div class="myContainer div-config-dif-background">
             <h2 class="title">Login</h2>
             <br/>
-            <form class="form-body" onSubmit={handleSubmit(onSubmit)}>
+            <form class="form-body" onSubmit={handleSubmit(onSubmit)} id = "login-form">
                 <input type="text"
                        name="username"
                        placeholder="username"
