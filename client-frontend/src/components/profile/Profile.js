@@ -1,10 +1,9 @@
 import React from "react";
-import redirectService from "../../services/RedirectService";
 
-const Profile = () => {
-    return (
-        <div><h1>Profile</h1></div>
-    );
+class Profile extends React.Component {
+    render(){
+        return(<div><h1>Profile</h1></div>);
+    }
 }
 
 export default Profile;
