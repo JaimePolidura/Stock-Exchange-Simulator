@@ -1,6 +1,7 @@
 import React from "react";
 import './TradeDisplayInTable.css';
-import Modal from "../../_shared/modal/Modal";
+import MyModal from "../../_shared/modal/MyModal";
+import {Modal} from "react-bootstrap";
 
 class TradeDisplayInTable extends React.Component {
     constructor(props) {
@@ -25,11 +26,13 @@ class TradeDisplayInTable extends React.Component {
                     <td>{this.renderResultYield()}</td>
                 </tr>
 
-                <Modal open={this.state.showModal} onClose={() => this.closeModal()} class="myModal">
-                    <h3>Sell {this.state.trade.name}</h3>
-                    <button class="btn btn-primary">Sell</button>
-                    <button className="btn btn-danger">Cancel</button>
-                </Modal>
+                <MyModal open={this.state.showModal} onClose={() => this.closeModal()}>
+                    <Modal.Body>
+                        <h3>Sell {this.state.trade.name}</h3>
+                        <button className="btn btn-primary">Sell</button>
+                        <button className="btn btn-danger">Cancel</button>
+                    </Modal.Body>
+                </MyModal>
             </>
         );
     }
