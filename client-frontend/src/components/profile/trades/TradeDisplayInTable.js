@@ -1,26 +1,45 @@
 import React from "react";
+import './TradeDisplayInTable.css';
+import Modal from "../../_shared/modal/Modal";
 
 class TradeDisplayInTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          trade: props.value,
+            trade: props.value,
+            showModal: false,
         };
     }
 
     render() {
         return (
-            <tr>
-                <td>{this.state.trade.ticker}</td>
-                <td>{this.state.trade.name}</td>
-                <td>{this.state.trade.averagePrice} {this.state.trade.currency.symbol}</td>
-                <td>{this.state.trade.actualPrice} {this.state.trade.currency.symbol}</td>
-                <td>{this.state.trade.quantity}</td>
-                <td>{this.renderMarketValue()}</td>
-                <td>{this.renderResult()}</td>
-                <td>{this.renderResultYield()}</td>
-            </tr>
+            <>
+                <tr className="trade-tr" onClick={() => {this.openModal()}}>
+                    <td>{this.state.trade.ticker}</td>
+                    <td>{this.state.trade.name}</td>
+                    <td>{this.state.trade.averagePrice} {this.state.trade.currency.symbol}</td>
+                    <td>{this.state.trade.actualPrice} {this.state.trade.currency.symbol}</td>
+                    <td>{this.state.trade.quantity}</td>
+                    <td>{this.renderMarketValue()}</td>
+                    <td>{this.renderResult()}</td>
+                    <td>{this.renderResultYield()}</td>
+                </tr>
+
+                <Modal open={this.state.showModal} onClose={() => this.closeModal()} class="myModal">
+                    <h3>Sell {this.state.trade.name}</h3>
+                    <button class="btn btn-primary">Sell</button>
+                    <button className="btn btn-danger">Cancel</button>
+                </Modal>
+            </>
         );
+    }
+
+    openModal(){
+        this.setState({showModal: true});
+    }
+
+    closeModal(){
+        this.setState({showModal: false});
     }
 
     renderResult(){

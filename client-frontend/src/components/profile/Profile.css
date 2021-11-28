@@ -7,17 +7,3 @@
     flex-direction: column;
     padding: 1%;
 }
-
-.display-trades-table{
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.header-utils {
-    width: 20%;
-    display: flex;
-    justify-content: space-between;
-}

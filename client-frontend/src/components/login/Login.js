@@ -30,14 +30,14 @@ const Login = props => {
             <form class="form-body" onSubmit={handleSubmit(onSubmit)} id = "login-form">
                 <input type="text"
                        name="username"
-                       placeholder="username"
+                       placeholder="Username"
                        class="form-control"
                        {...register('username', { required: true })}
                 />
                 <br/>
                 <input type="password"
                        name="password"
-                       placeholder="password"
+                       placeholder="Password"
                        class="form-control"
                        {...register('password', { required: true })}
                 />

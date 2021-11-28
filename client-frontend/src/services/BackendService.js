@@ -1,14 +1,14 @@
 import axios from 'axios';
-import {Trades as trades} from "../components/profile/Trades";
+import {ProfileData as profileData} from "../components/profile/ProfileData";
 
 class BackendService {
     login(request){
         return axios.post("http://localhost:8080/login", request);
     }
 
-    getTrades(){
+    getProfielData(){
         //Instead of making an API I will use in memory trades
-        return trades;
+        return profileData;
     }
 }
 

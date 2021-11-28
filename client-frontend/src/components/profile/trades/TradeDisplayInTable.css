@@ -1,0 +1,14 @@
+.trade-tr {
+    cursor: pointer;
+    transition: .2s;
+}
+
+tr{
+}
+
+.trade-tr:hover{
+    background-color: lightgray;
+}
+
+.myModal{
+}

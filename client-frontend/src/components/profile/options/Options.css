@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-utils {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
