@@ -49,6 +49,14 @@ body {
   transform: scale(1.025);
 }
 
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

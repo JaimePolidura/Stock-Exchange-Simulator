@@ -2,17 +2,18 @@ import React from "react";
 import './Profile.css';
 import {Trades as trades} from "./Trades";
 import TradeDisplayInTable from "./TradeDisplayInTable";
+import auth from "../../services/AuthenticationService";
 
 class Profile extends React.Component {
     constructor(props) {
         super(props);
-        this.setState({
-           trades: trades,
-        });
+        this.state = {
+            trades: trades,
+        };
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div class="content div-config-dif-background">
                 {this.displayHeader()}
                 <hr/>
@@ -21,31 +22,30 @@ class Profile extends React.Component {
         );
     }
 
-    displayTrades(){
+    displayTrades() {
         return (
-            <table>
+            <table class="display-trades-table">
                 <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Name</th>
-                        <th>averagePrice</th>
-                        <th>actualPrice</th>
-                        <th>quantity</th>
-                    </tr>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Name</th>
+                    <th>Average Price</th>
+                    <th>Actual price</th>
+                    <th>Quantity</th>
+                    <th>Market value</th>
+                    <th>Result</th>
+                    <th>Result %</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                    {trades.map(trade => {
-                        <tr>
-                            <TradeDisplayInTable key={trade.tradeId} value={trade}/>
-                        </tr>
-                    })}
+                {trades.map(trade => <TradeDisplayInTable key={trade.name} value={trade}/>)}
                 </tbody>
             </table>
         );
     }
 
-    displayHeader(){
+    displayHeader() {
         return (
             <div className="header">
                 <div className="header-utils">
@@ -59,11 +59,17 @@ class Profile extends React.Component {
                     </div>
                 </div>
                 <div className="header-logout">
-                    <button className="btn btn-danger">Logout</button>
+                    <button className="btn btn-danger" onClick={() => this.logout()}>Logout</button>
                 </div>
             </div>
         );
     }
+
+    logout(){
+        auth.logout();
+        this.props.history.push("/");
+    }
 }
+
 
 export default Profile;

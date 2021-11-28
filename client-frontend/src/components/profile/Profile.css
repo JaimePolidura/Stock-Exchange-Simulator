@@ -8,6 +8,9 @@
     padding: 1%;
 }
 
+.display-trades-table{
+}
+
 .header {
     display: flex;
     justify-content: space-between;

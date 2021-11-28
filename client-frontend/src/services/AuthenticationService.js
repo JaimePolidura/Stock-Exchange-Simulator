@@ -16,6 +16,11 @@ class AuthenticationService {
         return this.authenticated;
     }
 
+    logout(){
+        this.authenticated = false;
+        this.token = null;
+    }
+
     getToken(){
         return this.token;
     }
