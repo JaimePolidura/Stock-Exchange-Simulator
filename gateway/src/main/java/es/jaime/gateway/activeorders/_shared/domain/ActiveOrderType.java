@@ -7,6 +7,10 @@ public final class ActiveOrderType extends EnumValueObject<ActiveOrderTypeValues
         super(value);
     }
 
+    public ActiveOrderType(){
+        super(ActiveOrderTypeValues.BUY);
+    }
+
     public static ActiveOrderType of (ActiveOrderTypeValues value){
         return new ActiveOrderType(value);
     }

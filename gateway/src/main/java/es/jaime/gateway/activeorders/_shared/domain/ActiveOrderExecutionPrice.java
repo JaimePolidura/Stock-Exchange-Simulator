@@ -7,6 +7,10 @@ public final class ActiveOrderExecutionPrice extends DoubleValueObject {
         super(value);
     }
 
+    public ActiveOrderExecutionPrice(){
+        super(0);
+    }
+
     public boolean isTypeLimit(){
         return value() != -1;
     }

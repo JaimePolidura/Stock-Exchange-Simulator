@@ -35,8 +35,8 @@ public final class ActiveOrder extends Aggregate {
 
     @Override
     public ActiveOrder fromPrimitives(Map<String, Object> values) {
-        this.activeorderId = ActiveOrderID.of(primitiveObjectToUUID(values, "activeorderId"));
-        this.clientId = ActiveOrderClientID.of(primitiveObjectToUUID(values, "clientId"));
+        this.activeorderId = ActiveOrderID.of((String) values.get("activeorderId"));
+        this.clientId = ActiveOrderClientID.of((String) values.get("clientId"));
         this.date = ActiveOrderDate.of(String.valueOf(values.get("date")));
         this.quantity = ActiveOrderQuantity.of((Integer) values.get("quantity"));
         this.ticker = ActiveOrderTicker.of(String.valueOf(values.get("ticker")));

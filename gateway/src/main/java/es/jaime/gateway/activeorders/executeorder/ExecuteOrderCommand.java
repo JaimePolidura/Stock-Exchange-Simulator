@@ -22,8 +22,8 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
     @Getter private final ActiveOrderType type;
 
     public ExecuteOrderCommand(String clientId, int quantity, String ticker, String orderType, double executionPrice) {
-        this.orderID = ActiveOrderID.of(UUID.randomUUID());
-        this.clientID = ActiveOrderClientID.of(UUID.fromString(clientId));
+        this.orderID = ActiveOrderID.generate();
+        this.clientID = ActiveOrderClientID.of(clientId);
         this.quantity = ActiveOrderQuantity.of(quantity);
         this.ticker = ActiveOrderTicker.of(ticker);
         this.type = ActiveOrderType.of(orderType);

@@ -7,6 +7,10 @@ public final class ActiveOrderTicker extends StringValueObject {
         super(value);
     }
 
+    public ActiveOrderTicker(){
+        super(null);
+    }
+
     public static ActiveOrderTicker of(String ticker){
         return new ActiveOrderTicker(ticker);
     }

@@ -7,6 +7,10 @@ public final class ActiveOrderStatus extends EnumValueObject<ActiveOrderStatus.S
         super(value);
     }
 
+    public ActiveOrderStatus (){
+        super(Status.SENDING);
+    }
+
     public static ActiveOrderStatus of(String value){
         return new ActiveOrderStatus(Status.valueOf(value));
     }

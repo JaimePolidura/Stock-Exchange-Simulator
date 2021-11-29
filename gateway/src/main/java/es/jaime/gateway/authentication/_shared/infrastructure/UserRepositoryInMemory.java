@@ -15,8 +15,8 @@ import java.util.Set;
 @Repository
 public class UserRepositoryInMemory implements UserRepository {
     private final Set<User> users = new HashSet<>() {{
-        add(new User(UserName.of("jaime"), UserPassword.of("kjahskjlahkwjh1k2jh")));
-        add(new User(UserName.of("alejandro"), UserPassword.of("lsiaydgfbkuasjhf")));
+        add(new User(UserName.of("jaime"), UserPassword.of("123")));
+        add(new User(UserName.of("juan"), UserPassword.of("123")));
     }};
 
     @Override

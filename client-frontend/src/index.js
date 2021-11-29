@@ -3,6 +3,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios";
+import auth from "./services/AuthenticationService";
+
+const bypassurls = ["login"];
+
+axios.interceptors.request.use(request => {
+    for(let i = 0; i < bypassurls.length; i++)
+        if(request.url.includes(bypassurls[i]))
+            return request;
+
+    let requestHeaders = request.headers;
+    let requestJWTHeader = {
+        'Authorization': `Bearer ${auth.getToken()}`,
+    }
+
+    request.headers = {
+        requestHeaders,
+        ...requestJWTHeader,
+    };
+
+    return request;
+});
 
 ReactDOM.render(
     <App />,

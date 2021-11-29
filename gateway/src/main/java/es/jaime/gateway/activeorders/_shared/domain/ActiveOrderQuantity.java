@@ -7,6 +7,10 @@ public final class ActiveOrderQuantity extends IntegerValueObject {
         super(value);
     }
 
+    public ActiveOrderQuantity(){
+        super(0);
+    }
+
     public static ActiveOrderQuantity of(int value){
         return new ActiveOrderQuantity(value);
     }

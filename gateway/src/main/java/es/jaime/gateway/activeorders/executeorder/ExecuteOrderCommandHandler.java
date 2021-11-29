@@ -13,6 +13,7 @@ import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.listedcompanies.checklistedcomapny.ListedCompanyCheckerService;
 import net.bytebuddy.dynamic.TypeResolutionStrategy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
@@ -34,8 +35,6 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
         ensureTickerExists(command);
         ensureCorrectQuantity(command);
 
-        this.queuePublisher.enqueue(RabbitMQConfiguration.newOrders, command);
-
         this.eventBus.publish(new OrderExecutionPublished(command));
 
         this.repository.save(new ActiveOrder(
@@ -48,10 +47,12 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
                 command.getExecutionPrice(),
                 ActiveOrderStatus.of(ActiveOrderStatus.Status.SENDING)
         ));
+
+        this.queuePublisher.enqueue(RabbitMQConfiguration.newOrders, command);
     }
 
     private void ensureTickerExists(ExecuteOrderCommand command){
-        if(!listedCompanyCheckerService.isListedCompany(ListedCompanyTicker.of(command.getTicker()))){
+        if(!listedCompanyCheckerService.isListedCompany(ListedCompanyTicker.of(command.getTicker().value()))){
             throw new ResourceNotFound("Stock not listed");
         }
     }

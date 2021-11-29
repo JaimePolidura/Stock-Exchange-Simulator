@@ -1,7 +1,7 @@
 import React from "react";
 import './TradeDisplayInTable.css';
-import MyModal from "../../_shared/modal/MyModal";
 import {Modal} from "react-bootstrap";
+import SellStockModal from "./SellStockModal";
 
 class TradeDisplayInTable extends React.Component {
     constructor(props) {
@@ -9,13 +9,14 @@ class TradeDisplayInTable extends React.Component {
         this.state = {
             trade: props.value,
             showModal: false,
+            sellExecutionType: "Market",
         };
     }
 
     render() {
         return (
             <>
-                <tr className="trade-tr" onClick={() => {this.openModal()}}>
+                <tr className="trade-tr" onClick={() => {this.openModal();}}>
                     <td>{this.state.trade.ticker}</td>
                     <td>{this.state.trade.name}</td>
                     <td>{this.state.trade.averagePrice} {this.state.trade.currency.symbol}</td>
@@ -25,15 +26,17 @@ class TradeDisplayInTable extends React.Component {
                     <td>{this.renderResult()}</td>
                     <td>{this.renderResultYield()}</td>
                 </tr>
-
-                <MyModal open={this.state.showModal} onClose={() => this.closeModal()}>
-                    <Modal.Body>
-                        <h3>Sell {this.state.trade.name}</h3>
-                        <button className="btn btn-primary">Sell</button>
-                        <button className="btn btn-danger">Cancel</button>
-                    </Modal.Body>
-                </MyModal>
+                {this.renderModal()}
             </>
+        );
+    }
+
+    renderModal(){
+        return (
+            <SellStockModal showModal={this.state.showModal}
+                            onHide={() => this.closeModal()}
+                            trade={this.state.trade}
+                            renderMarketValue = {() => this.renderMarketValue()}/>
         );
     }
 

@@ -8,12 +8,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
-@Transactional
+@Transactional("gateway-transaction-manager")
 public class ListedCompaniesRepositoryMySQL extends HibernateRepository<ListedCompany> implements ListedCompaniesRepository {
     public ListedCompaniesRepositoryMySQL(SessionFactory sessionFactory) {
         super(sessionFactory, ListedCompany.class);

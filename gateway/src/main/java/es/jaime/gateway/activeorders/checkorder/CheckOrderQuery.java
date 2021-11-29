@@ -12,7 +12,7 @@ public final class CheckOrderQuery implements Query {
     @Getter private final UserName userName;
 
     public CheckOrderQuery(String activeOrderID, String userName) {
-        this.activeOrderID = ActiveOrderID.of(UUID.fromString(activeOrderID));
+        this.activeOrderID = ActiveOrderID.of(activeOrderID);
         this.userName = UserName.of(userName);
     }
 }

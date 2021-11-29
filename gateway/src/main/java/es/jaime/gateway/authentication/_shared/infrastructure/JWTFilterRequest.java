@@ -31,7 +31,7 @@ public class JWTFilterRequest extends OncePerRequestFilter {
             if (isNotAlreadyLogged()) {
                 UserDetails userDetails = userDetailsImpl.loadUserByUsername(username);
 
-                if (JWTUtils.isValid(jwt, username)) {
+                if (JWTUtils.isValid(jwt, username) && !JWTUtils.isExpired(jwt)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

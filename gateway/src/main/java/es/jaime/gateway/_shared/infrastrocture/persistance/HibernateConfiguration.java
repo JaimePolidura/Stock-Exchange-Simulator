@@ -22,7 +22,7 @@ public class HibernateConfiguration {
         this.factory = factory;
     }
 
-    @Bean
+    @Bean("gateway-transaction-manager")
     public PlatformTransactionManager hibernateTransactionManager() {
         return this.hibernateTransactionManager(sessionFactory());
     }

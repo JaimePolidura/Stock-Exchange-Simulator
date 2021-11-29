@@ -11,14 +11,14 @@ import java.util.Date;
 public final class JWTUtils {
     private JWTUtils() {}
 
-    private final static String SECRET_KEY = "86n87ywisadf1ueyfnuistfyt";
+    private final static String SECRET_KEY = "2798n56v27n657826n78592n812daw48mt7c849w7mct089w7ct987wcm89tu7w0m89cetc576";
 
     public static String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(5).toInstant()))
+                .setExpiration(Date.from(ZonedDateTime.now().plusDays(1).toInstant()))
                 .compact();
     }
 

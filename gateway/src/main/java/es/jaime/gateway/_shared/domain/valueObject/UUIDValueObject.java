@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UUIDValueObject extends ValueObject {
-    private final UUID value;
+    private UUID value;
 
     public UUIDValueObject(UUID uuid) {
         this.value = uuid;

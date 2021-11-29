@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public final class OrderExecutionPublished extends DomainEvent {
-    @Getter private final UUID orderID;
-    @Getter private final UUID clientID;
+    @Getter private final String orderID;
+    @Getter private final String clientID;
     @Getter private final LocalDateTime date;
     @Getter private final double executionPrice;
     @Getter private final int quantity;
@@ -19,7 +19,7 @@ public final class OrderExecutionPublished extends DomainEvent {
     public OrderExecutionPublished(ExecuteOrderCommand command){
         this.orderID = command.getOrderID().value();
         this.clientID = command.getClientID().value();
-        this.date = command.getDate().value();
+        this.date = LocalDateTime.parse(command.getDate().value());
         this.executionPrice = command.getExecutionPrice().value();
         this.quantity = command.getQuantity().value();
         this.ticker = command.getTicker().value();

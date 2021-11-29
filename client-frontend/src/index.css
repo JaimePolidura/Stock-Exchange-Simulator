@@ -57,25 +57,6 @@ body {
   color: red;
 }
 
-.myModal {
-  /*display: flex;*/
-  /*flex-direction: column;*/
-}
-
-.myModal-header{
-
-}
-
-.myModal-content{
-
-}
-
-.myModal-footer{
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*justify-content: center;*/
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

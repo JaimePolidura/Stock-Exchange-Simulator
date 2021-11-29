@@ -35,10 +35,8 @@ public class ExecuteOrderController extends Controller {
         return buildNewHttpResponseOK(commandExecuteOrder.getOrderID());
     }
 
-
     @AllArgsConstructor
     private static final class ExecuteOrderRequest{
-        public final String clientId;
         public final String ticker;
         public final int quantity;
         public final String orderType;
