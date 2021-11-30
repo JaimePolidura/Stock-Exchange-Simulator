@@ -5,33 +5,52 @@ import backend from "../../../services/BackendService";
 
 const SellStockModal = props => {
     const {register, handleSubmit, formState: { errors }} = useForm();
-
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
 
     const onSubmit = request => {
-        let sellExecutionTypeToApi = {};
-
-        if(sellExecutionType == 'market'){
-            sellExecutionTypeToApi = {
-                executionPrice: -1,
-            }
-        }else{
-            sellExecutionTypeToApi = {
-                executionPrice: request.price,
-            }
-        }
-
         let finalRequestToApi = {
             orderType: 'SELL',
-            executionType: sellExecutionTypeToApi.executionPrice,
+            executionType: sellExecutionType == 'market' ? -1 : request.price,
             quantity: request.quantity,
             ticker: props.trade.ticker,
         }
 
         backend.executeOrder(finalRequestToApi).then(
-            response => console.log("ok"),
-            error => window.alert(error),
+            response => onSuccess(response),
+            error => onFailure(error),
         );
+    }
+
+    const onSuccess = response => {
+        window.alert("The order has been sended");
+
+        props.onOrderSellSended({
+            ...response.data,
+            name: props.trade.name,
+            currency: props.trade.currency,
+            totalValueOrder: calculateTotalValueToSell(response.data),
+            result: calculateResultToSell(response.data),
+        });
+    }
+
+    const calculateResultToSell = orderData => {
+        let priceToSell = sellExecutionType == 'limit' ?
+            orderData.executionPrice :
+            props.trade.actualPrice;
+
+        return Math.round((priceToSell - props.trade.averagePrice) * props.trade.quantity);
+    }
+
+    const calculateTotalValueToSell = orderData => {
+        let priceToSell = sellExecutionType == 'limit' ?
+            orderData.executionPrice :
+            props.trade.actualPrice;
+
+        return Math.round(priceToSell * orderData.quantity);
+    }
+
+    const onFailure = response => {
+        window.alert("There has been an error " + response);
     }
 
     return (

@@ -1,6 +1,5 @@
 import React from "react";
 import './TradeDisplayInTable.css';
-import {Modal} from "react-bootstrap";
 import SellStockModal from "./SellStockModal";
 
 class TradeDisplayInTable extends React.Component {
@@ -10,6 +9,7 @@ class TradeDisplayInTable extends React.Component {
             trade: props.value,
             showModal: false,
             sellExecutionType: "Market",
+            onOrderSellSended: props.onOrderSellSended,
         };
     }
 
@@ -36,8 +36,14 @@ class TradeDisplayInTable extends React.Component {
             <SellStockModal showModal={this.state.showModal}
                             onHide={() => this.closeModal()}
                             trade={this.state.trade}
-                            renderMarketValue = {() => this.renderMarketValue()}/>
+                            renderMarketValue = {() => this.renderMarketValue()}
+                            onOrderSellSended = {order=> this.onOrderSellSended(order)}
+            />
         );
+    }
+
+    onOrderSellSended(order){
+        this.state.onOrderSellSended(order);
     }
 
     openModal(){

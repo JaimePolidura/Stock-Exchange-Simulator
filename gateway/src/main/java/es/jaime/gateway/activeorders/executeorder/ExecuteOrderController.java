@@ -1,8 +1,11 @@
 package es.jaime.gateway.activeorders.executeorder;
 
 import es.jaime.gateway._shared.domain.bus.command.CommandBus;
+import es.jaime.gateway._shared.domain.bus.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
+import es.jaime.gateway.activeorders.checkorder.GetOrderQuery;
+import es.jaime.gateway.activeorders.checkorder.GetOrderQueryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExecuteOrderController extends Controller {
     private final CommandBus commandBus;
+    private final QueryBus queryBus;
 
-    public ExecuteOrderController(CommandBus commandBus) {
+    public ExecuteOrderController(CommandBus commandBus, QueryBus queryBus) {
         this.commandBus = commandBus;
+        this.queryBus = queryBus;
     }
 
     @PostMapping("/executeorder")
-    public ResponseEntity<ActiveOrderID> executeorder(@RequestBody ExecuteOrderRequest request){
+    public ResponseEntity<GetOrderQueryResponse> executeorder(@RequestBody Request request){
         //Order-id generated in commandExecute order
         ExecuteOrderCommand commandExecuteOrder = new ExecuteOrderCommand(
                 getLoggedUsername(),
@@ -29,17 +34,23 @@ public class ExecuteOrderController extends Controller {
                 request.orderType,
                 request.executionType
         );
-
         this.commandBus.dispatch(commandExecuteOrder);
 
-        return buildNewHttpResponseOK(commandExecuteOrder.getOrderID());
+        GetOrderQueryResponse response = this.queryBus.ask(new GetOrderQuery(
+                commandExecuteOrder.getOrderID().getOrderID(),
+                getLoggedUsername()
+        ));
+
+
+        return buildNewHttpResponseOK(response);
     }
 
     @AllArgsConstructor
-    private static final class ExecuteOrderRequest{
+    private static final class Request {
         public final String ticker;
         public final int quantity;
         public final String orderType;
         public final double executionType;
     }
+
 }

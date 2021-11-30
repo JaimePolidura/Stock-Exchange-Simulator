@@ -1,5 +1,6 @@
 import React from "react";
 import './Options.css';
+import auth from "../../../services/AuthenticationService";
 
 export default class Options extends React.Component {
     constructor(props) {
@@ -24,5 +25,10 @@ export default class Options extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    logout(){
+        auth.logout();
+        this.props.history.push("/");
     }
 }

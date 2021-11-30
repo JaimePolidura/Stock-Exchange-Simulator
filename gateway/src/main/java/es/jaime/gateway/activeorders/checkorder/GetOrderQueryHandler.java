@@ -4,32 +4,36 @@ import es.jaime.gateway._shared.domain.bus.query.QueryHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
-import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import es.jaime.gateway.authentication._shared.domain.UserName;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class CheckOrderQueryHandler implements QueryHandler<CheckOrderQuery, CheckOrderQueryResponse> {
-    private final ActiveOrderRepository repository;
+public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrderQueryResponse> {
+    private final GetOrderService getOrderService;
 
-    public CheckOrderQueryHandler(ActiveOrderRepository repository) {
-        this.repository = repository;
+    public GetOrderQueryHandler(GetOrderService getOrderService) {
+        this.getOrderService = getOrderService;
     }
 
     @Override
-    public CheckOrderQueryResponse handle(CheckOrderQuery query) {
-        Optional<ActiveOrder> activeOrderOptional = repository.findByOrderId(query.getActiveOrderID());
+    public GetOrderQueryResponse handle(GetOrderQuery query) {
+        Optional<ActiveOrder> activeOrderOptional = getOrderService.get(query.getActiveOrderID());
 
         ensureOrderFound(activeOrderOptional);
         ensureUserOwnsTheOrder(activeOrderOptional, query.getUserName());
 
         var activeOrder = activeOrderOptional.get();
 
-        return new CheckOrderQueryResponse(
-                activeOrder.status().valueString(),
-                activeOrder.quantity().value()
+        return new GetOrderQueryResponse(
+                activeOrder.activeorderId().value(),
+                activeOrder.ticker().value(),
+                activeOrder.type().valueString(),
+                activeOrder.executionPrice().value(),
+                activeOrder.quantity().value(),
+                activeOrder.date().value(),
+                activeOrder.status().valueString()
         );
     }
 
@@ -40,7 +44,7 @@ public class CheckOrderQueryHandler implements QueryHandler<CheckOrderQuery, Che
     }
 
     private void ensureUserOwnsTheOrder(Optional<ActiveOrder> optionalActiveOrder, UserName userName){
-        if(!userName.toString().equals(optionalActiveOrder.get().clientId().toString())){
+        if(!userName.value().equals(optionalActiveOrder.get().clientId().value())){
             throw new IllegalAccess("You dont own that order!");
         }
     }

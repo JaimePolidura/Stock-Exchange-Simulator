@@ -5,13 +5,12 @@ import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
 import es.jaime.gateway.authentication._shared.domain.UserName;
 import lombok.Getter;
 
-import java.util.UUID;
 
-public final class CheckOrderQuery implements Query {
+public final class GetOrderQuery implements Query {
     @Getter private final ActiveOrderID activeOrderID;
     @Getter private final UserName userName;
 
-    public CheckOrderQuery(String activeOrderID, String userName) {
+    public GetOrderQuery(String activeOrderID, String userName) {
         this.activeOrderID = ActiveOrderID.of(activeOrderID);
         this.userName = UserName.of(userName);
     }

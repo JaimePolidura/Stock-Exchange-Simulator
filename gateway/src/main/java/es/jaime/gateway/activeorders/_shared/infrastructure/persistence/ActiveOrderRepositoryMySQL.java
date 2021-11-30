@@ -24,6 +24,6 @@ public class ActiveOrderRepositoryMySQL extends HibernateRepository<ActiveOrder>
 
     @Override
     public Optional<ActiveOrder> findByOrderId(ActiveOrderID id) {
-        return findByOrderId(id);
+        return byId(id);
     }
 }
