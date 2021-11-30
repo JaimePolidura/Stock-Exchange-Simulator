@@ -35,24 +35,25 @@ class Profile extends React.Component {
 
     onOrderSellSended(order){
         this.addOrder(order);
+        this.modifyOrRemoveTrade(order);
     }
 
     modifyOrRemoveTrade(order){
-        let allTrades = [this.state.trades];
+        let allTrades = this.state.trades;
         let tradeForThatOrder = allTrades.find(trade => trade.ticker == order.ticker);
         let indexTradeForThatOrder = allTrades.findIndex(trade => trade.ticker == order.ticker);
 
-        if(tradeForThatOrder.quantity >= order.quantity){
-            allTrades.slice(indexTradeForThatOrder);
+        console.log(tradeForThatOrder.quantity);
+        console.log(order.quantity);
+
+        if(order.quantity >= tradeForThatOrder.quantity){
+            allTrades.splice(indexTradeForThatOrder, 1);
         }else{
             tradeForThatOrder.quantity = tradeForThatOrder.quantity - order.quantity;
-            allTrades.slice(indexTradeForThatOrder);
-            allTrades.push(tradeForThatOrder);
         }
 
         this.setState({trades: allTrades});
     }
-
 
     addOrder(order){
         let orderArrays = this.state.orders;
