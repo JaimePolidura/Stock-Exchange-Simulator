@@ -26,12 +26,12 @@ class TradeDisplayInTable extends React.Component {
                     <td>{this.renderResult()}</td>
                     <td>{this.renderResultYield()}</td>
                 </tr>
-                {this.renderModal()}
+                {this.renderSellStockModal()}
             </>
         );
     }
 
-    renderModal(){
+    renderSellStockModal(){
         return (
             <SellStockModal showModal={this.state.showModal}
                             onHide={() => this.closeModal()}
@@ -43,6 +43,8 @@ class TradeDisplayInTable extends React.Component {
     }
 
     onOrderSellSended(order){
+        this.setState({showModal: false});
+
         this.state.onOrderSellSended(order);
     }
 

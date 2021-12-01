@@ -1,6 +1,5 @@
 import React from "react";
 import './Profile.css';
-import auth from "../../services/AuthenticationService";
 import backendService from "../../services/BackendService";
 import Trades from "./trades/Trades";
 import Stats from "./stats/Stats";
