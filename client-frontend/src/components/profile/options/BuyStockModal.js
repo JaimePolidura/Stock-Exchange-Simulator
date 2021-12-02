@@ -1,17 +1,39 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
+import backendService from "../../../services/BackendService";
 
 const BuyStockModal = props => {
-    const {register, handleSubmit, formState: { errors }} = useForm();
+    const {register, handleSubmit, formState: { errors }, setError, clearErrors} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
 
     const onSubmit = form => {
-        console.log(form);
+        //TODO
     }
 
     const onTickerInputChanged = e => {
-        //TODO Request to the api
+        let ticker = e.target.value;
+
+        backendService.checkIfCompanyIsListed(ticker).then(response => {
+            let listed = response.data;
+
+            if(listed){
+                clearErrorToInputTicker();
+            }else{
+                addErrorToInputTicker();
+            }
+        });
+    }
+
+    const clearErrorToInputTicker = () => {
+        clearErrors('ticker');
+    }
+
+    const addErrorToInputTicker = () => {
+        setError("ticker", {
+            type: "manual",
+            message: "Company not listed",
+        });
     }
 
     return (
@@ -23,7 +45,7 @@ const BuyStockModal = props => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input type="text"
                            placeholder="Ticker"
-                           className="form-control"
+                           className={errors.ticker ? 'form-control is-invalid' : 'form-control'}
                            onKeyUp={e => onTickerInputChanged(e)}
                            {...register('ticker', {required: true})}/><br />
 
@@ -36,9 +58,9 @@ const BuyStockModal = props => {
                     </select><br />
 
                     {buyExecutionType == "limit" &&
-                    <input type="text"
-                           class="form-control"
+                    <input type="number"
                            placeholder="Price"
+                           className={errors.price ? 'form-control is-invalid' : 'form-control'}
                            {...register('price', { required: false, min: 0 })}/>
                     }<br />
 
