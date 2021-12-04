@@ -10,7 +10,6 @@ class BackendService {
     }
 
     getProfielData(){
-        //Instead of making an API I will use in memory trades
         return profileData;
     }
 

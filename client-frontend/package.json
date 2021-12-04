@@ -15,6 +15,7 @@
     "react-hook-form": "^7.20.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "4.0.3",
+    "sockjs-client": "^1.5.2",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11"
   },
