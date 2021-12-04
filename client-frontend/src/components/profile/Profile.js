@@ -21,15 +21,20 @@ class Profile extends React.Component {
     render() {
         return (
             <div class="content div-config-dif-background">
-                <Options/>
+                <Options onOrderBuySended = {order => this.onOrderBuySended(order)}/>
                 <hr/>
                 <Stats cash = {this.state.cash}/>
                 <br/>
-                <Trades trades={this.state.trades} onOrderSellSended={order => this.onOrderSellSended(order)} />
+                <Trades trades={this.state.trades}
+                        onOrderSellSended={order => this.onOrderSellSended(order)} />
                 <br/>
                 <Orders orders={this.state.orders}/>
             </div>
         );
+    }
+
+    onOrderBuySended(order){
+        this.addOrder(order);
     }
 
     onOrderSellSended(order){

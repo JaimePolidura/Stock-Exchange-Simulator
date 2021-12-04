@@ -18,8 +18,8 @@ class BackendService {
         return axios.post(apiRoute + "executeorder", order);
     }
 
-    checkIfCompanyIsListed(ticker){
-        return axios.get(apiRoute + "checklistedcompany/" + ticker);
+    getCompanyIsListedData(ticker){
+        return axios.get(apiRoute + "getlistedcompany/" + ticker);
     }
 }
 

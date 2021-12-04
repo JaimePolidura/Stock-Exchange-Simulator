@@ -17,8 +17,8 @@ class OrderDisplayInTable extends React.Component {
                     <td>{this.state.order.name}</td>
                     <td>{this.state.order.type}</td>
                     <td>{this.state.order.quantity}</td>
-                    <td>~ {this.state.order.totalValueOrder} {this.state.order.currency.symbol}</td>
-                    <td>{this.renderResult()} </td>
+                    <td>~ {this.state.order.totalValueOrder} {this.state.order.currency.symbol}
+                        {this.state.order.type == 'SELL' && ~ this.renderResult() + this.state.order.currency.symbol} </td>
                     <td>{this.state.order.date}</td>
                     <td>{this.state.order.status}</td>
                     <td>{this.renderExecutionType()}</td>

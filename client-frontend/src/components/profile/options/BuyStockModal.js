@@ -2,27 +2,67 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backendService from "../../../services/BackendService";
+import backend from "../../../services/BackendService";
 
 const BuyStockModal = props => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
+    const [ listedCompany, setListedCompany ] = useState(null);
 
     const onSubmit = form => {
-        //TODO
+        let finalRequestToApi = {
+            orderType: 'BUY',
+            executionType: buyExecutionType == 'market' ? -1 : form.price,
+            quantity: form.quantity,
+            ticker: form.ticker.toUpperCase(),
+        }
+
+        backend.executeOrder(finalRequestToApi)
+            .then(response => onSuccess(response))
+            .catch(error => onFailure(error));
+    }
+
+    const onSuccess = response => {
+        props.onOrderBuySended({
+            ...response.data,
+            name: listedCompany.name,
+            currency: getCurrencySymbolFromCurrencyCode(response),
+            totalValueOrder: calculateTotalValue(),
+        });
+
+        window.alert("The order has been sended");
+    }
+
+    const calculateTotalValue = apiResponse => {
+        //TODO Add market price total value
+        return buyExecutionType == 'limit' ?
+            apiResponse.quantity * apiResponse.executionPrice :
+            'Market price';
+    }
+
+    const getCurrencySymbolFromCurrencyCode = (apiResponse) => {
+        return {
+            code: apiResponse.currencyCode,
+            symbol: apiResponse.currencySymbol,
+        };
+    }
+
+    const onFailure = error => {
+
     }
 
     const onTickerInputChanged = e => {
         let ticker = e.target.value;
 
-        backendService.checkIfCompanyIsListed(ticker).then(response => {
-            let listed = response.data;
-
-            if(listed){
+        backendService.getCompanyIsListedData(ticker)
+            .then(response => {
+                setListedCompany(response.data);
                 clearErrorToInputTicker();
-            }else{
+            })
+            .catch(error => {
                 addErrorToInputTicker();
-            }
-        });
+                setListedCompany(null);
+            });
     }
 
     const clearErrorToInputTicker = () => {
@@ -49,6 +89,11 @@ const BuyStockModal = props => {
                            onKeyUp={e => onTickerInputChanged(e)}
                            {...register('ticker', {required: true})}/><br />
 
+                    <input type="number"
+                           placeholder="Quantity"
+                           className={errors.quantity ? 'form-control is-invalid' : 'form-control'}
+                           {...register('quantity', {required: true, min: 1})}/><br />
+
                     <select className="form-control"
                             defaultValue={buyExecutionType}
                             onChange={e => setBuyExecutionType(e.target.value)}>
@@ -66,7 +111,7 @@ const BuyStockModal = props => {
 
                     <div className="mymodal-footer">
                         <input type="submit"
-                               className={!errors.ticker && !errors.price ? "btn btn-primary" : "btn btn-primary disabled"}
+                               className={!errors.ticker && !errors.price && !errors.quantity ? "btn btn-primary" : "btn btn-primary disabled"}
                                value="✓ Buy ✓"/>
                     </div>
                 </form>

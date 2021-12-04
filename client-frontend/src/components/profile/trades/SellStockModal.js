@@ -7,11 +7,11 @@ const SellStockModal = props => {
     const {register, handleSubmit, formState: { errors }} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
 
-    const onSubmit = request => {
+    const onSubmit = form => {
         let finalRequestToApi = {
             orderType: 'SELL',
-            executionType: sellExecutionType == 'market' ? -1 : request.price,
-            quantity: request.quantity,
+            executionType: sellExecutionType == 'market' ? -1 : form.price,
+            quantity: form.quantity,
             ticker: props.trade.ticker,
         }
 
