@@ -8,6 +8,10 @@ public final class ListedCompanyTicker extends StringValueObject {
         super(value);
     }
 
+    public ListedCompanyTicker(){
+        super(null);
+    }
+
     public static ListedCompanyTicker of(String value){
         return new ListedCompanyTicker(value);
     }

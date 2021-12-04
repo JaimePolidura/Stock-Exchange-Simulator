@@ -10,24 +10,22 @@ import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderStatus;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.listedcompanies.checklistedcomapny.ListedCompanyCheckerService;
-import net.bytebuddy.dynamic.TypeResolutionStrategy;
+import es.jaime.gateway.listedcompanies.getlistedcomapny.ListedCompanyFinderService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCommand> {
     private final EventBus eventBus;
     private final QueuePublisher queuePublisher;
     private final ActiveOrderRepository repository;
-    private final ListedCompanyCheckerService listedCompanyCheckerService;
+    private final ListedCompanyFinderService listedCompanyFinder;
 
     public ExecuteOrderCommandHandler(EventBus eventBus, QueuePublisher queuePublisher, ActiveOrderRepository repository,
-                                      ListedCompanyCheckerService listedCompanyCheckerService) {
+                                      ListedCompanyFinderService listedCompanyFinder) {
         this.eventBus = eventBus;
         this.queuePublisher = queuePublisher;
         this.repository = repository;
-        this.listedCompanyCheckerService = listedCompanyCheckerService;
+        this.listedCompanyFinder = listedCompanyFinder;
     }
 
     @Override
@@ -52,9 +50,8 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
     }
 
     private void ensureTickerExists(ExecuteOrderCommand command){
-        if(!listedCompanyCheckerService.isListedCompany(ListedCompanyTicker.of(command.getTicker().value()))){
-            throw new ResourceNotFound("Stock not listed");
-        }
+        //If it is not found the service will throw ResourceNotFound exception
+        listedCompanyFinder.find(ListedCompanyTicker.of(command.getTicker().value()));
     }
 
     private void ensureCorrectQuantity(ExecuteOrderCommand command){

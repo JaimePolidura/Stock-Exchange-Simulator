@@ -2,6 +2,8 @@ package es.jaime.gateway.listedcompanies._shared.domain;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 public interface ListedCompaniesRepository {
-    boolean existsByTicker(ListedCompanyTicker ticker);
+    Optional<ListedCompany> findByTicker(ListedCompanyTicker ticker);
 }

@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 @Repository
 @Transactional("gateway-transaction-manager")
@@ -17,7 +18,7 @@ public class ListedCompaniesRepositoryMySQL extends HibernateRepository<ListedCo
     }
 
     @Override
-    public boolean existsByTicker(ListedCompanyTicker ticker) {
-        return byId(ticker).isPresent();
+    public Optional<ListedCompany> findByTicker(ListedCompanyTicker ticker) {
+        return  byId(ticker);
     }
 }

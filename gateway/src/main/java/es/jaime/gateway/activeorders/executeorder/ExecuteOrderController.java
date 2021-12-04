@@ -41,7 +41,6 @@ public class ExecuteOrderController extends Controller {
                 getLoggedUsername()
         ));
 
-
         return buildNewHttpResponseOK(response);
     }
 
