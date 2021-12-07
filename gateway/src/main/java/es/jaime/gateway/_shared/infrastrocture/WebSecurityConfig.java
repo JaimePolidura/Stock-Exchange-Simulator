@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private JWTFilterRequest jwtFilterRequest;
+    private final JWTFilterRequest jwtFilterRequest;
 
     public WebSecurityConfig(JWTFilterRequest jwtFilterRequest) {
         this.jwtFilterRequest = jwtFilterRequest;

@@ -13,8 +13,12 @@
             <property column="name" name="value" type="string" access="field"/>
         </component>
 
-        <component name="currency" class="es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyCurrency" access="field">
-            <property column="currency" name="value" type="string" access="field"/>
+        <component name="currencyCode" class="es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyCurrencyCode" access="field">
+            <property column="currencyCode" name="value" type="string" access="field"/>
+        </component>
+
+        <component name="currencySymbol" class="es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyCurrencySymbol" access="field">
+            <property column="currencySymbol" name="value" type="string" access="field"/>
         </component>
     </class>
 </hibernate-mapping>

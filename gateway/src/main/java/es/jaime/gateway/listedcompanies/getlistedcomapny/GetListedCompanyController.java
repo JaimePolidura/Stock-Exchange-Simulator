@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 
-
 @RestController
 @CrossOrigin
 public final class GetListedCompanyController extends Controller {
@@ -31,12 +30,14 @@ public final class GetListedCompanyController extends Controller {
     private static class Response implements Serializable {
         @Getter public final String ticker;
         @Getter public final String name;
-        @Getter public final String currency;
-
+        @Getter public final String currencyCode;
+        @Getter public final String currencySymbol;
+        
         public Response(GetListedCompanyQueryResponse queryResponse){
             this.ticker = queryResponse.getTicker().value();
             this.name = queryResponse.getName().value();
-            this.currency = queryResponse.getCurrency().value();
+            this.currencyCode = queryResponse.getCurrencyCode().value();
+            this.currencySymbol = queryResponse.getCurrencySymbol().value();
         }
     }
 }

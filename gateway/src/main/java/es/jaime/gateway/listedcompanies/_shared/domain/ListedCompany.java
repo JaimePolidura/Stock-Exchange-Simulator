@@ -8,12 +8,15 @@ import java.util.Map;
 public final class ListedCompany extends Aggregate {
     private ListedCompanyTicker ticker;
     private ListedCompanyName name;
-    private ListedCompanyCurrency currency;
+    private ListedCompanyCurrencyCode currencyCode;
+    private ListedCompanyCurrencySymbol currencySymbol;
 
-    public ListedCompany(ListedCompanyTicker ticker, ListedCompanyName name, ListedCompanyCurrency currency) {
+    public ListedCompany(ListedCompanyTicker ticker, ListedCompanyName name, ListedCompanyCurrencyCode currencyCode,
+                         ListedCompanyCurrencySymbol currencySymbol) {
         this.ticker = ticker;
         this.name = name;
-        this.currency = currency;
+        this.currencyCode = currencyCode;
+        this.currencySymbol = currencySymbol;
     }
 
     public ListedCompany () {}
@@ -26,8 +29,12 @@ public final class ListedCompany extends Aggregate {
         return name;
     }
 
-    public ListedCompanyCurrency currency() {
-        return currency;
+    public ListedCompanyCurrencyCode currencyCode() {
+        return currencyCode;
+    }
+
+    public ListedCompanyCurrencySymbol currencySymbol() {
+        return currencySymbol;
     }
 
     @Override
@@ -35,7 +42,8 @@ public final class ListedCompany extends Aggregate {
         return new HashMap<>() {{
             put("ticker", ticker.value());
             put("name", name.value());
-            put("currency", currency.value());
+            put("currencyCode", currencyCode.value());
+            put("currencySymbol", currencySymbol.value());
         }};
     }
 
@@ -44,7 +52,8 @@ public final class ListedCompany extends Aggregate {
         return new ListedCompany(
                 ListedCompanyTicker.of(String.valueOf(values.get("ticker"))),
                 ListedCompanyName.of(String.valueOf(values.get("name"))),
-                ListedCompanyCurrency.of(String.valueOf(values.get("currency")))
+                ListedCompanyCurrencyCode.of(String.valueOf(values.get("currencyCode"))),
+                ListedCompanyCurrencySymbol.of(String.valueOf(values.get("currencySymbol")))
         );
     }
 }
