@@ -3,9 +3,6 @@ import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backendService from "../../../services/BackendService";
 import backend from "../../../services/BackendService";
-import {Helmet} from "react-helmet";
-import SockJS from 'sockjs-client';
-import {Stomp} from "stompjs";
 import {io} from "socket.io-client";
 
 const BuyStockModal = props => {
@@ -33,6 +30,8 @@ const BuyStockModal = props => {
             currency: getCurrencySymbolFromCurrencyCode(response),
             totalValueOrder: calculateTotalValue(),
         });
+
+        const socket = io('http://localhost:4000', { transports : ['websocket'] });
 
         window.alert("The order has been sended");
     }
