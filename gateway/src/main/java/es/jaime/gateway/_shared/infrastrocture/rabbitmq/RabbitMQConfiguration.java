@@ -1,5 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfiguration {
     public static final String directExchangeName = "sxs.new-orders";
     public static final String newOrders = "sxs.new-orders";
+    private final ListedCompaniesRepository repository;
+
+    public RabbitMQConfiguration(ListedCompaniesRepository repository) {
+        this.repository = repository;
+    }
 
     @Bean
     public Declarables declarables() {
