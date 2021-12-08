@@ -1,6 +1,6 @@
 package es.jaime.gateway.activeorders.checkorder;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryBus;
+import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

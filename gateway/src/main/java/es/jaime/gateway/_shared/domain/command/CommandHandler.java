@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.bus.command;
+package es.jaime.gateway._shared.domain.command;
 
 public interface CommandHandler<T extends Command> {
     void handle(T command);

@@ -1,6 +1,6 @@
 package es.jaime.gateway.listedcompanies.getlistedcomapny;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryHandler;
+import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import org.springframework.stereotype.Service;
 

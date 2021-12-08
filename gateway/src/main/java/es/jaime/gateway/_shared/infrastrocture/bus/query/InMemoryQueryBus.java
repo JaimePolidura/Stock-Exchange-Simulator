@@ -1,8 +1,8 @@
 package es.jaime.gateway._shared.infrastrocture.bus.query;
 
-import es.jaime.gateway._shared.domain.bus.query.Query;
-import es.jaime.gateway._shared.domain.bus.query.QueryBus;
-import es.jaime.gateway._shared.domain.bus.query.QueryResponse;
+import es.jaime.gateway._shared.domain.query.Query;
+import es.jaime.gateway._shared.domain.query.QueryBus;
+import es.jaime.gateway._shared.domain.query.QueryResponse;
 import org.springframework.stereotype.Service;
 
 @Service

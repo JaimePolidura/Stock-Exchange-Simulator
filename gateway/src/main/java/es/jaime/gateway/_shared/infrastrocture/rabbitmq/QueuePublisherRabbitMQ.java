@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
-import es.jaime.gateway._shared.domain.bus.queue.QueueMessage;
-import es.jaime.gateway._shared.domain.bus.queue.QueuePublisher;
+import es.jaime.gateway._shared.domain.queue.QueueMessage;
+import es.jaime.gateway._shared.domain.queue.QueuePublisher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class QueuePublisherRabbitMQ implements QueuePublisher {
     }
 
     @Override
-    public void enqueue(String queueName, QueueMessage queueMessage) {
-        this.rabbitTemplate.convertAndSend(topicExchangeName, queueName, queueMessage.toJson());
+    public void enqueue(QueueMessage queueMessage) {
+        this.rabbitTemplate.convertAndSend(directExchangeName, queueMessage.routingKey(), queueMessage.toJson());
     }
 }

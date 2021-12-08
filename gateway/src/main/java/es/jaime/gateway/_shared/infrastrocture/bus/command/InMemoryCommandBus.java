@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.bus.command;
 
-import es.jaime.gateway._shared.domain.bus.command.Command;
-import es.jaime.gateway._shared.domain.bus.command.CommandBus;
+import es.jaime.gateway._shared.domain.command.Command;
+import es.jaime.gateway._shared.domain.command.CommandBus;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.bus.event;
+package es.jaime.gateway._shared.domain.event;
 
 import java.util.List;
 

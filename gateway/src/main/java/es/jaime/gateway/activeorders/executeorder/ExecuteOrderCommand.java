@@ -1,8 +1,8 @@
 package es.jaime.gateway.activeorders.executeorder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.jaime.gateway._shared.domain.bus.command.Command;
-import es.jaime.gateway._shared.domain.bus.queue.QueueMessage;
+import es.jaime.gateway._shared.domain.command.Command;
+import es.jaime.gateway._shared.domain.queue.QueueMessage;
 import es.jaime.gateway.activeorders._shared.domain.*;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -10,7 +10,6 @@ import lombok.SneakyThrows;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public final class ExecuteOrderCommand implements Command, QueueMessage {
     @Getter private final ActiveOrderID orderID;
@@ -35,6 +34,11 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
     @SneakyThrows
     public String toJson() {
         return new ObjectMapper().writeValueAsString(toPrimitives());
+    }
+
+    @Override
+    public String routingKey() {
+        return String.format("sxs.new-orders.%s", this.ticker.value());
     }
 
     private Map<String, Serializable> toPrimitives() {

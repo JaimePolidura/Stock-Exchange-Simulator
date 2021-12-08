@@ -1,6 +1,6 @@
 package es.jaime.gateway.authentication.login;
 
-import es.jaime.gateway._shared.domain.bus.command.Command;
+import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway.authentication._shared.domain.UserName;
 import es.jaime.gateway.authentication._shared.domain.UserPassword;
 import lombok.Getter;

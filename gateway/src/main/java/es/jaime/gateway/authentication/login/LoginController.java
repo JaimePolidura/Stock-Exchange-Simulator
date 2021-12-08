@@ -1,7 +1,7 @@
 package es.jaime.gateway.authentication.login;
 
-import es.jaime.gateway._shared.domain.bus.command.CommandBus;
-import es.jaime.gateway._shared.domain.bus.query.QueryBus;
+import es.jaime.gateway._shared.domain.command.CommandBus;
+import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

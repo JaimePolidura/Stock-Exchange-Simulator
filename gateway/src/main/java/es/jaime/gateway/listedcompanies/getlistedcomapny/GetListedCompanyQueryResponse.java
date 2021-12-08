@@ -1,6 +1,6 @@
 package es.jaime.gateway.listedcompanies.getlistedcomapny;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryResponse;
+import es.jaime.gateway._shared.domain.query.QueryResponse;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyCurrencyCode;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyCurrencySymbol;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyName;

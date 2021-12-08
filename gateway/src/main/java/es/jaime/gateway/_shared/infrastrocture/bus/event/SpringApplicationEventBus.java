@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.bus.event;
 
-import es.jaime.gateway._shared.domain.bus.event.DomainEvent;
-import es.jaime.gateway._shared.domain.bus.event.EventBus;
+import es.jaime.gateway._shared.domain.event.DomainEvent;
+import es.jaime.gateway._shared.domain.event.EventBus;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 

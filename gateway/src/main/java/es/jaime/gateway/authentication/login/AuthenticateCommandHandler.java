@@ -1,6 +1,6 @@
 package es.jaime.gateway.authentication.login;
 
-import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
+import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.authentication._shared.domain.User;
 import es.jaime.gateway.authentication._shared.domain.UserRepository;

@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.bus.command;
+package es.jaime.gateway._shared.domain.command;
 
 import java.io.Serializable;
 

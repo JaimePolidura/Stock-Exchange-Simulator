@@ -1,6 +1,6 @@
 package es.jaime.gateway.listedcompanies.getlistedcomapny;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryBus;
+import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;

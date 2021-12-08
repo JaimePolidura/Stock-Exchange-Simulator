@@ -1,11 +1,10 @@
 package es.jaime.gateway.activeorders.executeorder;
 
-import es.jaime.gateway._shared.domain.bus.event.DomainEvent;
+import es.jaime.gateway._shared.domain.event.DomainEvent;
 import es.jaime.gateway.activeorders._shared.domain.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public final class OrderExecutionPublished extends DomainEvent {
     @Getter private final String orderID;

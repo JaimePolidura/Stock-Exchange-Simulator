@@ -1,6 +1,6 @@
 package es.jaime.gateway.activeorders.checkorder;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryHandler;
+import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;

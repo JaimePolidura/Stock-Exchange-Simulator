@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.bus.command;
 
-import es.jaime.gateway._shared.domain.bus.command.Command;
-import es.jaime.gateway._shared.domain.bus.command.CommandHandler;
+import es.jaime.gateway._shared.domain.command.Command;
+import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.infrastrocture.bus.ApplicationCQRSClassMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package es.jaime.gateway.authentication.login;
 
-import es.jaime.gateway._shared.domain.bus.query.QueryResponse;
+import es.jaime.gateway._shared.domain.query.QueryResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

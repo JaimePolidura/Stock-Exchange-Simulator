@@ -1,9 +1,8 @@
 package es.jaime.gateway.activeorders.executeorder;
 
-import es.jaime.gateway._shared.domain.bus.command.CommandBus;
-import es.jaime.gateway._shared.domain.bus.query.QueryBus;
+import es.jaime.gateway._shared.domain.command.CommandBus;
+import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
 import es.jaime.gateway.activeorders.checkorder.GetOrderQuery;
 import es.jaime.gateway.activeorders.checkorder.GetOrderQueryResponse;
 import lombok.AllArgsConstructor;

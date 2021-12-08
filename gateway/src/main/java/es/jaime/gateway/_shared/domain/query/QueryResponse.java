@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.bus.query;
+package es.jaime.gateway._shared.domain.query;
 
 import java.io.Serializable;
 

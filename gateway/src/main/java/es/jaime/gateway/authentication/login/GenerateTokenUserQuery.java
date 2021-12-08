@@ -1,6 +1,6 @@
 package es.jaime.gateway.authentication.login;
 
-import es.jaime.gateway._shared.domain.bus.query.Query;
+import es.jaime.gateway._shared.domain.query.Query;
 import es.jaime.gateway.authentication._shared.domain.UserName;
 import lombok.Getter;
 
