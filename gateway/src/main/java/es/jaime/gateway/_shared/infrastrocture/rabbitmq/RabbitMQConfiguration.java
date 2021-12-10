@@ -1,7 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

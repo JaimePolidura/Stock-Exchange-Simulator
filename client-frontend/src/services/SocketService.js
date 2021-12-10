@@ -1,21 +1,17 @@
+import {io} from "socket.io-client";
 
 class SocketService {
     constructor() {
         this.connected = false;
+        this.socket = null;
     }
 
-    connect(url, onConnect, onNotification){
-        // const serverUrl = 'http://localhost:8080/socket';
-        // const ws = new SockJS(serverUrl);
-        // this.stompClient = Stomp.over(ws);
-        // const that = this;
-        //
-        // this.stompClient.connect({}, function(frame) {
-        //     that.stompClient.subscribe(url_subcribe, (message) => {
-        //         onNotification(message);
-        //     });
-        // });
+    connect(onConnect){
+         this.socket = io('http://localhost:4000', { transports : ['websocket'] });
+    }
 
+    onDataRecieved(){
+        //TODO
     }
 }
 

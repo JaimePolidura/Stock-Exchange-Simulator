@@ -27,8 +27,8 @@ const BuyStockModal = props => {
         props.onOrderBuySended({
             ...response.data,
             name: listedCompany.name,
-            currency: getCurrencySymbolFromCurrencyCode(response),
-            totalValueOrder: calculateTotalValue(),
+            currency: getCurrencySymbolFromCurrencyCode(response.data),
+            totalValueOrder: calculateTotalValue(response.data),
         });
 
         const socket = io('http://localhost:4000', { transports : ['websocket'] });
@@ -51,7 +51,7 @@ const BuyStockModal = props => {
     }
 
     const onFailure = error => {
-
+        console.log(error);
     }
 
     const onTickerInputChanged = e => {

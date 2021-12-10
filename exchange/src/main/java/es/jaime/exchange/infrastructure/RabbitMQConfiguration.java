@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfiguration {
+    public static final String topicExchangeName = "sxs.executed-orders";
     public static final String executedOrdersTickerQueueName = "sxs.executed-orders." + ExchangeApplication.ticker;
 
     @Bean

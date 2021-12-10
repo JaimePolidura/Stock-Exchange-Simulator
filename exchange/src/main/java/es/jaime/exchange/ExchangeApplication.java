@@ -1,11 +1,7 @@
 package es.jaime.exchange;
 
-import org.apache.logging.log4j.message.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 public class ExchangeApplication {
