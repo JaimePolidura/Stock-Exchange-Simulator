@@ -2,12 +2,12 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 public class RabbitMQConfiguration {
@@ -19,6 +19,16 @@ public class RabbitMQConfiguration {
     }
 
     @Bean
+    public CachingConnectionFactory connection() {
+        CachingConnectionFactory factory = new CachingConnectionFactory();
+
+        factory.setHost("rabbitmq");
+        factory.setPort(5672);
+
+        return factory;
+    }
+
+    @Bean
     public Declarables declarables() {
         List<Declarable> declarables = new ArrayList<>();
 
@@ -27,16 +37,16 @@ public class RabbitMQConfiguration {
 
         List<Queue> allQueuesForListedCompanies = repository.findAll().stream()
                 .map(listedCompany -> listedCompany.ticker().value())
-                .map(listedCompabyTicker -> directExchangeName + "." + listedCompabyTicker)
+                .map(listedCompanyTicker -> directExchangeName + "." + listedCompanyTicker)
                 .map(queueFullNmeString -> new Queue(queueFullNmeString, false))
-                .collect(Collectors.toList());
+                .toList();
 
         List<Binding> allBindings = allQueuesForListedCompanies.stream()
                 .map(queue -> BindingBuilder
                         .bind(queue)
                         .to(directExchange)
                         .with(queue.getName()))
-                .collect(Collectors.toList());
+                .toList();
 
         declarables.addAll(allBindings);
         declarables.addAll(allQueuesForListedCompanies);

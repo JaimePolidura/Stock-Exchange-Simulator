@@ -48,4 +48,4 @@ INSERT INTO `listedcompanies` VALUES ('NVDA', 'Nvidia', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('PG', 'Procter & Gamble', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('TSLA', 'Tesla', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('V', 'Visa', 'USD', '$');
-
+INSERT INTO `listedcompanies` VALUES ('CRM', 'Salesforce', 'USD', '$');

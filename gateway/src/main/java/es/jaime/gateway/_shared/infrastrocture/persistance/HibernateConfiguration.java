@@ -36,7 +36,7 @@ public class HibernateConfiguration {
     @SneakyThrows
     public DataSource dataSource() {
         return factory.dataSource(
-                "localhost",
+                "mysql",
                 3306,
                 "sxs_gateway",
                 "root",
