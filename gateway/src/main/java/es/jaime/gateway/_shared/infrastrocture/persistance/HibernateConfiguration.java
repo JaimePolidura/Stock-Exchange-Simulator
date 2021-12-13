@@ -29,14 +29,14 @@ public class HibernateConfiguration {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
-        return factory.sessionFactory(CONTEXT, dataSource());
+        return factory.sessionFactory(dataSource());
     }
 
     @Bean
     @SneakyThrows
     public DataSource dataSource() {
         return factory.dataSource(
-                "mysql",
+                "gateway-mysql",
                 3306,
                 "sxs_gateway",
                 "root",

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 public class RabbitMQConfiguration {
@@ -39,14 +40,14 @@ public class RabbitMQConfiguration {
                 .map(listedCompany -> listedCompany.ticker().value())
                 .map(listedCompanyTicker -> directExchangeName + "." + listedCompanyTicker)
                 .map(queueFullNmeString -> new Queue(queueFullNmeString, false))
-                .toList();
+                .collect(Collectors.toList());
 
         List<Binding> allBindings = allQueuesForListedCompanies.stream()
                 .map(queue -> BindingBuilder
                         .bind(queue)
                         .to(directExchange)
                         .with(queue.getName()))
-                .toList();
+                .collect(Collectors.toList());
 
         declarables.addAll(allBindings);
         declarables.addAll(allQueuesForListedCompanies);
