@@ -37,9 +37,9 @@ public class OnOrderReceivedListener implements MessageListener {
         JSONObject jsonObject = new JSONObject(rawBodyString);
 
         return new Order(
-                UUID.fromString(String.valueOf(jsonObject.get("orderId"))),
-                UUID.fromString(String.valueOf(jsonObject.get("clientId"))),
-                LocalDateTime.parse(String.valueOf(jsonObject.get("date"))),
+                String.valueOf(jsonObject.get("orderId")),
+                String.valueOf(jsonObject.get("clientId")),
+                String.valueOf(jsonObject.get("date")),
                 Double.parseDouble(String.valueOf(jsonObject.get("executionPrice"))),
                 Integer.parseInt(String.valueOf(jsonObject.get("quantity"))),
                 String.valueOf(jsonObject.get("ticker")),
