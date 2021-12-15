@@ -20,7 +20,7 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     }
 
     @Override
-    public void enqueue(Order order) {
+    public synchronized void enqueue(Order order) {
         if(order.getType() == OrderType.BUY){
             buyOrders.add(order);
         }else{
@@ -31,14 +31,24 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     @Override
     public void run() {
         while(true) {
-           Order buyOrder = buyOrders.poll();
-           Order sellOrder = sellOrders.poll();
+            synchronized(this) {
+                checkForOrdersInQueue();
+            }
+        }
+    }
 
-           if(isThereAnyMatch(buyOrder, sellOrder)){
-               tradeProcessor.process(buyOrder, sellOrder);
-           }else{
-               processMismatch(buyOrder, sellOrder);
-           }
+    private void checkForOrdersInQueue(){
+        if(buyOrders.isEmpty() || sellOrders.isEmpty()) {
+            return;
+        }
+
+        Order buyOrder = buyOrders.poll();
+        Order sellOrder = sellOrders.poll();
+
+        if(isThereAnyMatch(buyOrder, sellOrder)){
+            tradeProcessor.process(buyOrder, sellOrder);
+        }else{
+            processMismatch(buyOrder, sellOrder);
         }
     }
 

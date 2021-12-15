@@ -1,5 +1,5 @@
 package es.jaime.exchange.domain;
 
-public interface MatchingEngine {
+public interface MatchingEngine extends Runnable{
     void enqueue(Order order);
 }
