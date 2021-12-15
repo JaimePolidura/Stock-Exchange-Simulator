@@ -1,5 +1,6 @@
-package es.jaime.exchange.domain;
+package es.jaime.exchange.domain.exceptions;
 
+import es.jaime.exchange.domain.Order;
 import lombok.Getter;
 
 public class DomainException extends RuntimeException{

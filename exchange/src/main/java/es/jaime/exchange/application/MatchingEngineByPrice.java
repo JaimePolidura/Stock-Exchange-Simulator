@@ -1,19 +1,19 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.*;
-import lombok.SneakyThrows;
+import es.jaime.exchange.domain.exceptions.TtlExpired;
 import org.springframework.stereotype.Service;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 @Service
-public class MatchingEngineImpl implements MatchingEngine, Runnable {
+public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     private final Queue<Order> buyOrders;
     private final Queue<Order> sellOrders;
     private final TradeProcessor tradeProcessor;
 
-    public MatchingEngineImpl(TradeProcessor tradeProcessor){
+    public MatchingEngineByPrice(TradeProcessor tradeProcessor){
         this.tradeProcessor = tradeProcessor;
         this.buyOrders = new PriorityQueue<>();
         this.sellOrders = new PriorityQueue<>();
@@ -34,11 +34,11 @@ public class MatchingEngineImpl implements MatchingEngine, Runnable {
            Order buyOrder = buyOrders.poll();
            Order sellOrder = sellOrders.poll();
 
-            if(isThereAnyMatch(buyOrder, sellOrder)){
-                tradeProcessor.process(buyOrder, sellOrder);
-            }else{
-                processMismatch(buyOrder, sellOrder);
-            }
+           if(isThereAnyMatch(buyOrder, sellOrder)){
+               tradeProcessor.process(buyOrder, sellOrder);
+           }else{
+               processMismatch(buyOrder, sellOrder);
+           }
         }
     }
 

@@ -17,11 +17,7 @@ public class RabbitMQueuePublisher implements QueuePublisher {
     }
 
     @Override
-    public void enqueue(QueueMessage queueMessage) {
-        this.rabbitTemplate.convertAndSend(
-                exchangeConfiguration.getQueueExchangeName(),
-                exchangeConfiguration.getQueueExecutedOrdersName(),
-                queueMessage.toJson()
-        );
+    public void enqueue(String exchange, String queue, QueueMessage queueMessage) {
+        this.rabbitTemplate.convertAndSend(exchange, queue, queueMessage.toJson());
     }
 }
