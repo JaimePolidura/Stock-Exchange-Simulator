@@ -1,6 +1,7 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.*;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.PriorityQueue;
@@ -33,15 +34,15 @@ public class MatchingEngineImpl implements MatchingEngine, Runnable {
            Order buyOrder = buyOrders.poll();
            Order sellOrder = sellOrders.poll();
 
-            if(isMatched(buyOrder, sellOrder)){
-                performTrade(buyOrder, sellOrder);
+            if(isThereAnyMatch(buyOrder, sellOrder)){
+                tradeProcessor.process(buyOrder, sellOrder);
             }else{
                 processMismatch(buyOrder, sellOrder);
             }
         }
     }
 
-    private boolean isMatched(Order buyOrder, Order sellOrder) {
+    private boolean isThereAnyMatch(Order buyOrder, Order sellOrder) {
         return (buyOrder.getExecutionPrice() >= sellOrder.getExecutionPrice()) &&
                 (!(buyOrder.getExecutionPrice() == -1) || !(sellOrder.getExecutionPrice() == -1));
     }
@@ -51,24 +52,10 @@ public class MatchingEngineImpl implements MatchingEngine, Runnable {
         int actualTtlSellOrder = sellOrder.decreaseTtlByOne();
 
         if(actualTtlBuyOrder <= 0){
-
+            throw new TtlExpired(buyOrder);
         }
         if(actualTtlSellOrder <= 0){
-
-        }
-    }
-
-    private void performTrade(Order buyOrder, Order sellOrder) {
-        try {
-            tradeProcessor.process(buyOrder, sellOrder);
-        }catch (Exception e){
-            buyOrder.decreaseTtlByOne();
-            sellOrder.decreaseTtlByOne();
-
-            enqueue(buyOrder);
-            enqueue(sellOrder);
-
-            e.printStackTrace();
+            throw new TtlExpired(sellOrder);
         }
     }
 }
