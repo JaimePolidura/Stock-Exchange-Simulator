@@ -2,10 +2,12 @@ package es.jaime.exchange.infrastructure;
 
 import es.jaime.exchange.domain.*;
 import lombok.SneakyThrows;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionInterceptor {
@@ -18,12 +20,19 @@ public class ExceptionInterceptor {
     @SneakyThrows
     @ExceptionHandler
     public void processSupportedExceptions(Throwable throwable) {
-        SupportedException supportedException = Arrays.stream(SupportedException.values())
+         Arrays.stream(SupportedException.values())
                 .filter(exception -> sameClass(exception, throwable))
                 .findFirst()
                 .orElseThrow(() -> throwable);
 
-        queuePublisher.enqueue(() -> "error: " + throwable.getMessage());
+        queuePublisher.enqueue(() -> buildJSONFromException((DomainException) throwable).toString());
+    }
+
+    private JSONObject buildJSONFromException(DomainException exception){
+        return new JSONObject(Map.of(
+                "error", exception.getMessage(),
+                "order", exception.getOrderException()
+        ));
     }
 
     private boolean sameClass(SupportedException supportedException, Throwable throwable){

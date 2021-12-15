@@ -1,11 +1,11 @@
 package es.jaime.exchange.domain;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public final class Order implements Comparable<Order>{
+public final class Order implements Comparable<Order> {
     @Getter private final String orderId;
     @Getter private final String clientId;
     @Getter private final String date;
@@ -49,5 +49,17 @@ public final class Order implements Comparable<Order>{
 
     private int compareSellOrder(Order other){
         return (int) (this.executionPrice - other.getExecutionPrice());
+    }
+    
+    public Map<String, Object> toPrimitives(){
+        return new HashMap<>() {{
+            put("orderId", orderId);
+            put("clientId", clientId);
+            put("date", date);
+            put("executionPrice", executionPrice);
+            put("quantity", quantity);
+            put("ticker", ticker);
+            put("type", type.toString());
+        }};
     }
 }
