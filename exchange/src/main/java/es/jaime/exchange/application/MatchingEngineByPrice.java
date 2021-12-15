@@ -29,11 +29,9 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while(true) {
-            synchronized(this) {
-                checkForOrdersInQueue();
-            }
+            checkForOrdersInQueue();
         }
     }
 

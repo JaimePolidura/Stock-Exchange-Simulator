@@ -1,6 +1,7 @@
 package es.jaime.exchange;
 
 import es.jaime.exchange.domain.MatchingEngine;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,12 +22,23 @@ public class ExchangeApplication {
 	}
 
 	@Bean
+	public CachingConnectionFactory connection() {
+		CachingConnectionFactory factory = new CachingConnectionFactory();
+
+		//TODO
+//		factory.setHost("rabbitmq");
+//		factory.setPort(5672);
+
+		return factory;
+	}
+
+	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(2);
 		executor.setMaxPoolSize(2);
 		executor.setQueueCapacity(500);
-		executor.setThreadNamePrefix("Poroo-");
+		executor.setThreadNamePrefix("MatchingEngine-");
 		executor.initialize();
 
 		return executor;
