@@ -25,6 +25,7 @@ public class ExchangeConfiguration implements ApplicationRunner {
 
         this.configuration.put("rabbitmq-errorOrders-exchange.name", "sxs.error-orders");
         this.configuration.put("rabbitmq-errorOrders-queue.name", "sxs.error-orders");
+        this.configuration.put("matchcingengine-sleep", 100);
     }
 
     public String getTicker(){
@@ -45,5 +46,9 @@ public class ExchangeConfiguration implements ApplicationRunner {
 
     public String executedOrdersQueueName(){
         return String.valueOf(this.configuration.get("rabbitmq-executedOrders-queue.name"));
+    }
+
+    public int matchingEngineSleep(){
+        return (int) this.configuration.get("matchcingengine-sleep");
     }
 }
