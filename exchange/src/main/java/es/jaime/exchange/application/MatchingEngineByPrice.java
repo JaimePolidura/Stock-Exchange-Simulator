@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 @Service
 public class MatchingEngineByPrice implements MatchingEngine, Runnable {
@@ -14,12 +15,14 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     private final Queue<Order> sellOrders;
     private final TradeProcessor tradeProcessor;
     private final ExchangeConfiguration configuration;
+    private boolean running;
 
     public MatchingEngineByPrice(TradeProcessor tradeProcessor, ExchangeConfiguration configuration){
         this.tradeProcessor = tradeProcessor;
         this.configuration = configuration;
-        this.buyOrders = new PriorityQueue<>();
-        this.sellOrders = new PriorityQueue<>();
+        this.buyOrders = new PriorityBlockingQueue<>();
+        this.sellOrders = new PriorityBlockingQueue<>();
+        this.running = true;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @Override
     public synchronized void run() {
-        while(true) {
+        while(running) {
             checkForOrdersInQueue();
             waitForOrders();
         }
@@ -59,7 +62,7 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
                 this.buyOrders.add(buyOrder);
             }
             if(sellOrder.getQuantity() > 0){
-                this.buyOrders.add(sellOrder);
+                this.sellOrders.add(sellOrder);
             }
         }else{
             processMismatch(buyOrder, sellOrder);
@@ -81,5 +84,20 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
         if(actualTtlSellOrder <= 0){
             throw new TtlExpired(sellOrder);
         }
+    }
+
+    @Override
+    public Queue<Order> getBuyOrdersQueue() {
+        return new PriorityQueue<>(this.buyOrders);
+    }
+
+    @Override
+    public Queue<Order> getSellOrdersQueue() {
+        return new PriorityQueue<>(this.sellOrders);
+    }
+
+    @Override
+    public void stop() {
+        this.running = false;
     }
 }

@@ -43,7 +43,7 @@ public class TradeProcessorImpl implements TradeProcessor {
     private int getQuantityStockTradeMatch(Order buyOrder, Order sellOrder){
         return buyOrder.getQuantity() == sellOrder.getQuantity() ?
                 buyOrder.getQuantity() :
-                Math.max(buyOrder.getQuantity(), sellOrder.getQuantity());
+                Math.min(buyOrder.getQuantity(), sellOrder.getQuantity());
     }
 
     private double getPriceMatch(Order buyOrder, Order sellOrder){

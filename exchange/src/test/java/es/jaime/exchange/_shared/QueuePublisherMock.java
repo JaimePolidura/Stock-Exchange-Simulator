@@ -15,7 +15,7 @@ public class QueuePublisherMock implements QueuePublisher {
 
     @Override
     public void enqueue(String exchange, String queue, QueueMessage queueMessage) {
-        this.queue.add(queueMessage);
+        this.queue.offer(queueMessage);
     }
 
     public Queue<QueueMessage> getQueue() {

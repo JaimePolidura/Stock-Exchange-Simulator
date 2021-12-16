@@ -27,9 +27,9 @@ public class ExchangeConfigurationMock implements ExchangeConfiguration {
     public String executedOrdersQueueName() {
         return "not-needed";
     }
-
+    
     @Override
     public int matchingEngineSleep() {
-        return 1000;
+        return 250;
     }
 }
