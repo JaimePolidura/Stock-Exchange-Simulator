@@ -2,7 +2,9 @@ package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
+import es.jaime.exchange.infrastructure.OrderArrivedEvent;
 import lombok.SneakyThrows;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.PriorityQueue;
@@ -23,6 +25,11 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
         this.buyOrders = new PriorityBlockingQueue<>();
         this.sellOrders = new PriorityBlockingQueue<>();
         this.running = true;
+    }
+
+    @EventListener
+    public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
+        this.enqueue(orderArrivedEvent.getOrder());
     }
 
     @Override
@@ -58,12 +65,7 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
         if(isThereAnyMatch(buyOrder, sellOrder)){
             tradeProcessor.process(buyOrder, sellOrder);
 
-            if(buyOrder.getQuantity() > 0){
-                this.buyOrders.add(buyOrder);
-            }
-            if(sellOrder.getQuantity() > 0){
-                this.sellOrders.add(sellOrder);
-            }
+            reenqueueIfSomeOrderWasntAllCompleted(buyOrder, sellOrder);
         }else{
             processMismatch(buyOrder, sellOrder);
         }
@@ -72,6 +74,15 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
     private boolean isThereAnyMatch(Order buyOrder, Order sellOrder) {
         return (buyOrder.getExecutionPrice() >= sellOrder.getExecutionPrice()) &&
                 (!(buyOrder.getExecutionPrice() == -1) || !(sellOrder.getExecutionPrice() == -1));
+    }
+
+    private void reenqueueIfSomeOrderWasntAllCompleted(Order buyOrder, Order sellOrder){
+        if(buyOrder.getQuantity() > 0){
+            this.buyOrders.add(buyOrder);
+        }
+        if(sellOrder.getQuantity() > 0){
+            this.sellOrders.add(sellOrder);
+        }
     }
 
     private void processMismatch(Order buyOrder, Order sellOrder) {

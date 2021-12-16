@@ -1,13 +1,10 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.ExchangeConfigurationSpring;
-import es.jaime.exchange.application.OnOrderReceivedListener;
+import es.jaime.exchange.domain.EventBus;
 import es.jaime.exchange.domain.ExchangeConfiguration;
-import es.jaime.exchange.domain.MatchingEngine;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import es.jaime.exchange.domain.Order;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -16,21 +13,39 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfiguration {
+public class RabbitMQConfiguration implements MessageListener {
     private final ExchangeConfiguration exchangeConfiguration;
-    private final MatchingEngine matchingEngine;
+    private final EventBus eventBus;
 
-    public RabbitMQConfiguration(ExchangeConfiguration configuration, MatchingEngine matchingEngine) {
+    public RabbitMQConfiguration(ExchangeConfiguration configuration, EventBus eventBus) {
         this.exchangeConfiguration = configuration;
-        this.matchingEngine = matchingEngine;
+        this.eventBus = eventBus;
+    }
+
+    @Bean
+    public CachingConnectionFactory connection() {
+        CachingConnectionFactory factory = new CachingConnectionFactory();
+
+        factory.setHost("localhost");
+        factory.setPort(5672);
+
+        return factory;
+    }
+
+    @Override
+    public void onMessage(Message message) {
+        Order order = Order.create(message.getBody());
+
+        eventBus.publish(new OrderArrivedEvent(order));
     }
 
     @Bean
     public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+
         simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
         simpleMessageListenerContainer.setQueues(executedOrdersQueue(), errorOrdersQueue());
-        simpleMessageListenerContainer.setMessageListener(new OnOrderReceivedListener(matchingEngine));
+        simpleMessageListenerContainer.setMessageListener(this);
 
         return simpleMessageListenerContainer;
     }

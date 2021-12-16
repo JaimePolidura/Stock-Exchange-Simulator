@@ -1,8 +1,10 @@
 package es.jaime.exchange.domain;
 
+import org.springframework.amqp.core.MessageListener;
+
 import java.util.Queue;
 
-public interface MatchingEngine extends Runnable{
+public interface MatchingEngine extends Runnable {
     void enqueue(Order order);
 
     Queue<Order> getBuyOrdersQueue();

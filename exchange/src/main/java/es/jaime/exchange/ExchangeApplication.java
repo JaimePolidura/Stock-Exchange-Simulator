@@ -1,8 +1,6 @@
 package es.jaime.exchange;
 
 import es.jaime.exchange.domain.MatchingEngine;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,20 +14,8 @@ import java.util.concurrent.Executor;
 @SpringBootApplication
 @EnableAsync
 public class ExchangeApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ExchangeApplication.class, args);
-	}
-
-	@Bean
-	public CachingConnectionFactory connection() {
-		CachingConnectionFactory factory = new CachingConnectionFactory();
-
-		//TODO
-//		factory.setHost("rabbitmq");
-//		factory.setPort(5672);
-
-		return factory;
 	}
 
 	@Bean
