@@ -1,6 +1,5 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.ExchangeConfiguration;
 import es.jaime.exchange.domain.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import lombok.SneakyThrows;
@@ -55,6 +54,13 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
         if(isThereAnyMatch(buyOrder, sellOrder)){
             tradeProcessor.process(buyOrder, sellOrder);
+
+            if(buyOrder.getQuantity() > 0){
+                this.buyOrders.add(buyOrder);
+            }
+            if(sellOrder.getQuantity() > 0){
+                this.buyOrders.add(sellOrder);
+            }
         }else{
             processMismatch(buyOrder, sellOrder);
         }

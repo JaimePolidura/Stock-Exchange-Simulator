@@ -1,6 +1,7 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.ExchangeConfiguration;
+import es.jaime.exchange.ExchangeConfigurationSpring;
+import es.jaime.exchange.domain.ExchangeConfiguration;
 import es.jaime.exchange.domain.Order;
 import es.jaime.exchange.domain.QueuePublisher;
 import es.jaime.exchange.domain.TradeProcessor;
@@ -23,16 +24,26 @@ public class TradeProcessorImpl implements TradeProcessor {
     public void process(Order buyOrder, Order sellOrder) {
         try{
             double priceMatch = getPriceMatch(buyOrder, sellOrder);
+            int quantityStockTradeMatch = getQuantityStockTradeMatch(buyOrder, sellOrder);
+
+            buyOrder.decreaseQuantityBy(quantityStockTradeMatch);
+            sellOrder.decreaseQuantityBy(quantityStockTradeMatch);
 
             queuePublisher.enqueue(
                     configuration.executedOrdersExchangeName(),
                     configuration.executedOrdersQueueName(),
-                    ExecutedOrderQueueMessage.create(buyOrder, sellOrder, priceMatch)
+                    ExecutedOrderQueueMessage.create(buyOrder, sellOrder, priceMatch, quantityStockTradeMatch)
             );
 
         }catch (Exception ex){
             throwUnProcessableTrade(buyOrder, sellOrder);
         }
+    }
+
+    private int getQuantityStockTradeMatch(Order buyOrder, Order sellOrder){
+        return buyOrder.getQuantity() == sellOrder.getQuantity() ?
+                buyOrder.getQuantity() :
+                Math.max(buyOrder.getQuantity(), sellOrder.getQuantity());
     }
 
     private double getPriceMatch(Order buyOrder, Order sellOrder){

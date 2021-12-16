@@ -18,11 +18,11 @@ public class ExecutedOrderQueueMessage implements QueueMessage {
     @Getter private final ClientData buyerData;
     @Getter private final ClientData sellerData;
 
-    public static ExecutedOrderQueueMessage create(Order buyOrder, Order sellOrder, double executionPrice){
+    public static ExecutedOrderQueueMessage create(Order buyOrder, Order sellOrder, double executionPrice, int quantity){
         return new ExecutedOrderQueueMessage(
                 buyOrder.getTicker(),
                 LocalDateTime.now(),
-                buyOrder.getQuantity(),
+                quantity,
                 executionPrice,
                 new ClientData(buyOrder.getOrderId(), buyOrder.getClientId()),
                 new ClientData(sellOrder.getOrderId(), sellOrder.getClientId())

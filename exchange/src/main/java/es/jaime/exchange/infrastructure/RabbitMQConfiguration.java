@@ -1,7 +1,8 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.ExchangeConfiguration;
+import es.jaime.exchange.ExchangeConfigurationSpring;
 import es.jaime.exchange.application.OnOrderReceivedListener;
+import es.jaime.exchange.domain.ExchangeConfiguration;
 import es.jaime.exchange.domain.MatchingEngine;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

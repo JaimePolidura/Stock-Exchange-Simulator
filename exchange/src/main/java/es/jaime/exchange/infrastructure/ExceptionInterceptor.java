@@ -1,6 +1,6 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.ExchangeConfiguration;
+import es.jaime.exchange.ExchangeConfigurationSpring;
 import es.jaime.exchange.domain.*;
 import es.jaime.exchange.domain.exceptions.DomainException;
 import es.jaime.exchange.domain.exceptions.TtlExpired;

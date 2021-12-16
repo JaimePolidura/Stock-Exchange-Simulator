@@ -10,7 +10,7 @@ public final class Order implements Comparable<Order> {
     @Getter private final String clientId;
     @Getter private final String date;
     @Getter private final double executionPrice;
-    @Getter private final int quantity;
+    @Getter private int quantity;
     @Getter private final String ticker;
     @Getter private final OrderType type;
     @Getter private int ttl = 200;
@@ -41,6 +41,10 @@ public final class Order implements Comparable<Order> {
 
     public int decreaseTtlByOne(){
         return --ttl;
+    }
+
+    public void decreaseQuantityBy(int quantity) {
+        this.quantity = this.quantity - quantity;
     }
 
     private int compareBuyOrder(Order other){

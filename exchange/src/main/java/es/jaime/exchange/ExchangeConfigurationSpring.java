@@ -1,5 +1,6 @@
 package es.jaime.exchange;
 
+import es.jaime.exchange.domain.ExchangeConfiguration;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -8,10 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ExchangeConfiguration implements ApplicationRunner {
-    private final Map<String, Object> configuration;
+public class ExchangeConfigurationSpring implements ApplicationRunner, ExchangeConfiguration {
+    private final Map<String, String> configuration;
 
-    public ExchangeConfiguration() {
+    public ExchangeConfigurationSpring() {
         this.configuration = new HashMap<>();
     }
 
@@ -25,30 +26,36 @@ public class ExchangeConfiguration implements ApplicationRunner {
 
         this.configuration.put("rabbitmq-errorOrders-exchange.name", "sxs.error-orders");
         this.configuration.put("rabbitmq-errorOrders-queue.name", "sxs.error-orders");
-        this.configuration.put("matchcingengine-sleep", 100);
+        this.configuration.put("matchcingengine-sleep", "100");
     }
 
+    @Override
     public String getTicker(){
         return String.valueOf(this.configuration.get("ticker"));
     }
 
+    @Override
     public String errorOrdersExchangeName(){
         return String.valueOf(this.configuration.get("rabbitmq-errorOrders-exchange.name"));
     }
 
+    @Override
     public String errorOrdersQueueName(){
         return String.valueOf(this.configuration.get("rabbitmq-errorOrders-queue.name"));
     }
 
+    @Override
     public String executedOrdersExchangeName(){
         return String.valueOf(this.configuration.get("rabbitmq-executedOrders-exchange.name"));
     }
 
+    @Override
     public String executedOrdersQueueName(){
         return String.valueOf(this.configuration.get("rabbitmq-executedOrders-queue.name"));
     }
 
+    @Override
     public int matchingEngineSleep(){
-        return (int) this.configuration.get("matchcingengine-sleep");
+        return Integer.parseInt(this.configuration.get("matchcingengine-sleep"));
     }
 }
