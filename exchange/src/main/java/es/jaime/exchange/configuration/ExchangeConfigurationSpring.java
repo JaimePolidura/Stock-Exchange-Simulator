@@ -1,4 +1,4 @@
-package es.jaime.exchange;
+package es.jaime.exchange.configuration;
 
 import es.jaime.exchange.domain.ExchangeConfiguration;
 import org.springframework.boot.ApplicationArguments;
@@ -19,6 +19,10 @@ public class ExchangeConfigurationSpring implements ApplicationRunner, ExchangeC
     @Override
     public void run(ApplicationArguments args) {
         String ticker = args.getSourceArgs()[0];
+
+        System.out.println("a");
+        System.out.println("ticker -> " + ticker);
+        System.out.println("b");
 
         this.configuration.put("ticker", ticker);
         this.configuration.put("rabbitmq-executedOrders-exchange.name", "sxs.executed-orders");

@@ -4,7 +4,7 @@ import es.jaime.exchange.domain.Order;
 import es.jaime.exchange.domain.QueueMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -1,12 +1,11 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.ExchangeConfigurationSpring;
 import es.jaime.exchange.domain.*;
 import es.jaime.exchange.domain.exceptions.DomainException;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
 import lombok.SneakyThrows;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -27,6 +26,7 @@ public class ExceptionInterceptor {
     @ExceptionHandler
     public void processSupportedExceptions(Throwable throwable) {
         ensureExceptionIsSupported(throwable);
+
 
         queuePublisher.enqueue(
                 configuration.errorOrdersExchangeName(),
@@ -54,7 +54,7 @@ public class ExceptionInterceptor {
         ));
     }
 
-    enum SupportedException {
+    private enum SupportedException {
         TTL_EXPIRED(TtlExpired.class),
         UNPROCESSABLE_TRADE(UnprocessableTrade.class);
 
@@ -62,10 +62,6 @@ public class ExceptionInterceptor {
 
         SupportedException(Class<? extends DomainException> exceptionClass) {
             this.exceptionClass = exceptionClass;
-        }
-
-        public Class<? extends DomainException> getExceptionClass() {
-            return exceptionClass;
         }
     }
 }

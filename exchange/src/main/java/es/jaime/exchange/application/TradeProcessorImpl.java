@@ -1,6 +1,5 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.ExchangeConfigurationSpring;
 import es.jaime.exchange.domain.ExchangeConfiguration;
 import es.jaime.exchange.domain.Order;
 import es.jaime.exchange.domain.QueuePublisher;
