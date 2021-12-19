@@ -6,4 +6,4 @@ EXPOSE 8081
 
 ENTRYPOINT ["java","-jar","/app.jar"]
 
-CMD ["AMZN"]
+#docker run -it -p 8081:8081 sxs-exchange AMZN

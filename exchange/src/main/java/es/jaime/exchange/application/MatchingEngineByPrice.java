@@ -29,6 +29,8 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @EventListener
     public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
+        System.out.println("2");
+
         this.enqueue(orderArrivedEvent.getOrder());
     }
 
@@ -39,6 +41,8 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
         }else{
             sellOrders.add(order);
         }
+
+        System.out.println("3 buyers: " + buyOrders.size() + " sellers: " + sellOrders.size());
     }
 
     @Override
