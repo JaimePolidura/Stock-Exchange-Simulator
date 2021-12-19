@@ -44,7 +44,7 @@ public final class ExecuteOrderCommand implements Command, QueueMessage {
     private Map<String, Serializable> toPrimitives() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
-            put("clientID", clientID.value());
+            put("clientId", clientID.value());
             put("date", date.value().toString());
             put("executionPrice", executionPrice.value());
             put("quantity", quantity.value());

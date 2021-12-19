@@ -29,22 +29,28 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @EventListener
     public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
+        System.out.println("1");
+
         this.enqueue(orderArrivedEvent.getOrder());
     }
 
     @Override
-    public synchronized void enqueue(Order order) {
+    public void enqueue(Order order) {
+        System.out.println("2");
+
         if(order.getType() == OrderType.BUY){
             buyOrders.add(order);
         }else{
             sellOrders.add(order);
         }
 
-        System.out.println("3 buyers: " + buyOrders.size() + " sellers: " + sellOrders.size());
+        System.out.println("buyers: " + buyOrders.size() + " sellers: " + sellOrders.size());
     }
 
     @Override
-    public synchronized void run() {
+    public  void run() {
+        System.out.println("3");
+
         while(running) {
             checkForOrdersInQueue();
             waitForOrders();
@@ -61,14 +67,19 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
             return;
         }
 
+        System.out.println("1");
+
         Order buyOrder = buyOrders.poll();
         Order sellOrder = sellOrders.poll();
 
         if(isThereAnyMatch(buyOrder, sellOrder)){
+            System.out.println("2.1");
+
             tradeProcessor.process(buyOrder, sellOrder);
 
             reenqueueIfSomeOrderWasntAllCompleted(buyOrder, sellOrder);
         }else{
+            System.out.println("2.2");
             processMismatch(buyOrder, sellOrder);
         }
     }

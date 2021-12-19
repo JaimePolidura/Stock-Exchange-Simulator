@@ -35,6 +35,8 @@ public class TradeProcessorImpl implements TradeProcessor {
             );
 
         }catch (Exception ex){
+            ex.printStackTrace();
+
             throwUnProcessableTrade(buyOrder, sellOrder);
         }
     }

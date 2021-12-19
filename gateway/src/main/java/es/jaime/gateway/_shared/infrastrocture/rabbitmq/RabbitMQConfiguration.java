@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class RabbitMQConfiguration {
-    public static final String directExchangeName = "sxs.new-orders";
+    public static final String newOrders = "sxs.new-orders";
+    public static final String executedOrders = "sxs.executed-orders";
+    public static final String errorOrders = "sxs.error-orders";
+
     private final ListedCompaniesRepository repository;
 
     public RabbitMQConfiguration(ListedCompaniesRepository repository) {
@@ -33,24 +36,46 @@ public class RabbitMQConfiguration {
     public Declarables declarables() {
         List<Declarable> declarables = new ArrayList<>();
 
-        DirectExchange directExchange = new DirectExchange(directExchangeName);
-        declarables.add(directExchange);
+        List<DirectExchange> allExchanges = new ArrayList<>();
+        List<Queue> allQueues = new ArrayList<>();
+        List<Binding> allBindings = new ArrayList<>();
+
+        //EXECUTED ORDERS
+        DirectExchange executedOrdersExchange = new DirectExchange(executedOrders);
+        allExchanges.add(executedOrdersExchange);
+        Queue executedOrdersQueue = new Queue(executedOrders, false);
+        allQueues.add(executedOrdersQueue);
+        allBindings.add(BindingBuilder.bind(executedOrdersQueue).to(executedOrdersExchange).with(executedOrders));
+
+        //ERROR ORDDERS
+        DirectExchange errorOrdersExchange = new DirectExchange(errorOrders);
+        allExchanges.add(errorOrdersExchange);
+        Queue errorOrdersQueue = new Queue(errorOrders, false);
+        allQueues.add(errorOrdersQueue);
+        allBindings.add(BindingBuilder.bind(errorOrdersQueue).to(errorOrdersExchange).with(errorOrders));
+
+        // NEW ORDERS
+        DirectExchange newOrdersExchange = new DirectExchange(newOrders);
+        declarables.add(newOrdersExchange);
 
         List<Queue> allQueuesForListedCompanies = repository.findAll().stream()
                 .map(listedCompany -> listedCompany.ticker().value())
-                .map(listedCompanyTicker -> directExchangeName + "." + listedCompanyTicker)
+                .map(listedCompanyTicker -> newOrders + "." + listedCompanyTicker)
                 .map(queueFullNmeString -> new Queue(queueFullNmeString, false))
                 .collect(Collectors.toList());
+        allQueues.addAll(allQueuesForListedCompanies);
 
-        List<Binding> allBindings = allQueuesForListedCompanies.stream()
+        allQueuesForListedCompanies.stream()
                 .map(queue -> BindingBuilder
                         .bind(queue)
-                        .to(directExchange)
+                        .to(newOrdersExchange)
                         .with(queue.getName()))
-                .collect(Collectors.toList());
+                .forEach(allBindings::add);
+
 
         declarables.addAll(allBindings);
-        declarables.addAll(allQueuesForListedCompanies);
+        declarables.addAll(allQueues);
+        declarables.addAll(allExchanges);
 
         return new Declarables(declarables);
     }
