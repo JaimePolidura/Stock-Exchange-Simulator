@@ -2,9 +2,8 @@ package es.jaime.exchange.domain;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,18 +29,15 @@ public final class Order implements Comparable<Order> {
     }
 
     @SneakyThrows
-    public static Order create(byte[] rawBody) {
-        String rawBodyString = new String(rawBody, StandardCharsets.UTF_8);
-        JSONObject jsonObject = new JSONObject(rawBodyString);
-
+    public static Order create(JSONObject jsonObject) {
         return new Order(
-                String.valueOf(jsonObject.get("orderId")),
-                String.valueOf(jsonObject.get("clientId")),
-                String.valueOf(jsonObject.get("date")),
+                (String) jsonObject.get("orderId"),
+                (String) jsonObject.get("clientId"),
+                (String) jsonObject.get("date"),
                 Double.parseDouble(String.valueOf(jsonObject.get("executionPrice"))),
                 Integer.parseInt(String.valueOf(jsonObject.get("quantity"))),
-                String.valueOf(jsonObject.get("ticker")),
-                OrderType.valueOf(String.valueOf(jsonObject.get("type")))
+                (String) jsonObject.get("ticker"),
+                OrderType.valueOf(jsonObject.get("type").toString())
         );
     }
 

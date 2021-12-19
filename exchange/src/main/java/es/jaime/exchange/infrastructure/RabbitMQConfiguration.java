@@ -1,16 +1,15 @@
 package es.jaime.exchange.infrastructure;
 
-import com.rabbitmq.client.Channel;
 import es.jaime.exchange.domain.EventBus;
 import es.jaime.exchange.domain.ExchangeConfiguration;
 import es.jaime.exchange.domain.Order;
-import org.springframework.amqp.core.*;
+import lombok.SneakyThrows;
+import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -26,8 +25,12 @@ public class RabbitMQConfiguration{
         this.eventBus = eventBus;
     }
 
+    @SneakyThrows
     @RabbitListener(queues = "${queue}")
-    public void listener(Object body){
+    public void listener(String incomeOrder){
+        JSONObject json = new JSONObject(incomeOrder);
+
+        this.eventBus.publish(new OrderArrivedEvent(Order.create(json)));
     }
 
     @Bean

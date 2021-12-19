@@ -29,8 +29,6 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @EventListener
     public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
-        System.out.println("2");
-
         this.enqueue(orderArrivedEvent.getOrder());
     }
 
