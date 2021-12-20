@@ -1,4 +1,4 @@
-package es.jaime.exchange.domain;
+package es.jaime.exchange.domain.models;
 
 import lombok.Getter;
 import lombok.SneakyThrows;

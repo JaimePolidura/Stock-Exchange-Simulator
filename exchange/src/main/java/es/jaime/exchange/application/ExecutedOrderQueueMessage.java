@@ -1,7 +1,7 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.Order;
-import es.jaime.exchange.domain.QueueMessage;
+import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.services.QueueMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.json.JSONObject;

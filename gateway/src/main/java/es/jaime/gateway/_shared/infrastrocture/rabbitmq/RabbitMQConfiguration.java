@@ -3,17 +3,14 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+@Component("rabbitmq-configuration")
 public class RabbitMQConfiguration {
     public static final String newOrders = "sxs.new-orders";
     public static final String executedOrders = "sxs.executed-orders";
@@ -25,7 +22,7 @@ public class RabbitMQConfiguration {
         this.repository = repository;
     }
 
-    @Bean("default-connection")
+    @Bean
     public CachingConnectionFactory connection() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
 

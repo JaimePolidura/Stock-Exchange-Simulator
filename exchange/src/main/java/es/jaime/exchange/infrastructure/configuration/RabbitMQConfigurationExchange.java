@@ -1,8 +1,8 @@
-package es.jaime.exchange.infrastructure;
+package es.jaime.exchange.infrastructure.configuration;
 
-import es.jaime.exchange.domain.EventBus;
-import es.jaime.exchange.domain.ExchangeConfiguration;
-import es.jaime.exchange.domain.Order;
+import es.jaime.exchange.domain.events.EventBus;
+import es.jaime.exchange.domain.events.OrderArrivedEvent;
+import es.jaime.exchange.domain.models.Order;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -12,16 +12,12 @@ import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 @Configuration
-@DependsOn({"exchange-configuration"})
-public class RabbitMQConfiguration{
-    private final ExchangeConfiguration exchangeConfiguration;
+public class RabbitMQConfigurationExchange {
     private final EventBus eventBus;
 
-    public RabbitMQConfiguration(ExchangeConfiguration configuration, EventBus eventBus) {
-        this.exchangeConfiguration = configuration;
+    public RabbitMQConfigurationExchange(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 
@@ -33,7 +29,7 @@ public class RabbitMQConfiguration{
         this.eventBus.publish(new OrderArrivedEvent(Order.create(json)));
     }
 
-    @Bean
+    @Bean("exchange-rabbitmq-connection")
     public CachingConnectionFactory connection() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
 
@@ -43,7 +39,7 @@ public class RabbitMQConfiguration{
         return factory;
     }
 
-    @Bean
+    @Bean("exchange-rabbitmq-messagelistenercontainer")
     public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
 
@@ -52,3 +48,4 @@ public class RabbitMQConfiguration{
         return simpleMessageListenerContainer;
     }
 }
+

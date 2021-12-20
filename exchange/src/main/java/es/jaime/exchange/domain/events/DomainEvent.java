@@ -1,4 +1,4 @@
-package es.jaime.exchange.domain;
+package es.jaime.exchange.domain.events;
 
 public abstract class DomainEvent {
 }

@@ -1,9 +1,10 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.domain.*;
 import es.jaime.exchange.domain.exceptions.DomainException;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
+import es.jaime.exchange.domain.services.ExchangeConfiguration;
+import es.jaime.exchange.domain.services.QueuePublisher;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;

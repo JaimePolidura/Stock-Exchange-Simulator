@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 public class OnExecutedOrder {
     @RabbitListener(queues = "sxs.executed-orders")
     public void on(String body){
-        //TODO
+        System.out.println(body);
     }
 }

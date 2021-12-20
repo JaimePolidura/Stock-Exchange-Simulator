@@ -1,4 +1,4 @@
-package es.jaime.exchange.domain;
+package es.jaime.exchange.domain.services;
 
 public interface ExchangeConfiguration {
     String getTicker();

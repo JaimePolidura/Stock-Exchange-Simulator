@@ -1,15 +1,14 @@
-package es.jaime.exchange.configuration;
+package es.jaime.exchange.infrastructure.configuration;
 
-import es.jaime.exchange.domain.ExchangeConfiguration;
+import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component("exchange-configuration")
+@Configuration
 public class ExchangeConfigurationSpring implements ApplicationRunner, ExchangeConfiguration {
     private final Map<String, String> configuration;
 
@@ -60,10 +59,5 @@ public class ExchangeConfigurationSpring implements ApplicationRunner, ExchangeC
     @Override
     public int matchingEngineSleep(){
         return Integer.parseInt(this.configuration.get("matchcingengine-sleep"));
-    }
-
-    @Bean("ticker")
-    public String ticker(){
-        return this.configuration.get("ticker");
     }
 }

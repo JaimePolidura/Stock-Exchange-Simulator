@@ -1,7 +1,7 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.domain.QueueMessage;
-import es.jaime.exchange.domain.QueuePublisher;
+import es.jaime.exchange.domain.services.QueueMessage;
+import es.jaime.exchange.domain.services.QueuePublisher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 

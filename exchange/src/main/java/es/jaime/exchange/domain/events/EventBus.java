@@ -1,4 +1,4 @@
-package es.jaime.exchange.domain;
+package es.jaime.exchange.domain.events;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package es.jaime.exchange;
 
-import es.jaime.exchange.domain.MatchingEngine;
+import es.jaime.exchange.domain.services.MatchingEngine;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

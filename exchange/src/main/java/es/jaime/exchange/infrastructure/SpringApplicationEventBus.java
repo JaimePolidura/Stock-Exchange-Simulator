@@ -1,7 +1,7 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.domain.DomainEvent;
-import es.jaime.exchange.domain.EventBus;
+import es.jaime.exchange.domain.events.DomainEvent;
+import es.jaime.exchange.domain.events.EventBus;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 

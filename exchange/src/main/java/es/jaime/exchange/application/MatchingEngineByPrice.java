@@ -1,8 +1,12 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.*;
+import es.jaime.exchange.domain.events.OrderArrivedEvent;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
-import es.jaime.exchange.infrastructure.OrderArrivedEvent;
+import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.OrderType;
+import es.jaime.exchange.domain.services.ExchangeConfiguration;
+import es.jaime.exchange.domain.services.MatchingEngine;
+import es.jaime.exchange.domain.services.TradeProcessor;
 import lombok.SneakyThrows;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -29,28 +33,20 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @EventListener
     public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
-        System.out.println("1");
-
         this.enqueue(orderArrivedEvent.getOrder());
     }
 
     @Override
     public void enqueue(Order order) {
-        System.out.println("2");
-
         if(order.getType() == OrderType.BUY){
             buyOrders.add(order);
         }else{
             sellOrders.add(order);
         }
-
-        System.out.println("buyers: " + buyOrders.size() + " sellers: " + sellOrders.size());
     }
 
     @Override
-    public  void run() {
-        System.out.println("3");
-
+    public void run() {
         while(running) {
             checkForOrdersInQueue();
             waitForOrders();
@@ -67,19 +63,14 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
             return;
         }
 
-        System.out.println("1");
-
         Order buyOrder = buyOrders.poll();
         Order sellOrder = sellOrders.poll();
 
         if(isThereAnyMatch(buyOrder, sellOrder)){
-            System.out.println("2.1");
-
             tradeProcessor.process(buyOrder, sellOrder);
 
             reenqueueIfSomeOrderWasntAllCompleted(buyOrder, sellOrder);
         }else{
-            System.out.println("2.2");
             processMismatch(buyOrder, sellOrder);
         }
     }

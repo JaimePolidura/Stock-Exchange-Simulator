@@ -1,10 +1,10 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.ExchangeConfiguration;
-import es.jaime.exchange.domain.Order;
-import es.jaime.exchange.domain.QueuePublisher;
-import es.jaime.exchange.domain.TradeProcessor;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
+import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.services.ExchangeConfiguration;
+import es.jaime.exchange.domain.services.QueuePublisher;
+import es.jaime.exchange.domain.services.TradeProcessor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
