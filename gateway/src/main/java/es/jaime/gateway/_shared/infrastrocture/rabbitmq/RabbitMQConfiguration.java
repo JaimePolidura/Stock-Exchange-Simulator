@@ -3,6 +3,9 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +25,7 @@ public class RabbitMQConfiguration {
         this.repository = repository;
     }
 
-    @Bean
+    @Bean("default-connection")
     public CachingConnectionFactory connection() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
 
@@ -71,7 +74,6 @@ public class RabbitMQConfiguration {
                         .to(newOrdersExchange)
                         .with(queue.getName()))
                 .forEach(allBindings::add);
-
 
         declarables.addAll(allBindings);
         declarables.addAll(allQueues);

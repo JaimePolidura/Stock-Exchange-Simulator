@@ -1,6 +1,6 @@
 package es.jaime.exchange.domain;
 
-import org.springframework.amqp.core.MessageListener;
+import es.jaime.exchange.domain.models.Order;
 
 import java.util.Queue;
 
