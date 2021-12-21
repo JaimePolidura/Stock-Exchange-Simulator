@@ -2,12 +2,14 @@ package es.jaime.gateway.activeorders._shared.infrastructure.persistence;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrderClientID;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrderRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,5 +27,10 @@ public class ActiveOrderRepositoryMySQL extends HibernateRepository<ActiveOrder>
     @Override
     public Optional<ActiveOrder> findByOrderId(ActiveOrderID id) {
         return byId(id);
+    }
+
+    @Override
+    public Optional<List<ActiveOrder>> findByClientId(ActiveOrderClientID clientID) {
+        return byQuery("SELECT * FROM activeorders WHERE clientId = " + clientID.value());
     }
 }

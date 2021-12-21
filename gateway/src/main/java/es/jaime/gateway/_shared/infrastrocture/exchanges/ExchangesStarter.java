@@ -39,8 +39,6 @@ public class ExchangesStarter implements CommandLineRunner {
     }
 
     private void startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
-        System.out.println("HOLA");
-
         String containerID = dockerClient.createContainerCmd("sxs-exchange")
                 .withCmd("--queue=sxs.new-orders." + listedCompany.ticker().value())
                 .withHostConfig(HostConfig

@@ -33,4 +33,10 @@ public abstract class HibernateRepository<T> {
 
         return sessionFactory.getCurrentSession().createQuery(criteria).getResultList();
     }
+
+    protected Optional<List<T>> byQuery(String query){
+        return Optional.ofNullable(sessionFactory.getCurrentSession()
+                .createQuery(query, aggregateClass)
+                .getResultList());
+    }
 }
