@@ -10,10 +10,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public final class ActiveOrder extends Aggregate {
     private ActiveOrderID activeorderId;
+    private ActiveOrderTicker ticker;
     private ActiveOrderClientID clientId;
     private ActiveOrderDate date;
     private ActiveOrderQuantity quantity;
-    private ActiveOrderTicker ticker;
     private ActiveOrderType type;
     private ActiveOrderExecutionPrice executionPrice;
     private ActiveOrderStatus status;
@@ -25,6 +25,7 @@ public final class ActiveOrder extends Aggregate {
         return new HashMap<>() {{
             put("activeorderId", activeorderId.value());
             put("clientId", clientId.value());
+            put("ticker", ticker.value());
             put("date", date.value());
             put("quantity", quantity.value());
             put("type", type);

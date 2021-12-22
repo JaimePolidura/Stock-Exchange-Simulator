@@ -16,6 +16,23 @@ class Profile extends React.Component {
             cash: profileData.cash,
             orders: [],
         };
+
+        this.getOrdersFromApi();
+    }
+
+    getOrdersFromApi(){
+        backendService.getOrders()
+            .then(res => this.addActiveOrdersFromBackend(res.data.activeOrders));
+    }
+
+    addActiveOrdersFromBackend(activeOrders){
+        activeOrders.forEach(order => {
+            this.addActiveOrderFromBackend(order);
+        });
+    }
+
+    addActiveOrderFromBackend(order){
+        this.addOrder(order);
     }
 
     render() {

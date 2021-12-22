@@ -20,6 +20,10 @@ class BackendService {
     getCompanyIsListedData(ticker){
         return axios.get(apiRoute + "getlistedcompany/" + ticker);
     }
+
+    getOrders(){
+        return axios.get(apiRoute + "getorders");
+    }
 }
 
 export default new BackendService();

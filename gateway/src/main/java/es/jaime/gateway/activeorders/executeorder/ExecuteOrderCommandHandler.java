@@ -36,10 +36,10 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
 
         this.repository.save(new ActiveOrder(
                 command.getOrderID(),
+                command.getTicker(),
                 command.getClientID(),
                 command.getDate(),
                 command.getQuantity(),
-                command.getTicker(),
                 command.getType(),
                 command.getExecutionPrice(),
                 ActiveOrderStatus.of(ActiveOrderStatus.Status.SENDING)

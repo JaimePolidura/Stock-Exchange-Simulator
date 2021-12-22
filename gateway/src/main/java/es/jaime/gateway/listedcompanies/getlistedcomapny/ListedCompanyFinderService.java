@@ -7,6 +7,8 @@ import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ListedCompanyFinderService extends UseCase {
     private final ListedCompaniesRepository repository;
@@ -18,5 +20,9 @@ public class ListedCompanyFinderService extends UseCase {
     public ListedCompany find(ListedCompanyTicker ticker){
         return repository.findByTicker(ticker)
                 .orElseThrow(() -> new ResourceNotFound("Company not listed"));
+    }
+
+    public List<ListedCompany> all(){
+        return repository.findAll();
     }
 }
