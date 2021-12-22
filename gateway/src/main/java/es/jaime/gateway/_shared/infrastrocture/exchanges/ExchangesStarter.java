@@ -12,7 +12,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import java.util.List;
 
-//@Configuration
+@Configuration
 @DependsOn({"rabbitmq-configuration"})
 public class ExchangesStarter implements CommandLineRunner {
     private final ListedCompaniesRepository repository;
