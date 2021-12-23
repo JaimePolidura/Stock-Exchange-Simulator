@@ -17,6 +17,6 @@ public class QueuePublisherRabbitMQ implements QueuePublisher {
 
     @Override
     public void enqueue(QueueMessage queueMessage) {
-        this.rabbitTemplate.convertAndSend(newOrders, queueMessage.routingKey(), queueMessage.toJson());
+//        this.rabbitTemplate.convertAndSend(newOrders, queueMessage.routingKey(), queueMessage.toJson());
     }
 }

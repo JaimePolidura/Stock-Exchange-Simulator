@@ -5,6 +5,9 @@ import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway.authentication._shared.domain.UserName;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
+import es.jaime.gateway.listedcompanies.getlistedcomapny.ListedCompanyFinderService;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,19 +15,21 @@ import java.util.Optional;
 @Component
 public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrderQueryResponse> {
     private final GetOrderService getOrderService;
+    private final ListedCompanyFinderService listedCompanyFinderService;
 
-    public GetOrderQueryHandler(GetOrderService getOrderService) {
+    public GetOrderQueryHandler(GetOrderService getOrderService, ListedCompanyFinderService listedCompanyFinderService) {
         this.getOrderService = getOrderService;
+        this.listedCompanyFinderService = listedCompanyFinderService;
     }
 
     @Override
     public GetOrderQueryResponse handle(GetOrderQuery query) {
-        Optional<ActiveOrder> activeOrderOptional = getOrderService.get(query.getActiveOrderID());
+        ActiveOrder activeOrder = getOrderService.get(query.getActiveOrderID())
+                .orElseThrow(() -> new ResourceNotFound("Active order for that ID wasn't found!"));
 
-        ensureOrderFound(activeOrderOptional);
-        ensureUserOwnsTheOrder(activeOrderOptional, query.getUserName());
+        ensureUserOwnsTheOrder(activeOrder, query.getUserName());
 
-        var activeOrder = activeOrderOptional.get();
+        var listedCompanyData = listedCompanyFinderService.find(ListedCompanyTicker.of(activeOrder.ticker().value()));
 
         return new GetOrderQueryResponse(
                 activeOrder.activeorderId().value(),
@@ -33,18 +38,14 @@ public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrde
                 activeOrder.executionPrice().value(),
                 activeOrder.quantity().value(),
                 activeOrder.date().value(),
-                activeOrder.status().valueString()
+                activeOrder.status().valueString(),
+                listedCompanyData.currencyCode().value(),
+                listedCompanyData.currencySymbol().value()
         );
     }
 
-    private void ensureOrderFound(Optional<ActiveOrder> optionalActiveOrder){
-        if(optionalActiveOrder.isEmpty()){
-            throw new ResourceNotFound("Active order for that ID wasn't found!");
-        }
-    }
-
-    private void ensureUserOwnsTheOrder(Optional<ActiveOrder> optionalActiveOrder, UserName userName){
-        if(!userName.value().equals(optionalActiveOrder.get().clientId().value())){
+    private void ensureUserOwnsTheOrder(ActiveOrder activeOrder, UserName userName){
+        if(!userName.value().equals(activeOrder.clientId().value())){
             throw new IllegalAccess("You dont own that order!");
         }
     }

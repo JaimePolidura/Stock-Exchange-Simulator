@@ -32,7 +32,7 @@ export default class Orders extends React.Component {
 
                 <tbody>
                     {this.state.orders.map(order =>
-                         <OrderDisplayInTable key={order.orderId}
+                         <OrderDisplayInTable key={order.activeorderId}
                                               value={order}/>)}
                 </tbody>
             </table>

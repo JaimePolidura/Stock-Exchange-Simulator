@@ -4,7 +4,7 @@ import es.jaime.gateway._shared.domain.queue.QueueMessage;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component("rabbitmq-starter")
+//@Component("rabbitmq-starter")
 public class RabbitMQStarter implements CommandLineRunner {
     private final QueuePublisherRabbitMQ publisherRabbitMQ;
 
@@ -13,7 +13,7 @@ public class RabbitMQStarter implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         publisherRabbitMQ.enqueue(new StartQueueMessage());
     }
 

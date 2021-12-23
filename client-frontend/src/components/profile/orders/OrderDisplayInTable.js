@@ -17,7 +17,7 @@ class OrderDisplayInTable extends React.Component {
                     <td>{this.state.order.name}</td>
                     <td>{this.state.order.type}</td>
                     <td>{this.state.order.quantity}</td>
-                    <td>{this.renderTotalValue()}</td>
+                    <td>{this.calculateTotalValue()}</td>
                     <td>{this.state.order.date}</td>
                     <td>{this.state.order.status}</td>
                     <td>{this.renderExecutionType()}</td>
@@ -27,23 +27,15 @@ class OrderDisplayInTable extends React.Component {
 
     }
 
-    renderTotalValue(){
-        let order = this.state.order;
-
-        return this.calculateTotalValue();
-    }
-
     calculateTotalValue(){
-        let order = this.state.order;
-
-        return order.executionPrice =! -1 ?
-            '~' + order.quantity * order.executionPrice :
+        return this.state.order.executionPrice !== -1 ?
+            '~' + (this.state.order.quantity * this.state.order.executionPrice) :
             'Market';
     }
 
     renderExecutionType(){
-        return this.state.order.executionPrice != -1 ?
-            "Limit at " + this.state.order.executionPrice + " " + this.state.order.currency.symbol :
+        return this.state.order.executionPrice !== -1 ?
+            "Limit at " + this.state.order.executionPrice + this.state.order.currency.symbol :
             "Market";
     }
 }

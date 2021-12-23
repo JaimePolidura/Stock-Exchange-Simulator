@@ -24,8 +24,9 @@ class Profile extends React.Component {
     }
 
     getOrdersFromApi(){
-        backendService.getOrders()
-            .then(res => this.addActiveOrdersFromBackend(res.data.activeOrders));
+        backendService.getOrders().then(res => {
+            this.addActiveOrdersFromBackend(res);
+        })
     }
 
     addActiveOrdersFromBackend(activeOrders){
@@ -41,10 +42,8 @@ class Profile extends React.Component {
     setUpSocket(){
         const socket = io('http://localhost:4000', { transports : ['websocket'] });
 
-        console.log(socket.id);
-
         socket.on(auth.getUsername(),msg => {
-            console.log(msg)
+            console.log(msg);
         })
     }
 
@@ -76,9 +75,6 @@ class Profile extends React.Component {
         let allTrades = this.state.trades;
         let tradeForThatOrder = allTrades.find(trade => trade.ticker == order.ticker);
         let indexTradeForThatOrder = allTrades.findIndex(trade => trade.ticker == order.ticker);
-
-        console.log(tradeForThatOrder.quantity);
-        console.log(order.quantity);
 
         if(order.quantity >= tradeForThatOrder.quantity){
             allTrades.splice(indexTradeForThatOrder, 1);

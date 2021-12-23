@@ -33,7 +33,7 @@ const BuyStockModal = props => {
 
         window.alert("The order has been sended");
     }
-    
+
     const calculateTotalValue = apiResponse => {
         //TODO Add market price total value
         return buyExecutionType == 'limit' ?
@@ -41,7 +41,7 @@ const BuyStockModal = props => {
             'Market price';
     }
 
-    const getCurrencySymbolFromCurrencyCode = (apiResponse) => {
+    const getCurrencySymbolFromCurrencyCode = apiResponse => {
         return {
             code: apiResponse.currencyCode,
             symbol: apiResponse.currencySymbol,
@@ -108,7 +108,7 @@ const BuyStockModal = props => {
                         <input type="number"
                                placeholder="Price"
                                className={errors.price ? 'form-control is-invalid' : 'form-control'}
-                               {...register('price', { required: false, min: 0 })}/>
+                               {...register('price', { required: false, min: 1 })}/>
                         }<br />
 
                         <div className="mymodal-footer">

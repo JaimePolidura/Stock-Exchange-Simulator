@@ -6,8 +6,6 @@ const apiRoute = "http://localhost:8080/";
 class BackendService {
 
     login(request){
-        console.log(request)
-
         return axios.post(apiRoute + "login", request);
     }
 
@@ -23,9 +21,10 @@ class BackendService {
         return axios.get(apiRoute + "getlistedcompany/" + ticker);
     }
 
-    getOrders(){
+    getOrders() {
         return axios.get(apiRoute + "getorders");
     }
+
 }
 
 export default new BackendService();
