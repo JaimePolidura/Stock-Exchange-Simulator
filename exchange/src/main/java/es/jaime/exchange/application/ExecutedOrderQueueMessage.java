@@ -32,17 +32,17 @@ public class ExecutedOrderQueueMessage implements QueueMessage {
     @Override
     public String toJson(){
         return new JSONObject(Map.of(
-                "ticker: ", ticker,
-                "date: ", date.toString(),
-                "quantity: ", quantity,
-                "executionPrice: ", executionPrice,
-                "buyer: ", Map.of(
-                        "orderId: ", buyerData.orderId,
-                        "clientId: ", buyerData.clientId
+                "ticker", ticker,
+                "date", date.toString(),
+                "quantity", quantity,
+                "executionPrice", executionPrice,
+                "buyer", Map.of(
+                        "orderId", buyerData.orderId,
+                        "clientId", buyerData.clientId
                 ),
-                "seller: ", Map.of(
-                        "orderId: ", sellerData.orderId,
-                        "clientId: ", sellerData.clientId
+                "seller", Map.of(
+                        "orderId", sellerData.orderId,
+                        "clientId", sellerData.clientId
                 )
         )).toString();
     }

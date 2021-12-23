@@ -4,6 +4,7 @@ class AuthenticationService {
     constructor() {
         this.authenticated = false;
         this.token = null;
+        this.username = null;
     }
 
     login(request, onSuccess, onFailure){
@@ -25,12 +26,20 @@ class AuthenticationService {
         return this.token;
     }
 
+    setToken(value){
+        this.token = value;
+    }
+
     setAuthenticated(value) {
         this.authenticated = value;
     }
 
-    setToken(value){
-        this.token = value;
+    getUsername(){
+        return this.username;
+    }
+
+    setUsername(value){
+        this.username = value;
     }
 }
 

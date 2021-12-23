@@ -38,6 +38,8 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
 
     @Override
     public void enqueue(Order order) {
+        System.out.println("1");
+
         if(order.getType() == OrderType.BUY){
             buyOrders.add(order);
         }else{

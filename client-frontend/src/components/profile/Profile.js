@@ -5,6 +5,8 @@ import Trades from "./trades/Trades";
 import Stats from "./stats/Stats";
 import Options from "./options/Options";
 import Orders from "./orders/Orders";
+import {io} from "socket.io-client";
+import auth from "../../services/AuthenticationService";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -18,6 +20,7 @@ class Profile extends React.Component {
         };
 
         this.getOrdersFromApi();
+        this.setUpSocket();
     }
 
     getOrdersFromApi(){
@@ -33,6 +36,16 @@ class Profile extends React.Component {
 
     addActiveOrderFromBackend(order){
         this.addOrder(order);
+    }
+
+    setUpSocket(){
+        const socket = io('http://localhost:4000', { transports : ['websocket'] });
+
+        console.log(socket.id);
+
+        socket.on(auth.getUsername(),msg => {
+            console.log(msg)
+        })
     }
 
     render() {

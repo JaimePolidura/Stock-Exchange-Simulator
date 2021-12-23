@@ -31,8 +31,6 @@ const BuyStockModal = props => {
             totalValueOrder: calculateTotalValue(response.data),
         });
 
-        const socket = io('http://localhost:4000', { transports : ['websocket'] });
-
         window.alert("The order has been sended");
     }
     

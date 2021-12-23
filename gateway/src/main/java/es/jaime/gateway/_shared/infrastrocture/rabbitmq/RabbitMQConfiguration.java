@@ -15,6 +15,7 @@ public class RabbitMQConfiguration {
     public static final String newOrders = "sxs.new-orders";
     public static final String executedOrders = "sxs.executed-orders";
     public static final String errorOrders = "sxs.error-orders";
+    public static final String start = "sxs.start";
 
     private final ListedCompaniesRepository repository;
 
@@ -39,6 +40,13 @@ public class RabbitMQConfiguration {
         List<DirectExchange> allExchanges = new ArrayList<>();
         List<Queue> allQueues = new ArrayList<>();
         List<Binding> allBindings = new ArrayList<>();
+
+        //START used for start the other queues
+        DirectExchange startDirectExchange = new DirectExchange(start);
+        allExchanges.add(startDirectExchange);
+        Queue startQueue = new Queue(start, false);
+        allQueues.add(startQueue);
+        allBindings.add(BindingBuilder.bind(startQueue).to(startDirectExchange).with(start));
 
         //EXECUTED ORDERS
         DirectExchange executedOrdersExchange = new DirectExchange(executedOrders);

@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS `activeorders` (
     PRIMARY KEY (`activeorderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DELETE FROM activeorders;
+
 -- ----------------------------
 -- Table structure for listedcompanies
 -- ----------------------------
@@ -31,21 +33,10 @@ DELETE FROM listedcompanies;
 
 INSERT INTO `listedcompanies` VALUES ('ADBE', 'Adobe', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('AMZN', 'Amazon', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('BAC', 'Bank of America', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('BRK.A', 'Berkshire Hathaway', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('DGV', 'Digital value', 'EUR', '€');
 INSERT INTO `listedcompanies` VALUES ('DND', 'Dye & Durham', 'CAD', 'CAD');
 INSERT INTO `listedcompanies` VALUES ('FB', 'Facebook', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('GOOG', 'Google', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('HD', 'Home Depot', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('JNJ', 'Johnson & Johnson', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('JPM', 'JP Morgan', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('LMT', 'Lockheed Martin', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('MA', 'Mastercard', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('MSFT', 'Microsoft', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('MTY', 'MTY Food', 'CAD', 'CAD');
-INSERT INTO `listedcompanies` VALUES ('NVDA', 'Nvidia', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('PG', 'Procter & Gamble', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('TSLA', 'Tesla', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('V', 'Visa', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('CRM', 'Salesforce', 'USD', '$');

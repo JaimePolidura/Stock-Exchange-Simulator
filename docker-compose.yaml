@@ -43,3 +43,6 @@ services:
         restart: unless-stopped
         ports:
             - 4000:4000 
+        depends_on:
+            - rabbitmq
+            - gateway

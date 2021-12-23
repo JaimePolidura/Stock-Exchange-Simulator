@@ -3,6 +3,7 @@ package es.jaime.exchange.application;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
 import es.jaime.exchange.domain.models.Order;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
+import es.jaime.exchange.domain.services.QueueMessage;
 import es.jaime.exchange.domain.services.QueuePublisher;
 import es.jaime.exchange.domain.services.TradeProcessor;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,14 @@ public class TradeProcessorImpl implements TradeProcessor {
             buyOrder.decreaseQuantityBy(quantityStockTradeMatch);
             sellOrder.decreaseQuantityBy(quantityStockTradeMatch);
 
+            QueueMessage queueMessage = ExecutedOrderQueueMessage.create(buyOrder, sellOrder, priceMatch, quantityStockTradeMatch);
+
+            System.out.println("Order executed " + queueMessage.toJson());
+
             queuePublisher.enqueue(
                     configuration.executedOrdersExchangeName(),
                     configuration.executedOrdersQueueName(),
-                    ExecutedOrderQueueMessage.create(buyOrder, sellOrder, priceMatch, quantityStockTradeMatch)
+                    queueMessage
             );
 
         }catch (Exception ex){

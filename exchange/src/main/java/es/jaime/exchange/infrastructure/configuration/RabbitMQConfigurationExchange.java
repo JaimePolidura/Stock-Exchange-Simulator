@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,9 +22,14 @@ public class RabbitMQConfigurationExchange {
         this.eventBus = eventBus;
     }
 
+    @Value("${queue}")
+    private String queue;
+
     @SneakyThrows
     @RabbitListener(queues = "${queue}")
     public void listener(String incomeOrder){
+        System.out.println("Order received " + incomeOrder);
+
         JSONObject json = new JSONObject(incomeOrder);
 
         this.eventBus.publish(new OrderArrivedEvent(Order.create(json)));

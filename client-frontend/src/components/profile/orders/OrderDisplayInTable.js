@@ -30,7 +30,7 @@ class OrderDisplayInTable extends React.Component {
     renderTotalValue(){
         let order = this.state.order;
 
-        return this.calculateTotalValue() + " " + order.currency.symbol;
+        return this.calculateTotalValue();
     }
 
     calculateTotalValue(){
@@ -39,12 +39,6 @@ class OrderDisplayInTable extends React.Component {
         return order.executionPrice =! -1 ?
             '~' + order.quantity * order.executionPrice :
             'Market';
-    }
-
-    renderResult(){
-        return this.state.order.result >= 0 ?
-            <span class="green">~ +{this.state.order.result} {this.state.order.currency.symbol}</span> :
-            <span class="red">~ {this.state.order.result} {this.state.order.currency.symbol}</span>;
     }
 
     renderExecutionType(){

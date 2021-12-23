@@ -9,10 +9,6 @@ class SocketService {
     connect(onConnect){
          this.socket = io('http://localhost:4000', { transports : ['websocket'] });
     }
-
-    onDataRecieved(){
-        //TODO
-    }
 }
 
 export default new SocketService();

@@ -8,12 +8,13 @@ const Login = props => {
     const {register, handleSubmit} = useForm();
 
     const onSubmit = (request) => {
-        auth.login(request, response => onSuccess(response), error => onFailure(error));
+        auth.login(request, response => onSuccess(response, request.username), error => onFailure(error));
     }
 
-    const onSuccess = response => {
+    const onSuccess = (response, username) => {
         auth.setToken(response.token);
         auth.setAuthenticated(true);
+        auth.setUsername(username);
 
         props.history.push("/profile");
     }

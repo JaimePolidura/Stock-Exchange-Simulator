@@ -19,7 +19,7 @@ public class GetActiveOrdersController extends Controller {
     @GetMapping("/getorders")
     public ResponseEntity<GetActiveOrdersQueryResponse> getorders(){
         GetActiveOrdersQueryResponse response = queryBus.ask(new GetActiveOrdersQuery(getLoggedUsername()));
-
+        
         return buildNewHttpResponseOK(response);
     }
 }

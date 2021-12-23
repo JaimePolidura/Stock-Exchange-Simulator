@@ -20,6 +20,8 @@ public class AuthenticateCommandHandler implements CommandHandler<AuthenticateCo
     public void handle(AuthenticateCommand command) {
         Optional<User> userOptional = this.userRepository.findByUsername(command.getUsername());
 
+        System.out.println(command.getUsername().value() + " " + command.getPassword().value());
+
         if(userOptional.isEmpty()){
             throw new ResourceNotFound("User not found");
         }
