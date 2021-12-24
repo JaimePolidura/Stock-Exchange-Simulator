@@ -24,7 +24,7 @@ io.on('connection', socket => {
 ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
     if (errorConnection) throw errorConnection;
 
-    console.log("connected to rabbitmq")
+    console.log("connected to rabbitmq");
 
     connection.createChannel((errorChannel, channel) => {
         if (errorChannel) throw errorChannel;

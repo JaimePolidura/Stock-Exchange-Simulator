@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Component("rabbitmq-configuration")
+@Component("rabbitmq-configuration")
 public class RabbitMQConfiguration {
     public static final String newOrders = "sxs.new-orders";
     public static final String executedOrders = "sxs.executed-orders";

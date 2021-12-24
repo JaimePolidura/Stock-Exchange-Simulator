@@ -1,17 +1,9 @@
 import React from "react";
 
-export default class Stats extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            cash: props.cash,
-        }
-    }
-
-    render() {
-        return (
-            <h5>Cash: {this.state.cash.cash} {this.state.cash.currency.symbol}</h5>
-        );
-    }
+const Stats = props => {
+    return (
+        <h5>Cash: {props.cash.cash} {props.cash.currency.symbol}</h5>
+    );
 }
+
+export default Stats;

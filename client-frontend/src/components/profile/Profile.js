@@ -23,6 +23,12 @@ class Profile extends React.Component {
         this.setUpSocket();
     }
 
+    setUpSocket(){
+        io('ws://localhost:4000', { transports : ['websocket'] }).on(auth.getUsername(), msg => {
+            console.log(msg);
+        });
+    }
+
     getOrdersFromApi(){
         backendService.getOrders().then(res => {
             this.addActiveOrdersFromBackend(res);
@@ -37,14 +43,6 @@ class Profile extends React.Component {
 
     addActiveOrderFromBackend(order){
         this.addOrder(order);
-    }
-
-    setUpSocket(){
-        const socket = io('http://localhost:4000', { transports : ['websocket'] });
-
-        socket.on(auth.getUsername(),msg => {
-            console.log(msg);
-        })
     }
 
     render() {

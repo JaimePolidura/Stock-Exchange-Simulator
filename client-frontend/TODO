@@ -1,0 +1,8 @@
+1º Da errores cuando te intentas conectar al socket, aunque se este conectando
+
+2º Una vez se ejecuta una orden el mensaje del socket se ejecuta 2 veces
+
+3º Resetear formulario cuando vendes/compras acciones
+
+4º cuando vendes acciones en modo market en la columna execution y total value de la tabal de ordenes
+se anota como si fuese de tipo limit
