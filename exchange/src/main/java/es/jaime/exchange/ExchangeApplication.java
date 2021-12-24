@@ -1,6 +1,6 @@
 package es.jaime.exchange;
 
-import es.jaime.exchange.domain.services.MatchingEngine;
+import es.jaime.exchange.domain.services.MatchingOrderEngine;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,9 +32,9 @@ public class ExchangeApplication {
 
 	@Component
 	public static class ThreadStarter implements CommandLineRunner {
-		private final MatchingEngine matchingEngine;
+		private final MatchingOrderEngine matchingEngine;
 
-		public ThreadStarter(MatchingEngine matchingEngine) {
+		public ThreadStarter(MatchingOrderEngine matchingEngine) {
 			this.matchingEngine = matchingEngine;
 		}
 

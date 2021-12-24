@@ -4,7 +4,7 @@ import es.jaime.exchange.domain.models.Order;
 
 import java.util.Queue;
 
-public interface MatchingEngine extends Runnable {
+public interface MatchingOrderEngine extends Runnable {
     void enqueue(Order order);
 
     Queue<Order> getBuyOrdersQueue();

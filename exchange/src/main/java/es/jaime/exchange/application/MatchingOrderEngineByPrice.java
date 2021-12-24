@@ -5,7 +5,8 @@ import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.models.Order;
 import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
-import es.jaime.exchange.domain.services.MatchingEngine;
+import es.jaime.exchange.domain.services.MatchingOrderEngine;
+import es.jaime.exchange.domain.services.MatchingPriceEngine;
 import es.jaime.exchange.domain.services.TradeProcessor;
 import lombok.SneakyThrows;
 import org.springframework.context.event.EventListener;
@@ -16,16 +17,18 @@ import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
 
 @Service
-public class MatchingEngineByPrice implements MatchingEngine, Runnable {
+public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable {
     private final Queue<Order> buyOrders;
     private final Queue<Order> sellOrders;
     private final TradeProcessor tradeProcessor;
     private final ExchangeConfiguration configuration;
+    private final MatchingPriceEngine matchingPriceEngine;
     private boolean running;
 
-    public MatchingEngineByPrice(TradeProcessor tradeProcessor, ExchangeConfiguration configuration){
+    public MatchingOrderEngineByPrice(TradeProcessor tradeProcessor, ExchangeConfiguration configuration, MatchingPriceEngine matchingPriceEngine){
         this.tradeProcessor = tradeProcessor;
         this.configuration = configuration;
+        this.matchingPriceEngine = matchingPriceEngine;
         this.buyOrders = new PriorityBlockingQueue<>();
         this.sellOrders = new PriorityBlockingQueue<>();
         this.running = true;
@@ -66,18 +69,13 @@ public class MatchingEngineByPrice implements MatchingEngine, Runnable {
         Order buyOrder = buyOrders.poll();
         Order sellOrder = sellOrders.poll();
 
-        if(isThereAnyMatch(buyOrder, sellOrder)){
+        if(matchingPriceEngine.isThereAnyMatch(buyOrder, sellOrder)){
             tradeProcessor.process(buyOrder, sellOrder);
 
             reenqueueIfSomeOrderWasntAllCompleted(buyOrder, sellOrder);
         }else{
             processMismatch(buyOrder, sellOrder);
         }
-    }
-
-    private boolean isThereAnyMatch(Order buyOrder, Order sellOrder) {
-        return (buyOrder.getExecutionPrice() >= sellOrder.getExecutionPrice()) &&
-                !((buyOrder.getExecutionPrice() == -1) && (sellOrder.getExecutionPrice() == -1));
     }
 
     private void reenqueueIfSomeOrderWasntAllCompleted(Order buyOrder, Order sellOrder){

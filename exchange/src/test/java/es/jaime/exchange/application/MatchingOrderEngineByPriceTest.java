@@ -19,8 +19,8 @@ import static es.jaime.exchange.domain.models.OrderType.BUY;
 import static es.jaime.exchange.domain.models.OrderType.SELL;
 import static org.junit.Assert.assertEquals;
 
-public class MatchingEngineByPriceTest {
-    private MatchingEngine matchingEngineTest;
+public class MatchingOrderEngineByPriceTest {
+    private MatchingOrderEngine matchingEngineTest;
     private TradeProcessor tradeProcessorTest;
     private QueuePublisher queuePublisher;
     private ExchangeConfiguration exchangeConfiguration;
@@ -32,8 +32,8 @@ public class MatchingEngineByPriceTest {
 
         this.exchangeConfiguration = new ExchangeConfigurationMock();
         this.queuePublisher = new QueuePublisherMock();
-        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration);
-        this.matchingEngineTest = new MatchingEngineByPrice(this.tradeProcessorTest, exchangeConfiguration);
+        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl());
+        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl());
 
         createBuyOrders().forEach(order -> matchingEngineTest.enqueue(order));
         createSellOrders().forEach(order -> matchingEngineTest.enqueue(order));
