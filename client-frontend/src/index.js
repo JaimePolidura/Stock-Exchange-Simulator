@@ -27,7 +27,7 @@ axios.interceptors.request.use(request => {
 });
 
 ReactDOM.render(
-    <App />,
+    <App/>,
     document.getElementById('root')
 );
 

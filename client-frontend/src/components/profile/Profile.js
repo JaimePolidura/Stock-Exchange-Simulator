@@ -5,8 +5,8 @@ import Trades from "./trades/Trades";
 import Stats from "./stats/Stats";
 import Options from "./options/Options";
 import Orders from "./orders/Orders";
-import {io} from "socket.io-client";
 import auth from "../../services/AuthenticationService";
+import {io} from "socket.io-client";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -17,13 +17,13 @@ class Profile extends React.Component {
             trades: profileData.trades,
             cash: profileData.cash,
             orders: [],
+            socket: props.value,
         };
 
         this.getOrdersFromApi();
-        this.setUpSocket();
     }
 
-    setUpSocket(){
+    componentDidMount() {
         io('ws://localhost:4000', { transports : ['websocket'] }).on(auth.getUsername(), msg => {
             console.log(msg);
         });
