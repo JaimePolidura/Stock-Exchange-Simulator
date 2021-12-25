@@ -3,8 +3,11 @@ package es.jaime.exchange.infrastructure;
 import es.jaime.exchange.domain.exceptions.DomainException;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
+import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.messages.ErrorOrderMessage;
+import es.jaime.exchange.domain.models.messages.ExecutedOrderMessage;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
-import es.jaime.exchange.domain.services.QueuePublisher;
+import es.jaime.exchange.domain.services.MessagePublisher;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,11 +18,11 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionInterceptor {
-    private final QueuePublisher queuePublisher;
+    private final MessagePublisher messagePublisher;
     private final ExchangeConfiguration configuration;
 
-    public ExceptionInterceptor(QueuePublisher queuePublisher, ExchangeConfiguration configuration) {
-        this.queuePublisher = queuePublisher;
+    public ExceptionInterceptor(MessagePublisher messagePublisher, ExchangeConfiguration configuration) {
+        this.messagePublisher = messagePublisher;
         this.configuration = configuration;
     }
 
@@ -28,11 +31,12 @@ public class ExceptionInterceptor {
     public void processSupportedExceptions(Throwable throwable) {
         ensureExceptionIsSupported(throwable);
 
+        Order errorOrder = ((DomainException) throwable).getOrderException();
 
-        queuePublisher.enqueue(
+        messagePublisher.publish(
                 configuration.errorOrdersExchangeName(),
                 configuration.errorOrdersQueueName(),
-                () -> buildJSONFromException((DomainException) throwable).toString()
+                new ErrorOrderMessage(throwable.getMessage(), errorOrder.getClientId(), errorOrder.getOrderId())
         );
     }
 
@@ -45,14 +49,7 @@ public class ExceptionInterceptor {
     }
 
     private boolean sameClass(SupportedException supportedException, Throwable throwable){
-        return supportedException.getClass().equals(throwable.getClass());
-    }
-
-    private JSONObject buildJSONFromException(DomainException exception){
-        return new JSONObject(Map.of(
-                "error", exception.getMessage(),
-                "order", exception.getOrderException()
-        ));
+        return supportedException.getExceptionClass().equals(throwable.getClass());
     }
 
     private enum SupportedException {
@@ -63,6 +60,10 @@ public class ExceptionInterceptor {
 
         SupportedException(Class<? extends DomainException> exceptionClass) {
             this.exceptionClass = exceptionClass;
+        }
+
+        public Class<? extends DomainException> getExceptionClass() {
+            return exceptionClass;
         }
     }
 }

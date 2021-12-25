@@ -1,6 +1,5 @@
 package es.jaime.exchange._shared;
 
-
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 
 public class ExchangeConfigurationMock implements ExchangeConfiguration {

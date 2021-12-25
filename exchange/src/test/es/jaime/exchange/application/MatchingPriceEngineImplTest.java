@@ -1,5 +1,6 @@
 package es.jaime.exchange.application;
 
+import es.jaime.exchange.application.MatchingPriceEngineImpl;
 import es.jaime.exchange.domain.models.Order;
 import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.services.MatchingPriceEngine;

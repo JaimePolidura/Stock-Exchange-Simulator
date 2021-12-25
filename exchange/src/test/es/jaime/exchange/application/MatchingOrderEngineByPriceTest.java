@@ -1,15 +1,16 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange._shared.ExchangeConfigurationMock;
-import es.jaime.exchange._shared.QueuePublisherMock;
 import es.jaime.exchange.domain.models.Order;
 import es.jaime.exchange.domain.models.OrderType;
+import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.jaime.exchange._shared.ExchangeConfigurationMock;
+import es.jaime.exchange._shared.QueuePublisherMock;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 public class MatchingOrderEngineByPriceTest {
     private MatchingOrderEngine matchingEngineTest;
     private TradeProcessor tradeProcessorTest;
-    private QueuePublisher queuePublisher;
+    private MessagePublisher queuePublisher;
     private ExchangeConfiguration exchangeConfiguration;
     private ExecutorService executorService;
 
@@ -72,23 +73,23 @@ public class MatchingOrderEngineByPriceTest {
     public void testFirstMatch(){
         executeOneMatch();
 
-        Queue<QueueMessage> executedOrderQueueMessage = getExecutedOrdersQueue();
+        Queue<Message> executedOrderQueueMessage = getExecutedOrdersQueue();
 
-        Assert.assertEquals(1, executedOrderQueueMessage.size());
+        Assert.assertEquals(2, executedOrderQueueMessage.size());
 
         Assert.assertEquals(5, matchingEngineTest.getSellOrdersQueue().size());
         Assert.assertEquals(4, matchingEngineTest.getBuyOrdersQueue().size());
     }
-
+    
     @SneakyThrows
     @Test
     public void testAllMatches(){
         this.startMatchingEngine();
         Thread.sleep(1500);
 
-        Queue<QueueMessage> executedOrders = getExecutedOrdersQueue();
+        Queue<Message> executedOrders = getExecutedOrdersQueue();
 
-        Assert.assertEquals(5, executedOrders.size());
+        Assert.assertEquals(10, executedOrders.size());
     }
 
     private List<Order> createBuyOrders(){
@@ -123,7 +124,7 @@ public class MatchingOrderEngineByPriceTest {
         );
     }
 
-    private Queue<QueueMessage> getExecutedOrdersQueue(){
+    private Queue<Message> getExecutedOrdersQueue(){
         QueuePublisherMock queuePublisherMock = (QueuePublisherMock) this.queuePublisher;
 
         return queuePublisherMock.getQueue();
@@ -142,7 +143,7 @@ public class MatchingOrderEngineByPriceTest {
     @SneakyThrows
     private void executeOneMatch(){
         this.startMatchingEngine();
-        Thread.sleep(100);
+        Thread.sleep(exchangeConfiguration.matchingEngineSleep() / 2);
         this.stopMatchingEngine();
     }
 

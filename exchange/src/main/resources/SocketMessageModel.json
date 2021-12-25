@@ -1,0 +1,11 @@
+{
+  "type": "order.executed",
+  "to": ["jaime"],
+  "body": {
+    "orderId": "12-12-12-12",
+    "ticker": "AMZN",
+    "quantity": 10,
+    "executionPrice": 3451,
+    "date": "12/12/12"
+  }
+}

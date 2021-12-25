@@ -1,12 +1,13 @@
 package es.jaime.exchange.infrastructure;
 
-import es.jaime.exchange.domain.services.QueueMessage;
-import es.jaime.exchange.domain.services.QueuePublisher;
+import es.jaime.exchange.domain.models.messages.Message;
+import es.jaime.exchange.domain.services.MessagePublisher;
+import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMQueuePublisher implements QueuePublisher {
+public class RabbitMQueuePublisher implements MessagePublisher {
     private final RabbitTemplate rabbitTemplate;
 
     public RabbitMQueuePublisher(RabbitTemplate rabbitTemplate) {
@@ -14,7 +15,11 @@ public class RabbitMQueuePublisher implements QueuePublisher {
     }
 
     @Override
-    public void enqueue(String exchange, String queue, QueueMessage queueMessage) {
-        this.rabbitTemplate.convertAndSend(exchange, queue, queueMessage.toJson());
+    public void publish(String exchange, String queue, Message message) {
+        this.rabbitTemplate.convertAndSend(exchange, queue, toJSON(message));
+    }
+
+    private String toJSON(Message message){
+        return new JSONObject(message.toPrimitives()).toString();
     }
 }
