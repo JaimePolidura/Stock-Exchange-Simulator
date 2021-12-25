@@ -5,12 +5,9 @@ import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.activeorders._shared.domain.ActiveOrder;
 import es.jaime.gateway.authentication._shared.domain.UserName;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.listedcompanies.getlistedcomapny.ListedCompanyFinderService;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrderQueryResponse> {

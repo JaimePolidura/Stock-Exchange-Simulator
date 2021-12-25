@@ -1,4 +1,4 @@
-package es.jaime.gateway.listedcompanies.getlistedcomapny;
+package es.jaime.gateway.listedcompanies._shared.domain;
 
 import es.jaime.gateway._shared.application.UseCase;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;

@@ -2,6 +2,7 @@ package es.jaime.gateway.listedcompanies.getlistedcomapny;
 
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import org.springframework.stereotype.Service;
 
 @Service
