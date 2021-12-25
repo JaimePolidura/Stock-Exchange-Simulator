@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import backend from "../../../services/BackendService";
 
 const SellStockModal = props => {
-    const {register, handleSubmit, formState: { errors }} = useForm();
+    const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
 
     const onSubmit = form => {
@@ -53,8 +53,20 @@ const SellStockModal = props => {
         window.alert("There has been an error " + response);
     }
 
+    const onClose = () => {
+        reset();
+    }
+
+    const onChangeSellExecutionType = e => {
+        setSellExecutionType(e.target.value);
+
+        if(e.target.value === 'market'){
+            clearErrors('price');
+        }
+    }
+
     return (
-        <Modal show={props.showModal} onHide={() => props.onHide()} centered>
+        <Modal show={props.showModal} onExit={() => onClose()} onHide={() => props.onHide()} centered>
             <Modal.Header closeButton>
                 <Modal.Title><h3>Sell {props.trade.name}</h3></Modal.Title>
             </Modal.Header>
@@ -68,7 +80,7 @@ const SellStockModal = props => {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input type="number"
-                           className="form-control"
+                           className={errors.quantity ? 'form-control is-invalid' : 'form-control'}
                            placeholder="quantity"
                            defaultValue={props.trade.quantity}
                            {...register('quantity', { required: true, min: 1, max: props.trade.quantity })}/>
@@ -77,7 +89,7 @@ const SellStockModal = props => {
 
                     <select class="form-control"
                             defaultValue={sellExecutionType}
-                            onChange={e => setSellExecutionType(e.target.value)}>
+                            onChange={e => onChangeSellExecutionType(e)}>
 
                         <option value="market">Market</option>
                         <option value="limit">Limit</option>
@@ -87,7 +99,7 @@ const SellStockModal = props => {
 
                     {sellExecutionType == "limit" &&
                         <input type="text"
-                               class="form-control"
+                               className={errors.price ? 'form-control is-invalid' : 'form-control'}
                                placeholder="Price"
                                {...register('price', { required: false, min: 0 })}/>
                     }
@@ -95,7 +107,7 @@ const SellStockModal = props => {
                     <hr />
                     <div className="mymodal-footer">
                         <input type="submit"
-                               className={!errors.quantity && !errors.price ? "btn btn-primary" : "btn btn-primary disabled"}
+                               className={!errors.quantity && !errors.price && !errors.quantity? "btn btn-primary" : "btn btn-primary disabled"}
                                value="✓ Sell ✓"/>
                     </div>
                 </form>

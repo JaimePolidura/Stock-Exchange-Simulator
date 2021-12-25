@@ -3,10 +3,9 @@ import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backendService from "../../../services/BackendService";
 import backend from "../../../services/BackendService";
-import {io} from "socket.io-client";
 
 const BuyStockModal = props => {
-    const {register, handleSubmit, formState: { errors }, setError, clearErrors} = useForm();
+    const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
     const [ listedCompany, setListedCompany ] = useState(null);
 
@@ -21,6 +20,14 @@ const BuyStockModal = props => {
         backend.executeOrder(finalRequestToApi)
             .then(response => onSuccess(response))
             .catch(error => onFailure(error));
+    }
+
+    const onChangeExecutionType = e => {
+        setBuyExecutionType(e.target.value);
+
+        if(e.target.value === 'market'){
+            clearErrors('price');
+        }
     }
 
     const onSuccess = response => {
@@ -77,9 +84,13 @@ const BuyStockModal = props => {
         });
     }
 
+    const onClose = () => {
+        reset();
+    }
+
     return (
         <>
-            <Modal show={props.showModal} onHide={() => props.onHide()} centered>
+            <Modal show={props.showModal} onExit={() => onClose()} onHide={() => props.onHide()} centered>
                 <Modal.Header closeButton>
                     <Modal.Title><h3>Buy</h3></Modal.Title>
                 </Modal.Header>
@@ -98,7 +109,7 @@ const BuyStockModal = props => {
 
                         <select className="form-control"
                                 defaultValue={buyExecutionType}
-                                onChange={e => setBuyExecutionType(e.target.value)}>
+                                onChange={e => onChangeExecutionType(e)}>
 
                             <option value="market">Market</option>
                             <option value="limit">Limit</option>
