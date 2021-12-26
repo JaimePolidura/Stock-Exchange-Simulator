@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class GetAllListedCompaniesQueryResponse implements QueryResponse {
-    private final List<ListedCompanyQueryResponse> allListedCompanies;
+    @Getter private final List<ListedCompanyQueryResponse> allListedCompanies;
 
     public static GetAllListedCompaniesQueryResponse create(List<ListedCompany> listedCompanies){
         return new GetAllListedCompaniesQueryResponse(listedCompanies.stream()

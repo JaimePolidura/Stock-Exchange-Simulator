@@ -1,5 +1,6 @@
 package es.jaime.exchange.domain.models.messages;
 
+import es.jaime.exchange.domain.models.OrderType;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class ExecutedOrderMessage extends Message{
     private final double executionPrice;
     private final int quantity;
     private final String date;
+    private final OrderType orderType;
 
     @Override
     public MessageType getMessageType() {
@@ -32,7 +34,8 @@ public class ExecutedOrderMessage extends Message{
                 "executionPrice", executionPrice,
                 "quantity", quantity,
                 "date", date,
-                "orderId", orderId
+                "orderId", orderId,
+                "type", orderType.toString()
         );
     }
 }

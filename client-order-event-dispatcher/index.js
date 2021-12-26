@@ -6,8 +6,7 @@ const ampq = require('amqplib/callback_api');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 
-const queueExecutedOrders = "sxs.executed-orders";
-const queueErrorOrders = "sxs.error-orders";
+const queuesListener = ["sxs.executed-orders", "sxs.error-orders"];
 
 const io = socketIo(server, {
     origin: "*",
@@ -29,13 +28,16 @@ ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
     connection.createChannel((errorChannel, channel) => {
         if (errorChannel) throw errorChannel;
 
-        channel.consume(queueExecutedOrders, message => {
-            let messageToJSON = JSON.parse(message.content.toString());
+        queuesListener.forEach(queue => {
+            channel.consume(queue, message => {
+                let messageToJSON = JSON.parse(message.content.toString());
 
-            console.log("recieved executedorder: " + JSON.stringify(messageToJSON))
+                console.log("executed order "+ messageToJSON.to  +": " + message.content.toString());
 
-            io.emit(messageToJSON.buyer.clientId, messageToJSON);
-            io.emit(messageToJSON.seller.clientId, messageToJSON);
+                messageToJSON.to.forEach(to => {
+                    io.emit(to, messageToJSON);
+                });
+            });
         });
     });
 });

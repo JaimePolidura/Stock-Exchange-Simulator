@@ -25,6 +25,10 @@ class BackendService {
         return axios.get(apiRoute + "getorders");
     }
 
+    getAllListedCompanies(){
+        return axios.get(apiRoute + "getalllistedcompanies");
+    }
+
 }
 
 export default new BackendService();

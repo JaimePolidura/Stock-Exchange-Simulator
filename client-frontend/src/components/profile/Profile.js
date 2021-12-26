@@ -6,7 +6,8 @@ import Stats from "./stats/Stats";
 import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
-import {io} from "socket.io-client";
+import socket from "../../services/SocketService";
+import listedCompaniesService from "../../services/ListedCompaniesService";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -21,28 +22,103 @@ class Profile extends React.Component {
         };
 
         this.getOrdersFromApi();
+        this.setUpSocket();
+        this.setUpListedCompanies();
     }
 
-    componentDidMount() {
-        io('ws://localhost:4000', { transports : ['websocket'] }).on(auth.getUsername(), msg => {
-            console.log(msg);
-        });
+    setUpListedCompanies(){
+        backendService.getAllListedCompanies()
+            .then(res => listedCompaniesService.setListedCompanies(res.data));
+    }
+
+    setUpSocket() {
+        socket.connect(auth.getUsername());
+
+        socket.onExecutedOrder(msg => this.onOrderExecuted(msg.body))
     }
 
     getOrdersFromApi(){
         backendService.getOrders().then(res => {
-            this.addActiveOrdersFromBackend(res);
+            res.data.activeOrders.forEach(order => {
+                this.addOrder(order);
+            });
         })
     }
 
-    addActiveOrdersFromBackend(activeOrders){
-        activeOrders.forEach(order => {
-            this.addActiveOrderFromBackend(order);
-        });
+    onOrderExecuted(executedOrder){
+        this.removeOrder(executedOrder);
+
+        if(executedOrder.type === 'BUY')
+            this.onBuyOrderExecuted(executedOrder);
+        else
+            this.modifyOrRemoveTrade(executedOrder);
     }
 
-    addActiveOrderFromBackend(order){
-        this.addOrder(order);
+    onBuyOrderExecuted(executedOrder){
+        console.log("buyorder");
+
+        let tradeFoundIndex = this.state.trades
+            .findIndex(trade => trade.ticker == executedOrder.ticker);
+
+        if(tradeFoundIndex == -1){
+            this.addTrade(executedOrder);
+        }else{
+            this.modifyTrade(executedOrder);
+        }
+    }
+
+    addTrade(order){
+        let listedCompanieData = listedCompaniesService.getListedCompany(order.ticker);
+        let allTrades = this.state.trades;
+
+        allTrades.push({
+            tradeId: this.creatUUID(),
+            ticker: order.ticker,
+            name: listedCompanieData.name,
+            averagePrice: order.executionPrice,
+            actualPrice: order.executionPrice,
+            quantity: order.quantity,
+            currency: {
+                code: listedCompanieData.currencyCode,
+                symbol: listedCompanieData.currencySymbol,
+            }
+        });
+
+        this.setState({trades: allTrades});
+    }
+
+    modifyTrade(executedOrder){
+        console.log("modifyTrade")
+        let allTrades = this.state.trades;
+        let tradeFound = allTrades.find(trade => trade.ticker == executedOrder.ticker);
+
+        console.log(JSON.stringify(executedOrder));
+        console.log(JSON.stringify(tradeFound));
+
+        tradeFound.averagePrice = Math.round((tradeFound.averagePrice * tradeFound.quantity) + (executedOrder.executionPrice * executedOrder.quantity)
+            / (executedOrder.quantity + tradeFound.quantity));
+        tradeFound.quantity = executedOrder.quantity + tradeFound.quantity;
+        tradeFound.actualPrice = executedOrder.executionPrice;
+
+        this.setState({trades: allTrades});
+    }
+
+    removeOrder(orderToRemove){
+        let allOrders = this.state.orders;
+
+        let orderFound = allOrders.find(order => order.orderId == orderToRemove.orderId);
+        let orderFoundIndex = allOrders.findIndex(order => order.orderId == orderToRemove.orderId);
+
+        console.log(JSON.stringify(orderFound));
+        console.log(JSON.stringify(orderToRemove));
+
+        if(orderFound.quantity == orderToRemove.quantity){
+            allOrders.splice(orderFoundIndex,1);
+        }else{
+            orderFound.quantity = orderFound.quantity - orderToRemove.quantity;
+        }
+
+        this.setState({orders: allOrders});
     }
 
     render() {
@@ -66,13 +142,17 @@ class Profile extends React.Component {
 
     onOrderSellSended(order){
         this.addOrder(order);
-        this.modifyOrRemoveTrade(order);
     }
 
     modifyOrRemoveTrade(order){
+        console.log("sellorder");
+
         let allTrades = this.state.trades;
         let tradeForThatOrder = allTrades.find(trade => trade.ticker == order.ticker);
         let indexTradeForThatOrder = allTrades.findIndex(trade => trade.ticker == order.ticker);
+
+        console.log(JSON.stringify(order));
+        console.log(JSON.stringify((tradeForThatOrder)));
 
         if(order.quantity >= tradeForThatOrder.quantity){
             allTrades.splice(indexTradeForThatOrder, 1);
@@ -90,6 +170,16 @@ class Profile extends React.Component {
         this.setState({
             orders: orderArrays,
         });
+    }
+
+    creatUUID(){
+        let dt = new Date().getTime();
+        let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            let r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+        return uuid;
     }
 }
 

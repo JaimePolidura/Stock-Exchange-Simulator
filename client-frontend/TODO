@@ -1,1 +1,1 @@
-- Resetear formulario cuando vendes/compras acciones
+Cuando se vende una accion y la orden se ejecuta, modificar el precio medio de compra en la tabla de trades

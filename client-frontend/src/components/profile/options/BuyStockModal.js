@@ -106,7 +106,7 @@ const BuyStockModal = props => {
                                placeholder="Quantity"
                                className={errors.quantity ? 'form-control is-invalid' : 'form-control'}
                                {...register('quantity', {required: true, min: 1})}/><br />
-
+                        
                         <select className="form-control"
                                 defaultValue={buyExecutionType}
                                 onChange={e => onChangeExecutionType(e)}>

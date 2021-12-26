@@ -45,7 +45,7 @@ public class TradeProcessorImpl implements TradeProcessor {
                 configuration.executedOrdersExchangeName(),
                 configuration.executedOrdersQueueName(),
                 new ExecutedOrderMessage(order.getOrderId(), order.getClientId(), order.getTicker(),
-                        priceMatch, quantity, LocalDateTime.now().toString())
+                        priceMatch, quantity, LocalDateTime.now().toString(), order.getType())
         );
     }
 
