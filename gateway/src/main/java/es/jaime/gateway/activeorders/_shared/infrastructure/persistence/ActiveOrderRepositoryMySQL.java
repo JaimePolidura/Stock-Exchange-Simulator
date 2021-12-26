@@ -33,6 +33,11 @@ public class ActiveOrderRepositoryMySQL extends HibernateRepository<ActiveOrder>
     }
 
     @Override
+    public void deleteByOrderId(ActiveOrderID id) {
+        delete("activeorders", "activeorderId = '"+id.value()+"'");
+    }
+
+    @Override
     protected Function<Object[], ActiveOrder> queryMapper(){
         return values -> new ActiveOrder(
                 ActiveOrderID.of(String.valueOf(values[0])),

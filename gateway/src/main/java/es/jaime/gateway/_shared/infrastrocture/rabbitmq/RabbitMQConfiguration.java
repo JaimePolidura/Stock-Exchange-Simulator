@@ -35,36 +35,40 @@ public class RabbitMQConfiguration {
 
     @Bean
     public Declarables declarables() {
-        List<Declarable> declarables = new ArrayList<>();
-
-        List<DirectExchange> allExchanges = new ArrayList<>();
+        List<TopicExchange> allExchanges = new ArrayList<>();
         List<Queue> allQueues = new ArrayList<>();
         List<Binding> allBindings = new ArrayList<>();
 
         //START used for start the other queues
-        DirectExchange startDirectExchange = new DirectExchange(start);
-        allExchanges.add(startDirectExchange);
+        TopicExchange startTopicExchange = new TopicExchange(start);
+        allExchanges.add(startTopicExchange);
         Queue startQueue = new Queue(start, false);
         allQueues.add(startQueue);
-        allBindings.add(BindingBuilder.bind(startQueue).to(startDirectExchange).with(start));
+        allBindings.add(BindingBuilder.bind(startQueue).to(startTopicExchange).with(start));
 
         //EXECUTED ORDERS
-        DirectExchange executedOrdersExchange = new DirectExchange(executedOrders);
+        TopicExchange executedOrdersExchange = new TopicExchange(executedOrders, true, false);
         allExchanges.add(executedOrdersExchange);
-        Queue executedOrdersQueue = new Queue(executedOrders, false);
-        allQueues.add(executedOrdersQueue);
-        allBindings.add(BindingBuilder.bind(executedOrdersQueue).to(executedOrdersExchange).with(executedOrders));
+
+        Queue executedOrdersEventDispatcherQueue = new Queue( "sxs.executed-orders.client-order-event-dispatcher", false);
+        allQueues.add(executedOrdersEventDispatcherQueue);
+        allBindings.add(BindingBuilder.bind(executedOrdersEventDispatcherQueue)
+                .to(executedOrdersExchange)
+                .with("sxs.executed-orders.*"));
+
+        Queue executedOrdersGatewayQueue = new Queue("sxs.executed-orders.gateway", false);
+        allQueues.add(executedOrdersGatewayQueue);
+        allBindings.add(BindingBuilder.bind(executedOrdersGatewayQueue)
+                .to(executedOrdersExchange)
+                .with("sxs.executed-orders.*"));
 
         //ERROR ORDDERS
-        DirectExchange errorOrdersExchange = new DirectExchange(errorOrders);
-        allExchanges.add(errorOrdersExchange);
-        Queue errorOrdersQueue = new Queue(errorOrders, false);
+        Queue errorOrdersQueue = new Queue(errorOrders, true);
         allQueues.add(errorOrdersQueue);
-        allBindings.add(BindingBuilder.bind(errorOrdersQueue).to(errorOrdersExchange).with(errorOrders));
 
         // NEW ORDERS
-        DirectExchange newOrdersExchange = new DirectExchange(newOrders);
-        declarables.add(newOrdersExchange);
+        TopicExchange newOrdersExchange = new TopicExchange(newOrders);
+        allExchanges.add(newOrdersExchange);
 
         List<Queue> allQueuesForListedCompanies = repository.findAll().stream()
                 .map(listedCompany -> listedCompany.ticker().value())
@@ -80,6 +84,7 @@ public class RabbitMQConfiguration {
                         .with(queue.getName()))
                 .forEach(allBindings::add);
 
+        List<Declarable> declarables = new ArrayList<>();
         declarables.addAll(allBindings);
         declarables.addAll(allQueues);
         declarables.addAll(allExchanges);

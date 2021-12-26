@@ -30,6 +30,8 @@ public class TradeProcessorImpl implements TradeProcessor {
             buyOrder.decreaseQuantityBy(quantityStockTradeMatch);
             sellOrder.decreaseQuantityBy(quantityStockTradeMatch);
 
+            System.out.println("Order executed");
+
             publishMessage(buyOrder, priceMatch, quantityStockTradeMatch);
             publishMessage(sellOrder, priceMatch, quantityStockTradeMatch);
 
@@ -42,7 +44,6 @@ public class TradeProcessorImpl implements TradeProcessor {
 
     private void publishMessage(Order order, double priceMatch, int quantity){
         this.queuePublisher.publish(
-                configuration.executedOrdersExchangeName(),
                 configuration.executedOrdersQueueName(),
                 new ExecutedOrderMessage(order.getOrderId(), order.getClientId(), order.getTicker(),
                         priceMatch, quantity, LocalDateTime.now().toString(), order.getType())

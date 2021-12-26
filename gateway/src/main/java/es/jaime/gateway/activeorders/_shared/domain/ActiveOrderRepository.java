@@ -9,4 +9,6 @@ public interface ActiveOrderRepository {
     Optional<ActiveOrder> findByOrderId(ActiveOrderID id);
 
     Optional<List<ActiveOrder>> findByClientId(ActiveOrderClientID clientID);
+
+    void deleteByOrderId(ActiveOrderID id);
 }

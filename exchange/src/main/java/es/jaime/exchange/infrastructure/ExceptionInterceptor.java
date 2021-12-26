@@ -34,7 +34,6 @@ public class ExceptionInterceptor {
         Order errorOrder = ((DomainException) throwable).getOrderException();
 
         messagePublisher.publish(
-                configuration.errorOrdersExchangeName(),
                 configuration.errorOrdersQueueName(),
                 new ErrorOrderMessage(throwable.getMessage(), errorOrder.getClientId(), errorOrder.getOrderId())
         );

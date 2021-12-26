@@ -1,6 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.persistance;
 
 import es.jaime.gateway._shared.domain.Aggregate;
+import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -65,6 +66,12 @@ public abstract class HibernateRepository<T extends Aggregate> {
      */
     protected Function<Object[], T> queryMapper(){
         return null;
+    }
+
+    protected void delete(String table, String condition){
+        sessionFactory.getCurrentSession()
+                .createSQLQuery("DELETE FROM " + table + " WHERE " + condition)
+                .executeUpdate();
     }
 
 }

@@ -15,8 +15,8 @@ public class RabbitMQueuePublisher implements MessagePublisher {
     }
 
     @Override
-    public void publish(String exchange, String queue, Message message) {
-        this.rabbitTemplate.convertAndSend(exchange, queue, toJSON(message));
+    public void publish(String queue, Message message) {
+        this.rabbitTemplate.convertAndSend(queue, queue + ".*", toJSON(message));
     }
 
     private String toJSON(Message message){

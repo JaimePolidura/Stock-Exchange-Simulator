@@ -6,7 +6,7 @@ const ampq = require('amqplib/callback_api');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 
-const queuesListener = ["sxs.executed-orders", "sxs.error-orders"];
+const queuesListener = ["sxs.executed-orders.client-order-event-dispatcher", "sxs.error-orders"];
 
 const io = socketIo(server, {
     origin: "*",
