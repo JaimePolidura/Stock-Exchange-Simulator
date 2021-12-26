@@ -63,8 +63,20 @@ public class RabbitMQConfiguration {
                 .with("sxs.executed-orders.*"));
 
         //ERROR ORDDERS
-        Queue errorOrdersQueue = new Queue(errorOrders, true);
-        allQueues.add(errorOrdersQueue);
+        TopicExchange errorOrdersExchange = new TopicExchange(errorOrders, true, false);
+        allExchanges.add(errorOrdersExchange);
+
+        Queue errorOrdersEventDispatcherQueue = new Queue("sxs.error-orders.client-order-event-dispatcher");
+        allQueues.add(errorOrdersEventDispatcherQueue);
+        allBindings.add(BindingBuilder.bind(errorOrdersEventDispatcherQueue)
+                .to(errorOrdersExchange)
+                .with("sxs.error-orders.*"));
+
+        Queue errorOrdersGatewayQueue = new Queue("sxs.error-orders.gateway");
+        allQueues.add(errorOrdersGatewayQueue);
+        allBindings.add(BindingBuilder.bind(errorOrdersGatewayQueue)
+                .to(errorOrdersExchange)
+                .with("sxs.error-orders.*"));
 
         // NEW ORDERS
         TopicExchange newOrdersExchange = new TopicExchange(newOrders);
