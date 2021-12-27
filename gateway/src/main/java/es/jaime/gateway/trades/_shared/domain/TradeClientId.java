@@ -7,6 +7,10 @@ public final class TradeClientId extends StringValueObject {
         super(value);
     }
 
+    public TradeClientId(){
+        super(null);
+    }
+
     public static TradeClientId of(String value){
         return new TradeClientId(value);
     }

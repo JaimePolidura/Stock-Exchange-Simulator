@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public final class OrderExecutionPublished extends DomainEvent {
+public final class OrderExecutionSended extends DomainEvent {
     @Getter private final String orderID;
     @Getter private final String clientID;
     @Getter private final LocalDateTime date;
@@ -15,7 +15,7 @@ public final class OrderExecutionPublished extends DomainEvent {
     @Getter private final String ticker;
     @Getter private final OrderType type;
 
-    public OrderExecutionPublished(ExecuteOrderCommand command){
+    public OrderExecutionSended(ExecuteOrderCommand command){
         this.orderID = command.getOrderID().value();
         this.clientID = command.getClientID().value();
         this.date = LocalDateTime.parse(command.getDate().value());

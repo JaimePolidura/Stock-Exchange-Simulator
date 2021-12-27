@@ -7,6 +7,10 @@ public final class TradeOpeningPrice extends DoubleValueObject {
         super(value);
     }
 
+    public TradeOpeningPrice(){
+        super(0);
+    }
+
     public static TradeOpeningPrice of(double value){
         return new TradeOpeningPrice(value);
     }

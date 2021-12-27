@@ -1,32 +1,37 @@
-package es.jaime.gateway.orders.onexecutedorder;
+package es.jaime.gateway.orders.onorderexecuted;
 
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.orders._shared.domain.Order;
 import es.jaime.gateway.orders._shared.domain.OrderID;
 import es.jaime.gateway.orders._shared.domain.OrderQuantity;
 import es.jaime.gateway.orders._shared.domain.OrdersRepository;
-import org.json.JSONObject;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
+import es.jaime.gateway.orders._shared.domain.events.OrderExecuted;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
 
-@Component
-@DependsOn({"rabbitmq-starter"})
-public class OnExecutedOrder {
+import java.util.Optional;
+
+@Service
+public class OnOrderExecuted {
     private final OrdersRepository repository;
 
-    public OnExecutedOrder(OrdersRepository ordersRepository) {
-        this.repository = ordersRepository;
+    public OnOrderExecuted(OrdersRepository repository) {
+        this.repository = repository;
     }
 
-    @RabbitListener(queues = "sxs.executed-orders.gateway")
-    public void on (String body){
-        JSONObject jsonObject = new JSONObject(body);
-        String orderId = jsonObject.getJSONObject("body").getString("orderId");
-        int quantity = jsonObject.getJSONObject("body").getInt("quantity");
+    @EventListener({OrderExecuted.class})
+    public void on(OrderExecuted event){
+        String orderId = event.getOrderId();
+        int quantity = event.getQuantity();
 
-        Order order = repository.findByOrderId(OrderID.of(orderId))
-                .orElseThrow(() -> new ResourceNotFound("Order not found"));
+        Optional<Order> orderOptional = repository.findByOrderId(OrderID.of(orderId));
+
+        if(orderOptional.isEmpty()){
+            //TODO
+            return;
+        }
+
+        Order order = orderOptional.get();
 
         if(order.quantity().value() > quantity)
             updateQuantityOrder(order, quantity);

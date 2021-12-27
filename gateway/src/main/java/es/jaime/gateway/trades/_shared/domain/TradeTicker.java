@@ -7,6 +7,10 @@ public final class TradeTicker extends StringValueObject {
         super(value);
     }
 
+    public TradeTicker(){
+        super(null);
+    }
+
     public static TradeTicker of(String value){
         return new TradeTicker(value);
     }

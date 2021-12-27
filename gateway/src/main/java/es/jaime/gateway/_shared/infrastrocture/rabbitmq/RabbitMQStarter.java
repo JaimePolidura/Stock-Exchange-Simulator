@@ -1,6 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
-import es.jaime.gateway._shared.domain.queue.QueueMessage;
+import es.jaime.gateway._shared.domain.messagePublisher.Message;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +14,10 @@ public class RabbitMQStarter implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        publisherRabbitMQ.enqueue(new StartQueueMessage());
+        publisherRabbitMQ.publish(new StartQueueMessage());
     }
 
-    private static class StartQueueMessage implements QueueMessage{
+    private static class StartQueueMessage implements Message {
         @Override
         public String toJson() {
             return "start";

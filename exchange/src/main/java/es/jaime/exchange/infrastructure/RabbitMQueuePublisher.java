@@ -13,7 +13,7 @@ public class RabbitMQueuePublisher implements MessagePublisher {
     public RabbitMQueuePublisher(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-
+    
     @Override
     public void publish(String queue, Message message) {
         this.rabbitTemplate.convertAndSend(queue, queue + ".*", toJSON(message));

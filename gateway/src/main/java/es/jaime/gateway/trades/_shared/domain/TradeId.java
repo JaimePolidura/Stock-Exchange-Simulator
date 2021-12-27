@@ -9,6 +9,10 @@ public final class TradeId extends StringValueObject {
         super(value);
     }
 
+    public TradeId(){
+        super(null);
+    }
+
     public static TradeId of (String value){
         return new TradeId(value);
     }

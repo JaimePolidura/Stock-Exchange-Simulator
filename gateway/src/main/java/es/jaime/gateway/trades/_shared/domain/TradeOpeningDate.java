@@ -9,6 +9,10 @@ public final class TradeOpeningDate extends StringValueObject {
         super(value);
     }
 
+    public TradeOpeningDate() {
+        super(null);
+    }
+
     public static TradeOpeningDate of(String value){
         return new TradeOpeningDate(value);
     }

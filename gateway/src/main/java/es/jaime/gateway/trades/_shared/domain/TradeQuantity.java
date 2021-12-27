@@ -7,6 +7,10 @@ public final class TradeQuantity extends IntegerValueObject {
         super(value);
     }
 
+    public TradeQuantity(){
+        super(0);
+    }
+
     public static TradeQuantity of (int value){
         return new TradeQuantity(value);
     }

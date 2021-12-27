@@ -17,7 +17,7 @@
             <property column="ticker" name="value" type="string" access="field"/>
         </component>
 
-        <component name="openingPrice" class="es.jaime.gateway.trades._shared.domain.TradeOpeningDate" access="field">
+        <component name="openingPrice" class="es.jaime.gateway.trades._shared.domain.TradeOpeningPrice" access="field">
             <property column="openingPrice" name="value" type="double" access="field"/>
         </component>
 

@@ -2,7 +2,7 @@ package es.jaime.gateway.orders.executeorder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jaime.gateway._shared.domain.command.Command;
-import es.jaime.gateway._shared.domain.queue.QueueMessage;
+import es.jaime.gateway._shared.domain.messagePublisher.Message;
 import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ExecuteOrderCommand implements Command, QueueMessage {
+public final class ExecuteOrderCommand implements Command, Message {
     @Getter private final OrderID orderID;
     @Getter private final OrderClientID clientID;
     @Getter private final OrderDate date;
