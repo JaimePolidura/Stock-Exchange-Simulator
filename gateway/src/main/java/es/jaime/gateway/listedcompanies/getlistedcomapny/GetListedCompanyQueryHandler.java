@@ -19,9 +19,7 @@ public final class GetListedCompanyQueryHandler implements QueryHandler<GetListe
 
         return new GetListedCompanyQueryResponse(
                 listedCompany.ticker(),
-                listedCompany.name(),
-                listedCompany.currencyCode(),
-                listedCompany.currencySymbol()
+                listedCompany.name()
         );
     }
 }

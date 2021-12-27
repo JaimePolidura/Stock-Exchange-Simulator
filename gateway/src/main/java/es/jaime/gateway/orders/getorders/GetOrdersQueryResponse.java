@@ -42,7 +42,6 @@ public class GetOrdersQueryResponse implements QueryResponse {
         @Getter private final String type;
         @Getter private final double executionPrice;
         @Getter private final String name;
-        @Getter private final Currency currency;
 
         public static OrderDataResponse create(Order order, ListedCompany listedCompany){
             return new OrderDataResponse(
@@ -53,18 +52,8 @@ public class GetOrdersQueryResponse implements QueryResponse {
                     order.quantity().value(),
                     order.type().valueString(),
                     order.executionPrice().value(),
-                    listedCompany.name().value(),
-                    new Currency(
-                            listedCompany.currencySymbol().value(),
-                            listedCompany.currencyCode().value()
-                    )
+                    listedCompany.name().value()
             );
         }
-    }
-
-    @AllArgsConstructor
-    private static class Currency {
-        @Getter private final String symbol;
-        @Getter private final String code;
     }
 }

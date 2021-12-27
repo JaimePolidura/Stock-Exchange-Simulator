@@ -8,15 +8,10 @@ import java.util.Map;
 public final class ListedCompany extends Aggregate {
     private ListedCompanyTicker ticker;
     private ListedCompanyName name;
-    private ListedCompanyCurrencyCode currencyCode;
-    private ListedCompanyCurrencySymbol currencySymbol;
 
-    public ListedCompany(ListedCompanyTicker ticker, ListedCompanyName name, ListedCompanyCurrencyCode currencyCode,
-                         ListedCompanyCurrencySymbol currencySymbol) {
+    public ListedCompany(ListedCompanyTicker ticker, ListedCompanyName name) {
         this.ticker = ticker;
         this.name = name;
-        this.currencyCode = currencyCode;
-        this.currencySymbol = currencySymbol;
     }
 
     public ListedCompany () {}
@@ -29,21 +24,11 @@ public final class ListedCompany extends Aggregate {
         return name;
     }
 
-    public ListedCompanyCurrencyCode currencyCode() {
-        return currencyCode;
-    }
-
-    public ListedCompanyCurrencySymbol currencySymbol() {
-        return currencySymbol;
-    }
-
     @Override
     public Map<String, Object> toPrimitives() {
         return new HashMap<>() {{
             put("ticker", ticker.value());
             put("name", name.value());
-            put("currencyCode", currencyCode.value());
-            put("currencySymbol", currencySymbol.value());
         }};
     }
 
@@ -51,9 +36,7 @@ public final class ListedCompany extends Aggregate {
     public ListedCompany fromPrimitives(Map<String, Object> values) {
         return new ListedCompany(
                 ListedCompanyTicker.of(String.valueOf(values.get("ticker"))),
-                ListedCompanyName.of(String.valueOf(values.get("name"))),
-                ListedCompanyCurrencyCode.of(String.valueOf(values.get("currencyCode"))),
-                ListedCompanyCurrencySymbol.of(String.valueOf(values.get("currencySymbol")))
+                ListedCompanyName.of(String.valueOf(values.get("name")))
         );
     }
 }

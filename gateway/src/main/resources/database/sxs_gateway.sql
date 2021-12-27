@@ -25,24 +25,20 @@ DELETE FROM orders;
 CREATE TABLE IF NOT EXISTS `listedcompanies` (
     `ticker` varchar(10) NOT NULL,
     `name` varchar(30) NOT NULL,
-    `currencyCode` varchar(10) NOT NULL,
-    `currencySymbol` varchar(5) NOT NULL,
     PRIMARY KEY (`ticker`),
     UNIQUE KEY `ticker` (`ticker`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 DELETE FROM listedcompanies;
 
-INSERT INTO `listedcompanies` VALUES ('ADBE', 'Adobe', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('AMZN', 'Amazon', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('DGV', 'Digital value', 'EUR', '€');
-INSERT INTO `listedcompanies` VALUES ('DND', 'Dye & Durham', 'CAD', 'CAD');
-INSERT INTO `listedcompanies` VALUES ('FB', 'Facebook', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('GOOG', 'Google', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('LMT', 'Lockheed Martin', 'USD', '$');
-INSERT INTO `listedcompanies` VALUES ('MTY', 'MTY Food', 'CAD', 'CAD');
-INSERT INTO `listedcompanies` VALUES ('V', 'Visa', 'USD', '$');
+INSERT INTO `listedcompanies` VALUES ('ADBE', 'Adobe');
+INSERT INTO `listedcompanies` VALUES ('AMZN', 'Amazon');
+INSERT INTO `listedcompanies` VALUES ('FB', 'Facebook');
+INSERT INTO `listedcompanies` VALUES ('GOOG', 'Google');
+INSERT INTO `listedcompanies` VALUES ('LMT', 'Lockheed Martin');
+INSERT INTO `listedcompanies` VALUES ('V', 'Visa');
+INSERT INTO `listedcompanies` VALUES ('IDT', 'IDT');
+INSERT INTO `listedcompanies` VALUES ('CRM', 'SalesForce');
 
 -- ----------------------------
 -- Table structure for trades

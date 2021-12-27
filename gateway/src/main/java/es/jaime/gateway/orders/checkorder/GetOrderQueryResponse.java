@@ -12,6 +12,4 @@ public final class GetOrderQueryResponse implements QueryResponse {
     @Getter private final double executionPrice;
     @Getter private final int quantity;
     @Getter private final String date;
-    @Getter private final String currencyCode;
-    @Getter private final String currencySymbol;
 }

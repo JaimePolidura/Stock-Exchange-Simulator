@@ -12,21 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrderQueryResponse> {
     private final GetOrderService getOrderService;
-    private final ListedCompanyFinderService listedCompanyFinderService;
 
-    public GetOrderQueryHandler(GetOrderService getOrderService, ListedCompanyFinderService listedCompanyFinderService) {
+    public GetOrderQueryHandler(GetOrderService getOrderService) {
         this.getOrderService = getOrderService;
-        this.listedCompanyFinderService = listedCompanyFinderService;
     }
 
     @Override
     public GetOrderQueryResponse handle(GetOrderQuery query) {
-        Order order = getOrderService.get(query.getOrderId())
+        var order = getOrderService.get(query.getOrderId())
                 .orElseThrow(() -> new ResourceNotFound("Order for that ID wasn't found!"));
 
         ensureUserOwnsTheOrder(order, query.getUserName());
-
-        var listedCompanyData = listedCompanyFinderService.find(ListedCompanyTicker.of(order.ticker().value()));
 
         return new GetOrderQueryResponse(
                 order.orderId().value(),
@@ -34,9 +30,7 @@ public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrde
                 order.type().valueString(),
                 order.executionPrice().value(),
                 order.quantity().value(),
-                order.date().value(),
-                listedCompanyData.currencyCode().value(),
-                listedCompanyData.currencySymbol().value()
+                order.date().value()
         );
     }
 

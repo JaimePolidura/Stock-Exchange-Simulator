@@ -13,8 +13,7 @@ public final class GetAllListedCompaniesQueryResponse implements QueryResponse {
 
     public static GetAllListedCompaniesQueryResponse create(List<ListedCompany> listedCompanies){
         return new GetAllListedCompaniesQueryResponse(listedCompanies.stream()
-                .map(listedCompany -> new ListedCompanyQueryResponse(listedCompany.ticker().value(), listedCompany.name().value(),
-                        listedCompany.currencyCode().value(), listedCompany.currencySymbol().value()))
+                .map(listedCompany -> new ListedCompanyQueryResponse(listedCompany.ticker().value(), listedCompany.name().value()))
                 .collect(Collectors.toList()));
     }
 
@@ -26,7 +25,5 @@ public final class GetAllListedCompaniesQueryResponse implements QueryResponse {
     public static class ListedCompanyQueryResponse {
         @Getter private final String ticker;
         @Getter private final String name;
-        @Getter private final String currencyCode;
-        @Getter private final String currencySymbol;
     }
 }
