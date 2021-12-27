@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `orders` (
     `quantity` int(10) NOT NULL,
     `type` varchar(4) NOT NULL,
     `executionPrice` double(10,3) NOT NULL,
-    `status` varchar(10) NOT NULL,
     PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

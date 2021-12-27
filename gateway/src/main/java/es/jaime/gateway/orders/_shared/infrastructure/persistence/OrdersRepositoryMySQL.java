@@ -46,8 +46,7 @@ public class OrdersRepositoryMySQL extends HibernateRepository<Order> implements
                 OrderDate.of(String.valueOf(values[3])),
                 OrderQuantity.of(Integer.parseInt(String.valueOf(values[4]))),
                 OrderType.of(String.valueOf(values[5])),
-                OrderExecutionPrice.of(Double.parseDouble(String.valueOf(values[6]))),
-                OrderStatus.of("SENDING")
+                OrderExecutionPrice.of(Double.parseDouble(String.valueOf(values[6])))
         );
     }
 }

@@ -42,8 +42,7 @@ public class OnExecutedOrder {
                 order.date(),
                 OrderQuantity.of(order.quantity().value() - quantity),
                 order.type(),
-                order.executionPrice(),
-                order.status()
+                order.executionPrice()
         ));
     }
 

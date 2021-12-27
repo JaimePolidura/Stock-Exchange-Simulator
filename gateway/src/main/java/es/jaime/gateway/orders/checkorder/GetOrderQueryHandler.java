@@ -35,7 +35,6 @@ public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrde
                 order.executionPrice().value(),
                 order.quantity().value(),
                 order.date().value(),
-                order.status().valueString(),
                 listedCompanyData.currencyCode().value(),
                 listedCompanyData.currencySymbol().value()
         );

@@ -41,7 +41,6 @@ public class GetOrdersQueryResponse implements QueryResponse {
         @Getter private final int quantity;
         @Getter private final String type;
         @Getter private final double executionPrice;
-        @Getter private final String status;
         @Getter private final String name;
         @Getter private final Currency currency;
 
@@ -54,7 +53,6 @@ public class GetOrdersQueryResponse implements QueryResponse {
                     order.quantity().value(),
                     order.type().valueString(),
                     order.executionPrice().value(),
-                    order.status().valueString(),
                     listedCompany.name().value(),
                     new Currency(
                             listedCompany.currencySymbol().value(),

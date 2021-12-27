@@ -6,7 +6,6 @@ import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
 import es.jaime.gateway.orders._shared.domain.Order;
 import es.jaime.gateway._shared.domain.queue.QueuePublisher;
 import es.jaime.gateway.orders._shared.domain.OrdersRepository;
-import es.jaime.gateway.orders._shared.domain.OrderStatus;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import org.springframework.stereotype.Service;
@@ -40,8 +39,7 @@ public class ExecuteOrderCommandHandler implements CommandHandler<ExecuteOrderCo
                 command.getDate(),
                 command.getQuantity(),
                 command.getType(),
-                command.getExecutionPrice(),
-                OrderStatus.of(OrderStatus.Status.SENDING)
+                command.getExecutionPrice()
         ));
 
         this.queuePublisher.enqueue(command);
