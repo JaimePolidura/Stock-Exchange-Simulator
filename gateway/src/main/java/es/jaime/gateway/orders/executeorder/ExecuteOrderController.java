@@ -23,7 +23,7 @@ public class ExecuteOrderController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @PostMapping("/executeorder")
+    @PostMapping("/orders/execute")
     public ResponseEntity<GetOrderQueryResponse> executeorder(@RequestBody Request request){
         //Order-id generated in commandExecute order
         ExecuteOrderCommand commandExecuteOrder = new ExecuteOrderCommand(

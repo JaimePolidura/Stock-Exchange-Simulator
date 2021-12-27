@@ -79,22 +79,14 @@ class Profile extends React.Component {
             averagePrice: order.executionPrice,
             actualPrice: order.executionPrice,
             quantity: order.quantity,
-            currency: {
-                code: listedCompanieData.currencyCode,
-                symbol: listedCompanieData.currencySymbol,
-            }
         });
 
         this.setState({trades: allTrades});
     }
 
     modifyTrade(executedOrder){
-        console.log("modifyTrade")
         let allTrades = this.state.trades;
         let tradeFound = allTrades.find(trade => trade.ticker == executedOrder.ticker);
-
-        console.log(JSON.stringify(executedOrder));
-        console.log(JSON.stringify(tradeFound));
 
         tradeFound.averagePrice = Math.round((tradeFound.averagePrice * tradeFound.quantity) + (executedOrder.executionPrice * executedOrder.quantity)
             / (executedOrder.quantity + tradeFound.quantity));

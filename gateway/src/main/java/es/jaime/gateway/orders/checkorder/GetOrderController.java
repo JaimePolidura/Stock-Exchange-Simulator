@@ -14,7 +14,7 @@ public final class GetOrderController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/getorder/{orderId}")
+    @GetMapping("/orders/get/{orderId}")
     public ResponseEntity<GetOrderQueryResponse> getOrder(@PathVariable String orderId){
         GetOrderQueryResponse response = this.queryBus.ask(new GetOrderQuery(
                 orderId,

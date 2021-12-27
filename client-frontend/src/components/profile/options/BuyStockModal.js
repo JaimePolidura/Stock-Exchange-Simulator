@@ -34,7 +34,6 @@ const BuyStockModal = props => {
         props.onOrderBuySended({
             ...response.data,
             name: listedCompany.name,
-            currency: getCurrencySymbolFromCurrencyCode(response.data),
             totalValueOrder: calculateTotalValue(response.data),
         });
 
@@ -46,13 +45,6 @@ const BuyStockModal = props => {
         return buyExecutionType == 'limit' ?
             apiResponse.quantity * apiResponse.executionPrice :
             'Market price';
-    }
-
-    const getCurrencySymbolFromCurrencyCode = apiResponse => {
-        return {
-            code: apiResponse.currencyCode,
-            symbol: apiResponse.currencySymbol,
-        };
     }
 
     const onFailure = error => {

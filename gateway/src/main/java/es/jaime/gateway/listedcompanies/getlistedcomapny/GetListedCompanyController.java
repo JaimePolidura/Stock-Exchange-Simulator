@@ -20,7 +20,7 @@ public final class GetListedCompanyController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/getlistedcompany/{ticker}")
+    @GetMapping("/listedcompanies/get/{ticker}")
     public ResponseEntity<Response> getListedCompany (@PathVariable String ticker){
         GetListedCompanyQueryResponse queryResponse = queryBus.ask(new GetListedCompanyQuery(ticker));
 

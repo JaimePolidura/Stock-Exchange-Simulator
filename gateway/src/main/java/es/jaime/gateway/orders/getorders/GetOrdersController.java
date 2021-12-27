@@ -16,7 +16,7 @@ public class GetOrdersController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/getorders")
+    @GetMapping("/orders/get")
     public ResponseEntity<GetOrdersQueryResponse> getorders(){
         GetOrdersQueryResponse response = queryBus.ask(new GetOrdersQuery(getLoggedUsername()));
         

@@ -14,19 +14,19 @@ class BackendService {
     }
 
     executeOrder(order){
-        return axios.post(apiRoute + "executeorder", order);
+        return axios.post(apiRoute + "orders/execute", order);
     }
 
     getCompanyIsListedData(ticker){
-        return axios.get(apiRoute + "getlistedcompany/" + ticker);
+        return axios.get(apiRoute + "listedcompanies/get/" + ticker);
     }
 
     getOrders() {
-        return axios.get(apiRoute + "getorders");
+        return axios.get(apiRoute + "orders/get");
     }
 
     getAllListedCompanies(){
-        return axios.get(apiRoute + "getalllistedcompanies");
+        return axios.get(apiRoute + "listedcompanies/get");
     }
 
 }

@@ -25,7 +25,6 @@ export default class Orders extends React.Component {
                     <th>Quantity</th>
                     <th>Total value</th>
                     <th>Date</th>
-                    <th>Status</th>
                     <th>Execution</th>
                 </tr>
                 </thead>

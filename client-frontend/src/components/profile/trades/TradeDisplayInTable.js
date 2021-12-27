@@ -19,8 +19,8 @@ class TradeDisplayInTable extends React.Component {
                 <tr className="trade-tr" onClick={() => {this.openModal();}}>
                     <td>{this.state.trade.ticker}</td>
                     <td>{this.state.trade.name}</td>
-                    <td>{this.state.trade.averagePrice} {this.state.trade.currency.symbol}</td>
-                    <td>{this.state.trade.actualPrice} {this.state.trade.currency.symbol}</td>
+                    <td>{this.state.trade.averagePrice} $</td>
+                    <td>{this.state.trade.actualPrice} $</td>
                     <td>{this.state.trade.quantity}</td>
                     <td>{this.renderMarketValue()}</td>
                     <td>{this.renderResult()}</td>
@@ -60,14 +60,14 @@ class TradeDisplayInTable extends React.Component {
         let result = this.calculateResult();
 
         return result >= 0 ?
-            <div class="green">+ {result} {this.state.trade.currency.symbol}</div> :
-            <div class="red">{result} {this.state.trade.currency.symbol}</div>;
+            <div class="green">+ {result} $</div> :
+            <div class="red">{result} $</div>;
     }
 
     renderMarketValue(){
         let trade = this.state.trade;
 
-        return Math.round(trade.quantity * trade.actualPrice) + " " + trade.currency.symbol;
+        return Math.round(trade.quantity * trade.actualPrice) + " $";
     }
 
     renderResultYield(){

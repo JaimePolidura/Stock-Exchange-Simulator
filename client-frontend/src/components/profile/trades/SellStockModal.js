@@ -27,7 +27,6 @@ const SellStockModal = props => {
         props.onOrderSellSended({
             ...response.data,
             name: props.trade.name,
-            currency: props.trade.currency,
             totalValueOrder: calculateTotalValueToSell(response.data),
             result: calculateResultToSell(response.data),
         });
@@ -72,7 +71,7 @@ const SellStockModal = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                    Currency: {props.trade.currency.code}<br />
+                    Currency: USD<br />
                     Initial price: {props.trade.averagePrice}<br />
                     Acual price: {props.trade.actualPrice}<br />
                     Liquidation value: {props.renderMarketValue()}<br />

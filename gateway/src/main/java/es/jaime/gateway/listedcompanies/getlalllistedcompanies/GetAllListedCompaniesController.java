@@ -16,7 +16,7 @@ public class GetAllListedCompaniesController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/getalllistedcompanies")
+    @GetMapping("/listedcompanies/get")
     public ResponseEntity<GetAllListedCompaniesQueryResponse> getAllListedCompanies(){
         GetAllListedCompaniesQueryResponse response = queryBus.ask(new GetAllListedCompaniesQuery());
 
