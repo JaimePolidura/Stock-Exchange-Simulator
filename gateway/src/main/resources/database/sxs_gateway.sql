@@ -2,6 +2,10 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+
 CREATE TABLE IF NOT EXISTS `orders` (
     `orderId` varchar(50) NOT NULL,
     `ticker` varchar(10) NOT NULL,
@@ -39,3 +43,19 @@ INSERT INTO `listedcompanies` VALUES ('GOOG', 'Google', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('LMT', 'Lockheed Martin', 'USD', '$');
 INSERT INTO `listedcompanies` VALUES ('MTY', 'MTY Food', 'CAD', 'CAD');
 INSERT INTO `listedcompanies` VALUES ('V', 'Visa', 'USD', '$');
+
+-- ----------------------------
+-- Table structure for trades
+-- ----------------------------
+
+CREATE TABLE IF NOT EXISTS trades (
+    `tradeId` varchar(50) NOT NULL,
+    `clientId` varchar(50) NOT NULL,
+    `ticker` varchar(10) NOT NULL,
+    `openingPrice` double(10, 3) NOT NULL,
+    `openingDate` varchar(30) NOT NULL,
+    `quantity` int(10) NOT NULL,
+    PRIMARY KEY (`tradeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DELETE FROM trades;

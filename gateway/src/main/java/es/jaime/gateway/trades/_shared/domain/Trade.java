@@ -7,15 +7,15 @@ import java.util.Map;
 
 @AllArgsConstructor
 public final class Trade extends Aggregate {
-    private final TradeId id;
+    private final TradeId tradeId;
     private final TradeClientId clientId;
     private final TradeTicker ticker;
     private final TradeOpeningPrice openingPrice;
     private final TradeOpeningDate openingDate;
     private final TradeQuantity quantity;
 
-    public TradeId id() {
-        return id;
+    public TradeId tradeId() {
+        return tradeId;
     }
 
     public TradeClientId clientId() {
@@ -41,7 +41,7 @@ public final class Trade extends Aggregate {
     @Override
     public Map<String, Object> toPrimitives() {
         return Map.of(
-                "id", id.value(),
+                "tradeId", tradeId.value(),
                 "clientId", clientId.value(),
                 "ticker", ticker.value(),
                 "openingPrice", openingPrice.value(),
@@ -53,7 +53,7 @@ public final class Trade extends Aggregate {
     @Override
     public Trade fromPrimitives(Map<String, Object> values) {
         return new Trade(
-                TradeId.of(String.valueOf(values.get("id"))),
+                TradeId.of(String.valueOf(values.get("tradeId"))),
                 TradeClientId.of(String.valueOf(values.get("clientId"))),
                 TradeTicker.of(String.valueOf(values.get("ticker"))),
                 TradeOpeningPrice.of(Double.parseDouble(String.valueOf(values.get("openingPrice")))),
