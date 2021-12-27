@@ -35,7 +35,7 @@ ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
             channel.consume(queue, message => {
                 let messageToJSON = JSON.parse(message.content.toString());
 
-                console.log("executed order "+ messageToJSON.to  +": " + message.content.toString());
+                console.log("new message from exchange "+ messageToJSON.to  +": " + message.content.toString());
 
                 messageToJSON.to.forEach(to => {
                     io.emit(to, messageToJSON);

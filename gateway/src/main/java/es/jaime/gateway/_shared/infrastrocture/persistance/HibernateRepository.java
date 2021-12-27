@@ -1,17 +1,13 @@
 package es.jaime.gateway._shared.infrastrocture.persistance;
 
 import es.jaime.gateway._shared.domain.Aggregate;
-import es.jaime.gateway.activeorders._shared.domain.ActiveOrderID;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Selection;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;

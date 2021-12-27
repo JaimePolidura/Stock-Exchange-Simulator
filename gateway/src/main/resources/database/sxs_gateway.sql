@@ -2,8 +2,8 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE IF NOT EXISTS `activeorders` (
-    `activeorderId` varchar(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders` (
+    `orderId` varchar(50) NOT NULL,
     `ticker` varchar(10) NOT NULL,
     `clientId` varchar(36) NOT NULL,
     `date` varchar(30) NOT NULL,
@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS `activeorders` (
     `type` varchar(4) NOT NULL,
     `executionPrice` double(10,3) NOT NULL,
     `status` varchar(10) NOT NULL,
-    PRIMARY KEY (`activeorderId`)
+    PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DELETE FROM activeorders;
+DELETE FROM orders;
 
 -- ----------------------------
 -- Table structure for listedcompanies

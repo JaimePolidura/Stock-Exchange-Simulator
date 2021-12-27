@@ -9,7 +9,7 @@ class ClientEventDispatcherSocketService {
     constructor() {
         this.socket = null;
         this.onExecutedOderCallback = null;
-        this.onErrorOderCallback = null;
+        this.onErrorOrderCallback = null;
     }
 
     connect(clientId){
@@ -22,7 +22,7 @@ class ClientEventDispatcherSocketService {
         if(msg.type == EXECUTED_ORDER){
             this.onExecutedOderCallback(msg);
         }else if(msg.type == ERROR_ORDER){
-            this.onErrorOderCallback(msg);
+            this.onErrorOrderCallback(msg);
         }
 
     }
@@ -31,6 +31,9 @@ class ClientEventDispatcherSocketService {
         this.onExecutedOderCallback = callback;
     }
 
+    onErrorOrder(callback){
+        this.onErrorOrderCallback = callback;
+    }
 }
 
 export default new ClientEventDispatcherSocketService();

@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.exchanges;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.RestartPolicy;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
@@ -41,6 +42,7 @@ public class ExchangesStarter implements CommandLineRunner {
     private void startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
         String containerID = dockerClient.createContainerCmd("sxs-exchange")
                 .withCmd("--queue=sxs.new-orders." + listedCompany.ticker().value())
+                .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
                 .withHostConfig(HostConfig
                         .newHostConfig()
                         .withNetworkMode("stock-exchange-simulator_default"))

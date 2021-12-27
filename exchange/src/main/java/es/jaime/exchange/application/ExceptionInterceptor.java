@@ -24,7 +24,8 @@ public class ExceptionInterceptor {
         DomainException exception = event.getException();
         Order order = exception.getOrderException();
 
-        System.out.println("Exception while executing order: " + order.getOrderId() + " of " + order.getClientId() + " " + exception.getMessage());
+        System.out.println("Exception while executing order: " + order.getOrderId() + " of "
+                + order.getClientId() + " " + exception.getMessage());
 
         messagePublisher.publish(
                 configuration.errorOrdersExchangeName(),

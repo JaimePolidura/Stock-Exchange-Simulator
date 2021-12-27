@@ -22,8 +22,16 @@ class Profile extends React.Component {
         };
 
         this.getOrdersFromApi();
-        this.setUpSocket();
         this.setUpListedCompanies();
+        this.setUpSocket();
+    }
+
+    getOrdersFromApi(){
+        backendService.getOrders().then(res => {
+            res.data.orders.forEach(order => {
+                this.addOrder(order);
+            });
+        })
     }
 
     setUpListedCompanies(){
@@ -34,15 +42,8 @@ class Profile extends React.Component {
     setUpSocket() {
         socket.connect(auth.getUsername());
 
-        socket.onExecutedOrder(msg => this.onOrderExecuted(msg.body))
-    }
-
-    getOrdersFromApi(){
-        backendService.getOrders().then(res => {
-            res.data.activeOrders.forEach(order => {
-                this.addOrder(order);
-            });
-        })
+        socket.onExecutedOrder(msg => this.onOrderExecuted(msg.body));
+        socket.onErrorOrder(msg => this.onErrorOrder(msg.body));
     }
 
     onOrderExecuted(executedOrder){
@@ -117,6 +118,15 @@ class Profile extends React.Component {
         }else{
             orderFound.quantity = orderFound.quantity - orderToRemove.quantity;
         }
+
+        this.setState({orders: allOrders});
+    }
+
+    onErrorOrder(body){
+        let allOrders = this.state.orders;
+        let orderToRemoveIndex = allOrders.findIndex(order => order.orderId == body.orderId);
+
+        allOrders.splice(orderToRemoveIndex, 1);
 
         this.setState({orders: allOrders});
     }
