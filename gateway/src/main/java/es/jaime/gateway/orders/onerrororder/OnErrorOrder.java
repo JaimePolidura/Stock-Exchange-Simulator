@@ -1,12 +1,27 @@
 package es.jaime.gateway.orders.onerrororder;
 
+import es.jaime.gateway.orders._shared.domain.OrderID;
+import es.jaime.gateway.orders._shared.domain.OrdersRepository;
+import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration.*;
 
-public final class OnErrorOrder {
-    @RabbitListener(queues = errorOrders)
+@Component
+@DependsOn({"rabbitmq-starter"})
+public class OnErrorOrder {
+    private final OrdersRepository ordersRepository;
+
+    public OnErrorOrder(OrdersRepository ordersRepository) {
+        this.ordersRepository = ordersRepository;
+    }
+
+    @RabbitListener(queues = "sxs.error-orders.gateway")
     public void on(String body){
-        //TODO
+        JSONObject jsonObject = new JSONObject(body);
+        String orderId = jsonObject.getJSONObject("body").getString("orderId");
+
+        ordersRepository.deleteByOrderId(OrderID.of(orderId));
     }
 }
