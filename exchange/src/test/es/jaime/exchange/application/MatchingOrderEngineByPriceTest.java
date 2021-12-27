@@ -1,5 +1,6 @@
 package es.jaime.exchange.application;
 
+import es.jaime.exchange._shared.EventBusMock;
 import es.jaime.exchange.domain.models.Order;
 import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.messages.Message;
@@ -33,8 +34,8 @@ public class MatchingOrderEngineByPriceTest {
 
         this.exchangeConfiguration = new ExchangeConfigurationMock();
         this.queuePublisher = new QueuePublisherMock();
-        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl());
-        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl());
+        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
+        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
 
         createBuyOrders().forEach(order -> matchingEngineTest.enqueue(order));
         createSellOrders().forEach(order -> matchingEngineTest.enqueue(order));

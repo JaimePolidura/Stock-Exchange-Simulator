@@ -1,5 +1,7 @@
 package es.jaime.exchange.application;
 
+import es.jaime.exchange.domain.events.EventBus;
+import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.events.OrderArrivedEvent;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.models.Order;
@@ -23,12 +25,15 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
     private final TradeProcessor tradeProcessor;
     private final ExchangeConfiguration configuration;
     private final MatchingPriceEngine matchingPriceEngine;
+    private final EventBus eventBus;
     private boolean running;
 
-    public MatchingOrderEngineByPrice(TradeProcessor tradeProcessor, ExchangeConfiguration configuration, MatchingPriceEngine matchingPriceEngine){
+    public MatchingOrderEngineByPrice(TradeProcessor tradeProcessor, ExchangeConfiguration configuration,
+                                      MatchingPriceEngine matchingPriceEngine, EventBus eventBus){
         this.tradeProcessor = tradeProcessor;
         this.configuration = configuration;
         this.matchingPriceEngine = matchingPriceEngine;
+        this.eventBus = eventBus;
         this.buyOrders = new PriorityBlockingQueue<>();
         this.sellOrders = new PriorityBlockingQueue<>();
         this.running = true;
@@ -87,16 +92,15 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         }
     }
 
+    @SneakyThrows
     private void processMismatch(Order buyOrder, Order sellOrder) {
         int actualTtlBuyOrder = buyOrder.decreaseTtlByOne();
         int actualTtlSellOrder = sellOrder.decreaseTtlByOne();
 
-        if(actualTtlBuyOrder <= 0){
-            throw new TtlExpired(buyOrder);
-        }
-        if(actualTtlSellOrder <= 0){
-            throw new TtlExpired(sellOrder);
-        }
+        if(actualTtlBuyOrder <= 0)
+            eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(buyOrder)));
+        if(actualTtlSellOrder <= 0)
+            eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(sellOrder)));
     }
 
     @Override

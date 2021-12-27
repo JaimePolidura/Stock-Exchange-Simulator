@@ -14,17 +14,7 @@ public class ExchangeConfigurationMock implements ExchangeConfiguration {
     }
 
     @Override
-    public String errorOrdersQueueName() {
-        return "not-needed";
-    }
-
-    @Override
     public String executedOrdersExchangeName() {
-        return "not-needed";
-    }
-
-    @Override
-    public String executedOrdersQueueName() {
         return "not-needed";
     }
     
