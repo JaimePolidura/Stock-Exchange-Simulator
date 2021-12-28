@@ -1,9 +1,11 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange._shared.EventBusMock;
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.Order;
 import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.messages.Message;
+import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
 import org.junit.Assert;
@@ -37,8 +39,8 @@ public class MatchingOrderEngineByPriceTest {
         this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
         this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
 
-        createBuyOrders().forEach(order -> matchingEngineTest.enqueue(order));
-        createSellOrders().forEach(order -> matchingEngineTest.enqueue(order));
+        createBuyOrders().forEach(order -> matchingEngineTest.enqueueBuyOrder(order));
+        createSellOrders().forEach(order -> matchingEngineTest.enqueueSellOrder(order));
     }
 
     @Test
@@ -93,35 +95,35 @@ public class MatchingOrderEngineByPriceTest {
         Assert.assertEquals(10, executedOrders.size());
     }
 
-    private List<Order> createBuyOrders(){
+    private List<BuyOrder> createBuyOrders(){
          return List.of(
-                createRandomOrder(BUY,10, 13),
-                createRandomOrder(BUY,12, 12),
-                createRandomOrder(BUY,-1, 2),
-                createRandomOrder(BUY,8, 120),
-                createRandomOrder(BUY,9, 13)
+                createRandomBuyOrder(10,13),
+                createRandomBuyOrder(12,12),
+                createRandomBuyOrder(-1,2),
+                createRandomBuyOrder(8,120),
+                createRandomBuyOrder(9,13)
         );
     }
 
-    private List<Order> createSellOrders(){
+    private BuyOrder createRandomBuyOrder(double executionPrice, int quantity){
+        return new BuyOrder(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
+                "12/12/12", executionPrice, quantity, BUY, "AMZN"
+        );
+    }
+
+    private List<SellOrder> createSellOrders(){
         return List.of(
-                createRandomOrder(SELL,-1, 13),
-                createRandomOrder(SELL,11, 11),
-                createRandomOrder(SELL,10, 2),
-                createRandomOrder(SELL,8, 120),
-                createRandomOrder(SELL,11, 13)
+                createRandomSellOrder(-1, 13),
+                createRandomSellOrder(11, 11),
+                createRandomSellOrder(10, 2),
+                createRandomSellOrder(8, 120),
+                createRandomSellOrder(11, 13)
         );
     }
 
-    private Order createRandomOrder(OrderType type, double executionPrice, int quantity){
-        return new Order(
-                UUID.randomUUID().toString(),
-                UUID.randomUUID().toString(),
-                LocalDateTime.now().toString(),
-                executionPrice,
-                quantity,
-                this.exchangeConfiguration.getTicker(),
-                type
+    private SellOrder createRandomSellOrder(double executionPrice, int quantity){
+        return new SellOrder(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
+                "12/12/12", executionPrice, quantity, SELL, UUID.randomUUID().toString()
         );
     }
 
@@ -131,7 +133,7 @@ public class MatchingOrderEngineByPriceTest {
         return queuePublisherMock.getQueue();
     }
 
-    private List<Order> iterateThroughPriorityQueue(Queue<Order> queue){
+    private List<? extends Order> iterateThroughPriorityQueue(Queue<? extends Order> queue){
         List<Order> result = new ArrayList<>();
         int queueSize = queue.size();
 

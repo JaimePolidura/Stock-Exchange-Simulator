@@ -1,12 +1,10 @@
-package es.jaime.gateway.orders.checkorder;
+package es.jaime.gateway.orders.getorder;
 
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.orders._shared.domain.Order;
 import es.jaime.gateway.authentication._shared.domain.UserName;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.checkorder;
+package es.jaime.gateway.orders.getorder;
 
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;

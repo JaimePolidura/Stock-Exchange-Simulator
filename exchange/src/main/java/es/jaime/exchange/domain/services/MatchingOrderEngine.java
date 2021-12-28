@@ -1,14 +1,17 @@
 package es.jaime.exchange.domain.services;
 
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.SellOrder;
 
 import java.util.Queue;
 
 public interface MatchingOrderEngine extends Runnable {
-    void enqueue(Order order);
+    void enqueueBuyOrder(BuyOrder order);
 
-    Queue<Order> getBuyOrdersQueue();
-    Queue<Order> getSellOrdersQueue();
+    void enqueueSellOrder(SellOrder order);
+
+    Queue<BuyOrder> getBuyOrdersQueue();
+    Queue<SellOrder> getSellOrdersQueue();
 
     void stop();
 }

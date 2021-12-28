@@ -13,8 +13,12 @@ class BackendService {
         return profileData;
     }
 
-    executeOrder(order){
-        return axios.post(apiRoute + "orders/execute", order);
+    sendBuyOrder(order){
+        return axios.post(apiRoute + "orders/send/buy", order);
+    }
+
+    sendSellOrder(order){
+        return axios.post(apiRoute + "orders/send/sell", order);
     }
 
     getCompanyIsListedData(ticker){
@@ -27,6 +31,10 @@ class BackendService {
 
     getAllListedCompanies(){
         return axios.get(apiRoute + "listedcompanies/get");
+    }
+
+    getTrades(){
+        return axios.get(apiRoute + "trades/get");
     }
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrdersRepository {
-    void save(Order activeOrder);
+    void save(Order order);
 
     Optional<Order> findByOrderId(OrderID id);
 

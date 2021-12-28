@@ -1,11 +1,9 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.events.EventBus;
-import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
-import es.jaime.exchange.domain.events.OrderArrivedEvent;
+import es.jaime.exchange.domain.events.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
-import es.jaime.exchange.domain.models.Order;
-import es.jaime.exchange.domain.models.OrderType;
+import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MatchingOrderEngine;
 import es.jaime.exchange.domain.services.MatchingPriceEngine;
@@ -20,8 +18,8 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 @Service
 public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable {
-    private final Queue<Order> buyOrders;
-    private final Queue<Order> sellOrders;
+    private final Queue<BuyOrder> buyOrders;
+    private final Queue<SellOrder> sellOrders;
     private final TradeProcessor tradeProcessor;
     private final ExchangeConfiguration configuration;
     private final MatchingPriceEngine matchingPriceEngine;
@@ -39,18 +37,24 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         this.running = true;
     }
 
-    @EventListener
-    public void onNewOrder(OrderArrivedEvent orderArrivedEvent) {
-        this.enqueue(orderArrivedEvent.getOrder());
+    @EventListener({BuyOrderArrivedEvent.class})
+    public void onNewBuyOrder(BuyOrderArrivedEvent buyOrderArrivedEvent) {
+        enqueueBuyOrder(buyOrderArrivedEvent.getBuyOrder());
     }
 
     @Override
-    public void enqueue(Order order) {
-        if(order.getType() == OrderType.BUY){
-            buyOrders.add(order);
-        }else{
-            sellOrders.add(order);
-        }
+    public void enqueueBuyOrder(BuyOrder order) {
+        buyOrders.offer(order);
+    }
+
+    @EventListener({SellOrderArrivedEvent.class})
+    public void onNewSellOrder(SellOrderArrivedEvent sellOrderArrivedEvent) {
+        enqueueSellOrder(sellOrderArrivedEvent.getSellOrder());
+    }
+
+    @Override
+    public void enqueueSellOrder(SellOrder order) {
+        sellOrders.offer(order);
     }
 
     @Override
@@ -71,8 +75,8 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
             return;
         }
 
-        Order buyOrder = buyOrders.poll();
-        Order sellOrder = sellOrders.poll();
+        BuyOrder buyOrder = buyOrders.poll();
+        SellOrder sellOrder = sellOrders.poll();
 
         if(matchingPriceEngine.isThereAnyMatch(buyOrder, sellOrder)){
             tradeProcessor.process(buyOrder, sellOrder);
@@ -83,7 +87,7 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         }
     }
 
-    private void reenqueueIfSomeOrderWasntAllCompleted(Order buyOrder, Order sellOrder){
+    private void reenqueueIfSomeOrderWasntAllCompleted(BuyOrder buyOrder, SellOrder sellOrder){
         if(buyOrder.getQuantity() > 0){
             this.buyOrders.add(buyOrder);
         }
@@ -93,7 +97,7 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
     }
 
     @SneakyThrows
-    private void processMismatch(Order buyOrder, Order sellOrder) {
+    private void processMismatch(BuyOrder buyOrder, SellOrder sellOrder) {
         int actualTtlBuyOrder = buyOrder.decreaseTtlByOne();
         int actualTtlSellOrder = sellOrder.decreaseTtlByOne();
 
@@ -104,12 +108,12 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
     }
 
     @Override
-    public Queue<Order> getBuyOrdersQueue() {
+    public Queue<BuyOrder> getBuyOrdersQueue() {
         return new PriorityQueue<>(this.buyOrders);
     }
 
     @Override
-    public Queue<Order> getSellOrdersQueue() {
+    public Queue<SellOrder> getSellOrdersQueue() {
         return new PriorityQueue<>(this.sellOrders);
     }
 

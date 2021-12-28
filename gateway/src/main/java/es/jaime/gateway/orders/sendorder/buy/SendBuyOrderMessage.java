@@ -1,9 +1,9 @@
-package es.jaime.gateway.orders.executeorder;
+package es.jaime.gateway.orders.sendorder.buy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
 import es.jaime.gateway.orders._shared.domain.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -11,7 +11,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ExecuteOrderCommand implements Command, Message {
+@AllArgsConstructor
+public class SendBuyOrderMessage implements Message {
     @Getter private final OrderID orderID;
     @Getter private final OrderClientID clientID;
     @Getter private final OrderDate date;
@@ -19,16 +20,6 @@ public final class ExecuteOrderCommand implements Command, Message {
     @Getter private final OrderQuantity quantity;
     @Getter private final OrderTicker ticker;
     @Getter private final OrderType type;
-
-    public ExecuteOrderCommand(String clientId, int quantity, String ticker, String orderType, double executionPrice) {
-        this.orderID = OrderID.generate();
-        this.clientID = OrderClientID.of(clientId);
-        this.quantity = OrderQuantity.of(quantity);
-        this.ticker = OrderTicker.of(ticker);
-        this.type = OrderType.of(orderType);
-        this.date = OrderDate.now();
-        this.executionPrice = OrderExecutionPrice.of(executionPrice);
-    }
 
     @Override
     @SneakyThrows
@@ -45,7 +36,7 @@ public final class ExecuteOrderCommand implements Command, Message {
         return new HashMap<>(){{
             put("orderId", orderID.value());
             put("clientId", clientID.value());
-            put("date", date.value().toString());
+            put("date", date.value());
             put("executionPrice", executionPrice.value());
             put("quantity", quantity.value());
             put("ticker", ticker.value());

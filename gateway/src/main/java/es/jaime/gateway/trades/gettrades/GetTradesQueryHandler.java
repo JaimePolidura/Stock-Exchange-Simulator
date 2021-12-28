@@ -18,8 +18,7 @@ public class GetTradesQueryHandler implements QueryHandler<GetTradesQuery, GetTr
 
     @Override
     public GetTradesQueryResponse handle(GetTradesQuery query) {
-        List<Trade> trades = repository.findTradesByClientId(query.getClientId())
-                .orElseThrow(() -> new ResourceNotFound("No trades found for you"));
+        List<Trade> trades = repository.findTradesByClientId(query.getClientId());
 
         return GetTradesQueryResponse.create(trades);
     }

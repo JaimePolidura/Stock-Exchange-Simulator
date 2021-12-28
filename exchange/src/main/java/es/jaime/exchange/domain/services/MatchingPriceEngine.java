@@ -1,9 +1,11 @@
 package es.jaime.exchange.domain.services;
 
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.SellOrder;
 
 public interface MatchingPriceEngine {
-    boolean isThereAnyMatch(Order buyOrder, Order sellOrder);
+    boolean isThereAnyMatch(BuyOrder buyOrder, SellOrder sellOrder);
 
-    double getPriceMatch(Order buyOrder, Order sellOrder);
+    double getPriceMatch(BuyOrder buyOrder, SellOrder sellOrder);
 }

@@ -21,12 +21,23 @@ public class ExecutedOrdersRabbitListener {
 
     @RabbitListener(queues = "sxs.executed-orders.gateway")
     public void on (String jsonString){
+        System.out.println(jsonString);
+
         OrderExecuted event = buildEventFromJSON(new JSONObject(jsonString));
 
         this.eventBus.publish(event);
     }
 
     private OrderExecuted buildEventFromJSON(JSONObject jsonObject){
+        String type = jsonObject.getString("type");
+
+        return type.equalsIgnoreCase("ORDER.BUY.EXECUTED") ?
+                buildBuyOrderEvent(jsonObject) :
+                buildSellOrderEvent(jsonObject);
+    }
+
+    //TODO Remove duplicates
+    private BuyOrderExecuted buildBuyOrderEvent(JSONObject jsonObject) {
         JSONObject body = jsonObject.getJSONObject("body");
 
         String orderId = body.getString("orderId");
@@ -37,8 +48,21 @@ public class ExecutedOrdersRabbitListener {
         String date = body.getString("date");
         OrderTypeValues orderType = OrderTypeValues.valueOf(body.getString("type"));
 
-        return orderType == OrderTypeValues.BUY ?
-                new BuyOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType) :
-                new SellOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType);
+        return new BuyOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType);
+    }
+
+    private SellOrderExecuted buildSellOrderEvent(JSONObject jsonObject) {
+        JSONObject body = jsonObject.getJSONObject("body");
+
+        String orderId = body.getString("orderId");
+        String clientId = String.valueOf(jsonObject.getJSONArray("to").get(0));
+        String ticker = body.getString("ticker");
+        double executionPrice = body.getDouble("executionPrice");
+        int quantity = body.getInt("quantity");
+        String date = body.getString("date");
+        OrderTypeValues orderType = OrderTypeValues.valueOf(body.getString("type"));
+        String tradeId = body.getString("tradeId");
+
+        return new SellOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType, tradeId);
     }
 }

@@ -11,13 +11,12 @@ const BuyStockModal = props => {
 
     const onSubmit = form => {
         let finalRequestToApi = {
-            orderType: 'BUY',
-            executionType: buyExecutionType == 'market' ? -1 : form.price,
+            executionPrice: buyExecutionType == 'market' ? -1 : form.price,
             quantity: form.quantity,
             ticker: form.ticker.toUpperCase(),
         }
 
-        backend.executeOrder(finalRequestToApi)
+        backend.sendBuyOrder(finalRequestToApi)
             .then(response => onSuccess(response))
             .catch(error => onFailure(error));
     }

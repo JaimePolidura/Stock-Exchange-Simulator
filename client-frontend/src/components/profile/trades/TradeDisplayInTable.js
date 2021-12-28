@@ -18,9 +18,10 @@ class TradeDisplayInTable extends React.Component {
             <>
                 <tr className="trade-tr" onClick={() => {this.openModal();}}>
                     <td>{this.state.trade.ticker}</td>
-                    <td>{this.state.trade.name}</td>
-                    <td>{this.state.trade.averagePrice} $</td>
-                    <td>{this.state.trade.actualPrice} $</td>
+                    <td>{this.nameFromTicker(this.state.trade.ticker)}</td>
+                    <td>{this.state.trade.openingPrice} $</td>
+                    <td>{this.state.trade.openingDate}</td>
+                    <td>{this.actualPriceFromTicker(this.state.trade.ticker)} $</td>
                     <td>{this.state.trade.quantity}</td>
                     <td>{this.renderMarketValue()}</td>
                     <td>{this.renderResult()}</td>
@@ -29,6 +30,14 @@ class TradeDisplayInTable extends React.Component {
                 {this.renderSellStockModal()}
             </>
         );
+    }
+
+    nameFromTicker(name){
+        return "";
+    }
+
+    actualPriceFromTicker(ticker){
+        return 1000;
     }
 
     renderSellStockModal(){
@@ -67,14 +76,14 @@ class TradeDisplayInTable extends React.Component {
     renderMarketValue(){
         let trade = this.state.trade;
 
-        return Math.round(trade.quantity * trade.actualPrice) + " $";
+        return Math.round(trade.quantity * this.actualPriceFromTicker(trade.ticker)) + " $";
     }
 
     renderResultYield(){
         let trade = this.state.trade;
 
-        let investedCapital = trade.quantity * trade.averagePrice;
-        let actualCapital = trade.quantity * trade.actualPrice;
+        let investedCapital = trade.quantity * trade.openingPrice;
+        let actualCapital = trade.quantity * this.actualPriceFromTicker(trade.ticker);
 
         let resultYield = Math.round(((actualCapital / investedCapital) - 1) * 100);
 
@@ -86,7 +95,7 @@ class TradeDisplayInTable extends React.Component {
     calculateResult(){
         let trade = this.state.trade;
 
-        return Math.round((trade.actualPrice - trade.averagePrice) * trade.quantity);
+        return Math.round((this.actualPriceFromTicker(trade.ticker) - trade.openingPrice) * trade.quantity);
     }
 }
 

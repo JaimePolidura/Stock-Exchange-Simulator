@@ -12,7 +12,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import javax.sql.DataSource;
 import java.io.IOException;
 
-@Configuration
+@Configuration("hibernate-configuration")
 @EnableTransactionManagement
 public class HibernateConfiguration {
     private final HibernateConfigurationFactory factory;

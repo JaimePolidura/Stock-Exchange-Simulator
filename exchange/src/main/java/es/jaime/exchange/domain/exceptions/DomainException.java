@@ -1,6 +1,6 @@
 package es.jaime.exchange.domain.exceptions;
 
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.Order;
 import lombok.Getter;
 
 public class DomainException extends Exception{

@@ -1,4 +1,4 @@
-class ListedCompaniesService {
+class ListedCompaniesData {
     constructor() {
         this.listedCompanies = null;
     }
@@ -12,4 +12,4 @@ class ListedCompaniesService {
     }
 }
 
-export default new ListedCompaniesService();
+export default new ListedCompaniesData();

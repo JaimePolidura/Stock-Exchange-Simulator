@@ -1,6 +1,6 @@
 package es.jaime.exchange.domain.events;
 
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

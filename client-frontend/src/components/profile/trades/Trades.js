@@ -5,7 +5,7 @@ import './Trades.css';
 export default class Trades extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             trades: props.trades,
             onOrderSellSended: props.onOrderSellSended,
@@ -19,7 +19,8 @@ export default class Trades extends React.Component {
                 <tr>
                     <th>Ticker</th>
                     <th>Name</th>
-                    <th>Average Price</th>
+                    <th>Opening Price</th>
+                    <th>Opening date</th>
                     <th>Actual price</th>
                     <th>Quantity</th>
                     <th>Market value</th>
@@ -30,7 +31,7 @@ export default class Trades extends React.Component {
 
                 <tbody>
                     {this.state.trades.map(trade =>
-                        <TradeDisplayInTable key={trade.name}
+                        <TradeDisplayInTable key={trade.tradeId}
                                              onOrderSellSended={order => this.onOrderSellSended(order)}
                                              value={trade}
                         />)}

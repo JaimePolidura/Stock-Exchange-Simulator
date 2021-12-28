@@ -7,12 +7,14 @@ import java.util.Map;
 
 @AllArgsConstructor
 public final class Trade extends Aggregate {
-    private final TradeId tradeId;
-    private final TradeClientId clientId;
-    private final TradeTicker ticker;
-    private final TradeOpeningPrice openingPrice;
-    private final TradeOpeningDate openingDate;
-    private final TradeQuantity quantity;
+    private TradeId tradeId;
+    private TradeClientId clientId;
+    private TradeTicker ticker;
+    private TradeOpeningPrice openingPrice;
+    private TradeOpeningDate openingDate;
+    private TradeQuantity quantity;
+
+    public Trade () {}
 
     public TradeId tradeId() {
         return tradeId;

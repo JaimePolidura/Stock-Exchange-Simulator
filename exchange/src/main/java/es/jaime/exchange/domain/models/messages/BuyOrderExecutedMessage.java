@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
-public class ExecutedOrderMessage extends Message{
-    private static final MessageType type = MessageType.EXECUTED_ORDER;
+public class BuyOrderExecutedMessage extends Message{
+    private static final MessageType type = MessageType.EXECUTED_BUY_ORDER;
     private final String orderId;
     private final String clientId;
     private final String ticker;

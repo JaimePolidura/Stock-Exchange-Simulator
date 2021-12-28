@@ -6,7 +6,9 @@ import java.util.Optional;
 public interface TradesRepository {
     void save(Trade trade);
 
-    Optional<List<Trade>> findTradesByClientId(TradeClientId clientId);
+    List<Trade> findTradesByClientId(TradeClientId clientId);
 
-    void removeByTradeId(TradeId tradeId);
+    Optional<Trade> findByTradeId(TradeId tradeId);
+
+    void deleteByTradeId(TradeId tradeId);
 }

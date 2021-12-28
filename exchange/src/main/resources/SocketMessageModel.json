@@ -1,5 +1,5 @@
 {
-  "type": "order.executed",
+  "type": "ORDER.SELL.EXECUTED",
   "to": ["jaime"],
   "body": {
     "orderId": "12-12-12-12",

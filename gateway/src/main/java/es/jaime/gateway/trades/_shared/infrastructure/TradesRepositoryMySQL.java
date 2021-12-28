@@ -3,6 +3,7 @@ package es.jaime.gateway.trades._shared.infrastructure;
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.trades._shared.domain.*;
 import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Repository
+@DependsOn({"hibernate-configuration"})
 @Transactional("gateway-transaction-manager")
 public class TradesRepositoryMySQL extends HibernateRepository<Trade> implements TradesRepository {
     public TradesRepositoryMySQL(SessionFactory sessionFactory) {
@@ -23,12 +25,17 @@ public class TradesRepositoryMySQL extends HibernateRepository<Trade> implements
     }
 
     @Override
-    public Optional<List<Trade>> findTradesByClientId(TradeClientId clientId) {
-        return byQuery("SELECT * FROM trades WHERE trades.clientId = '"+clientId.value()+"'");
+    public List<Trade> findTradesByClientId(TradeClientId clientId) {
+        return byQuery("SELECT * FROM trades WHERE trades.clientId = '"+clientId.value()+"'").get();
     }
 
     @Override
-    public void removeByTradeId(TradeId tradeId) {
+    public Optional<Trade> findByTradeId(TradeId tradeId) {
+        return byId(tradeId);
+    }
+
+    @Override
+    public void deleteByTradeId(TradeId tradeId) {
         delete("trades", "tradeId = '"+tradeId+"'");
     }
 

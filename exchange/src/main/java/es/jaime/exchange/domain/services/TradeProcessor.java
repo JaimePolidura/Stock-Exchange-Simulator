@@ -1,7 +1,9 @@
 package es.jaime.exchange.domain.services;
 
-import es.jaime.exchange.domain.models.Order;
+import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.SellOrder;
 
 public interface TradeProcessor {
-    void process(Order buyOrder, Order sellOrder);
+    void process(BuyOrder buyOrder, SellOrder sellOrder);
 }
