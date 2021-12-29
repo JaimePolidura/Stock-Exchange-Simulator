@@ -36,7 +36,7 @@ public class TradesRepositoryMySQL extends HibernateRepository<Trade> implements
 
     @Override
     public void deleteByTradeId(TradeId tradeId) {
-        delete("trades", "tradeId = '"+tradeId+"'");
+        delete("trades", "tradeId = '"+tradeId.value()+"'");
     }
 
     @Override
