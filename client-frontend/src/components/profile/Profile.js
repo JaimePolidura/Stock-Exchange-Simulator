@@ -27,9 +27,11 @@ class Profile extends React.Component {
         this.setUpListedCompanies();
     }
 
-    getTradesFromApi(){
+    getTradesFromApi() {
         backendService.getTrades().then(res => {
-            this.setState(state => ({...state, trades: res.data.trades}), () => console.log(this.state.trades));
+            this.setState({trades: []}, () => {
+                this.setState({trades: this.state.trades.concat(res.data.trades)});
+            });
         });
     }
 

@@ -43,5 +43,4 @@ export default class Trades extends React.Component {
     onOrderSellSended(order){
         this.state.onOrderSellSended(order);
     }
-
 }
