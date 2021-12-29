@@ -29,15 +29,7 @@ class Profile extends React.Component {
 
     getTradesFromApi(){
         backendService.getTrades().then(res => {
-            let allTradesFromApi = this.state.trades;
-
-            allTradesFromApi.splice(0, allTradesFromApi.length);
-
-            res.data.trades.forEach(trade => {
-                allTradesFromApi.push(trade);
-            });
-
-            this.setState({trades: allTradesFromApi});
+            this.setState(state => ({...state, trades: res.data.trades}), () => console.log(this.state.trades));
         });
     }
 
@@ -50,8 +42,7 @@ class Profile extends React.Component {
     }
 
     setUpListedCompanies(){
-        backendService.getAllListedCompanies()
-            .then(res => listedCompaniesService.setListedCompanies(res.data));
+        backendService.getAllListedCompanies().then(res => listedCompaniesService.setListedCompanies(res.data));
     }
 
     setUpSocket() {
@@ -63,25 +54,15 @@ class Profile extends React.Component {
     }
 
     onBuyOrderExecuted(executedOrder){
-        this.reloadTradesWithTimeout();
+        // this.reloadTradesWithTimeout();
+        this.getTradesFromApi();
         this.removeOrder(executedOrder);
     }
 
     onSellOrderExecuted(executedOrder){
-        this.reloadTradesWithTimeout();
+        // this.reloadTradesWithTimeout();
+        this.getTradesFromApi();
         this.removeOrder(executedOrder);
-    }
-
-    reloadTradesWithTimeout(){
-        backendService.getTrades().then(res => {
-            let trades = res.data.trades;
-
-            trades.splice(0, trades.length);
-
-            trades.forEach(trade => {
-                this.addTrade(trade);
-            });
-        });
     }
 
     addTrade(trade){
@@ -141,7 +122,7 @@ class Profile extends React.Component {
                 <hr/>
                 <Stats cash = {this.state.cash}/>
                 <br/>
-                <Trades trades={this.state.trades} onOrderSellSended={order => this.onOrderSellSended(order)} />
+                <Trades trades={this.state.trades} key={this.state.trades} onOrderSellSended={order => this.onOrderSellSended(order)} />
                 <br/>
                 <Orders orders={this.state.orders}/>
             </div>

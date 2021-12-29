@@ -5,6 +5,8 @@ import Profile from "./components/profile/Profile";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ProtectedRoute} from "./components/protected.route";
+import React from "react";
+import FunctionalProfile from "./components/FunctionalProfile";
 
 function App (props) {
   return (

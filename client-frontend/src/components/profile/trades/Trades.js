@@ -6,6 +6,8 @@ export default class Trades extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log(props);
+
         this.state = {
             trades: props.trades,
             onOrderSellSended: props.onOrderSellSended,
@@ -31,10 +33,8 @@ export default class Trades extends React.Component {
 
                 <tbody>
                     {this.state.trades.map(trade =>
-                        <TradeDisplayInTable key={trade.tradeId}
-                                             onOrderSellSended={order => this.onOrderSellSended(order)}
-                                             value={trade}
-                        />)}
+                        <TradeDisplayInTable key={trade.tradeId} onOrderSellSended={order => this.onOrderSellSended(order)} value={trade}/>)
+                    }
                 </tbody>
             </table>
         );

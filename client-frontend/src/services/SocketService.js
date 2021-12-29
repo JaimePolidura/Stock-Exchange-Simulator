@@ -17,11 +17,11 @@ class ClientEventDispatcherSocketService {
 
     connect(clientId){
         this.socket = io(URL, { transports : ['websocket'] }).on(clientId, msg => {
-            this.#onNewMessage(msg);
+            this.onNewMessage(msg);
         });
     }
 
-    #onNewMessage(msg){
+    onNewMessage(msg){
         console.log(msg);
 
         if(msg.type == EXECUTED_SELL_ORDER) {
