@@ -2,20 +2,20 @@ package es.jaime.gateway.orders._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @AllArgsConstructor
 public final class Order extends Aggregate {
-    private OrderID orderId;
-    private OrderTicker ticker;
-    private OrderClientID clientId;
-    private OrderDate date;
-    private OrderQuantity quantity;
-    private OrderType type;
-    private OrderExecutionPrice executionPrice;
+    @Getter private OrderID orderId;
+    @Getter private OrderTicker ticker;
+    @Getter private OrderClientID clientId;
+    @Getter private OrderDate date;
+    @Getter private OrderQuantity quantity;
+    @Getter private OrderType type;
+    @Getter private OrderExecutionPrice executionPrice;
 
     private Order() {}
 
@@ -43,37 +43,5 @@ public final class Order extends Aggregate {
         this.executionPrice = OrderExecutionPrice.of(Double.parseDouble(String.valueOf(values.get("executionPrice"))));
 
         return this;
-    }
-
-    private UUID primitiveObjectToUUID(Map<String, Object> values, String key){
-        return UUID.fromString(String.valueOf(values.get(key)));
-    }
-
-    public OrderID orderId() {
-        return orderId;
-    }
-
-    public OrderClientID clientId() {
-        return clientId;
-    }
-
-    public OrderDate date() {
-        return date;
-    }
-
-    public OrderQuantity quantity() {
-        return quantity;
-    }
-
-    public OrderTicker ticker() {
-        return ticker;
-    }
-
-    public OrderType type() {
-        return type;
-    }
-
-    public OrderExecutionPrice executionPrice() {
-        return executionPrice;
     }
 }

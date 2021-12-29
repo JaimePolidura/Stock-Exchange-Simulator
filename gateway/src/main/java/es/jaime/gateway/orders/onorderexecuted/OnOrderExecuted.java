@@ -1,6 +1,5 @@
 package es.jaime.gateway.orders.onorderexecuted;
 
-import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.orders._shared.domain.Order;
 import es.jaime.gateway.orders._shared.domain.OrderID;
 import es.jaime.gateway.orders._shared.domain.OrderQuantity;
@@ -33,21 +32,21 @@ public class OnOrderExecuted {
 
         Order order = orderOptional.get();
 
-        if(order.quantity().value() > quantity)
+        if(order.getQuantity().value() > quantity)
             updateQuantityOrder(order, quantity);
         else
-            removeOrder(order.orderId());
+            removeOrder(order.getOrderId());
     }
 
     private void updateQuantityOrder(Order order, int quantity){
         repository.save(new Order(
-                order.orderId(),
-                order.ticker(),
-                order.clientId(),
-                order.date(),
-                OrderQuantity.of(order.quantity().value() - quantity),
-                order.type(),
-                order.executionPrice()
+                order.getOrderId(),
+                order.getTicker(),
+                order.getClientId(),
+                order.getDate(),
+                OrderQuantity.of(order.getQuantity().value() - quantity),
+                order.getType(),
+                order.getExecutionPrice()
         ));
     }
 

@@ -28,7 +28,6 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     @Override
     public void handle(BuyOrderCommand command) {
         ensureTickerExists(command);
-        ensureCorrectQuantity(command);
 
         this.repository.save(new Order(
                 command.getOrderID(),
@@ -54,11 +53,5 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     private void ensureTickerExists(BuyOrderCommand command){
         //If it is not found the service will throw ResourceNotFound exception
         listedCompanyFinder.find(ListedCompanyTicker.of(command.getTicker().value()));
-    }
-
-    private void ensureCorrectQuantity(BuyOrderCommand command){
-        if(command.getQuantity().value() <= 0){
-            throw new IllegalQuantity("Quantity cannot be smaller or equal to 0");
-        }
     }
 }

@@ -21,8 +21,6 @@ public class ExecutedOrdersRabbitListener {
 
     @RabbitListener(queues = "sxs.executed-orders.gateway")
     public void on (String jsonString){
-        System.out.println(jsonString);
-
         OrderExecuted event = buildEventFromJSON(new JSONObject(jsonString));
 
         this.eventBus.publish(event);
@@ -31,38 +29,50 @@ public class ExecutedOrdersRabbitListener {
     private OrderExecuted buildEventFromJSON(JSONObject jsonObject){
         String type = jsonObject.getString("type");
 
-        return type.equalsIgnoreCase("ORDER.BUY.EXECUTED") ?
+        return type.equalsIgnoreCase(ExecutedOrderTypes.EXECUTED_BUY_ORDER.getType()) ?
                 buildBuyOrderEvent(jsonObject) :
                 buildSellOrderEvent(jsonObject);
     }
 
-    //TODO Remove duplicates
     private BuyOrderExecuted buildBuyOrderEvent(JSONObject jsonObject) {
         JSONObject body = jsonObject.getJSONObject("body");
 
-        String orderId = body.getString("orderId");
-        String clientId = String.valueOf(jsonObject.getJSONArray("to").get(0));
-        String ticker = body.getString("ticker");
-        double executionPrice = body.getDouble("executionPrice");
-        int quantity = body.getInt("quantity");
-        String date = body.getString("date");
-        OrderTypeValues orderType = OrderTypeValues.valueOf(body.getString("type"));
-
-        return new BuyOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType);
+        return new BuyOrderExecuted(getOrderId(body), getClientId(jsonObject), getTicker(body),
+                getExecutionPrice(body), getQuantity(body), getDate(body));
     }
 
     private SellOrderExecuted buildSellOrderEvent(JSONObject jsonObject) {
         JSONObject body = jsonObject.getJSONObject("body");
 
-        String orderId = body.getString("orderId");
-        String clientId = String.valueOf(jsonObject.getJSONArray("to").get(0));
-        String ticker = body.getString("ticker");
-        double executionPrice = body.getDouble("executionPrice");
-        int quantity = body.getInt("quantity");
-        String date = body.getString("date");
-        OrderTypeValues orderType = OrderTypeValues.valueOf(body.getString("type"));
-        String tradeId = body.getString("tradeId");
+        return new SellOrderExecuted(getOrderId(body), getClientId(jsonObject), getTicker(body),
+                getExecutionPrice(body), getQuantity(body), getDate(body), getTradeId(body));
+    }
 
-        return new SellOrderExecuted(orderId, clientId, ticker, executionPrice, quantity, date, orderType, tradeId);
+    private String getOrderId(JSONObject jsonObject) {
+        return jsonObject.getString("orderId");
+    }
+
+    private String getClientId(JSONObject jsonObject){
+        return String.valueOf(jsonObject.getJSONArray("to").get(0));
+    }
+
+    private String getTicker(JSONObject jsonObject){
+        return jsonObject.getString("ticker");
+    }
+
+    private double getExecutionPrice(JSONObject jsonObject){
+        return jsonObject.getDouble("executionPrice");
+    }
+
+    private int getQuantity(JSONObject jsonObject){
+        return jsonObject.getInt("quantity");
+    }
+
+    private String getDate(JSONObject jsonObject){
+        return jsonObject.getString("date");
+    }
+
+    private String getTradeId(JSONObject jsonObject){
+        return jsonObject.getString("tradeId");
     }
 }

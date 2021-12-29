@@ -7,8 +7,8 @@ public final class SellOrderExecuted extends OrderExecuted{
     @Getter private final String tradeId;
 
     public SellOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
-                             int quantity, String date, OrderTypeValues orderType, String tradeId) {
-        super(orderId, clientId, ticker, executionPrice, quantity, date, orderType);
+                             int quantity, String date, String tradeId) {
+        super(orderId, clientId, ticker, executionPrice, quantity, date);
         this.tradeId = tradeId;
     }
 }

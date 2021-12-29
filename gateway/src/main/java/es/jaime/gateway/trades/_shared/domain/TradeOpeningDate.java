@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 
 public final class TradeOpeningDate extends StringValueObject {
     public TradeOpeningDate(String value) {
+
+
         super(value);
     }
 
-    public TradeOpeningDate() {
-        super(null);
-    }
+    public TradeOpeningDate() {super(null);}
 
     public static TradeOpeningDate of(String value){
         return new TradeOpeningDate(value);

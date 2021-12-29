@@ -1,6 +1,5 @@
 package es.jaime.gateway.trades.gettrades;
 
-import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradesRepository;
@@ -20,6 +19,6 @@ public class GetTradesQueryHandler implements QueryHandler<GetTradesQuery, GetTr
     public GetTradesQueryResponse handle(GetTradesQuery query) {
         List<Trade> trades = repository.findTradesByClientId(query.getClientId());
 
-        return GetTradesQueryResponse.create(trades);
+        return GetTradesQueryResponse.fromAggregateList(trades);
     }
 }

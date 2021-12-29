@@ -7,7 +7,6 @@ import es.jaime.gateway.orders._shared.domain.OrderTypeValues;
 import es.jaime.gateway.orders.getorder.GetOrderQuery;
 import es.jaime.gateway.orders.getorder.GetOrderQueryResponse;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +25,7 @@ public class BuyOrderController extends Controller {
     }
 
     @PostMapping("/orders/send/buy")
-    public ResponseEntity<Response> sendOrderBuy(@RequestBody Request request){
-        //Order-id generated in commandExecute order
+    public ResponseEntity<GetOrderQueryResponse> sendOrderBuy(@RequestBody Request request){
         BuyOrderCommand buyOrderCommand = new BuyOrderCommand(
                 getLoggedUsername(),
                 request.ticker,
@@ -36,30 +34,13 @@ public class BuyOrderController extends Controller {
         );
         this.commandBus.dispatch(buyOrderCommand);
 
-        Response response = buildResponseFromRequestAndCommnad(request, buyOrderCommand);
+        //Order-id generated in commandExecute order
+        GetOrderQueryResponse response = queryBus.ask(new GetOrderQuery(
+                buyOrderCommand.getOrderID().value(),
+                getLoggedUsername()
+        ));
 
         return buildNewHttpResponseOK(response);
-    }
-
-    private Response buildResponseFromRequestAndCommnad(Request request, BuyOrderCommand command){
-        return new Response(
-                command.getOrderID().value(),
-                request.ticker,
-                OrderTypeValues.BUY.toString(),
-                request.executionPrice,
-                request.quantity,
-                command.getOrderDate().value()
-        );
-    }
-
-    @AllArgsConstructor
-    private static final class Response{
-        public final String orderId;
-        public final String ticker;
-        public final String type;
-        public final double executionPrice;
-        public final int quantity;
-        public final String date;
     }
 
     @AllArgsConstructor

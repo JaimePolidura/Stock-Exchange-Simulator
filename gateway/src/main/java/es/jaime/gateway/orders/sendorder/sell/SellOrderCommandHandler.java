@@ -7,6 +7,7 @@ import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.trades._shared.domain.Trade;
+import es.jaime.gateway.trades._shared.domain.TradeFinderService;
 import es.jaime.gateway.trades._shared.domain.TradesRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,25 +18,27 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
     private final TradesRepository tradesRepository;
     private final OrdersRepository ordersRepository;
     private final MessagePublisher messagePublisher;
+    private final TradeFinderService tradeFinderService;
 
     public SellOrderCommandHandler(TradesRepository tradesRepository, OrdersRepository ordersRepository,
-                                   MessagePublisher messagePublisher) {
+                                   MessagePublisher messagePublisher, TradeFinderService tradeFinderService) {
         this.tradesRepository = tradesRepository;
         this.ordersRepository = ordersRepository;
         this.messagePublisher = messagePublisher;
+        this.tradeFinderService = tradeFinderService;
     }
 
     @Override
     public void handle(SellOrderCommand command) {
-        Trade tradeToSell = tradesRepository.findByTradeId(command.getTradeId())
-                .orElseThrow(() -> new ResourceNotFound("Trade not found for that Id"));;
+        //If it is not found, the service will throw an exception
+        Trade tradeToSell = tradeFinderService.find(command.getTradeId());
 
         ensureOwnsTheTrade(tradeToSell, command.getClientID());
         ensureCorrectQuantity(tradeToSell, command.getQuantity());
 
         ordersRepository.save(new Order(
                 command.getOrderID(),
-                OrderTicker.of(tradeToSell.ticker().value()),
+                OrderTicker.of(tradeToSell.getTicker().value()),
                 command.getClientID(),
                 command.getOrderDate(),
                 command.getQuantity(),
@@ -45,24 +48,24 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
 
         messagePublisher.publish(new SendSellOrderMessage(
                 command.getOrderID(),
-                tradeToSell.tradeId(),
+                tradeToSell.getTradeId(),
                 command.getClientID(),
                 command.getOrderDate(),
                 command.getExecutionPrice(),
                 command.getQuantity(),
-                OrderTicker.of(tradeToSell.ticker().value()),
+                OrderTicker.of(tradeToSell.getTicker().value()),
                 OrderType.of(SELL)
         ));
     }
 
     private void ensureOwnsTheTrade(Trade trade, OrderClientID clientID){
-        if(!trade.clientId().value().equalsIgnoreCase(clientID.value())){
+        if(!trade.getClientId().value().equalsIgnoreCase(clientID.value())){
             throw new NotTheOwner("You are not the owner of that trade");
         }
     }
 
     private void ensureCorrectQuantity(Trade trade, OrderQuantity quantity){
-        if(quantity.value() > trade.quantity().value()){
+        if(quantity.value() > trade.getQuantity().value()){
             throw new IllegalQuantity("You cant sell more than you have");
         }
     }

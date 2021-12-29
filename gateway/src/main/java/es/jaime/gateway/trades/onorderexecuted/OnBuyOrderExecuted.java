@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OnBuyOrderExecuted {
-    private final TradesRepository repository;
+    private final TradesRepository trades;
 
     public OnBuyOrderExecuted(TradesRepository repository) {
-        this.repository = repository;
+        this.trades = repository;
     }
 
     @EventListener({BuyOrderExecuted.class})
     public void on(BuyOrderExecuted event){
-        repository.save(new Trade(
+        trades.save(new Trade(
                 TradeId.generate(),
                 TradeClientId.of(event.getClientId()),
                 TradeTicker.of(event.getTicker()),

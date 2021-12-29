@@ -23,17 +23,17 @@ public class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, GetOrde
         ensureUserOwnsTheOrder(order, query.getUserName());
 
         return new GetOrderQueryResponse(
-                order.orderId().value(),
-                order.ticker().value(),
-                order.type().valueString(),
-                order.executionPrice().value(),
-                order.quantity().value(),
-                order.date().value()
+                order.getOrderId().value(),
+                order.getTicker().value(),
+                order.getType().valueString(),
+                order.getExecutionPrice().value(),
+                order.getQuantity().value(),
+                order.getDate().value()
         );
     }
 
     private void ensureUserOwnsTheOrder(Order order, UserName userName){
-        if(!userName.value().equals(order.clientId().value())){
+        if(!userName.value().equals(order.getClientId().value())){
             throw new IllegalAccess("You dont own that order!");
         }
     }

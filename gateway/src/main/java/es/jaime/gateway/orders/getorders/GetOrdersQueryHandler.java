@@ -13,20 +13,16 @@ import java.util.List;
 @Service
 public class GetOrdersQueryHandler implements QueryHandler<GetOrdersQuery, GetOrdersQueryResponse> {
     private final OrdersRepository activeOrders;
-    private final ListedCompanyFinderService listedCompanies;
 
-    public GetOrdersQueryHandler(OrdersRepository repository,
-                                 ListedCompanyFinderService listedCompanyFinder) {
-        this.activeOrders = repository;
-        this.listedCompanies = listedCompanyFinder;
+    public GetOrdersQueryHandler(OrdersRepository repository) {
+        this.activeOrders = repository;;
     }
 
     @Override
     public GetOrdersQueryResponse handle(GetOrdersQuery query) {
-        List<Order> activeOrders = this.activeOrders.findByClientId(query.getClientID())
+        List<Order> orders = this.activeOrders.findByClientId(query.getClientID())
                 .orElseThrow(() -> new ResourceNotFound("No orders found for you"));
-        List<ListedCompany> listedCompanies = this.listedCompanies.all();
 
-        return GetOrdersQueryResponse.fromAggregate(activeOrders, listedCompanies);
+        return GetOrdersQueryResponse.fromAggregateList(orders);
     }
 }

@@ -9,40 +9,39 @@ import java.util.Optional;
 
 @Service
 public class OnSellOrderExecuted {
-    private final TradesRepository repository;
+    private final TradesRepository trades;
 
     public OnSellOrderExecuted(TradesRepository tradesRepository) {
-        this.repository = tradesRepository;
+        this.trades = tradesRepository;
     }
 
     @EventListener({SellOrderExecuted.class})
     public void on(SellOrderExecuted event){
-        Optional<Trade> tradeToSellOptional = repository.findByTradeId(TradeId.of(event.getTradeId()));
+        Optional<Trade> tradeToSellOptional = trades.findByTradeId(TradeId.of(event.getTradeId()));
 
         if(tradeToSellOptional.isEmpty()) return;
 
         Trade tradeToSell = tradeToSellOptional.get();
 
-        if(tradeToSell.quantity().value() > event.getQuantity()){
+        if(tradeToSell.getQuantity().value() > event.getQuantity())
             updateQuantityToTradeToSell(tradeToSell, event);
-        }else{
-            deleteTradeToSell(tradeToSell.tradeId());
-        }
+        else
+            deleteTradeToSell(tradeToSell.getTradeId());
     }
 
     private void deleteTradeToSell(TradeId tradeId) {
-        this.repository.deleteByTradeId(tradeId);
+        this.trades.deleteByTradeId(tradeId);
     }
 
     private void updateQuantityToTradeToSell(Trade tradeToSell, SellOrderExecuted event) {
-        TradeQuantity updatedQuantity = TradeQuantity.of(tradeToSell.quantity().value() - event.getQuantity());
+        TradeQuantity updatedQuantity = TradeQuantity.of(tradeToSell.getQuantity().value() - event.getQuantity());
 
-        repository.save(new Trade(
-                tradeToSell.tradeId(),
-                tradeToSell.clientId(),
-                tradeToSell.ticker(),
-                tradeToSell.openingPrice(),
-                tradeToSell.openingDate(),
+        trades.save(new Trade(
+                tradeToSell.getTradeId(),
+                tradeToSell.getClientId(),
+                tradeToSell.getTicker(),
+                tradeToSell.getOpeningPrice(),
+                tradeToSell.getOpeningDate(),
                 updatedQuantity
         ));
     }
