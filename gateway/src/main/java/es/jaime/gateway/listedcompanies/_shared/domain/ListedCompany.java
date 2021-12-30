@@ -23,20 +23,4 @@ public final class ListedCompany extends Aggregate {
     public ListedCompanyName name() {
         return name;
     }
-
-    @Override
-    public Map<String, Object> toPrimitives() {
-        return new HashMap<>() {{
-            put("ticker", ticker.value());
-            put("name", name.value());
-        }};
-    }
-
-    @Override
-    public ListedCompany fromPrimitives(Map<String, Object> values) {
-        return new ListedCompany(
-                ListedCompanyTicker.of(String.valueOf(values.get("ticker"))),
-                ListedCompanyName.of(String.valueOf(values.get("name")))
-        );
-    }
 }

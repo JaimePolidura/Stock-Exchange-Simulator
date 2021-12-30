@@ -21,17 +21,17 @@ public abstract class HibernateRepository<T extends Aggregate> {
         this.aggregateClass    = aggregateClass;
     }
 
-    protected void persist(T entity) {
+    protected final void persist(T entity) {
         sessionFactory.getCurrentSession().saveOrUpdate(entity);
         sessionFactory.getCurrentSession().flush();
         sessionFactory.getCurrentSession().clear();
     }
 
-    protected Optional<T> byId(Serializable id) {
+    protected final Optional<T> byId(Serializable id) {
         return Optional.ofNullable(sessionFactory.getCurrentSession().byId(aggregateClass).load(id));
     }
 
-    protected List<T> all() {
+    protected final List<T> all() {
         CriteriaQuery<T> criteria = sessionFactory.getCriteriaBuilder().createQuery(aggregateClass);
 
         criteria.from(aggregateClass);
@@ -40,7 +40,7 @@ public abstract class HibernateRepository<T extends Aggregate> {
     }
 
     @SneakyThrows
-    protected Optional<List<T>> byQuery(String query){
+    protected final Optional<List<T>> byQuery(String query){
         Session session = sessionFactory.getCurrentSession();
         List<Object[]> result = session.createSQLQuery(query).getResultList();
 
@@ -64,7 +64,7 @@ public abstract class HibernateRepository<T extends Aggregate> {
         return null;
     }
 
-    protected void delete(String table, String condition){
+    protected final void delete(String table, String condition){
         sessionFactory.getCurrentSession()
                 .createSQLQuery("DELETE FROM " + table + " WHERE " + condition)
                 .executeUpdate();

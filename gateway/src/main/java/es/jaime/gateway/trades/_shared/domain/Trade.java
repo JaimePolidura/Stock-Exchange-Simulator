@@ -16,28 +16,4 @@ public final class Trade extends Aggregate {
     @Getter private TradeQuantity quantity;
 
     public Trade () {}
-
-    @Override
-    public Map<String, Object> toPrimitives() {
-        return Map.of(
-                "tradeId", tradeId.value(),
-                "clientId", clientId.value(),
-                "ticker", ticker.value(),
-                "openingPrice", openingPrice.value(),
-                "openingDate", openingDate.value(),
-                "quantity", quantity.value()
-        );
-    }
-
-    @Override
-    public Trade fromPrimitives(Map<String, Object> values) {
-        return new Trade(
-                TradeId.of(String.valueOf(values.get("tradeId"))),
-                TradeClientId.of(String.valueOf(values.get("clientId"))),
-                TradeTicker.of(String.valueOf(values.get("ticker"))),
-                TradeOpeningPrice.of(Double.parseDouble(String.valueOf(values.get("openingPrice")))),
-                TradeOpeningDate.of(String.valueOf(values.get("openingDate"))),
-                TradeQuantity.of(Integer.parseInt(String.valueOf(values.get("quantity"))))
-        );
-    }
 }
