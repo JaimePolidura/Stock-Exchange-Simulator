@@ -3,7 +3,6 @@ package es.jaime.exchange.application;
 import es.jaime.exchange._shared.EventBusMock;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.Order;
-import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
@@ -14,13 +13,11 @@ import org.junit.Test;
 
 import es.jaime.exchange._shared.ExchangeConfigurationMock;
 import es.jaime.exchange._shared.QueuePublisherMock;
-import java.time.LocalDateTime;
+
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static es.jaime.exchange.domain.models.OrderType.BUY;
-import static es.jaime.exchange.domain.models.OrderType.SELL;
 import static org.junit.Assert.assertEquals;
 
 public class MatchingOrderEngineByPriceTest {
@@ -107,7 +104,7 @@ public class MatchingOrderEngineByPriceTest {
 
     private BuyOrder createRandomBuyOrder(double executionPrice, int quantity){
         return new BuyOrder(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
-                "12/12/12", executionPrice, quantity, BUY, "AMZN"
+                "12/12/12", executionPrice, quantity, "AMZN"
         );
     }
 
@@ -123,7 +120,7 @@ public class MatchingOrderEngineByPriceTest {
 
     private SellOrder createRandomSellOrder(double executionPrice, int quantity){
         return new SellOrder(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
-                "12/12/12", executionPrice, quantity, SELL, UUID.randomUUID().toString()
+                "12/12/12", executionPrice, quantity, UUID.randomUUID().toString()
         );
     }
 

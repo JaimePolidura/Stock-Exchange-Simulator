@@ -1,6 +1,8 @@
+import backendService from "../services/BackendService";
+
 class ListedCompaniesData {
     constructor() {
-        this.listedCompanies = null;
+        this.listedCompanies = [];
     }
 
     setListedCompanies(listedCompanies){
@@ -8,7 +10,13 @@ class ListedCompaniesData {
     }
 
     getListedCompany(ticker){
-        return this.listedCompanies.find(listedCompany => listedCompany.ticker === ticker);
+        return this.listedCompanies.length > 0 ?
+            this.listedCompanies.find(listedCompany => listedCompany.ticker === ticker) :
+            {name: 'Loading...', ticker: 'Loading...'};
+    }
+
+    getCompanyNameFromTicker(ticker){
+        return this.getListedCompany(ticker).name;
     }
 }
 

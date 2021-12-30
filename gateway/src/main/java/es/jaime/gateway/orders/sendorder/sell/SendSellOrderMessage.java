@@ -3,7 +3,9 @@ package es.jaime.gateway.orders.sendorder.sell;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.orders._shared.domain.*;
+import es.jaime.gateway.ordertypes.domain.OrderTypeName;
 import es.jaime.gateway.trades._shared.domain.TradeId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +34,7 @@ public class SendSellOrderMessage implements Message {
 
     @Override
     public String routingKey() {
-        return String.format("sxs.new-orders.%s", this.ticker.value());
+        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.sell(), ticker);
     }
 
     private Map<String, Serializable> toPrimitives() {

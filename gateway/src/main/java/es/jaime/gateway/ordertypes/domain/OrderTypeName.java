@@ -10,4 +10,12 @@ public class OrderTypeName extends StringValueObject {
     public OrderTypeName () {
         super(null);
     }
+
+    public static OrderTypeName buy(){
+        return new OrderTypeName("buy");
+    }
+
+    public static OrderTypeName sell(){
+        return new OrderTypeName("sell");
+    }
 }

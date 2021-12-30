@@ -7,7 +7,6 @@ import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
 import socket from "../../services/SocketService";
-import listedCompaniesService from "../../data/ListedCompaniesData";
 
 class Profile extends React.Component {
     constructor(props) {
@@ -19,6 +18,7 @@ class Profile extends React.Component {
             cash: profileData.cash,
             orders: [],
             socket: props.value,
+            listedCompanies: [],
         };
 
         this.setUpSocket();
@@ -44,7 +44,13 @@ class Profile extends React.Component {
     }
 
     setUpListedCompanies(){
-        backendService.getAllListedCompanies().then(res => listedCompaniesService.setListedCompanies(res.data));
+        backendService.getAllListedCompanies().then(res => {
+            this.setState({listedCompanies: []}, () => {
+                this.setState({listedCompanies: this.state.listedCompanies.concat(res.data.allListedCompanies)}, () => {
+                    console.log(this.state.listedCompanies);
+                });
+            });
+        });
     }
 
     setUpSocket() {
@@ -56,13 +62,11 @@ class Profile extends React.Component {
     }
 
     onBuyOrderExecuted(executedOrder){
-        // this.reloadTradesWithTimeout();
         this.getTradesFromApi();
         this.removeOrder(executedOrder);
     }
 
     onSellOrderExecuted(executedOrder){
-        // this.reloadTradesWithTimeout();
         this.getTradesFromApi();
         this.removeOrder(executedOrder);
     }
@@ -124,7 +128,10 @@ class Profile extends React.Component {
                 <hr/>
                 <Stats cash = {this.state.cash}/>
                 <br/>
-                <Trades trades={this.state.trades} key={this.state.trades} onOrderSellSended={order => this.onOrderSellSended(order)} />
+                <Trades trades={this.state.trades}
+                        key={this.state.trades}
+                        listedCompanies={this.state.listedCompanies}
+                        onOrderSellSended={order => this.onOrderSellSended(order)} />
                 <br/>
                 <Orders orders={this.state.orders}/>
             </div>

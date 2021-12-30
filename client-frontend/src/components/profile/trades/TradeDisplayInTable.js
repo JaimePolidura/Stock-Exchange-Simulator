@@ -1,6 +1,8 @@
 import React from "react";
 import './TradeDisplayInTable.css';
 import SellStockModal from "./SellStockModal";
+import listedCompaniesData from "../../../data/ListedCompaniesData";
+import {set} from "react-hook-form";
 
 class TradeDisplayInTable extends React.Component {
     constructor(props) {
@@ -18,7 +20,7 @@ class TradeDisplayInTable extends React.Component {
             <>
                 <tr className="trade-tr" onClick={() => {this.openModal();}}>
                     <td>{this.state.trade.ticker}</td>
-                    <td>{this.nameFromTicker(this.state.trade.ticker)}</td>
+                    <td>{this.nameFromTicker(this.state.ticker)}</td>
                     <td>{this.state.trade.openingPrice} $</td>
                     <td>{this.state.trade.openingDate}</td>
                     <td>{this.actualPriceFromTicker(this.state.trade.ticker)} $</td>
@@ -31,9 +33,10 @@ class TradeDisplayInTable extends React.Component {
             </>
         );
     }
-
-    nameFromTicker(name){
-        return "";
+    
+    //TODO load data asynch
+    nameFromTicker(ticker){
+        return "Loading...";
     }
 
     actualPriceFromTicker(ticker){

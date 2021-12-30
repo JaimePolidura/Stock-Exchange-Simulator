@@ -3,16 +3,15 @@ package es.jaime.exchange.application;
 import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
-import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.messages.BuyOrderExecutedMessage;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.Order;
 import es.jaime.exchange.domain.models.messages.SellOrderExecutedMessage;
+import es.jaime.exchange.domain.models.orders.OrderType;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
@@ -22,7 +21,8 @@ public class TradeProcessorImpl implements TradeProcessor {
     private final MatchingPriceEngine matchingPriceEngine;
     private final EventBus eventBus;
 
-    public TradeProcessorImpl(MessagePublisher queuePublisher, ExchangeConfiguration configuration, MatchingPriceEngine matchingPriceEngine, EventBus eventBus) {
+    public TradeProcessorImpl(MessagePublisher queuePublisher, ExchangeConfiguration configuration,
+                              MatchingPriceEngine matchingPriceEngine, EventBus eventBus) {
         this.queuePublisher = queuePublisher;
         this.configuration = configuration;
         this.matchingPriceEngine = matchingPriceEngine;

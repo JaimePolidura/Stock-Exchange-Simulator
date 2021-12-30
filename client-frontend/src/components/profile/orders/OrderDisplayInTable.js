@@ -14,7 +14,7 @@ class OrderDisplayInTable extends React.Component {
             <>
                 <tr className="trade-tr">
                     <td>{this.state.order.ticker}</td>
-                    <td>{this.state.order.name}</td>
+                    <td>Loading...</td>
                     <td>{this.state.order.type}</td>
                     <td>{this.state.order.quantity}</td>
                     <td>{this.calculateTotalValue()}</td>

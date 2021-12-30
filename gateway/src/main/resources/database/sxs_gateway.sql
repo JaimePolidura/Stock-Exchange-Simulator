@@ -106,5 +106,5 @@ CREATE TABLE IF NOT EXISTS ordertypes(
 
 DELETE FROM ordertypes;
 
-INSERT INTO ordertypes VALUES ('ORDER.SELL');
-INSERT INTO ordertypes VALUES ('ORDER.BUY');
+INSERT INTO ordertypes VALUES ('buy');
+INSERT INTO ordertypes VALUES ('sell');

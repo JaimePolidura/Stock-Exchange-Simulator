@@ -6,11 +6,10 @@ export default class Trades extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
-
         this.state = {
             trades: props.trades,
             onOrderSellSended: props.onOrderSellSended,
+            listedCompanies: props.listedCompanies,
         };
     }
 
@@ -33,12 +32,23 @@ export default class Trades extends React.Component {
 
                 <tbody>
                     {this.state.trades.map(trade =>
-                        <TradeDisplayInTable key={trade.tradeId} onOrderSellSended={order => this.onOrderSellSended(order)} value={trade}/>)
+                        <TradeDisplayInTable key={trade.tradeId}
+                                             companyName={this.getCompanyNameFromTicker(trade.ticker)}
+                                             onOrderSellSended={order => this.onOrderSellSended(order)}
+                                             value={trade}/>)
                     }
                 </tbody>
             </table>
         );
    }
+
+    getCompanyNameFromTicker(ticker){
+        let found = this.state.listedCompanies.find(listedCompany => listedCompany.ticker == ticker);
+
+        return found == null || false ?
+            "Loading" :
+            found.name;
+    }
 
     onOrderSellSended(order){
         this.state.onOrderSellSended(order);

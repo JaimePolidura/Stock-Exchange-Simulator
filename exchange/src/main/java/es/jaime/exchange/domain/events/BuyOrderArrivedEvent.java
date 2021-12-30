@@ -1,7 +1,7 @@
 package es.jaime.exchange.domain.events;
 
-import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.OrderType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.json.JSONObject;
@@ -17,7 +17,6 @@ public class BuyOrderArrivedEvent extends DomainEvent{
                 jsonObject.getString("date"),
                 jsonObject.getDouble("executionPrice"),
                 jsonObject.getInt("quantity"),
-                OrderType.BUY,
                 jsonObject.getString("ticker")
         ));
     }

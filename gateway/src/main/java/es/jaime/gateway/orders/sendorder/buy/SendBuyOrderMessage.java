@@ -2,7 +2,9 @@ package es.jaime.gateway.orders.sendorder.buy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.orders._shared.domain.*;
+import es.jaime.gateway.ordertypes.domain.OrderTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -29,7 +31,7 @@ public class SendBuyOrderMessage implements Message {
 
     @Override
     public String routingKey() {
-        return String.format("sxs.new-orders.%s", this.ticker.value());
+        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.buy(), ticker);
     }
 
     private Map<String, Serializable> toPrimitives() {

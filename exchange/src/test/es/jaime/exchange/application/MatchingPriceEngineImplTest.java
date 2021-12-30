@@ -1,14 +1,11 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.models.orders.BuyOrder;
-import es.jaime.exchange.domain.models.orders.Order;
-import es.jaime.exchange.domain.models.OrderType;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.MatchingPriceEngine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static es.jaime.exchange.domain.models.OrderType.*;
 import static org.junit.Assert.*;
 
 public class MatchingPriceEngineImplTest {
@@ -56,10 +53,10 @@ public class MatchingPriceEngineImplTest {
     }
 
     private SellOrder createSellOrder(double price){
-        return new SellOrder("a", "a", "a", price, 1, SELL, "a");
+        return new SellOrder("a", "a", "a", price, 1, "a");
     }
 
     private BuyOrder createBuyOrder(double price){
-        return new BuyOrder("a", "a", "a", price, 1,BUY, "a");
+        return new BuyOrder("a", "a", "a", price, 1, "a");
     }
 }

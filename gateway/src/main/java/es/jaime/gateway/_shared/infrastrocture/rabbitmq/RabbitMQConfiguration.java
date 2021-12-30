@@ -1,6 +1,9 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import es.jaime.gateway.ordertypes.domain.OrderType;
+import es.jaime.gateway.ordertypes.domain.OrderTypeRepository;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.context.annotation.Bean;
@@ -17,10 +20,12 @@ public class RabbitMQConfiguration {
     public static final String errorOrders = "sxs.error-orders";
     public static final String start = "sxs.start";
 
-    private final ListedCompaniesRepository repository;
+    private final ListedCompaniesRepository listedCompanies;
+    private final OrderTypeRepository orderTypes;
 
-    public RabbitMQConfiguration(ListedCompaniesRepository repository) {
-        this.repository = repository;
+    public RabbitMQConfiguration(ListedCompaniesRepository repository, OrderTypeRepository orderTypes) {
+        this.listedCompanies = repository;
+        this.orderTypes = orderTypes;
     }
 
     @Bean
@@ -82,19 +87,20 @@ public class RabbitMQConfiguration {
         TopicExchange newOrdersExchange = new TopicExchange(newOrders);
         allExchanges.add(newOrdersExchange);
 
-        List<Queue> allQueuesForListedCompanies = repository.findAll().stream()
-                .map(listedCompany -> listedCompany.ticker().value())
-                .map(listedCompanyTicker -> newOrders + "." + listedCompanyTicker)
-                .map(queueFullNmeString -> new Queue(queueFullNmeString, false))
-                .collect(Collectors.toList());
-        allQueues.addAll(allQueuesForListedCompanies);
+        for (ListedCompany listedCompany : listedCompanies.findAll()) {
+            for (OrderType orderType : orderTypes.findAll()) {
+                //Queue
+                String queueName = RabbitMQNameFormatter.newOrdersQueue(orderType, listedCompany);
+                Queue queue = new Queue(queueName);
+                allQueues.add(queue);
 
-        allQueuesForListedCompanies.stream()
-                .map(queue -> BindingBuilder
+                //Bindings
+                allBindings.add(BindingBuilder
                         .bind(queue)
                         .to(newOrdersExchange)
-                        .with(queue.getName()))
-                .forEach(allBindings::add);
+                        .with(queueName));
+            }
+        }
 
         List<Declarable> declarables = new ArrayList<>();
         declarables.addAll(allBindings);

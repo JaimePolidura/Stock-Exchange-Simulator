@@ -1,6 +1,6 @@
 package es.jaime.exchange.domain.models.messages;
 
-import es.jaime.exchange.domain.models.OrderType;
+import es.jaime.exchange.domain.models.orders.OrderType;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
