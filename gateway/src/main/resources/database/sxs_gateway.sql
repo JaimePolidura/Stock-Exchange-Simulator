@@ -92,3 +92,19 @@ DELETE FROM closedpositions;
 
 INSERT INTO closedpositions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20');
 INSERT INTO closedpositions VALUES ('54f2f04a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'GOOG', 1, 131, '12/12/12', 2312, '12/12/20');
+
+
+-- -------------------------------------
+-- Table structure for ordertypes
+-- -------------------------------------
+
+CREATE TABLE IF NOT EXISTS ordertypes(
+    `name` varchar(20) NOT NULL,
+    PRIMARY KEY (`name`),
+    UNIQUE KEY `name` (`name`) USING HASH
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DELETE FROM ordertypes;
+
+INSERT INTO ordertypes VALUES ('ORDER.SELL');
+INSERT INTO ordertypes VALUES ('ORDER.BUY');

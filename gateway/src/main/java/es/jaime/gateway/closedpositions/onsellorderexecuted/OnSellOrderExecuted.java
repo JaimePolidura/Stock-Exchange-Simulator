@@ -6,7 +6,6 @@ import es.jaime.gateway.orders._shared.domain.events.SellOrderExecuted;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradeFinderService;
 import es.jaime.gateway.trades._shared.domain.TradeId;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

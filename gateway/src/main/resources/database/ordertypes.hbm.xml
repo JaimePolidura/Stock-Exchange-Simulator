@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="es.jaime.gateway.ordertypes.domain.OrderType" table="ordertypes">
+        <composite-id name="name" class="es.jaime.gateway.ordertypes.domain.OrderTypeName" access="field">
+            <key-property column="name" name="value" length="20" access="field"/>
+        </composite-id>
+    </class>
+</hibernate-mapping>

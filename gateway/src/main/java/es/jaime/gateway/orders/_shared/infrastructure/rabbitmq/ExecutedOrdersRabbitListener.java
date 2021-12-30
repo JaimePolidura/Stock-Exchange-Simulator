@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders._shared.infrastructure.rabbitmq;
 
+import es.jaime.gateway._shared.domain.ExecutedOrderTypes;
 import es.jaime.gateway._shared.domain.event.EventBus;
-import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders._shared.domain.events.BuyOrderExecuted;
 import es.jaime.gateway.orders._shared.domain.events.OrderExecuted;
 import es.jaime.gateway.orders._shared.domain.events.SellOrderExecuted;

@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders._shared.domain;
+package es.jaime.gateway._shared.domain;
 
 public enum ExecutedOrderTypes {
     EXECUTED_BUY_ORDER("ORDER.BUY.EXECUTED"),
