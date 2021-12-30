@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.function.Function;
 
-@Repository
 @Transactional("gateway-transaction-manager")
+@Repository
 public class ClosedPositionRepositoryMySQL extends HibernateRepository<ClosedPosition> implements ClosedPositionRepository {
     public ClosedPositionRepositoryMySQL(SessionFactory sessionFactory) {
         super(sessionFactory, ClosedPosition.class);

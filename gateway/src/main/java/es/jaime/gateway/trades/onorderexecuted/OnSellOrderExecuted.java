@@ -3,11 +3,12 @@ package es.jaime.gateway.trades.onorderexecuted;
 import es.jaime.gateway.orders._shared.domain.events.SellOrderExecuted;
 import es.jaime.gateway.trades._shared.domain.*;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+@Service("onsellorderexecuted-trades")
 public class OnSellOrderExecuted {
     private final TradesRepository trades;
 
@@ -16,6 +17,7 @@ public class OnSellOrderExecuted {
     }
 
     @EventListener({SellOrderExecuted.class})
+    @Order(10)
     public void on(SellOrderExecuted event){
         Optional<Trade> tradeToSellOptional = trades.findByTradeId(TradeId.of(event.getTradeId()));
 
