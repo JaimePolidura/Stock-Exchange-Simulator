@@ -5,6 +5,7 @@ import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
 import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradeFinderService;
@@ -46,16 +47,8 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getExecutionPrice()
         ));
 
-        messagePublisher.publish(new SendSellOrderMessage(
-                command.getOrderID(),
-                tradeToSell.getTradeId(),
-                command.getClientID(),
-                command.getOrderDate(),
-                command.getExecutionPrice(),
-                command.getQuantity(),
-                OrderTicker.of(tradeToSell.getTicker().value()),
-                OrderType.of(SELL)
-        ));
+
+        publishMessage(command, tradeToSell);
     }
 
     private void ensureOwnsTheTrade(Trade trade, OrderClientID clientID){
@@ -68,5 +61,20 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
         if(quantity.value() > trade.getQuantity().value()){
             throw new IllegalQuantity("You cant sell more than you have");
         }
+    }
+
+    private void publishMessage(SellOrderCommand command, Trade tradeToSell){
+        String exchange = RabbitMQDeclarables.newOrders;
+        String routingKey = String.format("%s.%s", exchange, tradeToSell.getTicker().value());
+
+        messagePublisher.publish(exchange, routingKey, new SendSellOrderMessage(
+                command.getOrderID(),
+                tradeToSell.getTradeId(),
+                command.getClientID(),
+                command.getOrderDate(),
+                command.getExecutionPrice(),
+                command.getQuantity(),
+                OrderTicker.of(tradeToSell.getTicker().value()),
+                OrderType.of(SELL)));
     }
 }

@@ -23,15 +23,13 @@ import java.util.stream.Collectors;
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
 public class ExchangesStarter implements CommandLineRunner {
     private final ListedCompaniesRepository repository;
-    private final OrderTypeRepository orderTypes;
 
-    public ExchangesStarter(ListedCompaniesRepository repository, OrderTypeRepository orderTypes) {
+    public ExchangesStarter(ListedCompaniesRepository repository) {
         this.repository = repository;
-        this.orderTypes = orderTypes;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         List<ListedCompany> listedCompanies = repository.findAll();
         DockerClient dockerClient = startDockerConnection();
 
@@ -49,7 +47,7 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private void startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
         String containerID = dockerClient.createContainerCmd("sxs-exchange")
-                .withCmd(cmdToExchange(listedCompany))
+                .withCmd(cmdToExchange())
                 .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
                 .withHostConfig(HostConfig
                         .newHostConfig()
@@ -61,23 +59,9 @@ public class ExchangesStarter implements CommandLineRunner {
                 .exec();
     }
 
-    private List<String> cmdToExchange(ListedCompany listedCompany){
-        List<String> queueNames = queuesThatExchangeWillListen(listedCompany);
-        List<OrderType> allOrderTypes = orderTypes.findAll();
-        List<String> toReturn = new ArrayList<>();
-
-        for (int i = 0; i < allOrderTypes.size(); i++) {
-            toReturn.add(String.format("--%s=%s",
-                    allOrderTypes.get(i).getName().value(),
-                    queueNames.get(i)));
-        }
-
-        return toReturn;
-    }
-
-    private List<String> queuesThatExchangeWillListen(ListedCompany listedCompany){
-        return orderTypes.findAll().stream()
-                .map(orderType -> RabbitMQNameFormatter.newOrdersQueue(orderType, listedCompany))
-                .collect(Collectors.toList());
+    private List<String> cmdToExchange(){
+        return List.of(
+          "--queue=new-orders"
+        );
     }
 }

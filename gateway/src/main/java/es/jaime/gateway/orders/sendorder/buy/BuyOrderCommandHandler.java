@@ -3,6 +3,7 @@ package es.jaime.gateway.orders.sendorder.buy;
 import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.Order;
@@ -39,7 +40,19 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getExecutionPrice()
         ));
 
-        this.queuePublisher.publish(new SendBuyOrderMessage(
+        publishMessage(command);
+    }
+
+    private void ensureTickerExists(BuyOrderCommand command){
+        //If it is not found the service will throw ResourceNotFound exception
+        listedCompanyFinder.find(ListedCompanyTicker.of(command.getTicker().value()));
+    }
+
+    private void publishMessage(BuyOrderCommand command){
+        String exchange = RabbitMQDeclarables.newOrders;
+        String routingKey = String.format("%s.%s", exchange, command.getTicker().value());
+
+        this.queuePublisher.publish(exchange, routingKey, new SendBuyOrderMessage(
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
@@ -48,10 +61,5 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getTicker(),
                 OrderType.of(BUY)
         ));
-    }
-
-    private void ensureTickerExists(BuyOrderCommand command){
-        //If it is not found the service will throw ResourceNotFound exception
-        listedCompanyFinder.find(ListedCompanyTicker.of(command.getTicker().value()));
     }
 }

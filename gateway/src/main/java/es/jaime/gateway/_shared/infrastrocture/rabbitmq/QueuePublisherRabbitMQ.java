@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,11 @@ public class QueuePublisherRabbitMQ implements MessagePublisher {
     }
 
     @Override
-    public void publish(Message message) {
-        this.rabbitTemplate.convertAndSend(newOrders, message.routingKey(), message.toJson());
+    public void publish(String exchange, String routingKey, Message message) {
+        this.rabbitTemplate.convertAndSend(exchange, routingKey, toJSON(message));
+    }
+
+    private String toJSON(Message message){
+        return new JSONObject(message.all()).toString();
     }
 }

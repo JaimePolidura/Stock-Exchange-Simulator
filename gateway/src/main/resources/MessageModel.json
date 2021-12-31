@@ -1,0 +1,12 @@
+{
+  "type": "command",
+  "name": "new-buy-order",
+  "body": {
+    "clientId": "jaime",
+    "ticker": "AMZN",
+    "executionPrice": 12
+  },
+  "meta": {
+    "to": ["jaime"]
+  }
+}

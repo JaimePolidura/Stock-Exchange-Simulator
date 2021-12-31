@@ -1,22 +1,17 @@
 package es.jaime.gateway.orders.sendorder.sell;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import es.jaime.gateway._shared.domain.messagePublisher.Message;
+import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.ordertypes.domain.OrderTypeName;
 import es.jaime.gateway.trades._shared.domain.TradeId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.SneakyThrows;
-
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
-public class SendSellOrderMessage implements Message {
+public class SendSellOrderMessage implements CommandMessage {
     @Getter private final OrderID orderID;
     @Getter private final TradeId tradeId;
     @Getter private final OrderClientID clientID;
@@ -27,17 +22,12 @@ public class SendSellOrderMessage implements Message {
     @Getter private final OrderType type;
 
     @Override
-    @SneakyThrows
-    public String toJson() {
-        return new ObjectMapper().writeValueAsString(toPrimitives());
+    public String name() {
+        return "new-order-sell";
     }
 
     @Override
-    public String routingKey() {
-        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.sell(), ticker);
-    }
-
-    private Map<String, Serializable> toPrimitives() {
+    public Map<String, Object> body() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
             put("tradeId", tradeId.value());
@@ -48,5 +38,10 @@ public class SendSellOrderMessage implements Message {
             put("ticker", ticker.value());
             put("type", type.valueString());
         }};
+    }
+
+    @Override
+    public String routingKey() {
+        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.sell(), ticker);
     }
 }
