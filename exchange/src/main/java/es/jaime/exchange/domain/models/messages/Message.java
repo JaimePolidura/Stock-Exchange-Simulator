@@ -1,19 +1,38 @@
 package es.jaime.exchange.domain.models.messages;
 
-import java.util.List;
+
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Message {
-    public abstract MessageType getMessageType();
-    public abstract List<String> getTo();
-    public abstract Map<String, Object> getBody();
+/**
+ *{
+ *   "type": "command",
+ *   "name": "new-buy-order",
+ *   "body": {
+ *     "clientId": "jaime",
+ *     "ticker": "AMZN",
+ *     "executionPrice": 12
+ *   },
+ *   "meta": {}
+ * }
+ */
+public interface Message extends Serializable {
+    MessageTypes type();
+    String name();
 
-    public Map<String, Object> toPrimitives(){
+    Map<String, Object> body();
+
+    default Map<String, Object> meta(){
+        return new HashMap<>();
+    }
+
+    default Map<String, Object> toPrimitives(){
         return Map.of(
-                "type", getMessageType().getType(),
-                "to", getTo(),
-                "body", getBody()
+                "type", type().name(),
+                "name", name(),
+                "body", body(),
+                "meta", meta()
         );
     }
 }
-

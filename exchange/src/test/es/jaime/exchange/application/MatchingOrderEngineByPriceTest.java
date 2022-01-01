@@ -1,9 +1,9 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange._shared.EventBusMock;
+import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.Order;
-import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;

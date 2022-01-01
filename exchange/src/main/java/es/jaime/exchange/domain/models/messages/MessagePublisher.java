@@ -1,6 +1,4 @@
-package es.jaime.exchange.domain.services;
-
-import es.jaime.exchange.domain.models.messages.Message;
+package es.jaime.exchange.domain.models.messages;
 
 public interface MessagePublisher {
     void publish(String exchange, String routingKey, Message message);

@@ -1,5 +1,5 @@
 package es.jaime.gateway._shared.domain.messagePublisher;
 
-public enum MessagesTypes {
+public enum MessageTypes {
     COMMAND, EVENT, QUERY
 }

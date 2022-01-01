@@ -18,7 +18,7 @@ public class QueuePublisherMock implements MessagePublisher {
     }
 
     @Override
-    public void publish(String queue, Message message) {
+    public void publish(String exchange, String routingKey, Message message) {
         this.queue.offer(message);
     }
 }

@@ -6,28 +6,26 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
-public class ErrorOrderMessage extends Message{
-    private static final MessageType messageType = MessageType.ERROR_ORDER;
-
+public class ErrorOrderMessage implements EventMessage {
     private final String message;
     private final String clientId;
     private final String orderId;
 
     @Override
-    public MessageType getMessageType() {
-        return messageType;
+    public String name() {
+        return "order-error";
     }
 
     @Override
-    public List<String> getTo() {
-        return List.of(clientId);
-    }
-
-    @Override
-    public Map<String, Object> getBody() {
+    public Map<String, Object> body() {
         return Map.of(
                 "message", message,
                 "orderId", orderId
         );
+    }
+
+    @Override
+    public Map<String, Object> meta() {
+        return Map.of("to", List.of(clientId));
     }
 }

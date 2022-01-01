@@ -2,8 +2,8 @@ package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.exceptions.DomainException;
-import es.jaime.exchange.domain.models.orders.Order;
 import es.jaime.exchange.domain.models.messages.ErrorOrderMessage;
+import es.jaime.exchange.domain.models.orders.Order;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MessagePublisher;
 import org.springframework.context.event.EventListener;
@@ -29,6 +29,7 @@ public class ExceptionInterceptor {
 
         messagePublisher.publish(
                 configuration.errorOrdersExchangeName(),
+                "sxs.exchange.events.*.order-errror",
                 new ErrorOrderMessage(exception.getMessage(), order.getClientId(), order.getOrderId())
         );
     }

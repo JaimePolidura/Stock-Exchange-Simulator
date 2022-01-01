@@ -4,9 +4,9 @@ import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
 import es.jaime.exchange.domain.models.messages.BuyOrderExecutedMessage;
+import es.jaime.exchange.domain.models.messages.SellOrderExecutedMessage;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.Order;
-import es.jaime.exchange.domain.models.messages.SellOrderExecutedMessage;
 import es.jaime.exchange.domain.models.orders.OrderType;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
@@ -53,6 +53,7 @@ public class TradeProcessorImpl implements TradeProcessor {
     private void publishBuyOrderExecutedMessage(BuyOrder order, double priceMatch, int quantity){
         this.queuePublisher.publish(
                 configuration.executedOrdersExchangeName(),
+                configuration.executedOrdersExchangeName() + ".*.order-executed-buy",
                 new BuyOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getTicker(), priceMatch,
                         quantity, order.getDate(), OrderType.BUY)
         );
@@ -61,6 +62,7 @@ public class TradeProcessorImpl implements TradeProcessor {
     private void publishSellOrderExecutedMessage(SellOrder order, double priceMatch, int quantity, String ticker){
         this.queuePublisher.publish(
                 configuration.executedOrdersExchangeName(),
+                configuration.executedOrdersExchangeName() + ".*.order-executed-sell",
                 new SellOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getTradeId(),
                         priceMatch, quantity, order.getDate(), OrderType.SELL, ticker)
         );

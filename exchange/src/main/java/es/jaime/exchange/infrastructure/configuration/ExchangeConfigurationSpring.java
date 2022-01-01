@@ -27,12 +27,12 @@ public class ExchangeConfigurationSpring implements ApplicationRunner, ExchangeC
 
     @Override
     public String executedOrdersExchangeName(){
-        return "sxs.executed-orders";
+        return "sxs.exchange.events";
     }
 
     @Override
     public String errorOrdersExchangeName(){
-        return "sxs.error-orders";
+        return "sxs.exchange.events";
     }
 
     @Override

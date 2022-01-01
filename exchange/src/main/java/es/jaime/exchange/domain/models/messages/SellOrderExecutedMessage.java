@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
-public class SellOrderExecutedMessage extends Message{
-    private static final MessageType type = MessageType.EXECUTED_SELL_ORDER;
+public final class SellOrderExecutedMessage implements EventMessage {
     private final String orderId;
     private final String clientId;
     private final String tradeId;
@@ -19,17 +18,12 @@ public class SellOrderExecutedMessage extends Message{
     private final String ticker;
 
     @Override
-    public MessageType getMessageType() {
-        return type;
+    public String name() {
+        return "order-executed-sell";
     }
 
     @Override
-    public List<String> getTo() {
-        return List.of(clientId);
-    }
-
-    @Override
-    public Map<String, Object> getBody() {
+    public Map<String, Object> body() {
         return Map.of(
                 "tradeId", tradeId,
                 "executionPrice", executionPrice,
@@ -39,5 +33,10 @@ public class SellOrderExecutedMessage extends Message{
                 "type", orderType.toString(),
                 "ticker", ticker
         );
+    }
+
+    @Override
+    public Map<String, Object> meta() {
+        return Map.of("to", List.of(clientId));
     }
 }
