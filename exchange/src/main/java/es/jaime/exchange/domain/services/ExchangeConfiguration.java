@@ -1,10 +1,9 @@
 package es.jaime.exchange.domain.services;
 
 public interface ExchangeConfiguration {
-    String getTicker();
+    String queueNewOrders();
 
-    String errorOrdersExchangeName();
-    String executedOrdersExchangeName();
+    String eventsExchangeName();
 
     int matchingEngineSleep();
 }

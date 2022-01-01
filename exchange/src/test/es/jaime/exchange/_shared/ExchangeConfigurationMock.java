@@ -4,20 +4,15 @@ import es.jaime.exchange.domain.services.ExchangeConfiguration;
 
 public class ExchangeConfigurationMock implements ExchangeConfiguration {
     @Override
-    public String getTicker() {
-        return "AMZN";
+    public String queueNewOrders() {
+        return "not needed";
     }
 
     @Override
-    public String errorOrdersExchangeName() {
-        return "not-needed";
+    public String eventsExchangeName() {
+        return "not needed";
     }
 
-    @Override
-    public String executedOrdersExchangeName() {
-        return "not-needed";
-    }
-    
     @Override
     public int matchingEngineSleep() {
         return 250;
