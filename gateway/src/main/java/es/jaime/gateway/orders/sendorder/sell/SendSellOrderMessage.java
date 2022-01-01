@@ -1,9 +1,7 @@
 package es.jaime.gateway.orders.sendorder.sell;
 
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
-import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.ordertypes.domain.OrderTypeName;
 import es.jaime.gateway.trades._shared.domain.TradeId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

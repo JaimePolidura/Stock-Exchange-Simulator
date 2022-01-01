@@ -2,15 +2,14 @@ package es.jaime.gateway.orders._shared.infrastructure.rabbitmq;
 
 
 import es.jaime.gateway._shared.domain.event.EventBus;
-import es.jaime.gateway.orders._shared.domain.OrderID;
 import es.jaime.gateway.orders._shared.domain.events.ErrorDuringOrderExecution;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
-@Service
-@DependsOn({"rabbitmq-starter"})
+//@Service
+//@DependsOn({"rabbitmq-starter"})
 public class OnErrorOrderRabbitListener {
     private final EventBus eventBus;
 

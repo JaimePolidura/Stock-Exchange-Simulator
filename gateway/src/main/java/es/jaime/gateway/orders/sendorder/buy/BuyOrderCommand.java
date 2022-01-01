@@ -1,6 +1,5 @@
 package es.jaime.gateway.orders.sendorder.buy;
 
-import com.google.common.eventbus.EventBus;
 import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;

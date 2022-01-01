@@ -4,12 +4,22 @@ import es.jaime.gateway._shared.domain.event.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 public abstract class OrderExecuted extends DomainEvent {
-    @Getter private final String orderId;
-    @Getter private final String clientId;
-    @Getter private final String ticker;
-    @Getter private final double executionPrice;
-    @Getter private final int quantity;
-    @Getter private final String date;
+    @Getter private String orderId;
+    @Getter private String clientId;
+    @Getter private String ticker;
+    @Getter private double executionPrice;
+    @Getter private int quantity;
+    @Getter private String date;
+
+    public OrderExecuted(String orderId, String clientId, String ticker, double executionPrice, int quantity, String date) {
+        this.orderId = orderId;
+        this.clientId = clientId;
+        this.ticker = ticker;
+        this.executionPrice = executionPrice;
+        this.quantity = quantity;
+        this.date = date;
+    }
+
+    public OrderExecuted () {}
 }

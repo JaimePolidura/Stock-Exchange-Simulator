@@ -8,8 +8,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
-@Service
-@DependsOn({"rabbitmq-starter"})
+//@Service
+//@DependsOn({"rabbitmq-starter"})
 public class OnOrderExecutedSellRabbitListener {
     private final EventBus eventBus;
 
