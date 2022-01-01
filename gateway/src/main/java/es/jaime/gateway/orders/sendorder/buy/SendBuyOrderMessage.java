@@ -1,9 +1,7 @@
 package es.jaime.gateway.orders.sendorder.buy;
 
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
-import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.ordertypes.domain.OrderTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -36,10 +34,5 @@ public class SendBuyOrderMessage implements CommandMessage {
             put("ticker", ticker.value());
             put("type", type.valueString());
         }};
-    }
-
-    @Override
-    public String routingKey() {
-        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.buy(), ticker);
     }
 }

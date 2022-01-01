@@ -18,7 +18,7 @@ import java.util.Map;
  * }
  */
 public interface Message extends Serializable {
-    MessagesTypes type();
+    MessageTypes type();
     String name();
 
     Map<String, Object> body();
@@ -27,9 +27,7 @@ public interface Message extends Serializable {
         return new HashMap<>();
     }
 
-    String routingKey();
-
-    default Map<String, Object> all(){
+    default Map<String, Object> toPrimitives(){
         return Map.of(
                 "type", type().name(),
                 "name", name(),

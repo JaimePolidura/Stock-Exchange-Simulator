@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQConfiguration.*;
-
 @Service
 public class QueuePublisherRabbitMQ implements MessagePublisher {
     private final RabbitTemplate rabbitTemplate;
@@ -22,6 +20,6 @@ public class QueuePublisherRabbitMQ implements MessagePublisher {
     }
 
     private String toJSON(Message message){
-        return new JSONObject(message.all()).toString();
+        return new JSONObject(message.toPrimitives()).toString();
     }
 }

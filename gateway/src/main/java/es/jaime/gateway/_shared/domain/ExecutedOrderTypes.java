@@ -1,9 +1,9 @@
 package es.jaime.gateway._shared.domain;
 
 public enum ExecutedOrderTypes {
-    EXECUTED_BUY_ORDER("ORDER.BUY.EXECUTED"),
-    EXECUTED_SELL_ORDER("ORDER.SELL.EXECUTED"),
-    ERROR_ORDER("ORDER.ERROR");
+    EXECUTED_BUY_ORDER("order-executed-buy"),
+    EXECUTED_SELL_ORDER("order-executed-sell"),
+    ERROR_ORDER("order-error");
 
     private final String type;
 

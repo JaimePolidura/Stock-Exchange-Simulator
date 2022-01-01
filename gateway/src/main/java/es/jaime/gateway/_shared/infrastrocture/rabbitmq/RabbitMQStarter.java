@@ -3,12 +3,14 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component("rabbitmq-starter")
+@DependsOn({"rabbitmq-declarables"})
 public class RabbitMQStarter implements CommandLineRunner {
     private final QueuePublisherRabbitMQ publisherRabbitMQ;
 
@@ -30,11 +32,6 @@ public class RabbitMQStarter implements CommandLineRunner {
         @Override
         public Map<String, Object> body() {
             return new HashMap<>();
-        }
-
-        @Override
-        public String routingKey() {
-            return RabbitMQDeclarables.start;
         }
     }
 }

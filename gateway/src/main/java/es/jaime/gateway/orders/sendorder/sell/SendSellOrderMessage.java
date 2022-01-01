@@ -39,9 +39,4 @@ public class SendSellOrderMessage implements CommandMessage {
             put("type", type.valueString());
         }};
     }
-
-    @Override
-    public String routingKey() {
-        return RabbitMQNameFormatter.routingKeyNewOrders(OrderTypeName.sell(), ticker);
-    }
 }

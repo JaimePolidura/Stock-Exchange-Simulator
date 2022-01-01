@@ -1,5 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
+import es.jaime.gateway._shared.domain.ExecutedOrderTypes;
 import es.jaime.gateway._shared.domain.Utils;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
@@ -9,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -64,11 +67,13 @@ public class RabbitMQDeclarables {
     }
 
     private List<String> eventsListeners(){
-        return List.of("error-order", "sell-order-executed", "buy-order-executed");
+        return List.of("gateway", "client-order-event-dispatcher");
     }
 
     private List<String> eventNames() {
-        return List.of("gateway", "client-order-event-dispatcher");
+        return Arrays.stream(ExecutedOrderTypes.values())
+                .map(ExecutedOrderTypes::getType)
+                .collect(Collectors.toList());
     }
 
     private List<Declarable> newOrders() {

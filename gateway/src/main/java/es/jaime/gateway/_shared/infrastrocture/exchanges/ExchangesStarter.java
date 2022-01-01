@@ -47,7 +47,7 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private void startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
         String containerID = dockerClient.createContainerCmd("sxs-exchange")
-                .withCmd(cmdToExchange())
+                .withCmd(cmdToExchange(listedCompany))
                 .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
                 .withHostConfig(HostConfig
                         .newHostConfig()
@@ -59,9 +59,9 @@ public class ExchangesStarter implements CommandLineRunner {
                 .exec();
     }
 
-    private List<String> cmdToExchange(){
+    private List<String> cmdToExchange(ListedCompany listedCompany){
         return List.of(
-          "--queue=new-orders"
+          "--queue=sxs.exchange.new-orders." + listedCompany.ticker().value()
         );
     }
 }
