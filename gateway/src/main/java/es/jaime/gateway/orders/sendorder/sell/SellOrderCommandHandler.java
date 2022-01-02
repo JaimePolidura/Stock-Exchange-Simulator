@@ -6,12 +6,15 @@ import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradeFinderService;
 import es.jaime.gateway.trades._shared.domain.TradesRepository;
 import org.springframework.stereotype.Service;
 
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static es.jaime.gateway.orders._shared.domain.OrderTypeValues.*;
 
 @Service
@@ -64,10 +67,9 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
     }
 
     private void publishMessage(SellOrderCommand command, Trade tradeToSell){
-        String exchange = RabbitMQDeclarables.newOrders;
-        String routingKey = String.format("%s.%s", exchange, tradeToSell.getTicker().value());
+        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(tradeToSell.getTicker().value()));
 
-        messagePublisher.publish(exchange, routingKey, new SendSellOrderMessage(
+        messagePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendSellOrderMessage(
                 command.getOrderID(),
                 tradeToSell.getTradeId(),
                 command.getClientID(),

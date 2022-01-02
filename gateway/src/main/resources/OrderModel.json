@@ -1,0 +1,28 @@
+[{
+  "orderId": "12-12-12-12",
+  "date": "12/12/12",
+  "clientId": "jaime",
+  "type": "BUY",
+  "body": {
+    "executionPrice": -1,
+    "ticker": "AMZN"
+  }
+},
+{
+  "orderId": "12-12-12-12",
+  "date": "12/12/12",
+  "clientId": "jaime",
+  "type": "SELL",
+  "body": {
+    "tradeId": "AMZN"
+  }
+},
+{
+  "orderId": "12-12-12-12",
+  "date": "12/12/12",
+  "clientId": "jaime",
+  "type": "CANCEL",
+  "body": {
+    "orderId": "12/12/12"
+  }
+}]

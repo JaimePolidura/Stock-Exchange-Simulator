@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Component("eventslisteners-information")
-public class DomainEventListenersInformation {
+public final class DomainEventListenersInformation {
     private final Map<String, DomainEvent> domainEventNamesWithInstances;
 
     public DomainEventListenersInformation() {
@@ -36,38 +36,22 @@ public class DomainEventListenersInformation {
         for (Method methodsListener : methodsListeners) {
             Class<? extends DomainEvent> domainEventClass = (Class<? extends DomainEvent>) methodsListener.getParameterTypes()[0];
 
-            System.out.println("0 " + domainEventClass.getName());
+            if(domainEventsInstances.containsKey(domainEventClass)) continue;
+            if(Modifier.isAbstract(domainEventClass.getModifiers())) continue;
 
-            if(domainEventsInstances.containsKey(domainEventClass)){
-                continue;
-            }
-            if(Modifier.isAbstract(domainEventClass.getModifiers())){
-                continue;
-            }
-
-            System.out.println("1 " + domainEventClass.getName());
             DomainEvent domainEventInstance = domainEventClass.newInstance();
-
-            System.out.println("2 " + domainEventInstance.eventName());
-
             String eventName = domainEventInstance.eventName();
-            if(eventName.equalsIgnoreCase("")){
-                System.out.println("3");
-                continue;
-            }
+
+            if(eventName.equalsIgnoreCase("")) continue;
 
             domainEventsInstances.put(domainEventClass, domainEventInstance);
             domainEventsNamesMappedWithInstances.put(eventName, domainEventInstance);
-
-            System.out.println("4 " + eventName + " " + domainEventInstance);
         }
 
         return domainEventsNamesMappedWithInstances;
     }
 
     public DomainEvent getInstanceFor(String domainEventName){
-        System.out.println("5 " + domainEventName);
-
         return this.domainEventNamesWithInstances.get(domainEventName);
     }
 }

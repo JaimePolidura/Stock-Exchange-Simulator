@@ -1,6 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
-import es.jaime.gateway._shared.domain.ExecutedOrderTypes;
+import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.Utils;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
@@ -14,15 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 
 @Configuration("rabbitmq-declarables")
 @DependsOn({"rabbitmq-configuration"})
 public class RabbitMQDeclarables {
-    public static final String newOrders = "sxs.exchange.new-orders";
-    public static final String start = "sxs.start";
-    public static final String exchangeEvents = "sxs.exchange.events";
-
     private final ListedCompanyFinderService listedCompanyFinder;
 
     public RabbitMQDeclarables(ListedCompanyFinderService listedCompanyFinder) {
@@ -41,21 +37,21 @@ public class RabbitMQDeclarables {
     //TODO Improve with reflections
     private List<Declarable> exchangeEventsListeners(){
         List<Declarable> declarablesToReturn = new ArrayList<>();
-        TopicExchange exchange = new TopicExchange(exchangeEvents);
+        TopicExchange exchange = new TopicExchange(EVENTS_EXCHANGE);
 
-        List<String> events = eventNames();
-        List<String> subscribers = eventsListeners();
+        List<EventName> events = eventNames();
+        List<String> listeners = getModuleListeners();
 
-        for (String subscriber : subscribers) {
-            for (String event : events) {
-                String queueName = format("%s.%s.%s", exchangeEvents, subscriber, event);
-                String bindingKey = format("%s.*.%s", exchangeEvents, event);
+        for (String listener : listeners) {
+            for (EventName eventName : events) {
+                String queueName = eventListenerQueueName(listener, eventName);
+                String routingKey = eventListenerRoutingKey(eventName);
 
                 Queue queue = new Queue(queueName);
                 Binding binding = BindingBuilder
                         .bind(queue)
                         .to(exchange)
-                        .with(bindingKey);
+                        .with(routingKey);
 
                 declarablesToReturn.add(queue);
                 declarablesToReturn.add(binding);
@@ -66,13 +62,8 @@ public class RabbitMQDeclarables {
         return declarablesToReturn;
     }
 
-    private List<String> eventsListeners(){
-        return List.of("gateway", "client-order-event-dispatcher");
-    }
-
-    private List<String> eventNames() {
-        return Arrays.stream(ExecutedOrderTypes.values())
-                .map(ExecutedOrderTypes::getType)
+    private List<EventName> eventNames() {
+        return Arrays.stream(EventName.values())
                 .collect(Collectors.toList());
     }
 
@@ -80,10 +71,10 @@ public class RabbitMQDeclarables {
         List<ListedCompany> listedCompanies = listedCompanyFinder.all();
         List<Declarable> declarablesToReturn = new ArrayList<>();
 
-        TopicExchange newOrdersExchange = new TopicExchange(newOrders);
+        TopicExchange newOrdersExchange = new TopicExchange(NEW_ORDERS_EXCHNAGE);
 
-        for (ListedCompany listedCompanie : listedCompanies) {
-            String queueName = format("%s.%s", newOrders, listedCompanie.ticker().value());
+        for (ListedCompany listedCompany : listedCompanies) {
+            String queueName = newOrdersQueueName(listedCompany.ticker());
 
             Queue queue = new Queue(queueName);
             Binding binding = BindingBuilder.bind(queue)
@@ -99,9 +90,9 @@ public class RabbitMQDeclarables {
     }
 
     private List<Declarable> start(){
-        TopicExchange startTopicExchange = new TopicExchange(start);
-        Queue startQueue = new Queue(start, false);
-        Binding binding = BindingBuilder.bind(startQueue).to(startTopicExchange).with(start);
+        TopicExchange startTopicExchange = new TopicExchange(START_EXCHANGE);
+        Queue startQueue = new Queue(START_EXCHANGE, false);
+        Binding binding = BindingBuilder.bind(startQueue).to(startTopicExchange).with(START_EXCHANGE);
 
         return List.of(startTopicExchange, startQueue, binding);
     }

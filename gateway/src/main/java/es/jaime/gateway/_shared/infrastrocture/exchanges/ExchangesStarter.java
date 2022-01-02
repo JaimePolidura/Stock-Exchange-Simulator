@@ -5,6 +5,8 @@ import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.List;
+
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables.*;
 
 @Configuration
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
@@ -55,7 +59,9 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private List<String> cmdToExchange(ListedCompany listedCompany){
         return List.of(
-          "--queue=sxs.exchange.new-orders." + listedCompany.ticker().value()
+                RabbitMQNameFormatter.newOrdersQueueName(listedCompany.ticker()),
+                RabbitMQNameFormatter.EVENTS_EXCHANGE,
+                "100"
         );
     }
 }

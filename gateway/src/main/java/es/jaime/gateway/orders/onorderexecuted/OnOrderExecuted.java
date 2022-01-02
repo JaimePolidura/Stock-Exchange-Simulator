@@ -25,10 +25,7 @@ public class OnOrderExecuted {
 
         Optional<Order> orderOptional = repository.findByOrderId(OrderID.of(orderId));
 
-        if(orderOptional.isEmpty()){
-            //TODO
-            return;
-        }
+        if(orderOptional.isEmpty()) return;
 
         Order order = orderOptional.get();
 

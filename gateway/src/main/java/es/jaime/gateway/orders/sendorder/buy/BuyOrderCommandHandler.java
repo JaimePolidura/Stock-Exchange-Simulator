@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
+import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.Order;
@@ -11,6 +12,7 @@ import es.jaime.gateway.orders._shared.domain.OrderType;
 import es.jaime.gateway.orders._shared.domain.OrdersRepository;
 import org.springframework.stereotype.Service;
 
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static es.jaime.gateway.orders._shared.domain.OrderTypeValues.*;
 
 @Service
@@ -49,10 +51,9 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     }
 
     private void publishMessage(BuyOrderCommand command){
-        String exchange = RabbitMQDeclarables.newOrders;
-        String routingKey = String.format("%s.%s", exchange, command.getTicker().value());
+        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(command.getTicker().value()));
 
-        this.queuePublisher.publish(exchange, routingKey, new SendBuyOrderMessage(
+        this.queuePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendBuyOrderMessage(
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
