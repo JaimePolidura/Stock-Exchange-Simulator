@@ -66,7 +66,7 @@ const SellStockModal = props => {
     return (
         <Modal show={props.showModal} onExit={() => onClose()} onHide={() => props.onHide()} centered>
             <Modal.Header closeButton>
-                <Modal.Title><h3>Sell {props.trade.name}</h3></Modal.Title>
+                <Modal.Title><h3>Sell {props.listedCompany.name}</h3></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <p>

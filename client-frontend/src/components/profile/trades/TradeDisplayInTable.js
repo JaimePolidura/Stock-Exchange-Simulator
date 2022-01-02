@@ -44,6 +44,7 @@ class TradeDisplayInTable extends React.Component {
         return (
             <SellStockModal showModal={this.state.showModal}
                             onHide={() => this.closeModal()}
+                            listedCompany = {this.state.listedCompany}
                             trade={this.state.trade}
                             renderMarketValue = {() => this.renderMarketValue()}
                             onOrderSellSended = {order => this.onOrderSellSended(order)}
