@@ -33,7 +33,7 @@ export default class Trades extends React.Component {
                 <tbody>
                     {this.state.trades.map(trade =>
                         <TradeDisplayInTable key={trade.tradeId}
-                                             companyName={this.getCompanyNameFromTicker(trade.ticker)}
+                                             listedCompany={this.getListedCompany(trade.ticker)}
                                              onOrderSellSended={order => this.onOrderSellSended(order)}
                                              value={trade}/>)
                     }
@@ -41,13 +41,13 @@ export default class Trades extends React.Component {
             </table>
         );
    }
-
-    getCompanyNameFromTicker(ticker){
+    
+    getListedCompany(ticker){
         let found = this.state.listedCompanies.find(listedCompany => listedCompany.ticker == ticker);
 
         return found == null || false ?
             "Loading" :
-            found.name;
+            found;
     }
 
     onOrderSellSended(order){

@@ -19,6 +19,7 @@ class Profile extends React.Component {
             orders: [],
             socket: props.value,
             listedCompanies: [],
+            listedCompaniesLoaded: false
         };
 
         this.setUpSocket();
@@ -47,7 +48,7 @@ class Profile extends React.Component {
         backendService.getAllListedCompanies().then(res => {
             this.setState({listedCompanies: []}, () => {
                 this.setState({listedCompanies: this.state.listedCompanies.concat(res.data.allListedCompanies)}, () => {
-                    console.log(this.state.listedCompanies);
+                    this.setState({listedCompaniesLoaded: true});
                 });
             });
         });
@@ -128,10 +129,12 @@ class Profile extends React.Component {
                 <hr/>
                 <Stats cash = {this.state.cash}/>
                 <br/>
-                <Trades trades={this.state.trades}
-                        key={this.state.trades}
-                        listedCompanies={this.state.listedCompanies}
-                        onOrderSellSended={order => this.onOrderSellSended(order)} />
+                {this.state.listedCompaniesLoaded == true &&
+                    <Trades trades={this.state.trades}
+                            key={this.state.trades}
+                            listedCompanies={this.state.listedCompanies}
+                            onOrderSellSended={order => this.onOrderSellSended(order)} />
+                }
                 <br/>
                 <Orders orders={this.state.orders}/>
             </div>

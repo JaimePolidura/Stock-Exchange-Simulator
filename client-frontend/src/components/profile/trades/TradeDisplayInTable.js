@@ -7,11 +7,13 @@ import {set} from "react-hook-form";
 class TradeDisplayInTable extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             trade: props.value,
             showModal: false,
             sellExecutionType: "Market",
             onOrderSellSended: props.onOrderSellSended,
+            listedCompany: props.listedCompany,
         };
     }
 
@@ -20,7 +22,7 @@ class TradeDisplayInTable extends React.Component {
             <>
                 <tr className="trade-tr" onClick={() => {this.openModal();}}>
                     <td>{this.state.trade.ticker}</td>
-                    <td>{this.nameFromTicker(this.state.ticker)}</td>
+                    <td>{this.state.listedCompany.name}</td>
                     <td>{this.state.trade.openingPrice} $</td>
                     <td>{this.state.trade.openingDate}</td>
                     <td>{this.actualPriceFromTicker(this.state.trade.ticker)} $</td>
@@ -33,11 +35,6 @@ class TradeDisplayInTable extends React.Component {
             </>
         );
     }
-    
-    //TODO load data asynch
-    nameFromTicker(ticker){
-        return "Loading...";
-    }
 
     actualPriceFromTicker(ticker){
         return 1000;
@@ -49,7 +46,7 @@ class TradeDisplayInTable extends React.Component {
                             onHide={() => this.closeModal()}
                             trade={this.state.trade}
                             renderMarketValue = {() => this.renderMarketValue()}
-                            onOrderSellSended = {order=> this.onOrderSellSended(order)}
+                            onOrderSellSended = {order => this.onOrderSellSended(order)}
             />
         );
     }
