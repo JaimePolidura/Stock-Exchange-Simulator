@@ -3,23 +3,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for orders
--- ----------------------------
-
-CREATE TABLE IF NOT EXISTS `orders` (
-    `orderId` varchar(50) NOT NULL,
-    `ticker` varchar(10) NOT NULL,
-    `clientId` varchar(36) NOT NULL,
-    `date` varchar(30) NOT NULL,
-    `quantity` int(10) NOT NULL,
-    `type` varchar(4) NOT NULL,
-    `executionPrice` double(10,3) NOT NULL,
-    PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-DELETE FROM orders;
-
--- ----------------------------
 -- Table structure for listedcompanies
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `listedcompanies` (
@@ -93,18 +76,33 @@ DELETE FROM closedpositions;
 INSERT INTO closedpositions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20');
 INSERT INTO closedpositions VALUES ('54f2f04a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'GOOG', 1, 131, '12/12/12', 2312, '12/12/20');
 
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+
+CREATE TABLE IF NOT EXISTS `orders` (
+    `orderId` varchar(50) NOT NULL,
+    `clientId` varchar(36) NOT NULL,
+    `date` varchar(30) NOT NULL,
+    `orderTypeId` int(2) NOT NULL ,
+    `body` varchar(200) NOT NULL,
+    PRIMARY KEY (`orderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DELETE FROM orders;
 
 -- -------------------------------------
 -- Table structure for ordertypes
 -- -------------------------------------
 
 CREATE TABLE IF NOT EXISTS ordertypes(
-    `name` varchar(20) NOT NULL,
-    PRIMARY KEY (`name`),
-    UNIQUE KEY `name` (`name`) USING HASH
+    `orderTypeId` int(2) NOT NULL,
+    `name` varchar(10) NOT NULL,
+    PRIMARY KEY (`orderTypeId`),
+    UNIQUE KEY `name` (`orderTypeId`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DELETE FROM ordertypes;
 
-INSERT INTO ordertypes VALUES ('buy');
-INSERT INTO ordertypes VALUES ('sell');
+INSERT INTO ordertypes VALUES (1, 'buy');
+INSERT INTO ordertypes VALUES (2, 'sell');

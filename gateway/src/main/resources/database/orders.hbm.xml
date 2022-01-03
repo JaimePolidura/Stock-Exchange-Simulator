@@ -4,33 +4,25 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.orders._shared.domain.Order" table="orders">
-        <composite-id name="orderId" class="es.jaime.gateway.orders._shared.domain.OrderID" access="field">
+    <class name="es.jaime.gateway.orders.orders._shared.domain.Order" table="orders">
+        <composite-id name="orderId" class="es.jaime.gateway.orders.orders._shared.domain.OrderId" access="field">
             <key-property column="orderId" name="value" length="10" access="field"/>
         </composite-id>
 
-        <component name="ticker" class="es.jaime.gateway.orders._shared.domain.OrderTicker" access="field">
-            <property column="ticker" name="value" type="string" access="field"/>
-        </component>
-
-        <component name="clientId" class="es.jaime.gateway.orders._shared.domain.OrderClientID" access="field">
+        <component name="clientId" class="es.jaime.gateway.orders.orders._shared.domain.OrderClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
         </component>
 
-        <component name="date" class="es.jaime.gateway.orders._shared.domain.OrderDate" access="field">
+        <component name="date" class="es.jaime.gateway.orders.orders._shared.domain.OrderDate" access="field">
             <property column="date" name="value" type="string" access="field"/>
         </component>
 
-        <component name="quantity" class="es.jaime.gateway.orders._shared.domain.OrderQuantity" access="field">
-            <property column="quantity" name="value" type="integer" access="field"/>
+        <component name="orderTypeId" class="es.jaime.gateway.orders.ordertypes.domain.OrderTypeId" access="field">
+            <property column="orderTypeId" name="value" type="int" access="field"/>
         </component>
 
-        <component name="type" class="es.jaime.gateway.orders._shared.domain.OrderType" access="field">
-            <property column="type" name="valueString" type="string" access="field"/>
-        </component>
-
-        <component name="executionPrice" class="es.jaime.gateway.orders._shared.domain.OrderExecutionPrice" access="field">
-            <property column="executionPrice" name="value" type="double" access="field"/>
+        <component name="body" class="es.jaime.gateway.orders.orders._shared.domain.OrderBody" access="field">
+            <property column="body" name="value" type="string" access="field"/>
         </component>
     </class>
 </hibernate-mapping>

@@ -6,7 +6,8 @@ export default class Orders extends React.Component {
         super(props);
 
         this.state = {
-            orders: props.orders
+            orders: props.orders,
+            listedCompanies: props.listedCompanies,
         }
     }
 
@@ -32,9 +33,14 @@ export default class Orders extends React.Component {
                 <tbody>
                     {this.state.orders.map(order =>
                          <OrderDisplayInTable key={order.orderId}
+                                              listedCompany={this.getListedCompanyFromTicker(order.body.ticker)}
                                               value={order}/>)}
                 </tbody>
             </table>
         );
+    }
+
+    getListedCompanyFromTicker(ticker){
+        return this.state.listedCompanies.find(ite => ite.ticker == ticker);
     }
 }

@@ -37,7 +37,7 @@ class Profile extends React.Component {
     }
 
     getOrdersFromApi(){
-        backendService.getOrders().then(res => {
+        backendService.getOrdersBuyAndSell().then(res => {
             res.data.orders.forEach(order => {
                 this.addOrder(order);
             });
@@ -133,10 +133,21 @@ class Profile extends React.Component {
                     <Trades trades={this.state.trades}
                             key={this.state.trades}
                             listedCompanies={this.state.listedCompanies}
-                            onOrderSellSended={order => this.onOrderSellSended(order)} />
+                            onOrderSellSended={order => this.onOrderSellSended(order)}/>
                 }
+
+                <br />
+
+                {this.state.listedCompaniesLoaded == true &&
+                    <Orders listedCompanies={this.state.listedCompanies}
+                            orders={this.state.orders} />
+                }
+
+
+
                 <br/>
-                <Orders orders={this.state.orders}/>
+
+
             </div>
         );
     }

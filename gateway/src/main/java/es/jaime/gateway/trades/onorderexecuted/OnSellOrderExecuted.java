@@ -1,6 +1,6 @@
 package es.jaime.gateway.trades.onorderexecuted;
 
-import es.jaime.gateway.orders._shared.domain.events.SellOrderExecuted;
+import es.jaime.gateway.orders.orders._shared.domain.events.SellOrderExecuted;
 import es.jaime.gateway.trades._shared.domain.*;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;

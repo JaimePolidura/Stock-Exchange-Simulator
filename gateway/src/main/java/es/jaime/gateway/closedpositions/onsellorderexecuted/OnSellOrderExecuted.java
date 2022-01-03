@@ -2,7 +2,7 @@ package es.jaime.gateway.closedpositions.onsellorderexecuted;
 
 import es.jaime.gateway.closedpositions._shared.domain.ClosedPosition;
 import es.jaime.gateway.closedpositions._shared.domain.ClosedPositionRepository;
-import es.jaime.gateway.orders._shared.domain.events.SellOrderExecuted;
+import es.jaime.gateway.orders.orders._shared.domain.events.SellOrderExecuted;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradeFinderService;
 import es.jaime.gateway.trades._shared.domain.TradeId;

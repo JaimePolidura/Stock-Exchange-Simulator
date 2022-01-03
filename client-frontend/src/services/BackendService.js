@@ -25,8 +25,8 @@ class BackendService {
         return axios.get(apiRoute + "listedcompanies/get/" + ticker);
     }
 
-    getOrders() {
-        return axios.get(apiRoute + "orders/get");
+    getOrdersBuyAndSell() {
+        return axios.get(apiRoute + "orders/get/type?types=1,2");
     }
 
     getAllListedCompanies(){
