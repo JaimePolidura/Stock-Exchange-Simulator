@@ -38,12 +38,6 @@ public class OrdersRepositoryMySQL extends HibernateRepository<Order> implements
     }
 
     @Override
-    public List<Order> findByClientId(OrderClientId clientId) {
-        return byQuery("SELECT * FROM orders WHERE orders.clientId = '"+clientId.value()+"'")
-                .orElse(Collections.EMPTY_LIST);
-    }
-
-    @Override
     public void deleteByOrderId(OrderId id) {
         delete("orders", "orderId = '"+id.value()+"'");
     }

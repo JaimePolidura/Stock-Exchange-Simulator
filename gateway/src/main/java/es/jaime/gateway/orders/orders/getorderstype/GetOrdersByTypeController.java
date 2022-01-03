@@ -17,8 +17,8 @@ public class GetOrdersByTypeController extends Controller {
     }
 
     @GetMapping("/orders/get/type")
-    public ResponseEntity<GetOrdersQueryResponse> getOrdersByType(@RequestParam List<Integer> types){
-        GetOrdersQueryResponse response = queryBus.ask(new GetOrdersByTypeQuery(getLoggedUsername(), types));
+    public ResponseEntity<GetOrdersQueryResponse> getOrdersByType(@RequestParam List<Integer> orderTypesId){
+        GetOrdersQueryResponse response = queryBus.ask(new GetOrdersByTypeQuery(getLoggedUsername(), orderTypesId));
 
         return buildNewHttpResponseOK(response);
     }

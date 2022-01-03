@@ -35,7 +35,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
-                OrderTypeId.of(1),
+                OrderTypeId.buy(),
                 OrderBody.of(Map.of(
                         "ticker", command.getTicker(),
                         "quantity", command.getQuantity(),
@@ -61,7 +61,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getExecutionPrice(),
                 command.getQuantity(),
                 command.getTicker(),
-                OrderTypeId.of(1)
+                OrderTypeId.buy()
         ));
     }
 }

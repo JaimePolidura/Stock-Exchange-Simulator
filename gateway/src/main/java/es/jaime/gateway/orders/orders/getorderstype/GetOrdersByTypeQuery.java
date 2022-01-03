@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class GetOrdersByTypeQuery implements Query {
-    @Getter private final List<OrderTypeId> types;
+    @Getter private final List<OrderTypeId> orderTypeIds;
     @Getter private final OrderClientId clientId;
 
     public GetOrdersByTypeQuery(String clientId, List<Integer> types) {
         this.clientId = OrderClientId.of(clientId);
-        this.types = types.stream()
+        this.orderTypeIds = types.stream()
                 .map(OrderTypeId::of)
                 .collect(Collectors.toList());
     }

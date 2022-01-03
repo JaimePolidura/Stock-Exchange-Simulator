@@ -21,14 +21,12 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameForma
 
 @Service
 public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand> {
-    private final TradesRepository tradesRepository;
     private final OrdersRepository ordersRepository;
     private final MessagePublisher messagePublisher;
     private final TradeFinderService tradeFinderService;
 
-    public SellOrderCommandHandler(TradesRepository tradesRepository, OrdersRepository ordersRepository,
-                                   MessagePublisher messagePublisher, TradeFinderService tradeFinderService) {
-        this.tradesRepository = tradesRepository;
+    public SellOrderCommandHandler(OrdersRepository ordersRepository, MessagePublisher messagePublisher,
+                                   TradeFinderService tradeFinderService) {
         this.ordersRepository = ordersRepository;
         this.messagePublisher = messagePublisher;
         this.tradeFinderService = tradeFinderService;
@@ -46,7 +44,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
-                OrderTypeId.of(2),
+                OrderTypeId.sell(),
                 OrderBody.of(Map.of(
                         "executionPrice", command.getExecutionPrice(),
                         "ticker", tradeToSell.getTicker().value(),
@@ -80,6 +78,6 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getExecutionPrice(),
                 command.getQuantity(),
                 tradeToSell.getTicker().value(),
-                OrderTypeId.of(2)));
+                OrderTypeId.sell()));
     }
 }

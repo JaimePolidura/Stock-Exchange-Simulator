@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.orders.getorderid;
+package es.jaime.gateway.orders.orders._shared.application;
 
 import es.jaime.gateway.orders.orders._shared.domain.Order;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;

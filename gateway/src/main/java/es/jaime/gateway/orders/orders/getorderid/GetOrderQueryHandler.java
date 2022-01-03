@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.authentication._shared.domain.UserName;
+import es.jaime.gateway.orders.orders._shared.application.OrderFinderService;
 import es.jaime.gateway.orders.orders._shared.domain.Order;
 import org.springframework.stereotype.Component;
 

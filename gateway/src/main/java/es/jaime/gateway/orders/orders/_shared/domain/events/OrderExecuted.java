@@ -2,7 +2,9 @@ package es.jaime.gateway.orders.orders._shared.domain.events;
 
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public abstract class OrderExecuted extends DomainEvent {
     @Getter private String orderId;
     @Getter private String clientId;

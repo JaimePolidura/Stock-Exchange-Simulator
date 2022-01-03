@@ -12,7 +12,5 @@ public interface OrdersRepository {
 
     List<Order> findOrdersByTypeAndClientId(OrderTypeId orderTypeId, OrderClientId clientId);
 
-    List<Order> findByClientId(OrderClientId clientID);
-
     void deleteByOrderId(OrderId id);
 }
