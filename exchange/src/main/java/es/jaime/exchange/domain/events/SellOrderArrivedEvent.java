@@ -3,20 +3,29 @@ package es.jaime.exchange.domain.events;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.json.JSONObject;
+
+import java.util.Map;
 
 @AllArgsConstructor
 public class SellOrderArrivedEvent extends DomainEvent{
-    @Getter private final SellOrder sellOrder;
+    @Getter private SellOrder sellOrder;
 
-    public static SellOrderArrivedEvent fromJSON(JSONObject jsonObject){
+    public SellOrderArrivedEvent () {}
+
+    @Override
+    public SellOrderArrivedEvent fromPrimitives(Map<String, Object> primitives) {
         return new SellOrderArrivedEvent(new SellOrder(
-                jsonObject.getString("orderId"),
-                jsonObject.getString("clientId"),
-                jsonObject.getString("date"),
-                jsonObject.getDouble("executionPrice"),
-                jsonObject.getInt("quantity"),
-                jsonObject.getString("tradeId")
+                String.valueOf(primitives.get("orderId")),
+                String.valueOf(primitives.get("clientId")),
+                String.valueOf(primitives.get("date")),
+                Double.parseDouble(String.valueOf(primitives.get("executionPrice"))),
+                Integer.parseInt(String.valueOf(primitives.get("quantity"))),
+                String.valueOf(primitives.get("tradeId"))
         ));
+    }
+
+    @Override
+    public String eventName() {
+        return "new-order-sell";
     }
 }

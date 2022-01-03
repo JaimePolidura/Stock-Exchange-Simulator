@@ -1,6 +1,7 @@
 package es.jaime.exchange.infrastructure.rabbitlistener;
 
 import es.jaime.exchange.domain.events.BuyOrderArrivedEvent;
+import es.jaime.exchange.domain.events.DomainEvent;
 import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.events.SellOrderArrivedEvent;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
@@ -8,12 +9,13 @@ import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+import static java.lang.String.valueOf;
 
 @Component
 @Order(2)
@@ -21,12 +23,14 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
     private static final String CONSUMER_NAME = "new-orders-consumer";
 
     private final ExchangeConfiguration configuration;
+    private final DomainEventListenersInformation eventListenersInformation;
     private final RabbitListenerEndpointRegistry registry;
     private final EventBus eventBus;
 
-    public RabbitListenerNewOrders(ExchangeConfiguration configuration, RabbitListenerEndpointRegistry registry,
-                                   EventBus eventBus) {
+    public RabbitListenerNewOrders(ExchangeConfiguration configuration, DomainEventListenersInformation eventListenersInformation,
+                                   RabbitListenerEndpointRegistry registry, EventBus eventBus) {
         this.configuration = configuration;
+        this.eventListenersInformation = eventListenersInformation;
         this.registry = registry;
         this.eventBus = eventBus;
     }
@@ -41,19 +45,16 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
     }
 
     @RabbitListener(id = CONSUMER_NAME, autoStartup = "false")
-    public void listen(String bodyString) {
-        JSONObject json = new JSONObject(bodyString);
-        JSONObject bodyJson = json.getJSONObject("body");
+    public void listen(String messageString) {
+        Map<String, Object> toMap = deserializeToMap(messageString);
+        String eventName = valueOf(toMap.get("name"));
+        DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
+        DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(toMap);
 
-        System.out.println("Recieved order: " + json);
+        this.eventBus.publish(domainEventToPublish);
+    }
 
-        //TODO improve with reflections
-        String commandName = json.getString("name");
-
-        if(commandName.equalsIgnoreCase("new-order-buy")){
-            this.eventBus.publish(BuyOrderArrivedEvent.fromJSON(bodyJson));
-        }else if(commandName.equalsIgnoreCase("new-order-sell")){
-            this.eventBus.publish(SellOrderArrivedEvent.fromJSON(bodyJson));
-        }
+    private Map<String, Object> deserializeToMap(String rawString){
+        return new JSONObject(rawString).toMap();
     }
 }
