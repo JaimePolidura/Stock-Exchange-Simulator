@@ -21,6 +21,7 @@ public class OnOrderExecuted {
     }
 
     @EventListener({OrderExecuted.class})
+    @org.springframework.core.annotation.Order(100)
     public void on(OrderExecuted event){
         String orderId = event.getOrderId();
         int quantity = event.getQuantity();
@@ -30,7 +31,12 @@ public class OnOrderExecuted {
         if(orderOptional.isEmpty()) return;
 
         Order order = orderOptional.get();
+
+        System.out.println(order);
+
         OrderBody orderBody = order.getBody();
+
+        System.out.println(orderBody.value());
 
         if(orderBody.getInteger("quantity") > quantity)
             updateQuantityOrder(order, quantity);

@@ -37,7 +37,7 @@ public class SendSellOrderMessage implements CommandMessage {
             put("executionPrice", executionPrice);
             put("quantity", quantity);
             put("ticker", ticker);
-            put("type", type);
+            put("type", type.value());
         }};
     }
 }

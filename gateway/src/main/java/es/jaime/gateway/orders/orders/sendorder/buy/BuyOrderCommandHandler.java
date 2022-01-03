@@ -5,12 +5,10 @@ import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders.orders._shared.domain.Order;
-import es.jaime.gateway.orders.orders._shared.domain.OrderBody;
 import es.jaime.gateway.orders.orders._shared.domain.OrdersRepository;
+import es.jaime.gateway.orders.orders._shared.domain.orderbody.OrderBodyBuy;
 import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 
@@ -30,25 +28,27 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     @Override
     public void handle(BuyOrderCommand command) {
         ensureTickerExists(command);
-
-        this.repository.save(new Order(
-                command.getOrderID(),
-                command.getClientID(),
-                command.getOrderDate(),
-                OrderTypeId.buy(),
-                OrderBody.of(Map.of(
-                        "ticker", command.getTicker(),
-                        "quantity", command.getQuantity(),
-                        "executionPrice", command.getExecutionPrice()
-                ))
-        ));
-
+        saveOrderToRepository(command);
         publishMessage(command);
     }
 
     private void ensureTickerExists(BuyOrderCommand command){
         //If it is not found the service will throw ResourceNotFound exception
         listedCompanyFinder.find(ListedCompanyTicker.of(command.getTicker()));
+    }
+
+    private void saveOrderToRepository(BuyOrderCommand command){
+        this.repository.save(new Order(
+                command.getOrderID(),
+                command.getClientID(),
+                command.getOrderDate(),
+                OrderTypeId.buy(),
+                OrderBodyBuy.of(
+                        command.getTicker(),
+                        command.getQuantity(),
+                        command.getExecutionPrice()
+                )
+        ));
     }
 
     private void publishMessage(BuyOrderCommand command){

@@ -25,6 +25,8 @@ public class OnSellOrderExecuted {
     public void on(SellOrderExecuted event){
         Trade trade = tradeFinderService.find(TradeId.of(event.getTradeId()));
 
+        System.out.println(event);
+
         closedPositions.save(ClosedPosition.create(
                 event.getClientId(),
                 event.getTicker(),

@@ -6,16 +6,13 @@ import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders.orders._shared.domain.Order;
-import es.jaime.gateway.orders.orders._shared.domain.OrderBody;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrdersRepository;
+import es.jaime.gateway.orders.orders._shared.domain.orderbody.OrderBodySell;
 import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import es.jaime.gateway.trades._shared.domain.Trade;
 import es.jaime.gateway.trades._shared.domain.TradeFinderService;
-import es.jaime.gateway.trades._shared.domain.TradesRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 
@@ -40,18 +37,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
         ensureOwnsTheTrade(tradeToSell, command.getClientID());
         ensureCorrectQuantity(tradeToSell, command.getQuantity());
 
-        ordersRepository.save(new Order(
-                command.getOrderID(),
-                command.getClientID(),
-                command.getOrderDate(),
-                OrderTypeId.sell(),
-                OrderBody.of(Map.of(
-                        "executionPrice", command.getExecutionPrice(),
-                        "ticker", tradeToSell.getTicker().value(),
-                        "quantity", command.getQuantity()
-                ))
-        ));
-
+        saveToRepository(command);
         publishMessage(command, tradeToSell);
     }
 
@@ -65,6 +51,20 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
         if(quantity > trade.getQuantity().value()){
             throw new IllegalQuantity("You cant sell more than you have");
         }
+    }
+
+    private void saveToRepository(SellOrderCommand command){
+        this.ordersRepository.save(new Order(
+                command.getOrderID(),
+                command.getClientID(),
+                command.getOrderDate(),
+                OrderTypeId.sell(),
+                OrderBodySell.of(
+                        command.getTradeId(),
+                        command.getQuantity(),
+                        command.getExecutionPrice()
+                )
+        ));
     }
 
     private void publishMessage(SellOrderCommand command, Trade tradeToSell){
