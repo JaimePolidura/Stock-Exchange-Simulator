@@ -33,7 +33,7 @@ export default class Orders extends React.Component {
                 <tbody>
                     {this.state.orders.map(order =>
                          <OrderDisplayInTable key={order.orderId}
-                                              listedCompany={this.getListedCompanyFromTicker(order.body.ticker)}
+                                              listedCompany={this.getListedCompanyFromTicker(order.ticker)}
                                               value={order}/>)}
                 </tbody>
             </table>

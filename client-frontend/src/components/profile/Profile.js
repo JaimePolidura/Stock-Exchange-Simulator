@@ -22,10 +22,10 @@ class Profile extends React.Component {
             listedCompaniesLoaded: false
         };
 
+        this.setUpListedCompanies();
         this.setUpSocket();
         this.getTradesFromApi();
         this.getOrdersFromApi();
-        this.setUpListedCompanies();
     }
 
     getTradesFromApi() {
@@ -39,7 +39,22 @@ class Profile extends React.Component {
     getOrdersFromApi(){
         backendService.getOrdersBuyAndSell().then(res => {
             res.data.orders.forEach(order => {
-                this.addOrder(order);
+                let orderToAdd = {
+                    orderId: order.orderId,
+                    date: order.date,
+                    orderTypeId: order.orderTypeId,
+                    quantity: order.body.quantity,
+                    executionPrice: order.body.executionPrice,
+                    // tradeId: order.body.tradeId,
+                    ticker: order.body.ticker
+                };
+
+                //Add tradeId property if type is sell
+                if(orderToAdd.orderTypeId == 2) {
+                    orderToAdd = {...orderToAdd,  tradeId: order.body.tradeId};
+                }
+
+                this.addOrder(orderToAdd);
             });
         })
     }
@@ -127,7 +142,8 @@ class Profile extends React.Component {
             <div class="content div-config-dif-background">
                 <Options onOrderBuySended = {order => this.onOrderBuySended(order)}/>
                 <hr/>
-                <Stats cash = {this.state.cash}/>
+
+                <Stats cash = {this.state.cash} />
                 <br/>
                 {this.state.listedCompaniesLoaded == true &&
                     <Trades trades={this.state.trades}
@@ -135,19 +151,14 @@ class Profile extends React.Component {
                             listedCompanies={this.state.listedCompanies}
                             onOrderSellSended={order => this.onOrderSellSended(order)}/>
                 }
-
                 <br />
 
                 {this.state.listedCompaniesLoaded == true &&
                     <Orders listedCompanies={this.state.listedCompanies}
-                            orders={this.state.orders} />
+                            orders={this.state.orders}/>
                 }
 
-
-
                 <br/>
-
-
             </div>
         );
     }

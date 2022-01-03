@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backend from "../../../services/BackendService";
@@ -23,28 +23,17 @@ const SellStockModal = props => {
     const onSuccess = response => {
         window.alert("The order has been sended");
 
-        props.onOrderSellSended({
-            ...response.data,
-            name: props.trade.name,
-            totalValueOrder: calculateTotalValueToSell(response.data),
-            result: calculateResultToSell(response.data),
-        });
-    }
+        let orderToDisplay = {
+            orderId: response.data.orderId,
+            orderTypeId: response.data.orderTypeId,
+            ticker: props.listedCompany.ticker,
+            quantity: response.data.body.quantity,
+            date: response.data.date,
+            executionPrice: response.data.body.executionPrice,
+            tradeId: response.data.body.tradeId,
+        }
 
-    const calculateResultToSell = orderData => {
-        let priceToSell = sellExecutionType == 'Limit' ?
-            orderData.executionPrice :
-            props.trade.actualPrice;
-
-        return Math.round((priceToSell - props.trade.averagePrice) * props.trade.quantity);
-    }
-
-    const calculateTotalValueToSell = orderData => {
-        let priceToSell = sellExecutionType == 'Limit' ?
-            orderData.executionPrice :
-            props.trade.actualPrice;
-
-        return Math.round(priceToSell * orderData.quantity);
+        props.onOrderSellSended(orderToDisplay);
     }
 
     const onFailure = response => {
@@ -58,9 +47,8 @@ const SellStockModal = props => {
     const onChangeSellExecutionType = e => {
         setSellExecutionType(e.target.value);
 
-        if(e.target.value === 'market'){
+        if(e.target.value === 'market')
             clearErrors('price');
-        }
     }
 
     return (

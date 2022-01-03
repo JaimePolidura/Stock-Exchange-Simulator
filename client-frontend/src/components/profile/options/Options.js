@@ -37,10 +37,9 @@ export default class Options extends React.Component {
     }
 
     renderBuyStockModal(){
-        return <BuyStockModal
-                onOrderBuySended = {order => this.onOrderBuySended(order)}
-                showModal={this.state.showBuyStockModal}
-                onHide={() => this.closeBuyStockModal()}/>
+        return <BuyStockModal onOrderBuySended={order => this.onOrderBuySended(order)}
+                              showModal={this.state.showBuyStockModal}
+                              onHide={() => this.closeBuyStockModal()}/>
     }
 
     onOrderBuySended(order){

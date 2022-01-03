@@ -26,7 +26,7 @@ class BackendService {
     }
 
     getOrdersBuyAndSell() {
-        return axios.get(apiRoute + "orders/get/type?types=1,2");
+        return axios.get(apiRoute + "orders/get/type?orderTypesId=1,2");
     }
 
     getAllListedCompanies(){

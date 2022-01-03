@@ -30,20 +30,18 @@ const BuyStockModal = props => {
     }
 
     const onSuccess = response => {
-        props.onOrderBuySended({
-            ...response.data,
-            name: listedCompany.name,
-            totalValueOrder: calculateTotalValue(response.data),
-        });
+        let orderToDisplay = {
+            orderId: response.data.orderId,
+            orderTypeId: response.data.orderTypeId,
+            ticker: listedCompany.ticker,
+            quantity: response.data.body.quantity,
+            date: response.data.date,
+            executionPrice: response.data.body.executionPrice,
+        }
+
+        props.onOrderBuySended(orderToDisplay);
 
         window.alert("The order has been sended");
-    }
-
-    const calculateTotalValue = apiResponse => {
-        //TODO Add market price total value
-        return buyExecutionType == 'limit' ?
-            apiResponse.quantity * apiResponse.executionPrice :
-            'Market price';
     }
 
     const onFailure = error => {
