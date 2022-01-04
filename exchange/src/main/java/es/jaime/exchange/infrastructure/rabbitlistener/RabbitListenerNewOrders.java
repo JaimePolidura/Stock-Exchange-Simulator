@@ -46,12 +46,18 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
 
     @RabbitListener(id = CONSUMER_NAME, autoStartup = "false")
     public void listen(String messageString) {
+        System.out.println("recieved order: " + messageString);
+
         Map<String, Object> toMap = deserializeToMap(messageString);
         String eventName = valueOf(toMap.get("name"));
         DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
-        DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(toMap);
+        DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(getBody(toMap));
 
         this.eventBus.publish(domainEventToPublish);
+    }
+
+    private Map<String, Object> getBody(Map<String, Object> map){
+        return (Map<String, Object>) map.get("body");
     }
 
     private Map<String, Object> deserializeToMap(String rawString){

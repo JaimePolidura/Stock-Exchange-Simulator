@@ -1,0 +1,9 @@
+.options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.options button {
+    width: 45%;
+}

@@ -49,10 +49,7 @@ class Profile extends React.Component {
                     ticker: order.body.ticker
                 };
 
-                //Add tradeId property if type is sell
-                if(orderToAdd.orderTypeId == 2) {
-                    orderToAdd = {...orderToAdd,  tradeId: order.body.tradeId};
-                }
+                if(orderToAdd.orderTypeId == 2) orderToAdd = {...orderToAdd,  tradeId: order.body.tradeId};
 
                 this.addOrder(orderToAdd);
             });
@@ -75,16 +72,27 @@ class Profile extends React.Component {
         socket.onExecutedSellOrder(msg => this.onSellOrderExecuted(msg.body));
         socket.onErrorOrder(msg => this.onErrorOrder(msg.body));
         socket.onExecutedBuyOrder(msg => this.onBuyOrderExecuted(msg.body));
+        socket.onOrderCancelled(msg => this.onOrderCancelled(msg.body));
     }
 
     onBuyOrderExecuted(executedOrder){
         this.getTradesFromApi();
-        this.removeOrder(executedOrder);
+        this.removeOrderOrDecreaseQuantity(executedOrder);
     }
 
     onSellOrderExecuted(executedOrder){
         this.getTradesFromApi();
-        this.removeOrder(executedOrder);
+        this.removeOrderOrDecreaseQuantity(executedOrder);
+    }
+
+    onOrderCancelled(orderCancelled){
+        console.log(orderCancelled);
+
+        let allOrders = this.state.orders;
+        let orderFoundIndex = allOrders.findIndex(order => order.orderId == orderCancelled.orderIdCancelled);
+        allOrders.splice(orderFoundIndex,1);
+
+        this.setState({orders: allOrders});
     }
 
     addTrade(trade){
@@ -95,8 +103,8 @@ class Profile extends React.Component {
             trades: tradeArray,
         });
     }
-
-    removeOrder(orderToRemove){
+    
+    removeOrderOrDecreaseQuantity(orderToRemove){
         let allOrders = this.state.orders;
 
         let orderFound = allOrders.find(order => order.orderId == orderToRemove.orderId);

@@ -2,6 +2,7 @@ package es.jaime.exchange.domain.models.orders;
 
 import lombok.Getter;
 
+
 public final class BuyOrder extends Order{
     @Getter private final String ticker;
 

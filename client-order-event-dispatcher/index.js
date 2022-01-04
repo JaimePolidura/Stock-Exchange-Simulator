@@ -7,8 +7,10 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 const queuesListener = [
-    "sxs.executed-orders.client-order-event-dispatcher",
-    "sxs.error-orders.client-order-event-dispatcher"
+    "sxs.exchange.events.client-order-event-dispatcher.order-error",
+    "sxs.exchange.events.client-order-event-dispatcher.order-executed-buy",
+    "sxs.exchange.events.client-order-event-dispatcher.order-executed-sell",
+    "sxs.exchange.events.client-order-event-dispatcher.order-cancelled",
 ];
 
 const io = socketIo(server, {
@@ -37,7 +39,7 @@ ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
 
                 console.log("new message from exchange "+ messageToJSON.to  +": " + message.content.toString());
 
-                messageToJSON.to.forEach(to => {
+                messageToJSON.meta.to.forEach(to => {
                     io.emit(to, messageToJSON);
                 });
             });

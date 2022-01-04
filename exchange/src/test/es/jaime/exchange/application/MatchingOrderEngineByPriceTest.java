@@ -34,7 +34,7 @@ public class MatchingOrderEngineByPriceTest {
         this.exchangeConfiguration = new ExchangeConfigurationMock();
         this.queuePublisher = new QueuePublisherMock();
         this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
-        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
+        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), messagePublisher, new EventBusMock());
 
         createBuyOrders().forEach(order -> matchingEngineTest.enqueueBuyOrder(order));
         createSellOrders().forEach(order -> matchingEngineTest.enqueueSellOrder(order));

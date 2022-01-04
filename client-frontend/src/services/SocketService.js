@@ -4,6 +4,7 @@ const URL = 'ws://localhost:4000';
 const EXECUTED_BUY_ORDER = "order-executed-buy";
 const EXECUTED_SELL_ORDER = "order-executed-sell";
 const ERROR_ORDER = "order-error";
+const ORDER_CANCELLED = "order-cancelled";
 
 class ClientEventDispatcherSocketService {
 
@@ -12,6 +13,7 @@ class ClientEventDispatcherSocketService {
         this.onExecutedSellOrderCallback = null;
         this.onExecutedBuyOrderCallback = null;
         this.onErrorOrderCallback = null;
+        this.onOrderCancelledCallback = null;
     }
 
     connect(clientId){
@@ -29,6 +31,8 @@ class ClientEventDispatcherSocketService {
             this.onExecutedBuyOrderCallback(msg);
         }else if(msg.name == ERROR_ORDER){
             this.onErrorOrderCallback(msg);
+        }else if(msg.name == ORDER_CANCELLED){
+            this.onOrderCancelledCallback(msg);
         }
     }
 
@@ -42,6 +46,10 @@ class ClientEventDispatcherSocketService {
 
     onErrorOrder(callback){
         this.onErrorOrderCallback = callback;
+    }
+
+    onOrderCancelled(callback){
+        this.onOrderCancelledCallback = callback;
     }
 }
 

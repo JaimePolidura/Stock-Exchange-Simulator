@@ -37,6 +37,10 @@ class BackendService {
         return axios.get(apiRoute + "trades/get");
     }
 
+    cancelOrder(orderId){
+        return axios.post(apiRoute + "orders/send/cancel/" + orderId);
+    }
+
 }
 
 export default new BackendService();

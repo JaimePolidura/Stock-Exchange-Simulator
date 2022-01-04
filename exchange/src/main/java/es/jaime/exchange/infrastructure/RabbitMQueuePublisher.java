@@ -16,6 +16,8 @@ public class RabbitMQueuePublisher implements MessagePublisher {
 
     @Override
     public void publish(String exchange, String routingKey, Message message) {
+        System.out.println("publish to exchange: " + exchange + " routing key: " + routingKey + " body: " + toJSON(message));
+
         this.rabbitTemplate.convertAndSend(exchange, routingKey, toJSON(message));
     }
 

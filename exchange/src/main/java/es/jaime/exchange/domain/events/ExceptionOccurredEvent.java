@@ -9,7 +9,9 @@ import java.util.Map;
 
 @AllArgsConstructor
 public class ExceptionOccurredEvent extends DomainEvent {
-    @Getter private final DomainException exception;
+    @Getter private DomainException exception;
+
+    public ExceptionOccurredEvent () {}
 
     //Not needed
     @Override
