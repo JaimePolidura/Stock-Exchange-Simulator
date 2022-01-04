@@ -37,7 +37,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
         ensureOwnsTheTrade(tradeToSell, command.getClientID());
         ensureCorrectQuantity(tradeToSell, command.getQuantity());
 
-        saveToRepository(command);
+        saveToRepository(command, tradeToSell);
         publishMessage(command, tradeToSell);
     }
 
@@ -53,7 +53,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
         }
     }
 
-    private void saveToRepository(SellOrderCommand command){
+    private void saveToRepository(SellOrderCommand command, Trade trade){
         this.ordersRepository.save(new Order(
                 command.getOrderID(),
                 command.getClientID(),
@@ -62,7 +62,8 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 OrderBodySell.of(
                         command.getTradeId(),
                         command.getQuantity(),
-                        command.getExecutionPrice()
+                        command.getExecutionPrice(),
+                        trade.getTicker().value()
                 )
         ));
     }

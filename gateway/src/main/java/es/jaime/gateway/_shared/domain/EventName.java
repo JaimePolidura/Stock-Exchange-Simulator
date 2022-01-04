@@ -3,7 +3,8 @@ package es.jaime.gateway._shared.domain;
 public enum EventName {
     EXECUTED_BUY_ORDER("order-executed-buy"),
     EXECUTED_SELL_ORDER("order-executed-sell"),
-    ERROR_ORDER("order-error");
+    ERROR_ORDER("order-error"),
+    ORDER_CANCELLED("order-cancelled");
 
     private final String name;
 

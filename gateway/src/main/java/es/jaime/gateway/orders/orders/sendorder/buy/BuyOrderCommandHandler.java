@@ -28,6 +28,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     @Override
     public void handle(BuyOrderCommand command) {
         ensureTickerExists(command);
+
         saveOrderToRepository(command);
         publishMessage(command);
     }

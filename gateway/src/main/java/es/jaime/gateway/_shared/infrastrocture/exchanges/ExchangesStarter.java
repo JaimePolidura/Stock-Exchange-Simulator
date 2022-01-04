@@ -61,7 +61,7 @@ public class ExchangesStarter implements CommandLineRunner {
         return List.of(
                 RabbitMQNameFormatter.newOrdersQueueName(listedCompany.ticker()),
                 RabbitMQNameFormatter.EVENTS_EXCHANGE,
-                "100"
+                "1000"
         );
     }
 }

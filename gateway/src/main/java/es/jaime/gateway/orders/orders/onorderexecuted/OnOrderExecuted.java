@@ -23,23 +23,15 @@ public class OnOrderExecuted {
     @EventListener({OrderExecuted.class})
     @org.springframework.core.annotation.Order(100)
     public void on(OrderExecuted event){
-        String orderId = event.getOrderId();
-        int quantity = event.getQuantity();
-
-        Optional<Order> orderOptional = repository.findByOrderId(OrderId.of(orderId));
+        Optional<Order> orderOptional = repository.findByOrderId(OrderId.of(event.getOrderId()));
 
         if(orderOptional.isEmpty()) return;
 
         Order order = orderOptional.get();
-
-        System.out.println(order);
-
         OrderBody orderBody = order.getBody();
 
-        System.out.println(orderBody.value());
-
-        if(orderBody.getInteger("quantity") > quantity)
-            updateQuantityOrder(order, quantity);
+        if(orderBody.getInteger("quantity") > event.getQuantity())
+            updateQuantityOrder(order, event.getQuantity());
         else
             removeOrder(order.getOrderId());
     }

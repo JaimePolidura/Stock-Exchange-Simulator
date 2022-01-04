@@ -10,17 +10,18 @@ import java.util.Map;
 public final class OrderBodySell extends OrderBody {
     @Getter private final String tradeId;
 
-    public OrderBodySell(TradeId tradeId, int quantity, double executionPrice) {
+    public OrderBodySell(TradeId tradeId, int quantity, double executionPrice, String ticker) {
         super(new JSONObject(Map.of(
                 "tradeId", tradeId.value(),
                 "quantity", quantity,
-                "executionPrice", executionPrice
+                "executionPrice", executionPrice,
+                "ticker", ticker
         )).toString());
 
         this.tradeId = tradeId.value();
     }
 
-    public static OrderBodySell of(TradeId tradeId, int quantity, double executionPrice){
-        return new OrderBodySell(tradeId, quantity, executionPrice);
+    public static OrderBodySell of(TradeId tradeId, int quantity, double executionPrice, String ticker){
+        return new OrderBodySell(tradeId, quantity, executionPrice, ticker);
     }
 }

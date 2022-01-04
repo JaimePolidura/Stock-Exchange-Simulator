@@ -106,3 +106,4 @@ DELETE FROM ordertypes;
 
 INSERT INTO ordertypes VALUES (1, 'BUY');
 INSERT INTO ordertypes VALUES (2, 'SELL');
+INSERT INTO ordertypes VALUES (3, 'CANCEL');

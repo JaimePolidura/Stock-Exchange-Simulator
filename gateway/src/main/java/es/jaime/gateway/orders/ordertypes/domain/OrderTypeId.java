@@ -23,4 +23,9 @@ public final class OrderTypeId extends IntegerValueObject {
     public static OrderTypeId sell(){
         return new OrderTypeId(OrderTypes.SELL);
     }
+
+    public static OrderTypeId cancel(){
+        return new OrderTypeId(OrderTypes.CANCEL);
+    }
+
 }
