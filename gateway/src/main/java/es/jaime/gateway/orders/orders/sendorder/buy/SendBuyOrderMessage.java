@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.orders.sendorder.buy;
 
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
+import es.jaime.gateway._shared.domain.messagePublisher.MessageNames;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;
@@ -22,8 +23,8 @@ public class SendBuyOrderMessage implements CommandMessage {
     @Getter private final OrderTypeId type;
 
     @Override
-    public String name() {
-        return "new-order-buy";
+    public MessageNames name() {
+        return MessageNames.NEW_ORDER_BUY;
     }
 
     @Override

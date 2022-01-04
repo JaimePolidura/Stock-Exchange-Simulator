@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.orders.sendorder.cancel;
 
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
+import es.jaime.gateway._shared.domain.messagePublisher.MessageNames;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,8 @@ public class CancelOrderMessage implements CommandMessage {
     private final String ticker;
 
     @Override
-    public String name() {
-        return "cancel-order";
+    public MessageNames name() {
+        return MessageNames.ORDER_CANCEL;
     }
 
     @Override

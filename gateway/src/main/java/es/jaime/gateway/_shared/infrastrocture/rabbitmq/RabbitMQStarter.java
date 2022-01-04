@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
 import es.jaime.gateway._shared.domain.messagePublisher.Message;
+import es.jaime.gateway._shared.domain.messagePublisher.MessageNames;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class RabbitMQStarter implements CommandLineRunner {
 
     private static class StartQueueMessage implements CommandMessage {
         @Override
-        public String name() {
-            return "start";
+        public MessageNames name() {
+            return MessageNames.START_SERVICES;
         }
 
         @Override
