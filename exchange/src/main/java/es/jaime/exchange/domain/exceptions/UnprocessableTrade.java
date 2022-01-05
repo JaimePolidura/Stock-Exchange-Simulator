@@ -1,9 +1,9 @@
 package es.jaime.exchange.domain.exceptions;
 
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 
 public class UnprocessableTrade extends DomainException{
-    public UnprocessableTrade(Order order) {
+    public UnprocessableTrade(TradeOrder order) {
         super("Unprocessable trade, no operation was executed. Try later", order);
     }
 }

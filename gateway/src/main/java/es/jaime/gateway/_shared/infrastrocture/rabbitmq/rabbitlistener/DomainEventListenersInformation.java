@@ -1,5 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq.rabbitlistener;
 
+import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
@@ -40,18 +41,18 @@ public final class DomainEventListenersInformation {
             if(Modifier.isAbstract(domainEventClass.getModifiers())) continue;
 
             DomainEvent domainEventInstance = domainEventClass.newInstance();
-            String eventName = domainEventInstance.eventName();
+            EventName eventName = domainEventInstance.eventName();
 
-            if(eventName.equalsIgnoreCase("")) continue;
+            if(eventName == null) continue;
 
             domainEventsInstances.put(domainEventClass, domainEventInstance);
-            domainEventsNamesMappedWithInstances.put(eventName, domainEventInstance);
+            domainEventsNamesMappedWithInstances.put(eventName.getName(), domainEventInstance);
         }
 
         return domainEventsNamesMappedWithInstances;
     }
 
-    public DomainEvent getInstanceFor(String domainEventName){
-        return this.domainEventNamesWithInstances.get(domainEventName);
+    public DomainEvent getInstanceFor(EventName domainEventName){
+        return this.domainEventNamesWithInstances.get(domainEventName.getName());
     }
 }

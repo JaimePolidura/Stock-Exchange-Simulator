@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.messagePublisher;
+package es.jaime.gateway._shared.domain.messages;
 
 public enum MessageNames {
     NEW_ORDER_BUY("new-order-buy"),

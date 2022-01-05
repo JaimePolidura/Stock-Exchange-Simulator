@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.orders.sendorder.sell;
 
-import es.jaime.gateway._shared.domain.messagePublisher.CommandMessage;
-import es.jaime.gateway._shared.domain.messagePublisher.MessageNames;
+import es.jaime.gateway._shared.domain.messages.CommandMessage;
+import es.jaime.gateway._shared.domain.messages.MessageNames;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;

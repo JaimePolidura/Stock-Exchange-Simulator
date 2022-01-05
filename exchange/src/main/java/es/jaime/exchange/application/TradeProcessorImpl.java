@@ -3,11 +3,11 @@ package es.jaime.exchange.application;
 import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.exceptions.UnprocessableTrade;
-import es.jaime.exchange.domain.models.messages.BuyOrderExecutedMessage;
+import es.jaime.exchange.domain.models.messages.messages.BuyOrderExecutedMessage;
 import es.jaime.exchange.domain.models.messages.EventNames;
-import es.jaime.exchange.domain.models.messages.SellOrderExecutedMessage;
+import es.jaime.exchange.domain.models.messages.messages.SellOrderExecutedMessage;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import es.jaime.exchange.domain.models.orders.OrderType;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
@@ -69,13 +69,13 @@ public class TradeProcessorImpl implements TradeProcessor {
         );
     }
 
-    private int getQuantityStockTradeMatch(Order buyOrder, Order sellOrder){
+    private int getQuantityStockTradeMatch(TradeOrder buyOrder, TradeOrder sellOrder){
         return buyOrder.getQuantity() == sellOrder.getQuantity() ?
                 buyOrder.getQuantity() :
                 Math.min(buyOrder.getQuantity(), sellOrder.getQuantity());
     }
 
-    private void handleException(Order buyOrder, Order sellOrder){
+    private void handleException(TradeOrder buyOrder, TradeOrder sellOrder){
         var exceptionSet = Set.of(new UnprocessableTrade(buyOrder), new UnprocessableTrade(sellOrder));
 
         for (var domainException : exceptionSet)

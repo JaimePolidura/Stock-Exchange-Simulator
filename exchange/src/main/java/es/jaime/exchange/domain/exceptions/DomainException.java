@@ -1,12 +1,12 @@
 package es.jaime.exchange.domain.exceptions;
 
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import lombok.Getter;
 
 public class DomainException extends Exception{
-    @Getter private final Order orderException;
+    @Getter private final TradeOrder orderException;
 
-    public DomainException(String msg, Order orderException) {
+    public DomainException(String msg, TradeOrder orderException) {
         super(msg);
         this.orderException = orderException;
     }

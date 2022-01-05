@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
-import es.jaime.gateway._shared.domain.messagePublisher.Message;
-import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import es.jaime.gateway._shared.domain.messages.Message;
+import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;

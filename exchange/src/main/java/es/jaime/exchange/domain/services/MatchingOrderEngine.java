@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Queue;
 
 public interface MatchingOrderEngine extends Runnable {
-    void enqueueBuyOrder(BuyOrder order);
-    void enqueueSellOrder(SellOrder order);
+    void addBuyOrder(BuyOrder order);
+    void addSellOrder(SellOrder order);
     void addCancelOrder(CancelOrder order);
 
     Queue<BuyOrder> getBuyOrdersQueue();

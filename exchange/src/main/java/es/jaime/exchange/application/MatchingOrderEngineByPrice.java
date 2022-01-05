@@ -4,7 +4,7 @@ import es.jaime.exchange.domain.events.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
@@ -44,12 +44,12 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
 
     @EventListener({BuyOrderArrivedEvent.class})
     public void onNewBuyOrder(BuyOrderArrivedEvent buyOrderArrivedEvent) {
-        enqueueBuyOrder(buyOrderArrivedEvent.getBuyOrder());
+        addBuyOrder(buyOrderArrivedEvent.getBuyOrder());
     }
 
     @EventListener({SellOrderArrivedEvent.class})
     public void onNewSellOrder(SellOrderArrivedEvent sellOrderArrivedEvent) {
-        enqueueSellOrder(sellOrderArrivedEvent.getSellOrder());
+        addSellOrder(sellOrderArrivedEvent.getSellOrder());
     }
 
     @EventListener({CancelOrderArrivedEvent.class})
@@ -58,12 +58,12 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
     }
 
     @Override
-    public void enqueueBuyOrder(BuyOrder order) {
+    public void addBuyOrder(BuyOrder order) {
         buyOrders.offer(order);
     }
 
     @Override
-    public void enqueueSellOrder(SellOrder order) {
+    public void addSellOrder(SellOrder order) {
         sellOrders.offer(order);
     }
 
@@ -108,10 +108,8 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         return !(buyOrders.isEmpty() || sellOrders.isEmpty());
     }
 
-    private boolean checkIfOrderIsCancelled(Order order){
+    private boolean checkIfOrderIsCancelled(TradeOrder order){
         if(this.cancelOrders.containsKey(order.getOrderId())){
-            System.out.println("1");
-
             CancelOrder cancelOrder = this.cancelOrders.remove(order.getOrderId());
 
             this.orderCancellator.cancel(order, cancelOrder);
@@ -140,7 +138,7 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         if(ttlExpiredSellOrder) eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(sellOrder))); else sellOrders.add(sellOrder);
     }
 
-    private boolean decreaseTtl(Order order){
+    private boolean decreaseTtl(TradeOrder order){
         int actualTtlOrder = order.decreaseTtlByOne();
 
         return actualTtlOrder <= 0;

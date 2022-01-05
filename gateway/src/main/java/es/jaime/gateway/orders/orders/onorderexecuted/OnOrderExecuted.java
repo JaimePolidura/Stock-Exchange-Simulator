@@ -8,7 +8,6 @@ import es.jaime.gateway.orders.orders._shared.domain.events.OrderExecuted;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 

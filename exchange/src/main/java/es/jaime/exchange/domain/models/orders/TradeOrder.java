@@ -2,7 +2,7 @@ package es.jaime.exchange.domain.models.orders;
 
 import lombok.Getter;
 
-public abstract class Order implements Comparable<Order> {
+public abstract class TradeOrder implements Comparable<TradeOrder> {
     @Getter private final String orderId;
     @Getter private final String clientId;
     @Getter private final String date;
@@ -10,7 +10,7 @@ public abstract class Order implements Comparable<Order> {
     @Getter private int quantity;
     @Getter private int ttl = 200;
 
-    public Order(String orderId, String clientId, String date, double executionPrice, int quantity) {
+    public TradeOrder(String orderId, String clientId, String date, double executionPrice, int quantity) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.date = date;

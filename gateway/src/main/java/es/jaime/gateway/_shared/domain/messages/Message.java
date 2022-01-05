@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.messagePublisher;
+package es.jaime.gateway._shared.domain.messages;
 
 
 import java.io.Serializable;

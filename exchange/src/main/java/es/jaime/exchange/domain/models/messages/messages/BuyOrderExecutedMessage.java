@@ -1,5 +1,7 @@
-package es.jaime.exchange.domain.models.messages;
+package es.jaime.exchange.domain.models.messages.messages;
 
+import es.jaime.exchange.domain.models.messages.EventMessage;
+import es.jaime.exchange.domain.models.messages.MessageNames;
 import es.jaime.exchange.domain.models.orders.OrderType;
 import lombok.AllArgsConstructor;
 
@@ -17,8 +19,8 @@ public class BuyOrderExecutedMessage implements EventMessage {
     private final OrderType orderType;
 
     @Override
-    public String name() {
-        return "order-executed-buy";
+    public MessageNames name() {
+        return MessageNames.EXECUTED_BUY_ORDER;
     }
 
     @Override

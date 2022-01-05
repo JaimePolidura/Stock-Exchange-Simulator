@@ -3,7 +3,7 @@ package es.jaime.gateway.orders.orders.sendorder.sell;
 import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalQuantity;
 import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
-import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders.orders._shared.domain.Order;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;

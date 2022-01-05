@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.orders._shared.domain.events;
 
+import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import lombok.Getter;
 
@@ -22,7 +23,7 @@ public class ErrorDuringOrderExecution extends DomainEvent {
     }
 
     @Override
-    public String eventName() {
-        return "order-error";
+    public EventName eventName() {
+        return EventName.ERROR_ORDER;
     }
 }

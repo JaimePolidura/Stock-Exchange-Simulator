@@ -43,12 +43,10 @@ public class RabbitMQEventsListener implements CommandLineRunner {
 
     @RabbitListener(id = CONSUMER_NAME, autoStartup = "false")
     public void consumer(String messageString) {
-        System.out.println("recieved event " + messageString);
-
         Map<String, Object> toMap = deserializeToMap(messageString);
 
         String eventName = valueOf(toMap.get("name"));
-        DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
+        DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(EventName.valueOf(eventName));
         DomainEvent domainEventToPublsh = domainEventToExecute.fromPrimitives(toMap);
 
         this.eventBus.publish(domainEventToPublsh);

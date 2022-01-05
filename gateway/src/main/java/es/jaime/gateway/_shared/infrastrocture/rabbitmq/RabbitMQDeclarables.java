@@ -34,7 +34,6 @@ public class RabbitMQDeclarables {
         return new Declarables(Utils.toList(start, newOrders, exchangeEventsListeners));
     }
 
-    //TODO Improve with reflections
     private List<Declarable> exchangeEventsListeners(){
         List<Declarable> declarablesToReturn = new ArrayList<>();
         TopicExchange exchange = new TopicExchange(EVENTS_EXCHANGE);

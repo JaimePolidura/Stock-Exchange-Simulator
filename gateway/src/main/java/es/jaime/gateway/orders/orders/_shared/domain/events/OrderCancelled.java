@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.orders._shared.domain.events;
 
+import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +16,8 @@ public class OrderCancelled extends DomainEvent {
     public OrderCancelled () {}
 
     @Override
-    public String eventName() {
-        return "order-cancelled";
+    public EventName eventName() {
+        return EventName.ORDER_CANCELLED;
     }
 
     @Override

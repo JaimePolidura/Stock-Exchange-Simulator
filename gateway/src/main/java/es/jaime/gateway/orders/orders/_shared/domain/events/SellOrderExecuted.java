@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.orders._shared.domain.events;
 
+import es.jaime.gateway._shared.domain.EventName;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -35,7 +36,7 @@ public final class SellOrderExecuted extends OrderExecuted{
     }
 
     @Override
-    public String eventName() {
-        return "order-executed-sell";
+    public EventName eventName() {
+        return EventName.EXECUTED_SELL_ORDER;
     }
 }

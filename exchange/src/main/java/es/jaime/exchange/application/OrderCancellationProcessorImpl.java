@@ -1,9 +1,9 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.models.messages.EventNames;
-import es.jaime.exchange.domain.models.messages.OrderCancelledMessage;
+import es.jaime.exchange.domain.models.messages.messages.OrderCancelledMessage;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MessagePublisher;
 import es.jaime.exchange.domain.services.OrderCancellationProcessor;
@@ -20,7 +20,7 @@ public class OrderCancellationProcessorImpl implements OrderCancellationProcesso
     }
 
     @Override
-    public void cancel(Order order, CancelOrder cancelOrder) {
+    public void cancel(TradeOrder order, CancelOrder cancelOrder) {
         this.messagePublisher.publish(
                 configuration.eventsExchangeName(),
                 configuration.eventsExchangeName() + ".*." + EventNames.ORDER_CANCELLED.getName(),

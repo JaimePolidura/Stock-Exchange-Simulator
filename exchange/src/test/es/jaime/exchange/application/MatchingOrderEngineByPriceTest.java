@@ -3,7 +3,7 @@ package es.jaime.exchange.application;
 import es.jaime.exchange._shared.EventBusMock;
 import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
@@ -36,8 +36,8 @@ public class MatchingOrderEngineByPriceTest {
         this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
         this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), messagePublisher, new EventBusMock());
 
-        createBuyOrders().forEach(order -> matchingEngineTest.enqueueBuyOrder(order));
-        createSellOrders().forEach(order -> matchingEngineTest.enqueueSellOrder(order));
+        createBuyOrders().forEach(order -> matchingEngineTest.addBuyOrder(order));
+        createSellOrders().forEach(order -> matchingEngineTest.addSellOrder(order));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedBuyOrderByPrice = new double[]{12.0, 10.0, 9.0, 8.0, -1.0};
         double[] actualBuyOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getBuyOrdersQueue())
                 .stream()
-                .mapToDouble(Order::getExecutionPrice)
+                .mapToDouble(TradeOrder::getExecutionPrice)
                 .toArray();
 
         Assert.assertArrayEquals(expectedBuyOrderByPrice, actualBuyOrderByPrice, 0);
@@ -62,7 +62,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedSellOrderByPrice = new double[]{-1.0, 8.0, 10.0, 11.0, 11.0, };
         double[] actualSellOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getSellOrdersQueue())
                 .stream()
-                .mapToDouble(Order::getExecutionPrice)
+                .mapToDouble(TradeOrder::getExecutionPrice)
                 .toArray();
 
         Assert.assertArrayEquals(expectedSellOrderByPrice, actualSellOrderByPrice, 0);
@@ -130,8 +130,8 @@ public class MatchingOrderEngineByPriceTest {
         return queuePublisherMock.getQueue();
     }
 
-    private List<? extends Order> iterateThroughPriorityQueue(Queue<? extends Order> queue){
-        List<Order> result = new ArrayList<>();
+    private List<? extends TradeOrder> iterateThroughPriorityQueue(Queue<? extends TradeOrder> queue){
+        List<TradeOrder> result = new ArrayList<>();
         int queueSize = queue.size();
 
         for (int i = 0; i < queueSize; i++)

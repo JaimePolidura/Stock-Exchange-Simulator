@@ -3,7 +3,7 @@ package es.jaime.exchange.domain.models.orders;
 import lombok.Getter;
 
 
-public final class BuyOrder extends Order{
+public final class BuyOrder extends TradeOrder {
     @Getter private final String ticker;
 
     public BuyOrder(String orderId, String clientId, String date, double executionPrice, int quantity, String ticker) {
@@ -12,7 +12,7 @@ public final class BuyOrder extends Order{
     }
 
     @Override
-    public int compareTo(Order other) {
+    public int compareTo(TradeOrder other) {
         return (int) (other.getExecutionPrice() - getExecutionPrice());
     }
 }

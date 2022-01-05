@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.messagePublisher;
+package es.jaime.gateway._shared.domain.messages;
 
 public interface CommandMessage extends Message{
     @Override

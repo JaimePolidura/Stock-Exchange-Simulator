@@ -21,7 +21,7 @@ public final class LoginController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<GenerateTokenUserQueryResponse> login (@RequestBody Request request) {
         commandBus.dispatch(new AuthenticateCommand(
                 request.username,

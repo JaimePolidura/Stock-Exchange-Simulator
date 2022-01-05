@@ -2,6 +2,8 @@ package es.jaime.gateway.orders.orders._shared.domain.events;
 
 
 
+import es.jaime.gateway._shared.domain.EventName;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public final class BuyOrderExecuted extends OrderExecuted{
     }
 
     @Override
-    public String eventName() {
-        return "order-executed-buy";
+    public EventName eventName() {
+        return EventName.EXECUTED_BUY_ORDER;
     }
 }

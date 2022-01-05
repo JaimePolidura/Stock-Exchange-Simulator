@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.orders.sendorder.buy;
 
 import es.jaime.gateway._shared.domain.command.CommandHandler;
-import es.jaime.gateway._shared.domain.messagePublisher.MessagePublisher;
+import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders.orders._shared.domain.Order;

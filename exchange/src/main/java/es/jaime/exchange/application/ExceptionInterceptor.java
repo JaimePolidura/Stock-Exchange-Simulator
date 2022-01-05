@@ -2,9 +2,9 @@ package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.events.ExceptionOccurredEvent;
 import es.jaime.exchange.domain.exceptions.DomainException;
-import es.jaime.exchange.domain.models.messages.ErrorOrderMessage;
+import es.jaime.exchange.domain.models.messages.messages.ErrorOrderMessage;
 import es.jaime.exchange.domain.models.messages.EventNames;
-import es.jaime.exchange.domain.models.orders.Order;
+import es.jaime.exchange.domain.models.orders.TradeOrder;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MessagePublisher;
 import org.springframework.context.event.EventListener;
@@ -23,7 +23,7 @@ public class ExceptionInterceptor {
     @EventListener
     public void onExceptionOccurred(ExceptionOccurredEvent event){
         DomainException exception = event.getException();
-        Order order = exception.getOrderException();
+        TradeOrder order = exception.getOrderException();
 
         System.out.println("Exception while executing order: " + order.getOrderId() + " of "
                 + order.getClientId() + " " + exception.getMessage());
