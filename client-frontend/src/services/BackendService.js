@@ -6,7 +6,7 @@ const apiRoute = "http://localhost:8080/";
 class BackendService {
 
     login(request){
-        return axios.post(apiRoute + "login", request);
+        return axios.post(apiRoute + "auth/login", request);
     }
 
     getProfielData(){

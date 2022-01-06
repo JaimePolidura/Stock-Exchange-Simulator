@@ -1,4 +1,5 @@
 import {io} from "socket.io-client";
+import auth from "./AuthenticationService";
 
 const URL = 'ws://localhost:4000';
 const EXECUTED_BUY_ORDER = "order-executed-buy";
@@ -7,7 +8,6 @@ const ERROR_ORDER = "order-error";
 const ORDER_CANCELLED = "order-cancelled";
 
 class ClientEventDispatcherSocketService {
-
     constructor() {
         this.socket = null;
         this.onExecutedSellOrderCallback = null;
@@ -17,7 +17,10 @@ class ClientEventDispatcherSocketService {
     }
 
     connect(clientId){
-        this.socket = io(URL, { transports : ['websocket'] }).on(clientId, msg => {
+        this.socket = io(URL, {
+            transports : ['websocket'],
+            auth: {username: auth.username, token: auth.token},
+        }).on(clientId, msg => {
             this.onNewMessage(msg);
         });
     }
