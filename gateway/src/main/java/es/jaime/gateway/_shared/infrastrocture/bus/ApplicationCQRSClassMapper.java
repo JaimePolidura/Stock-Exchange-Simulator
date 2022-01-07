@@ -23,8 +23,6 @@ public class ApplicationCQRSClassMapper {
         Set<Class<? extends H>> handlers = reflections.getSubTypesOf(classToFind);
         Map<Class<I>, H> results = new HashMap<>();
 
-        System.out.println("handlers sizes: " + handlers.size());
-
         for(Class<? extends H> handler : handlers){
             ParameterizedType paramType = (ParameterizedType) handler.getGenericInterfaces()[0];
             Class<I> queryClass = (Class<I>) paramType.getActualTypeArguments()[0];

@@ -72,16 +72,29 @@ INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130002', 'juan', 'A
 -- Table structure for orders
 -- ----------------------------
 
-CREATE TABLE IF NOT EXISTS `orders` (
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
     `orderId` varchar(50) NOT NULL,
     `clientId` varchar(36) NOT NULL,
-    `date` varchar(30) NOT NULL,
-    `orderTypeId` int(2) NOT NULL ,
-    `body` varchar(200) NOT NULL,
+    `date` varchar(20) NOT NULL,
+    `type` enum('BUY', 'SELL', 'CANCEL') NOT NULL,
+    `state` enum('PENDING', 'EXECUTED', 'CANCELLED') NOT NULL,
+    `ticker` varchar(10),
+    `quantity` int(10),
+    `executionPrice` double(10, 3),
+    `orderIdToCancel` varchar(50),
+    `positionIdToSell` varchar(50),
     PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DELETE FROM orders;
+DROP VIEW IF EXISTS buy_orders;
+CREATE VIEW buy_orders AS SELECT orderId, clientId, date, type, state, ticker, quantity, executionPrice FROM orders WHERE type = 'BUY';
+
+DROP VIEW IF EXISTS sell_orders;
+CREATE VIEW sell_orders AS SELECT orderId, clientId, date, type, state, ticker, quantity, executionPrice, positionIdToSell FROM orders WHERE type = 'SELL';
+
+DROP VIEW IF EXISTS cancel_orders;
+CREATE VIEW cancel_orders AS SELECT orderId, clientId, date, type, state, ticker, orderIdToCancel FROM orders WHERE type = 'CANCEL';
 
 -- -------------------------------------
 -- Table structure for ordertypes

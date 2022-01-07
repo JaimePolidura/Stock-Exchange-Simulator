@@ -5,9 +5,7 @@ import es.jaime.gateway.positions._shared.*;
 import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.positions.open._shared.domain.OpenPositionsRepository;
 import org.hibernate.SessionFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
