@@ -6,7 +6,11 @@ public class PositionTicker extends StringValueObject {
     public PositionTicker(String value) {
         super(value);
     }
-        
+
+    public PositionTicker () {
+        super(null);
+    }
+
     public static PositionTicker of(String value){
         return new PositionTicker(value);
     }

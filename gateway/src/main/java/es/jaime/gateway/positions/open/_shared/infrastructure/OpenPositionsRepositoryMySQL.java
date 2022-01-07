@@ -32,12 +32,12 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
     }
 
     @Override
-    public Optional<OpenPosition> findByPositionId(PositionClientId tradeId) {
+    public Optional<OpenPosition> findByPositionId(PositionId tradeId) {
         return Optional.empty();
     }
 
     @Override
-    public void deleteByPositionId(PositionClientId positionId) {
+    public void deleteByPositionId(PositionId positionId) {
         delete("open_positions", "positionId = '" + positionId.value() + "'");
     }
     @Override
@@ -46,9 +46,9 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
                 PositionId.of(String.valueOf(primitives[0])),
                 PositionClientId.from(String.valueOf(primitives[1])),
                 PositionTicker.of(String.valueOf(primitives[2])),
-                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[3]))),
-                PositionOpeningDate.of(String.valueOf(primitives[4])),
-                PositionQuantity.of(Integer.parseInt(String.valueOf(primitives[5])))
+                PositionQuantity.of(Integer.parseInt(String.valueOf(primitives[3]))),
+                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[4]))),
+                PositionOpeningDate.of(String.valueOf(primitives[5]))
         );
     }
 }

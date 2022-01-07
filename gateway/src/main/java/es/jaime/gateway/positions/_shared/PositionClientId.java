@@ -9,6 +9,10 @@ public final class PositionClientId extends StringValueObject {
         super(value);
     }
 
+    public PositionClientId () {
+        super(null);
+    }
+
     public static PositionClientId from(String value){
         return new PositionClientId(value);
     }

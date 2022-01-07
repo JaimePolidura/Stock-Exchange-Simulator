@@ -9,6 +9,10 @@ public class PositionId extends StringValueObject {
         super(value);
     }
 
+    public PositionId () {
+        super(null);
+    }
+
     public static PositionId of (String value){
         return new PositionId(value);
     }

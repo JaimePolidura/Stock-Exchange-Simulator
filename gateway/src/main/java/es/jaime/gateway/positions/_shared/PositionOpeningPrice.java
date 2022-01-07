@@ -7,6 +7,10 @@ public class PositionOpeningPrice extends DoubleValueObject {
         super(value);
     }
 
+    public PositionOpeningPrice () {
+        super(0);
+    }
+
     public static PositionOpeningPrice of(double value){
         return new PositionOpeningPrice(value);
     }

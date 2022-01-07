@@ -1,7 +1,6 @@
 package es.jaime.gateway.positions.closed._shared.infrastrucutre.persistance;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
-import es.jaime.gateway.closedpositions._shared.domain.ClosedPositionId;
 import es.jaime.gateway.positions._shared.*;
 import es.jaime.gateway.positions.closed._shared.domain.*;
 import org.hibernate.SessionFactory;

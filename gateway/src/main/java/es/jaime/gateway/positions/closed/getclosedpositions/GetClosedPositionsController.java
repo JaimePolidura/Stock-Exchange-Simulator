@@ -16,7 +16,7 @@ public class GetClosedPositionsController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/closedpositions/get")
+    @GetMapping("/positions/closed/get")
     public ResponseEntity<GetClosedPositionsQueryResponse> getClosedPositions(){
         GetClosedPositionsQueryResponse response = queryBus.ask(new GetClosedPositionsQuery(
                 getLoggedUsername()

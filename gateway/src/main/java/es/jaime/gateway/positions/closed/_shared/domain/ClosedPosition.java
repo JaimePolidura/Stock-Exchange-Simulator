@@ -1,7 +1,6 @@
 package es.jaime.gateway.positions.closed._shared.domain;
 
 import es.jaime.gateway._shared.domain.Aggregate;
-import es.jaime.gateway.closedpositions._shared.domain.ClosedPositionId;
 import es.jaime.gateway.positions._shared.*;
 import es.jaime.gateway.positions._shared.PositionStatus.PositionStatusValues;
 import lombok.Getter;

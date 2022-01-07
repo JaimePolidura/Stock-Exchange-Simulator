@@ -4,12 +4,12 @@ import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;
-import es.jaime.gateway.trades._shared.domain.TradeId;
+import es.jaime.gateway.positions._shared.PositionId;
 import lombok.Getter;
 
 public class SellOrderCommand implements Command {
     @Getter private final OrderClientId clientID;
-    @Getter private final TradeId tradeId;
+    @Getter private final PositionId tradeId;
     @Getter private final OrderId orderID;
     @Getter private final OrderDate orderDate;
     @Getter private final double executionPrice;
@@ -17,7 +17,7 @@ public class SellOrderCommand implements Command {
 
     public SellOrderCommand(String clientId, String tradeId, double executionPrice, int quantity) {
         this.clientID = OrderClientId.of(clientId);
-        this.tradeId = TradeId.of(tradeId);
+        this.tradeId = PositionId.of(tradeId);
         this.executionPrice = executionPrice;
         this.quantity = quantity;
         this.orderID = OrderId.generate();

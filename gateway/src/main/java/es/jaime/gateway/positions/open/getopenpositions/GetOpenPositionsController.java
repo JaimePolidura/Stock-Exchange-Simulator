@@ -16,7 +16,7 @@ public class GetOpenPositionsController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/trades/get")
+    @GetMapping("/positions/open/get")
     public ResponseEntity<GetOpenPositionsQueryResponse> getTrades(){
         GetOpenPositionsQueryResponse response = queryBus.ask(new GetOpenPositionsQuery(
                 getLoggedUsername()

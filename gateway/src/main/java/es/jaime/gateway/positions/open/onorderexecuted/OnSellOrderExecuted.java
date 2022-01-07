@@ -1,56 +1,49 @@
 package es.jaime.gateway.positions.open.onorderexecuted;
 
 import es.jaime.gateway.orders.orders._shared.domain.events.SellOrderExecuted;
+import es.jaime.gateway.positions._shared.PositionId;
+import es.jaime.gateway.positions._shared.PositionQuantity;
+import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.positions.open._shared.domain.OpenPositionsRepository;
-import es.jaime.gateway.trades._shared.domain.Trade;
-import es.jaime.gateway.trades._shared.domain.TradeId;
-import es.jaime.gateway.trades._shared.domain.TradeQuantity;
-import es.jaime.gateway.trades._shared.domain.TradesRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service("onsellorderexecuted-trades")
 public class OnSellOrderExecuted {
-    private final OpenPositionsRepository trades;
+    private final OpenPositionsRepository openPositions;
 
-    public OnSellOrderExecuted(OpenPositionsRepository tradesRepository) {
-        this.trades = tradesRepository;
+    public OnSellOrderExecuted(OpenPositionsRepository openPositions) {
+        this.openPositions = openPositions;
     }
 
     @EventListener({SellOrderExecuted.class})
     @Order(10)
     public void on(SellOrderExecuted event){
-        //TODO
+        OpenPosition openPositionToSell = openPositions.findByPositionId(PositionId.of(event.getOpenPositionId()))
+                .get();
 
-//        Optional<Trade> tradeToSellOptional = trades.findByTradeId(TradeId.of(event.getTradeId()));
-//
-//        if(tradeToSellOptional.isEmpty()) return;
-//
-//        Trade tradeToSell = tradeToSellOptional.get();
-//
-//        if(tradeToSell.getQuantity().value() > event.getQuantity())
-//            updateQuantityToTradeToSell(tradeToSell, event);
-//        else
-//            deleteTradeToSell(tradeToSell.getPositionId());
+        if(openPositionToSell.getQuantity().value() > event.getQuantity())
+            updateQuantity(openPositionToSell, event);
+        else
+            deleteOpenPosition(openPositionToSell);
     }
 
-    private void deleteTradeToSell(TradeId tradeId) {
-//        this.trades.deleteByTradeId(tradeId);
+    private void deleteOpenPosition(OpenPosition toDelete) {
+        this.openPositions.deleteByPositionId(toDelete.getPositionId());
     }
 
-//    private void updateQuantityToTradeToSell(Trade tradeToSell, SellOrderExecuted event) {
-//        TradeQuantity updatedQuantity = TradeQuantity.of(tradeToSell.getQuantity().value() - event.getQuantity());
-//
-//        trades.save(new Trade(
-//                tradeToSell.getPositionId(),
-//                tradeToSell.getClientId(),
-//                tradeToSell.getTicker(),
-//                tradeToSell.getOpeningPrice(),
-//                tradeToSell.getOpeningDate(),
-//                updatedQuantity
-//        ));
-//    }
+    private void updateQuantity(OpenPosition openPosition, SellOrderExecuted event) {
+        PositionQuantity updatedQuantity = PositionQuantity.of(openPosition.getQuantity().value() - event.getQuantity());
+
+        openPositions.save(new OpenPosition(
+                openPosition.getPositionId(),
+                openPosition.getClientId(),
+                openPosition.getTicker(),
+                updatedQuantity,
+                openPosition.getOpeningPrice(),
+                openPosition.getOpeningDate()
+        ));
+    }
 }

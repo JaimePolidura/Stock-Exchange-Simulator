@@ -6,7 +6,7 @@ import es.jaime.gateway.orders.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
-import es.jaime.gateway.trades._shared.domain.TradeId;
+import es.jaime.gateway.positions._shared.PositionId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class SendSellOrderMessage implements CommandMessage {
     @Getter private final OrderId orderID;
-    @Getter private final TradeId tradeId;
+    @Getter private final PositionId positionId;
     @Getter private final OrderClientId clientID;
     @Getter private final OrderDate date;
     @Getter private final double executionPrice;
@@ -32,7 +32,7 @@ public class SendSellOrderMessage implements CommandMessage {
     public Map<String, Object> body() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
-            put("tradeId", tradeId.value());
+            put("tradeId", positionId.value());
             put("clientId", clientID.value());
             put("date", date.value());
             put("executionPrice", executionPrice);

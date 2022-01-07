@@ -23,38 +23,6 @@ INSERT INTO `listedcompanies` VALUES ('V', 'Visa');
 INSERT INTO `listedcompanies` VALUES ('IDT', 'IDT');
 INSERT INTO `listedcompanies` VALUES ('CRM', 'SalesForce');
 
--- ----------------------------
--- Table structure for trades
--- ----------------------------
-
-CREATE TABLE IF NOT EXISTS trades (
-    `tradeId` varchar(50) NOT NULL,
-    `clientId` varchar(50) NOT NULL,
-    `ticker` varchar(10) NOT NULL,
-    `openingPrice` double(10, 3) NOT NULL,
-    `openingDate` varchar(30) NOT NULL,
-    `quantity` int(10) NOT NULL,
-    PRIMARY KEY (`tradeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-DELETE FROM trades;
-
-INSERT INTO `trades` VALUES ('9bdec8bd-253e-4b89-9c53-aa7718276e0a', 'jaime', 'AMZN', 2351.1, '2016-12-01T01:02:03', 4);
-INSERT INTO `trades` VALUES ('177fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', 'V', 92.1, '2016-12-01T01:02:03', 34);
-INSERT INTO `trades` VALUES ('1eb226fa-4fa8-11ec-81d3-0242ac130003', 'jaime', 'FB', 123, '2016-12-01T01:02:03', 55);
-INSERT INTO `trades` VALUES ('26719a9c-4fa8-11ec-81d3-0242ac130003', 'jaime', 'ADBE', 86, '2016-12-01T01:02:03', 15);
-INSERT INTO `trades` VALUES ('2be271ae-4fa8-11ec-81d3-0242ac130003', 'jaime', 'GOOG', 2015.1, '2016-12-01T01:02:03', 5);
-INSERT INTO `trades` VALUES ('b3d55dd4-503d-11ec-bf63-0242ac130002', 'jaime', 'LMT', 374, '2016-12-01T01:02:03', 11);
-INSERT INTO `trades` VALUES ('34b2204a-4fa8-11ec-81d3-0212ac130003', 'jaime', 'IDT', 15.4, '2016-10-01T01:02:03', 23);
-
-INSERT INTO `trades` VALUES ('3bdec8bd-252e-4b89-9c53-aa7718276e0a', 'juan', 'AMZN', 2351.1, '2016-12-01T01:02:03', 4);
-INSERT INTO `trades` VALUES ('127fe75a-41a8-1hej-81d3-0242ac130003', 'juan', 'V', 92.1, '2016-12-01T01:02:03', 34);
-INSERT INTO `trades` VALUES ('1fb226fa-ffa8-a1ec-81d3-0242ac130003', 'juan', 'FB', 123, '2016-12-01T01:02:03', 55);
-INSERT INTO `trades` VALUES ('26749a9c-gfa8-12dc-81d3-0242ac130003', 'juan', 'ADBE', 86, '2016-12-01T01:02:03', 15);
-INSERT INTO `trades` VALUES ('2be271ae-7fa8-15ed-81d3-0242ac130003', 'juan', 'GOOG', 2015.1, '2016-12-01T01:02:03', 5);
-INSERT INTO `trades` VALUES ('b3d55dd4-a03d-61wc-bf63-0242ac130002', 'juan', 'LMT', 374, '2016-12-01T01:02:03', 11);
-INSERT INTO `trades` VALUES ('34f2204a-4fa8-11ec-81d3-0212ac130003', 'juan', 'IDT', 15.4, '2016-10-01T01:02:03', 23);
-
 -- -------------------------------------
 -- Table structure for positions
 -- -------------------------------------
@@ -74,14 +42,30 @@ CREATE TABLE `positions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP VIEW IF EXISTS open_positions;
-CREATE VIEW open_positions AS SELECT positions.positionId, positions.clientId, positions.ticker, positions.quantity, positions.openingPrice, positions.openingDate FROM positions WHERE positions.status = 'OPEN';
+CREATE VIEW open_positions AS SELECT positionId, positions.clientId, ticker, quantity, openingPrice, openingDate FROM positions WHERE status = 'OPEN';
 
 DROP VIEW IF EXISTS closed_positions;
-CREATE VIEW closed_positions AS SELECT positions.positionId, positions.clientId, positions.ticker, positions.quantity, positions.openingPrice, positions.openingDate, positions.closingPrice, positions.closingDate  FROM positions WHERE positions.status = 'CLOSED';
+CREATE VIEW closed_positions AS SELECT positionId, clientId, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate  FROM positions WHERE status = 'CLOSED';
 
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', 'V', 34, 92.1, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('427fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', 'FB', 123, 234, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('26749a9c-gfa8-12dc-81d3-0242ac130003', 'jaime', 'ADBE', 15, 86, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('2be271ae-7fa8-15ed-81d3-0242ac130003', 'jaime', 'GOOG', 5, 2015.1, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('b3d55dd4-a03d-61wc-bf63-0242ac130002', 'jaime', 'LMT', 11, 374, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('34f2204a-4fa8-11ec-81d3-0212ac130003', 'jaime', 'IDT', 23, 15.4, '2016-12-01T01:02:03', 'OPEN');
 
-# INSERT INTO closedpositions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20');
-# INSERT INTO closedpositions VALUES ('54f2f04a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'GOOG', 1, 131, '12/12/12', 2312, '12/12/20');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('35f2104a-4ff8-11ec-81d3-0211ac130003', 'juan', 'AMZN', 4, 131, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac120003', 'juan', 'V', 34, 92.1, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('427fe65a-4fa8-11ec-81d3-0242ac110003', 'juan', 'FB', 123, 234, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('26249a9c-gfa8-12dc-81d3-0242ac170003', 'juan', 'ADBE', 15, 86, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('3be271ae-7fa8-15ed-81d3-0242ac130003', 'juan', 'GOOG', 5, 2015.1, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('bhdd5dd4-a03d-61wc-bf63-0242ac130002', 'juan', 'LMT', 11, 374, '2016-12-01T01:02:03', 'OPEN');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('34f2214a-4fb8-11ec-81d3-0212ac130003', 'juan', 'IDT', 23, 15.4, '2016-12-01T01:02:03', 'OPEN');
+
+INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d4-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20', 'CLOSED');
+INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130002', 'juan', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20', 'CLOSED');
+
 
 -- ----------------------------
 -- Table structure for orders

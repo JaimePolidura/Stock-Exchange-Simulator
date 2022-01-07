@@ -9,6 +9,10 @@ public class PositionOpeningDate extends StringValueObject {
         super(value);
     }
 
+    public PositionOpeningDate () {
+        super(null);
+    }
+
     public static PositionOpeningDate of(String date){
         return new PositionOpeningDate(date);
     }

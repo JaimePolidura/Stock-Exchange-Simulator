@@ -7,6 +7,10 @@ public class PositionStatus extends EnumValueObject<PositionStatus.PositionStatu
         super(value);
     }
 
+    public PositionStatus () {
+        super(null);
+    }
+
     public static PositionStatus of(PositionStatusValues value){
         return new PositionStatus(value);
     }

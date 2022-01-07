@@ -7,6 +7,10 @@ public class PositionQuantity extends IntegerValueObject {
         super(value);
     }
 
+    public PositionQuantity() {
+        super(0);
+    }
+
     public static PositionQuantity of (int value){
         return new PositionQuantity(value);
     }

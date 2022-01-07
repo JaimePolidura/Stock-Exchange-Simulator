@@ -9,12 +9,12 @@ import java.util.Map;
 
 @ToString
 public final class SellOrderExecuted extends OrderExecuted{
-    @Getter private String tradeId;
+    @Getter private String openPositionId;
 
     public SellOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
                              int quantity, String date, String tradeId) {
         super(orderId, clientId, ticker, executionPrice, quantity, date);
-        this.tradeId = tradeId;
+        this.openPositionId = tradeId;
     }
 
     public SellOrderExecuted () {}

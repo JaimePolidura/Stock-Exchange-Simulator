@@ -63,7 +63,7 @@ public class HibernateConfigurationFactory {
         return List.of(
                 resourceResolver.getResource("classpath:database/orders.hbm.xml"),
                 resourceResolver.getResource("classpath:database/listedcompanies.hbm.xml"),
-                resourceResolver.getResource("classpath:database/trades.hbm.xml"),
+                resourceResolver.getResource("classpath:database/openpositions.hbm.xml"),
                 resourceResolver.getResource("classpath:database/closedpositions.hbm.xml"),
                 resourceResolver.getResource("classpath:database/ordertypes.hbm.xml")
         );
