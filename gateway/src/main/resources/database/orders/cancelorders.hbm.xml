@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.orders.newmodel.cancel.OrderCancel" table="cancel_orders">
+    <class name="es.jaime.gateway.orders.newmodel.cancel._shared.domain.OrderCancel" table="cancel_orders">
         <composite-id name="orderId" class="es.jaime.gateway.orders.newmodel._shared.OrderId" access="field">
             <key-property column="orderId" name="value" length="10" access="field"/>
         </composite-id>
