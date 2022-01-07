@@ -61,6 +61,10 @@ public class HibernateConfigurationFactory {
     @SneakyThrows
     private List<Resource> mappingEntityDatabaseFiles() {
         return List.of(
+                resourceResolver.getResource("classpath:database/orders/buyorders.hbm.xml"),
+                resourceResolver.getResource("classpath:database/orders/sellorders.hbm.xml"),
+                resourceResolver.getResource("classpath:database/orders/cancelorders.hbm.xml"),
+
                 resourceResolver.getResource("classpath:database/orders.hbm.xml"),
                 resourceResolver.getResource("classpath:database/listedcompanies.hbm.xml"),
                 resourceResolver.getResource("classpath:database/positions/closedpositions.hbm.xml"),
