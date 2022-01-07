@@ -73,7 +73,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
 
         messagePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendSellOrderMessage(
                 command.getOrderID(),
-                tradeToSell.getTradeId(),
+                tradeToSell.getPositionId(),
                 command.getClientID(),
                 command.getOrderDate(),
                 command.getExecutionPrice(),

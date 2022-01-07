@@ -28,7 +28,7 @@ public class OnSellOrderExecuted {
         if(tradeToSell.getQuantity().value() > event.getQuantity())
             updateQuantityToTradeToSell(tradeToSell, event);
         else
-            deleteTradeToSell(tradeToSell.getTradeId());
+            deleteTradeToSell(tradeToSell.getPositionId());
     }
 
     private void deleteTradeToSell(TradeId tradeId) {
@@ -39,7 +39,7 @@ public class OnSellOrderExecuted {
         TradeQuantity updatedQuantity = TradeQuantity.of(tradeToSell.getQuantity().value() - event.getQuantity());
 
         trades.save(new Trade(
-                tradeToSell.getTradeId(),
+                tradeToSell.getPositionId(),
                 tradeToSell.getClientId(),
                 tradeToSell.getTicker(),
                 tradeToSell.getOpeningPrice(),

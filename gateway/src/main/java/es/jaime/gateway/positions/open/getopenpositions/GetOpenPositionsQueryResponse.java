@@ -1,7 +1,7 @@
-package es.jaime.gateway.trades.gettrades;
+package es.jaime.gateway.positions.open.getopenpositions;
 
 import es.jaime.gateway._shared.domain.query.QueryResponse;
-import es.jaime.gateway.trades._shared.domain.Trade;
+import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class GetTradesQueryResponse implements QueryResponse {
+public class GetOpenPositionsQueryResponse implements QueryResponse {
     @Getter private final List<GetTradeQueryResponse> trades;
 
-    public static GetTradesQueryResponse fromAggregateList(List<Trade> trades){
-        return new GetTradesQueryResponse(trades.stream()
+    public static GetOpenPositionsQueryResponse fromAggregateList(List<OpenPosition> trades){
+        return new GetOpenPositionsQueryResponse(trades.stream()
                 .map(GetTradeQueryResponse::fromAggregate)
                 .collect(Collectors.toList()));
     }
@@ -26,7 +26,7 @@ public class GetTradesQueryResponse implements QueryResponse {
         @Getter private double openingPrice;
         @Getter private int quantity;
 
-        private static GetTradeQueryResponse fromAggregate(Trade aggregate){
+        private static GetTradeQueryResponse fromAggregate(OpenPosition aggregate){
             return new GetTradeQueryResponse(aggregate.getPositionId().value(), aggregate.getTicker().value(),
                     aggregate.getOpeningDate().value(), aggregate.getOpeningPrice().value(), aggregate.getQuantity().value());
         }

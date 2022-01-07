@@ -1,7 +1,7 @@
-package es.jaime.gateway.closedpositions.getclosedpositions;
+package es.jaime.gateway.positions.closed.getclosedpositions;
 
 import es.jaime.gateway._shared.domain.query.QueryResponse;
-import es.jaime.gateway.closedpositions._shared.domain.ClosedPosition;
+import es.jaime.gateway.positions.closed._shared.domain.ClosedPosition;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

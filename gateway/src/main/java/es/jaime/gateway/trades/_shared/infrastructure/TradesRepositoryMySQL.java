@@ -26,7 +26,7 @@ public class TradesRepositoryMySQL extends HibernateRepository<Trade> implements
 
     @Override
     public List<Trade> findTradesByClientId(TradeClientId clientId) {
-        return byQuery("SELECT * FROM trades WHERE trades.clientId = '"+clientId.value()+"'").get();
+        return byQuery("SELECT * FROM open_positions WHERE clientId = '"+clientId.value()+"'").get();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TradesRepositoryMySQL extends HibernateRepository<Trade> implements
 
     @Override
     public void deleteByTradeId(TradeId tradeId) {
-        delete("trades", "tradeId = '"+tradeId.value()+"'");
+        delete("open_positions", "positionId = '"+tradeId.value()+"'");
     }
 
     @Override

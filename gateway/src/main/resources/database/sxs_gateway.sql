@@ -56,25 +56,32 @@ INSERT INTO `trades` VALUES ('b3d55dd4-a03d-61wc-bf63-0242ac130002', 'juan', 'LM
 INSERT INTO `trades` VALUES ('34f2204a-4fa8-11ec-81d3-0212ac130003', 'juan', 'IDT', 15.4, '2016-10-01T01:02:03', 23);
 
 -- -------------------------------------
--- Table structure for closedpositions
+-- Table structure for positions
 -- -------------------------------------
 
-CREATE TABLE IF NOT EXISTS closedpositions(
-    `closedPositionId` varchar(50) NOT NULL,
+DROP TABLE IF EXISTS `positions`;
+CREATE TABLE `positions` (
+    `positionId` varchar(50) NOT NULL,
     `clientId` varchar(50) NOT NULL,
     `ticker` varchar(10) NOT NULL,
     `quantity` int(10) NOT NULL,
     `openingPrice` double(10, 3) NOT NULL,
     `openingDate` varchar(30) NOT NULL,
-    `closingPrice` double(10, 3) NOT NULL,
-    `closingDate` varchar(30) NOT NULL,
-    PRIMARY KEY (`closedPositionId`)
+    `closingPrice` double(10, 3),
+    `closingDate` varchar(30),
+    `status` enum('OPEN', 'CLOSED') NOT NULL,
+    PRIMARY KEY (`positionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DELETE FROM closedpositions;
+DROP VIEW IF EXISTS open_positions;
+CREATE VIEW open_positions AS SELECT positions.positionId, positions.clientId, positions.ticker, positions.quantity, positions.openingPrice, positions.openingDate FROM positions WHERE positions.status = 'OPEN';
 
-INSERT INTO closedpositions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20');
-INSERT INTO closedpositions VALUES ('54f2f04a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'GOOG', 1, 131, '12/12/12', 2312, '12/12/20');
+DROP VIEW IF EXISTS closed_positions;
+CREATE VIEW closed_positions AS SELECT positions.positionId, positions.clientId, positions.ticker, positions.quantity, positions.openingPrice, positions.openingDate, positions.closingPrice, positions.closingDate  FROM positions WHERE positions.status = 'CLOSED';
+
+
+# INSERT INTO closedpositions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20');
+# INSERT INTO closedpositions VALUES ('54f2f04a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'GOOG', 1, 131, '12/12/12', 2312, '12/12/20');
 
 -- ----------------------------
 -- Table structure for orders

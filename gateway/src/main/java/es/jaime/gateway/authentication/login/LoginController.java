@@ -23,6 +23,8 @@ public final class LoginController extends Controller {
 
     @PostMapping("/auth/login")
     public ResponseEntity<GenerateTokenUserQueryResponse> login (@RequestBody Request request) {
+        System.out.println("hola");
+
         commandBus.dispatch(new AuthenticateCommand(
                 request.username,
                 request.password

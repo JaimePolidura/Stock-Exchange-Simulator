@@ -4,9 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.trades._shared.domain.Trade" table="trades">
-        <composite-id name="tradeId" class="es.jaime.gateway.trades._shared.domain.TradeId" access="field">
-            <key-property column="tradeId" name="value" length="50" access="field"/>
+    <class name="es.jaime.gateway.trades._shared.domain.Trade" table="open_positions">
+        <composite-id name="positionId" class="es.jaime.gateway.trades._shared.domain.TradeId" access="field">
+            <key-property column="positionId" name="value" length="50" access="field"/>
         </composite-id>
 
         <component name="clientId" class="es.jaime.gateway.trades._shared.domain.TradeClientId" access="field">

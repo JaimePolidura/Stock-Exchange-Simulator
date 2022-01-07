@@ -42,7 +42,7 @@ public interface Message extends Serializable {
                 "id", id().toString(),
                 "now", date().toString(),
                 "type", type().name(),
-                "name", name().name(),
+                "name", name().getName(),
                 "body", body(),
                 "meta", meta()
         );

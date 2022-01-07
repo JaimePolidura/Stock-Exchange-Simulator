@@ -5,6 +5,7 @@ import es.jaime.gateway.orders.orders._shared.domain.*;
 import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import org.hibernate.SessionFactory;
 import org.json.JSONObject;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -4,9 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.closedpositions._shared.domain.ClosedPosition" table="closedpositions">
-        <composite-id name="closedPositionId" class="es.jaime.gateway.closedpositions._shared.domain.ClosedPositionId" access="field">
-            <key-property column="closedPositionId" name="value" length="10" access="field"/>
+    <class name="es.jaime.gateway.closedpositions._shared.domain.ClosedPosition" table="open_positions">
+        <composite-id name="positionId" class="es.jaime.gateway.closedpositions._shared.domain.ClosedPositionId" access="field">
+            <key-property column="positionId" name="value" length="40" access="field"/>
         </composite-id>
 
         <component name="clientId" class="es.jaime.gateway.closedpositions._shared.domain.ClosedPositionClientId" access="field">
