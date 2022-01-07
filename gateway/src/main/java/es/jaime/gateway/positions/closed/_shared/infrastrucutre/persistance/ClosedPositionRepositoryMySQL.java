@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.positions._shared.*;
 import es.jaime.gateway.positions.closed._shared.domain.*;
 import org.hibernate.SessionFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,8 @@ public class ClosedPositionRepositoryMySQL extends HibernateRepository<ClosedPos
                 PositionOpeningPrice.of(Double.parseDouble(String.valueOf(objects[4]))),
                 PositionOpeningDate.of(String.valueOf(objects[5])),
                 ClosedPositionClosingPrice.from(Double.parseDouble(String.valueOf(objects[6]))),
-                ClosedPositionClosingDate.from(String.valueOf(objects[7]))
+                ClosedPositionClosingDate.from(String.valueOf(objects[7])),
+                PositionStatus.of(String.valueOf(objects[8]))
         );
     }
 }

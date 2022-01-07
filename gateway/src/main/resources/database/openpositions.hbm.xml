@@ -12,7 +12,7 @@
         <component name="clientId" class="es.jaime.gateway.positions._shared.PositionClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
         </component>
-
+        
         <component name="ticker" class="es.jaime.gateway.positions._shared.PositionTicker" access="field">
             <property column="ticker" name="value" type="string" access="field"/>
         </component>

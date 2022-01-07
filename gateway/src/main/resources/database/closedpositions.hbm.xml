@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.positions.closed._shared.domain.ClosedPosition" table="open_positions">
+    <class name="es.jaime.gateway.positions.closed._shared.domain.ClosedPosition" table="closed_positions">
         <composite-id name="positionId" class="es.jaime.gateway.positions._shared.PositionId" access="field">
             <key-property column="positionId" name="value" length="40" access="field"/>
         </composite-id>
@@ -35,6 +35,10 @@
 
         <component name="closingDate" class="es.jaime.gateway.positions.closed._shared.domain.ClosedPositionClosingDate" access="field">
             <property column="closingDate" name="value" type="string" access="field"/>
+        </component>
+
+        <component name="status" class="es.jaime.gateway.positions._shared.PositionStatus" access="field">
+            <property column="status" name="value" type="string" access="field"/>
         </component>
     </class>
 </hibernate-mapping>

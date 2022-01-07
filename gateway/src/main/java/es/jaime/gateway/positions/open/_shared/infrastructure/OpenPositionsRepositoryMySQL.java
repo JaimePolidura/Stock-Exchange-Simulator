@@ -5,7 +5,9 @@ import es.jaime.gateway.positions._shared.*;
 import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.positions.open._shared.domain.OpenPositionsRepository;
 import org.hibernate.SessionFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,10 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
     public List<OpenPosition> findByClientId(PositionClientId clientId) {
         return byQuery("SELECT * FROM open_positions WHERE clientId = '"+clientId.value()+"'").get();
     }
-
+    
     @Override
     public Optional<OpenPosition> findByPositionId(PositionId tradeId) {
-        return Optional.empty();
+        return byId(tradeId);
     }
 
     @Override

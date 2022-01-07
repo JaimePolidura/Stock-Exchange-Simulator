@@ -20,7 +20,7 @@ public class GetOpenPositionsQueryResponse implements QueryResponse {
 
     @AllArgsConstructor
     private static class GetTradeQueryResponse {
-        @Getter private final String tradeId;
+        @Getter private final String positionId;
         @Getter private final String ticker;
         @Getter private final String openingDate;
         @Getter private double openingPrice;

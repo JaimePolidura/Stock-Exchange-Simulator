@@ -32,54 +32,54 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
 
     @Override
     public void handle(SellOrderCommand command) {
-        OpenPosition openPositionToSell = openPositionFinder.find(command.getTradeId())
+        OpenPosition openPositionToSell = openPositionFinder.find(command.getPositionId())
                 .orElseThrow(() -> new ResourceNotFound("Order id not found"));
 
-        ensureOwnsTheTrade(openPositionToSell, command.getClientID());
+        ensureOwnsOpenPosition(openPositionToSell, command.getClientID());
         ensureCorrectQuantity(openPositionToSell, command.getQuantity());
 
         saveToRepository(command, openPositionToSell);
         publishMessage(command, openPositionToSell);
     }
 
-    private void ensureOwnsTheTrade(OpenPosition trade, OrderClientId clientID){
-        if(!trade.getClientId().value().equalsIgnoreCase(clientID.value())){
-            throw new NotTheOwner("You are not the owner of that trade");
+    private void ensureOwnsOpenPosition(OpenPosition positionToSell, OrderClientId clientID){
+        if(!positionToSell.getClientId().value().equalsIgnoreCase(clientID.value())){
+            throw new NotTheOwner("You are not the owner of that open position");
         }
     }
 
-    private void ensureCorrectQuantity(OpenPosition trade,  int quantity){
-        if(quantity > trade.getQuantity().value()){
+    private void ensureCorrectQuantity(OpenPosition positionToSell, int quantity){
+        if(quantity > positionToSell.getQuantity().value()){
             throw new IllegalQuantity("You cant sell more than you have");
         }
     }
 
-    private void saveToRepository(SellOrderCommand command, OpenPosition trade){
+    private void saveToRepository(SellOrderCommand command, OpenPosition positionToSell){
         this.ordersRepository.save(new Order(
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
                 OrderTypeId.sell(),
                 OrderBodySell.of(
-                        command.getTradeId(),
+                        command.getPositionId(),
                         command.getQuantity(),
                         command.getExecutionPrice(),
-                        trade.getTicker().value()
+                        positionToSell.getTicker().value()
                 )
         ));
     }
 
-    private void publishMessage(SellOrderCommand command, OpenPosition tradeToSell){
-        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(tradeToSell.getTicker().value()));
+    private void publishMessage(SellOrderCommand command, OpenPosition positionToSell){
+        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(positionToSell.getTicker().value()));
 
         messagePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendSellOrderMessage(
                 command.getOrderID(),
-                tradeToSell.getPositionId(),
+                positionToSell.getPositionId(),
                 command.getClientID(),
                 command.getOrderDate(),
                 command.getExecutionPrice(),
                 command.getQuantity(),
-                tradeToSell.getTicker().value(),
+                positionToSell.getTicker().value(),
                 OrderTypeId.sell()));
     }
 }

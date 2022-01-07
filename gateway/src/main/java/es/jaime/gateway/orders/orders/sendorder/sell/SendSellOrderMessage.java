@@ -32,7 +32,7 @@ public class SendSellOrderMessage implements CommandMessage {
     public Map<String, Object> body() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
-            put("tradeId", positionId.value());
+            put("positionId", positionId.value());
             put("clientId", clientID.value());
             put("date", date.value());
             put("executionPrice", executionPrice);

@@ -9,15 +9,15 @@ import lombok.Getter;
 
 public class SellOrderCommand implements Command {
     @Getter private final OrderClientId clientID;
-    @Getter private final PositionId tradeId;
+    @Getter private final PositionId positionId;
     @Getter private final OrderId orderID;
     @Getter private final OrderDate orderDate;
     @Getter private final double executionPrice;
     @Getter private final int quantity;
 
-    public SellOrderCommand(String clientId, String tradeId, double executionPrice, int quantity) {
+    public SellOrderCommand(String clientId, String positionId, double executionPrice, int quantity) {
         this.clientID = OrderClientId.of(clientId);
-        this.tradeId = PositionId.of(tradeId);
+        this.positionId = PositionId.of(positionId);
         this.executionPrice = executionPrice;
         this.quantity = quantity;
         this.orderID = OrderId.generate();

@@ -35,17 +35,17 @@ CREATE TABLE `positions` (
     `quantity` int(10) NOT NULL,
     `openingPrice` double(10, 3) NOT NULL,
     `openingDate` varchar(30) NOT NULL,
-    `closingPrice` double(10, 3),
+    `closingPrice` double(20, 4),
     `closingDate` varchar(30),
     `status` enum('OPEN', 'CLOSED') NOT NULL,
     PRIMARY KEY (`positionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP VIEW IF EXISTS open_positions;
-CREATE VIEW open_positions AS SELECT positionId, positions.clientId, ticker, quantity, openingPrice, openingDate FROM positions WHERE status = 'OPEN';
+CREATE VIEW open_positions AS SELECT positionId, clientId, ticker, quantity, openingPrice, openingDate FROM positions WHERE status = 'OPEN';
 
 DROP VIEW IF EXISTS closed_positions;
-CREATE VIEW closed_positions AS SELECT positionId, clientId, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate  FROM positions WHERE status = 'CLOSED';
+CREATE VIEW closed_positions AS SELECT positionId, clientId, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate, status FROM positions WHERE status = 'CLOSED';
 
 INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', 'AMZN', 4, 131, '2016-12-01T01:02:03', 'OPEN');
 INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', 'V', 34, 92.1, '2016-12-01T01:02:03', 'OPEN');
@@ -63,7 +63,8 @@ INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, ope
 INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('bhdd5dd4-a03d-61wc-bf63-0242ac130002', 'juan', 'LMT', 11, 374, '2016-12-01T01:02:03', 'OPEN');
 INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, status) VALUES ('34f2214a-4fb8-11ec-81d3-0212ac130003', 'juan', 'IDT', 23, 15.4, '2016-12-01T01:02:03', 'OPEN');
 
-INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d4-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20', 'CLOSED');
+INSERT INTO positions (positionId, clientId, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate, status) VALUES
+('34f2104a-4ff8-11ec-81d4-0211ac130003', 'jaime', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20', 'CLOSED');
 INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130002', 'juan', 'AMZN', 4, 131, '12/12/12', 2312, '12/12/20', 'CLOSED');
 
 

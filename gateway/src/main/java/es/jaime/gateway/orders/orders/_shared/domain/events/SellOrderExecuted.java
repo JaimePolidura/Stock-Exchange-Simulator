@@ -9,12 +9,12 @@ import java.util.Map;
 
 @ToString
 public final class SellOrderExecuted extends OrderExecuted{
-    @Getter private String openPositionId;
+    @Getter private String positionId;
 
     public SellOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
-                             int quantity, String date, String tradeId) {
+                             int quantity, String date, String positionId) {
         super(orderId, clientId, ticker, executionPrice, quantity, date);
-        this.openPositionId = tradeId;
+        this.positionId = positionId;
     }
 
     public SellOrderExecuted () {}
@@ -31,7 +31,7 @@ public final class SellOrderExecuted extends OrderExecuted{
                 Double.parseDouble(String.valueOf(body.get("executionPrice"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
                 String.valueOf(body.get("date")),
-                String.valueOf(body.get("tradeId"))
+                String.valueOf(body.get("positionId"))
         );
     }
 

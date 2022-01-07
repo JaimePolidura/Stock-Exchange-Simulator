@@ -2,7 +2,7 @@ package es.jaime.gateway.positions.closed._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.DoubleValueObject;
 
-public final class ClosedPositionClosingPrice extends DoubleValueObject {
+public class ClosedPositionClosingPrice extends DoubleValueObject {
     public ClosedPositionClosingPrice(double value) {
         super(value);
     }

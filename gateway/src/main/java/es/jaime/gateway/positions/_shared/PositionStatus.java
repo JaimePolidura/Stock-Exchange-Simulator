@@ -1,21 +1,30 @@
 package es.jaime.gateway.positions._shared;
 
-import es.jaime.gateway._shared.domain.valueObject.EnumValueObject;
+import es.jaime.gateway._shared.domain.exceptions.IllegalType;
+import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
 
-public class PositionStatus extends EnumValueObject<PositionStatus.PositionStatusValues> {
-    public PositionStatus(PositionStatusValues value) {
+public class PositionStatus extends StringValueObject {
+    public PositionStatus(String value) {
         super(value);
+
+        if(!value.equals("OPEN") && !value.equals("CLOSED")){
+            throw new IllegalType("Illegal name");
+        }
     }
 
-    public PositionStatus () {
+    public PositionStatus() {
         super(null);
     }
 
-    public static PositionStatus of(PositionStatusValues value){
-        return new PositionStatus(value);
+    public static PositionStatus open(){
+        return new PositionStatus("OPEN");
     }
 
-    public enum PositionStatusValues {
-        OPEN, CLOSED
+    public static PositionStatus closed(){
+        return new PositionStatus("CLOSED");
+    }
+
+    public static PositionStatus of(String value){
+        return new PositionStatus(value);
     }
 }

@@ -21,7 +21,7 @@ public class OnSellOrderExecuted {
     @EventListener({SellOrderExecuted.class})
     @Order(10)
     public void on(SellOrderExecuted event){
-        OpenPosition openPositionToSell = openPositions.findByPositionId(PositionId.of(event.getOpenPositionId()))
+        OpenPosition openPositionToSell = openPositions.findByPositionId(PositionId.of(event.getPositionId()))
                 .get();
 
         if(openPositionToSell.getQuantity().value() > event.getQuantity())

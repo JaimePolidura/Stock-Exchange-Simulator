@@ -6,6 +6,7 @@ import es.jaime.gateway._shared.infrastrocture.Controller;
 import es.jaime.gateway.orders.orders.getorderid.GetOrderQuery;
 import es.jaime.gateway.orders.orders.getorderid.GetOrderQueryResponse;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class SellOrderController extends Controller {
         //Order-id generated in commandExecute order
         SellOrderCommand sellOrderCommand = new SellOrderCommand(
                 getLoggedUsername(),
-                request.tradeId,
+                request.positionId,
                 request.executionPrice,
                 request.quantity
         );
@@ -44,7 +45,7 @@ public class SellOrderController extends Controller {
 
     @AllArgsConstructor
     private static final class Request {
-        public final String tradeId;
+        public final String positionId;
         public final int quantity;
         public final double executionPrice;
     }
