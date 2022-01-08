@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.execution._shared;
 
-import es.jaime.gateway.orders.newmodel._shared.*;
+import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import lombok.Getter;
 
 public abstract class ExecutionOrder extends Order {

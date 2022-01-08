@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.execution.sell._shared.domain;
 
-import es.jaime.gateway.orders.newmodel._shared.*;
+import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import es.jaime.gateway.orders.newmodel.execution._shared.ExecutionOrder;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.cancel._shared.domain;
 
-import es.jaime.gateway.orders.newmodel._shared.*;
+import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import lombok.Getter;
 
 public class OrderCancel extends Order {

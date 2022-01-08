@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.newmodel._shared;
+package es.jaime.gateway.orders.newmodel._shared.domain;
 
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
 

@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.newmodel.execution._shared;
 
 
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 
 import java.util.Optional;
 

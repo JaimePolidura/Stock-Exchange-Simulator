@@ -2,9 +2,9 @@ package es.jaime.gateway.orders.newmodel.cancel.send;
 
 import es.jaime.gateway._shared.domain.messages.CommandMessage;
 import es.jaime.gateway._shared.domain.messages.MessageNames;
-import es.jaime.gateway.orders.newmodel._shared.OrderClientId;
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
-import es.jaime.gateway.orders.newmodel._shared.OrderTicker;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderClientId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderTicker;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;

@@ -1,8 +1,8 @@
 package es.jaime.gateway.orders.newmodel.cancel.send;
 
 import es.jaime.gateway._shared.domain.command.Command;
-import es.jaime.gateway.orders.newmodel._shared.OrderClientId;
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderClientId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 import lombok.Getter;
 
 public class CancelOrderCommand implements Command {

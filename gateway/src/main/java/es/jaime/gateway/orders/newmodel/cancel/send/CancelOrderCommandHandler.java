@@ -5,7 +5,7 @@ import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.orders.newmodel._shared.*;
+import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import es.jaime.gateway.orders.newmodel.cancel._shared.domain.OrderCancel;
 import es.jaime.gateway.orders.newmodel.cancel._shared.domain.OrdersCancelRepository;
 import es.jaime.gateway.orders.newmodel.execution._shared.ExecutionOrderFinder;

@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.newmodel.cancel._shared.infrastrucutre;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 import es.jaime.gateway.orders.newmodel.cancel._shared.domain.OrderCancel;
 import es.jaime.gateway.orders.newmodel.cancel._shared.domain.OrdersCancelRepository;
 import org.hibernate.SessionFactory;

@@ -78,7 +78,7 @@ CREATE TABLE `orders` (
     `clientId` varchar(36) NOT NULL,
     `date` varchar(20) NOT NULL,
     `type` enum('BUY', 'SELL', 'CANCEL') NOT NULL,
-    `state` enum('PENDING', 'EXECUTED', 'CANCELLED') NOT NULL,
+    `state` enum('PENDING', 'EXECUTED', 'CANCELLED', 'ERROR') NOT NULL,
     `ticker` varchar(10),
     `quantity` int(10),
     `executionPrice` double(10, 3),

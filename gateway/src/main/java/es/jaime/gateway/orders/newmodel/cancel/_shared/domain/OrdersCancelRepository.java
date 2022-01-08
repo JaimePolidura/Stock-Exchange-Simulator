@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.cancel._shared.domain;
 
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.newmodel._shared;
+package es.jaime.gateway.orders.newmodel._shared.domain;
 
 import es.jaime.gateway._shared.domain.exceptions.IllegalType;
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
@@ -11,7 +11,7 @@ public class OrderState extends StringValueObject {
     }
 
     private void ensureCorrectValue(String value){
-        if(!value.equals("PENDING") && !value.equals("EXECUTED") && !value.equals("CANCELLED")) {
+        if(!value.equals("PENDING") && !value.equals("EXECUTED") && !value.equals("CANCELLED") && !value.equals("ERROR")) {
             throw new IllegalType("Illegal value");
         }
     }
@@ -30,6 +30,10 @@ public class OrderState extends StringValueObject {
 
     public static OrderState executed(){
         return new OrderState("EXECUTED");
+    }
+
+    public static OrderState error(){
+        return new OrderState("ERROR");
     }
 
     public static OrderState pending(){

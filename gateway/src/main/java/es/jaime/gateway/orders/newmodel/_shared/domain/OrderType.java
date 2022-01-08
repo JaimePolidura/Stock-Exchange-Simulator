@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.newmodel._shared;
+package es.jaime.gateway.orders.newmodel._shared.domain;
 
 import es.jaime.gateway._shared.domain.exceptions.IllegalType;
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
@@ -15,7 +15,7 @@ public class OrderType extends StringValueObject {
             throw new IllegalType("Illegal value");
         }
     }
-    
+
     public OrderType () { super(null); }
 
     public static OrderType of(String value){

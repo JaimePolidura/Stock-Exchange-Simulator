@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.execution._shared;
 
-import es.jaime.gateway.orders.newmodel._shared.OrderId;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 import es.jaime.gateway.orders.newmodel.execution.buy._shared.domain.BuyOrderRepostiry;
 import es.jaime.gateway.orders.newmodel.execution.buy._shared.domain.OrderBuy;
 import es.jaime.gateway.orders.newmodel.execution.sell._shared.domain.OrderSell;

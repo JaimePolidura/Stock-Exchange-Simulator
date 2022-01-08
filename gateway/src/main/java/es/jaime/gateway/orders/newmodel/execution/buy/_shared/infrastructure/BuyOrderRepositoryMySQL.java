@@ -1,9 +1,9 @@
 package es.jaime.gateway.orders.newmodel.execution.buy._shared.infrastructure;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
+import es.jaime.gateway.orders.newmodel._shared.domain.OrderId;
 import es.jaime.gateway.orders.newmodel.execution.buy._shared.domain.BuyOrderRepostiry;
 import es.jaime.gateway.orders.newmodel.execution.buy._shared.domain.OrderBuy;
-import es.jaime.gateway.orders.orders._shared.domain.OrderId;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

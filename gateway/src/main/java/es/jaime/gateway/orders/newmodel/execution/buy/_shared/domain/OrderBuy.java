@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.newmodel.execution.buy._shared.domain;
 
-import es.jaime.gateway.orders.newmodel._shared.*;
+import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import es.jaime.gateway.orders.newmodel.execution._shared.ExecutionOrder;
 
 public final class OrderBuy extends ExecutionOrder {
