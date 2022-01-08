@@ -1,6 +1,6 @@
 package es.jaime.gateway.positions.closed.onsellorderexecuted;
 
-import es.jaime.gateway.orders.orders._shared.domain.events.SellOrderExecuted;
+import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderExecuted;
 import es.jaime.gateway.positions._shared.PositionId;
 import es.jaime.gateway.positions.closed._shared.domain.ClosedPosition;
 import es.jaime.gateway.positions.closed._shared.domain.ClosedPositionRepository;

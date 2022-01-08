@@ -1,6 +1,6 @@
 package es.jaime.gateway.positions.open.onorderexecuted;
 
-import es.jaime.gateway.orders.orders._shared.domain.events.BuyOrderExecuted;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderExecuted;
 import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.positions.open._shared.domain.OpenPositionsRepository;
 import org.springframework.context.event.EventListener;

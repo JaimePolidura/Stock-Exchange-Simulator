@@ -1,6 +1,6 @@
 package es.jaime.gateway.positions.open.onorderexecuted;
 
-import es.jaime.gateway.orders.orders._shared.domain.events.SellOrderExecuted;
+import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderExecuted;
 import es.jaime.gateway.positions._shared.PositionId;
 import es.jaime.gateway.positions._shared.PositionQuantity;
 import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
