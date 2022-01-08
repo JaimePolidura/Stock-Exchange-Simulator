@@ -30,6 +30,9 @@ public final class DomainEventListenersInformation {
     @SneakyThrows
     private Map<String, DomainEvent> mapDomainEventNamesWithInstances(Reflections reflections){
         Set<Method> methodsListeners = reflections.getMethodsAnnotatedWith(EventListener.class);
+
+        System.out.println("-> " + methodsListeners.size());
+
         Map<Class<? extends DomainEvent>, DomainEvent> domainEventsInstances = new HashMap<>();
         Map<String, DomainEvent> domainEventsNamesMappedWithInstances = new HashMap<>();
 
@@ -47,6 +50,8 @@ public final class DomainEventListenersInformation {
             domainEventsInstances.put(domainEventClass, domainEventInstance);
             domainEventsNamesMappedWithInstances.put(eventName, domainEventInstance);
         }
+
+        System.out.println("-> " + domainEventsNamesMappedWithInstances.size());
 
         return domainEventsNamesMappedWithInstances;
     }

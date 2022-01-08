@@ -12,7 +12,7 @@ import java.util.Map;
 public final class SellOrderExecutedMessage implements EventMessage {
     private final String orderId;
     private final String clientId;
-    private final String tradeId;
+    private final String positionId;
     private final double executionPrice;
     private final int quantity;
     private final String date;
@@ -27,7 +27,7 @@ public final class SellOrderExecutedMessage implements EventMessage {
     @Override
     public Map<String, Object> body() {
         return Map.of(
-                "tradeId", tradeId,
+                "positionId", positionId,
                 "executionPrice", executionPrice,
                 "quantity", quantity,
                 "date", date,

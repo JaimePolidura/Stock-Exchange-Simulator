@@ -9,7 +9,7 @@ const SellStockModal = props => {
 
     const onSubmit = form => {
         let finalRequestToApi = {
-            tradeId: props.trade.tradeId,
+            positionId: props.trade.positionId,
             quantity: form.quantity,
             executionPrice: sellExecutionType == 'market' ? -1 : form.price,
         }

@@ -64,7 +64,7 @@ public class TradeProcessorImpl implements TradeProcessor {
         this.queuePublisher.publish(
                 configuration.eventsExchangeName(),
                 configuration.eventsExchangeName() + ".*." + EventNames.ORDER_EXECUTED_SELL.getName(),
-                new SellOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getTradeId(),
+                new SellOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getPositionId(),
                         priceMatch, quantity, order.getDate(), OrderType.SELL, ticker)
         );
     }

@@ -14,11 +14,11 @@ class BackendService {
     }
 
     sendBuyOrder(order){
-        return axios.post(apiRoute + "orders/send/buy", order);
+        return axios.post(apiRoute + "orders/buy/send", order);
     }
 
     sendSellOrder(order){
-        return axios.post(apiRoute + "orders/send/sell", order);
+        return axios.post(apiRoute + "orders/sell/send", order);
     }
 
     getCompanyIsListedData(ticker){
@@ -33,8 +33,8 @@ class BackendService {
         return axios.get(apiRoute + "listedcompanies/get");
     }
 
-    getTrades(){
-        return axios.get(apiRoute + "trades/get");
+    getOpenPositions(){
+        return axios.get(apiRoute + "positions/open/get");
     }
 
     cancelOrder(orderId){

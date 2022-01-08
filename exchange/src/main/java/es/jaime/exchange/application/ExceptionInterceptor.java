@@ -20,7 +20,7 @@ public class ExceptionInterceptor {
         this.configuration = configuration;
     }
 
-    @EventListener
+    @EventListener({ExceptionOccurredEvent.class})
     public void onExceptionOccurred(ExceptionOccurredEvent event){
         DomainException exception = event.getException();
         TradeOrder order = exception.getOrderException();

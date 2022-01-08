@@ -29,7 +29,7 @@ class Profile extends React.Component {
     }
 
     getTradesFromApi() {
-        backendService.getTrades().then(res => {
+        backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
                 this.setState({trades: this.state.trades.concat(res.data.trades)});
             });
