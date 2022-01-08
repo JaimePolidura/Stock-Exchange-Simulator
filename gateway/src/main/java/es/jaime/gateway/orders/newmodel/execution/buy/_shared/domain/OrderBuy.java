@@ -4,7 +4,6 @@ import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import es.jaime.gateway.orders.newmodel.execution._shared.ExecutionOrder;
 
 public final class OrderBuy extends ExecutionOrder {
-
     public OrderBuy(OrderId orderId, OrderClientId clientId, OrderDate date, OrderType type, OrderState state,
                     OrderTicker ticker, OrderQuantity quantity, OrderExecutionPrice executionPrice) {
         super(orderId, clientId, date, type, state, ticker, quantity, executionPrice);
@@ -12,6 +11,14 @@ public final class OrderBuy extends ExecutionOrder {
 
     public OrderBuy () {
         super(null, null, null, null, null, null, null, null);
+    }
+
+    public OrderBuy changeStateTo(OrderState orderState){
+        return new OrderBuy(orderId, clientId, date, type, orderState, ticker, quantity, executionPrice);
+    }
+
+    public OrderBuy updateQuantity(OrderQuantity orderQuantity){
+        return new OrderBuy(orderId, clientId, date, type, state, ticker, orderQuantity, executionPrice);
     }
 
     public static OrderBuy create(String clientId, String ticker, int quantity, double executinPrice){
