@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.execution.sell._shared.domain;
 
 import es.jaime.gateway._shared.domain.EventName;
-import es.jaime.gateway.orders.execution._shared.OrderExecuted;
+import es.jaime.gateway.orders.execution._shared.domain.OrderExecuted;
 import lombok.Getter;
 import lombok.ToString;
 

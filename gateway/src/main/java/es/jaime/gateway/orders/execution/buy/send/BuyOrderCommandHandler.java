@@ -5,10 +5,9 @@ import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.OrderType;
-import es.jaime.gateway.orders.execution.buy._shared.domain.OrderBuy;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
-import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
@@ -41,7 +40,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     }
 
     private void saveOrderToRepository(BuyOrderCommand command){
-        this.buyOrders.save(new OrderBuy(
+        this.buyOrders.save(new BuyOrder(
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
@@ -63,7 +62,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getExecutionPrice(),
                 command.getQuantity(),
                 command.getTicker(),
-                OrderTypeId.buy()
+                OrderType.buy()
         ));
     }
 }

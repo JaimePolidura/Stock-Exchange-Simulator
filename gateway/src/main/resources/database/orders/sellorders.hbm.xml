@@ -4,12 +4,12 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.orders.newmodel.execution.sell.OrderSell" table="sell_orders">
+    <class name="es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder" table="sell_orders">
         <composite-id name="orderId" class="es.jaime.gateway.orders._shared.domain.OrderId" access="field">
             <key-property column="orderId" name="value" length="10" access="field"/>
         </composite-id>
 
-        <component name="clientId" class="es.jaime.gateway.orders.newmodel._shared.OrderI.OrderClientId" access="field">
+        <component name="clientId" class="es.jaime.gateway.orders._shared.domain.OrderClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
         </component>
 
@@ -17,7 +17,7 @@
             <property column="date" name="value" type="string" access="field"/>
         </component>
 
-        <component name="type" class="es.jaime.gateway.orders._shared.domain.OrderTicker" access="field">
+        <component name="type" class="es.jaime.gateway.orders._shared.domain.OrderType" access="field">
             <property column="type" name="value" type="string" access="field"/>
         </component>
 

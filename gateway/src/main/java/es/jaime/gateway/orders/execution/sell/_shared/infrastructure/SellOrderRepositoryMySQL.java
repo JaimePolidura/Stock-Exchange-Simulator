@@ -2,9 +2,8 @@ package es.jaime.gateway.orders.execution.sell._shared.infrastructure;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.execution.sell._shared.domain.OrderSell;
+import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderRepostiry;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,30 +15,30 @@ import java.util.function.Function;
 
 @Repository
 @Transactional("gateway-transaction-manager")
-public class SellOrderRepositoryMySQL extends HibernateRepository<OrderSell> implements SellOrderRepostiry {
+public class SellOrderRepositoryMySQL extends HibernateRepository<SellOrder> implements SellOrderRepostiry {
     public SellOrderRepositoryMySQL(SessionFactory sessionFactory) {
-        super(sessionFactory, OrderSell.class);
+        super(sessionFactory, SellOrder.class);
     }
 
     @Override
-    public void save(OrderSell order) {
-        save(order);
+    public void save(SellOrder order) {
+        super.persist(order);
     }
 
     @Override
-    public Optional<OrderSell> findByOrderId(OrderId id) {
-        return Optional.empty();
+    public Optional<SellOrder> findByOrderId(OrderId id) {
+        return super.byId(id);
     }
 
     @Override
-    public List<OrderSell> findByOrderClientIdAndState(OrderClientId clientId, OrderState state) {
+    public List<SellOrder> findByOrderClientIdAndState(OrderClientId clientId, OrderState state) {
         return byQuery("SELECT * FROM sell_orders WHERE clientId = '"+clientId.value()+"' AND state = '"+state.value()+"'")
                 .orElse(Collections.EMPTY_LIST);
     }
 
     @Override
-    protected Function<Object[], OrderSell> queryMapper() {
-        return primitives -> new OrderSell(
+    protected Function<Object[], SellOrder> queryMapper() {
+        return primitives -> new SellOrder(
                 OrderId.of(String.valueOf(primitives[0])),
                 OrderClientId.of(String.valueOf(primitives[1])),
                 OrderDate.of(String.valueOf(primitives[2])),

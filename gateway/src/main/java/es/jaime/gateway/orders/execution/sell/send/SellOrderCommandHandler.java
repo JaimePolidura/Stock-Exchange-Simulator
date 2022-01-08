@@ -7,10 +7,8 @@ import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.execution.sell._shared.domain.OrderSell;
+import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderRepostiry;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
-import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import es.jaime.gateway.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.positions.open._shared.domain.OpenPositionFinder;
 import org.springframework.stereotype.Service;
@@ -55,7 +53,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
     }
 
     private void saveToRepository(SellOrderCommand command, OpenPosition positionToSell){
-        this.sellOrders.save(new OrderSell(
+        this.sellOrders.save(new SellOrder(
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
@@ -79,6 +77,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getExecutionPrice(),
                 command.getQuantity(),
                 positionToSell.getTicker().value(),
-                OrderTypeId.sell()));
+                OrderType.sell())
+        );
     }
 }

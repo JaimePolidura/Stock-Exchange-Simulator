@@ -2,7 +2,6 @@ package es.jaime.gateway.orders.execution.buy.send;
 
 import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import lombok.Getter;
 
 public final class BuyOrderCommand implements Command {

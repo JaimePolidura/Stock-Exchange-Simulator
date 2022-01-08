@@ -3,11 +3,13 @@ package es.jaime.gateway.orders.execution.buy._shared.domain;
 
 
 import es.jaime.gateway._shared.domain.EventName;
-import es.jaime.gateway.orders.execution._shared.OrderExecuted;
+import es.jaime.gateway.orders.execution._shared.domain.OrderExecuted;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+@ToString
 public final class BuyOrderExecuted extends OrderExecuted {
     public BuyOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
                             int quantity, String date) {

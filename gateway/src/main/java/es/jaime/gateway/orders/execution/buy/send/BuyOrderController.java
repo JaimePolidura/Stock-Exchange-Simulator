@@ -3,8 +3,10 @@ package es.jaime.gateway.orders.execution.buy.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQuery;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQueryResponse;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQuery;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQueryResponse;
+import es.jaime.gateway.orders.execution.buy.getorder.GetBuyOrderQuery;
+import es.jaime.gateway.orders.execution.buy.getorder.GetBuyOrderQueryResponse;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +26,8 @@ public class BuyOrderController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @PostMapping("/orders/send/buy")
-    public ResponseEntity<GetOrderQueryResponse> sendOrderBuy(@RequestBody Request request){
+    @PostMapping("/orders/buy/send")
+    public ResponseEntity<GetBuyOrderQueryResponse> sendOrderBuy(@RequestBody Request request){
         BuyOrderCommand buyOrderCommand = new BuyOrderCommand(
                 getLoggedUsername(),
                 request.ticker,
@@ -36,7 +38,7 @@ public class BuyOrderController extends Controller {
         this.commandBus.dispatch(buyOrderCommand);
 
         //Order-id generated in commandExecute order
-        GetOrderQueryResponse response = queryBus.ask(new GetOrderQuery(
+        GetBuyOrderQueryResponse response = queryBus.ask(new GetBuyOrderQuery(
                 buyOrderCommand.getOrderID().value(),
                 getLoggedUsername()
         ));

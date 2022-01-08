@@ -38,7 +38,7 @@ public class OrderType extends StringValueObject {
 
     public static boolean isValidType(String typeString){
         return Arrays.stream(Types.values())
-                .allMatch(type -> type.toString().equalsIgnoreCase(typeString));
+                .anyMatch(type -> type.toString().equalsIgnoreCase(typeString));
     }
 
     private enum Types {

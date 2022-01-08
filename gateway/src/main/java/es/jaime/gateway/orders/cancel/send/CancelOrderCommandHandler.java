@@ -6,10 +6,9 @@ import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.cancel._shared.domain.OrderCancel;
+import es.jaime.gateway.orders.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.cancel._shared.domain.OrdersCancelRepository;
-import es.jaime.gateway.orders.execution._shared.ExecutionOrderFinder;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
+import es.jaime.gateway.orders.execution._shared.domain.ExecutionOrderFinder;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
@@ -41,7 +40,7 @@ public class CancelOrderCommandHandler implements CommandHandler<CancelOrderComm
     private void saveOrderToRepostiory(CancelOrderCommand command) {
         OrderTicker tickerOfOrderToCancel = getTickerFromOrderId(command.getOrderIdToCancel());
 
-        this.ordersCancel.save(new OrderCancel(
+        this.ordersCancel.save(new CancelOrder(
                 command.getOrderId(),
                 command.getClientId(),
                 OrderDate.now(),
@@ -74,7 +73,7 @@ public class CancelOrderCommandHandler implements CommandHandler<CancelOrderComm
     }
 
     private void ensureOrderExists(CancelOrderCommand command){
-        executionOrderFinder.findById(command.getOrderId())
+        executionOrderFinder.findById(command.getOrderIdToCancel())
                 .orElseThrow(() -> new ResourceNotFound("Order not found"));
     }
 

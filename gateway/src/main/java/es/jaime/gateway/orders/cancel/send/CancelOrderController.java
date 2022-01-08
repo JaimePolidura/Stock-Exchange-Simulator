@@ -3,8 +3,8 @@ package es.jaime.gateway.orders.cancel.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQuery;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQueryResponse;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQuery;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQueryResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +22,8 @@ public class CancelOrderController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @PostMapping("/orders/send/cancel/{orderIdToCancel}")
-    public ResponseEntity<GetOrderQueryResponse> sendCancelOrder(@PathVariable String orderIdToCancel){
+    @PostMapping("/orders/cancel/send/{orderIdToCancel}")
+    public ResponseEntity<GetCancelOrderQueryResponse> sendCancelOrder(@PathVariable String orderIdToCancel){
         //Order-id generated in commandExecute order
         CancelOrderCommand cancelOrderCommand = new CancelOrderCommand(
                 orderIdToCancel,
@@ -32,7 +32,7 @@ public class CancelOrderController extends Controller {
 
         commandBus.dispatch(cancelOrderCommand);
 
-        GetOrderQueryResponse orderAdded = queryBus.ask(new GetOrderQuery(
+        GetCancelOrderQueryResponse orderAdded = queryBus.ask(new GetCancelOrderQuery(
                 cancelOrderCommand.getOrderId().value(),
                 getLoggedUsername())
         );

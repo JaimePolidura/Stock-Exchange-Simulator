@@ -3,8 +3,8 @@ package es.jaime.gateway.orders.execution.sell.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQuery;
-import es.jaime.gateway.orders.cancel.getorder.GetOrderQueryResponse;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQuery;
+import es.jaime.gateway.orders.cancel.getorder.GetCancelOrderQueryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,8 +23,8 @@ public class SellOrderController extends Controller {
         this.queryBus = queryBus;
     }
 
-    @PostMapping("/orders/send/sell")
-    public ResponseEntity<GetOrderQueryResponse> sendOrderSell(@RequestBody Request request){
+    @PostMapping("/orders/sell/send")
+    public ResponseEntity<GetCancelOrderQueryResponse> sendOrderSell(@RequestBody Request request){
         //Order-id generated in commandExecute order
         SellOrderCommand sellOrderCommand = new SellOrderCommand(
                 getLoggedUsername(),
@@ -34,7 +34,7 @@ public class SellOrderController extends Controller {
         );
         this.commandBus.dispatch(sellOrderCommand);
 
-        GetOrderQueryResponse orderAdded = queryBus.ask(new GetOrderQuery(
+        GetCancelOrderQueryResponse orderAdded = queryBus.ask(new GetCancelOrderQuery(
                 sellOrderCommand.getOrderID().value(),
                 getLoggedUsername())
         );

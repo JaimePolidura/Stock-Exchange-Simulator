@@ -3,8 +3,7 @@ package es.jaime.gateway.orders.cancel._shared.infrastrucutre;
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.cancel._shared.domain.OrdersCancelRepository;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
-import es.jaime.gateway.orders.cancel._shared.domain.OrderCancel;
+import es.jaime.gateway.orders.cancel._shared.domain.CancelOrder;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,30 +15,30 @@ import java.util.function.Function;
 
 @Repository
 @Transactional("gateway-transaction-manager")
-public class OrdersCancelRepositoryMySQL extends HibernateRepository<OrderCancel> implements OrdersCancelRepository {
+public class OrdersCancelRepositoryMySQL extends HibernateRepository<CancelOrder> implements OrdersCancelRepository {
     public OrdersCancelRepositoryMySQL(SessionFactory sessionFactory) {
-        super(sessionFactory, OrderCancel.class);
+        super(sessionFactory, CancelOrder.class);
     }
 
     @Override
-    public void save(OrderCancel orderCancel) {
-        save(orderCancel);
+    public void save(CancelOrder orderCancel) {
+        super.persist(orderCancel);
     }
 
     @Override
-    public Optional<OrderCancel> findById(OrderId orderId) {
+    public Optional<CancelOrder> findById(OrderId orderId) {
         return byId(orderId);
     }
 
     @Override
-    public List<OrderCancel> findByOrderStateAndClientId(OrderState orderState, OrderClientId clientId) {
+    public List<CancelOrder> findByClientIdAndOrderState(OrderClientId clientId, OrderState orderState) {
         return byQuery("SELECT * FROM cancel_orders WHERE state = '"+orderState.value()+"' AND clientId = '"+clientId.value()+"'")
                 .orElse(Collections.EMPTY_LIST);
     }
 
     @Override
-    protected Function<Object[], OrderCancel> queryMapper() {
-        return primitives -> new OrderCancel(
+    protected Function<Object[], CancelOrder> queryMapper() {
+        return primitives -> new CancelOrder(
                 OrderId.of(String.valueOf(primitives[0])),
                 OrderClientId.of(String.valueOf(primitives[1])),
                 OrderDate.of(String.valueOf(primitives[2])),

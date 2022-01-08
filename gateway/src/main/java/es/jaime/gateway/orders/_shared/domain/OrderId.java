@@ -13,7 +13,7 @@ public final class OrderId extends StringValueObject {
         super(null);
     }
 
-    public String getOrderID(){
+    public String getOrderId(){
         return value();
     }
 

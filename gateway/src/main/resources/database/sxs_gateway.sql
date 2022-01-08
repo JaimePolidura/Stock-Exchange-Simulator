@@ -75,8 +75,8 @@ INSERT INTO positions VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130002', 'juan', 'A
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
     `orderId` varchar(50) NOT NULL,
-    `clientId` varchar(36) NOT NULL,
-    `date` varchar(20) NOT NULL,
+    `clientId` varchar(50) NOT NULL,
+    `date` varchar(30) NOT NULL,
     `type` enum('BUY', 'SELL', 'CANCEL') NOT NULL,
     `state` enum('PENDING', 'EXECUTED', 'CANCELLED', 'ERROR') NOT NULL,
     `ticker` varchar(10),

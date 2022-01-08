@@ -1,9 +1,8 @@
 package es.jaime.gateway.orders.execution.sell.onsellorderexecuted;
 
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.execution._shared.OrderExecuted;
-import es.jaime.gateway.orders.execution.sell._shared.domain.OrderSell;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
+import es.jaime.gateway.orders.execution._shared.domain.OrderExecuted;
+import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderRepostiry;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderExecuted;
 import org.springframework.context.event.EventListener;
@@ -19,7 +18,7 @@ public class OnSellOrderExecuted {
 
     @EventListener({SellOrderExecuted.class})
     public void on(SellOrderExecuted event){
-        OrderSell orderSikd = sellOrders.findByOrderId(OrderId.of(event.getOrderId()))
+        SellOrder orderSikd = sellOrders.findByOrderId(OrderId.of(event.getOrderId()))
                 .get();
 
         int actualQuantity = orderSikd.getQuantity().value();
@@ -33,20 +32,20 @@ public class OnSellOrderExecuted {
         }
     }
 
-    private void changeStateToExecuted(OrderSell orderSell){
-        OrderSell orderBuyStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed());
+    private void changeStateToExecuted(SellOrder orderSell){
+        SellOrder orderBuyStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed());
 
         this.sellOrders.save(orderBuyStateChangedToExecuted);
     }
 
-    private void updateQuantity(OrderSell orderSell, int newQuantity){
-        OrderSell orderBuyUpdatedQuantitty = orderSell.updateQuantity(OrderQuantity.of(newQuantity));
+    private void updateQuantity(SellOrder orderSell, int newQuantity){
+        SellOrder orderBuyUpdatedQuantitty = orderSell.updateQuantity(OrderQuantity.of(newQuantity));
 
         this.sellOrders.save(orderBuyUpdatedQuantitty);
     }
 
-    private void createNewOrder(OrderSell orderSell, OrderExecuted event){
-        this.sellOrders.save(new OrderSell(
+    private void createNewOrder(SellOrder orderSell, OrderExecuted event){
+        this.sellOrders.save(new SellOrder(
                 OrderId.generate(),
                 orderSell.getClientId(),
                 OrderDate.of(event.getDate()),

@@ -2,7 +2,6 @@ package es.jaime.gateway.orders.execution.sell.send;
 
 import es.jaime.gateway._shared.domain.command.Command;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
 import es.jaime.gateway.positions._shared.PositionId;
 import lombok.Getter;
 

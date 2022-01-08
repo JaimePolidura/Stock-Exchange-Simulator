@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrdersCancelRepository {
-    void save(OrderCancel orderCancel);
+    void save(CancelOrder orderCancel);
 
-    Optional<OrderCancel> findById(OrderId orderId);
+    Optional<CancelOrder> findById(OrderId orderId);
 
-    List<OrderCancel> findByOrderStateAndClientId(OrderState orderState, OrderClientId clientId);
+    List<CancelOrder> findByClientIdAndOrderState(OrderClientId clientId, OrderState orderState);
 }

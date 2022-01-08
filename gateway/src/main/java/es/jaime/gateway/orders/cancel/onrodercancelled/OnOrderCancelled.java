@@ -7,7 +7,7 @@ import es.jaime.gateway.orders._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.cancel._shared.domain.OrderCancelled;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders._shared.domain.OrderType;
-import es.jaime.gateway.orders.cancel._shared.domain.OrderCancel;
+import es.jaime.gateway.orders.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.cancel._shared.domain.OrdersCancelRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ public class OnOrderCancelled {
 
     @EventListener({OrderCancelled.class})
     public void on(OrderCancelled orderCancelled){
-        OrderCancel orderCancel = ordersCancel.findById(OrderId.of(orderCancelled.getOrderId()))
+        CancelOrder orderCancel = ordersCancel.findById(OrderId.of(orderCancelled.getOrderId()))
                 .orElseThrow(() -> new ResourceNotFound("Order not found error"));
 
-        ordersCancel.save(new OrderCancel(
+        ordersCancel.save(new CancelOrder(
                 orderCancel.getOrderId(),
                 orderCancel.getClientId(),
                 OrderDate.now(),

@@ -3,8 +3,6 @@ package es.jaime.gateway.orders.execution.sell.send;
 import es.jaime.gateway._shared.domain.messages.CommandMessage;
 import es.jaime.gateway._shared.domain.messages.MessageNames;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
-import es.jaime.gateway.orders.ordertypes.domain.OrderTypeId;
 import es.jaime.gateway.positions._shared.PositionId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +18,7 @@ public class SendSellOrderMessage implements CommandMessage {
     @Getter private final OrderExecutionPrice executionPrice;
     @Getter private final OrderQuantity quantity;
     @Getter private final String ticker;
-    @Getter private final OrderTypeId type;
+    @Getter private final OrderType type;
 
     @Override
     public MessageNames name() {

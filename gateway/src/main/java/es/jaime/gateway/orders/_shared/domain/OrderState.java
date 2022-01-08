@@ -48,6 +48,6 @@ public class OrderState extends StringValueObject {
     }
 
     private enum States {
-        PENDING, CANCELED, ERROR, EXECUTED;
+        PENDING, CANCELLED, ERROR, EXECUTED;
     }
 }

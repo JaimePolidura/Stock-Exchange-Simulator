@@ -1,10 +1,9 @@
 package es.jaime.gateway.orders.execution.buy.onbuyorderexecuted;
 
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.execution._shared.OrderExecuted;
+import es.jaime.gateway.orders.execution._shared.domain.OrderExecuted;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderExecuted;
-import es.jaime.gateway.orders.execution.buy._shared.domain.OrderBuy;
-import es.jaime.gateway.orders.newmodel._shared.domain.*;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,11 @@ public class OnBuyOrderExecuted {
         this.buyOrders = buyOrders;
     }
 
-        @EventListener({BuyOrderExecuted.class})
+    @EventListener({BuyOrderExecuted.class})
     public void on(BuyOrderExecuted event){
-        OrderBuy orderBought = buyOrders.findByOrderId(OrderId.of(event.getOrderId()))
+        System.out.println(event);
+
+        BuyOrder orderBought = buyOrders.findByOrderId(OrderId.of(event.getOrderId()))
                 .get();
 
         int actualQuantity = orderBought.getQuantity().value();
@@ -33,20 +34,20 @@ public class OnBuyOrderExecuted {
         }
     }
 
-    private void changeStateToExecuted(OrderBuy orderBuy){
-        OrderBuy orderBuyStateChangedToExecuted = orderBuy.changeStateTo(OrderState.executed());
+    private void changeStateToExecuted(BuyOrder orderBuy){
+        BuyOrder orderBuyStateChangedToExecuted = orderBuy.changeStateTo(OrderState.executed());
 
         this.buyOrders.save(orderBuyStateChangedToExecuted);
     }
 
-    private void updateQuantity(OrderBuy orderBuy, int newQuantity){
-        OrderBuy orderBuyUpdatedQuantitty = orderBuy.updateQuantity(OrderQuantity.of(newQuantity));
+    private void updateQuantity(BuyOrder orderBuy, int newQuantity){
+        BuyOrder orderBuyUpdatedQuantitty = orderBuy.updateQuantity(OrderQuantity.of(newQuantity));
 
         this.buyOrders.save(orderBuyUpdatedQuantitty);
     }
 
-    private void createNewOrder(OrderBuy orderBuy, OrderExecuted event){
-        this.buyOrders.save(new OrderBuy(
+    private void createNewOrder(BuyOrder orderBuy, OrderExecuted event){
+        this.buyOrders.save(new BuyOrder(
                 OrderId.generate(),
                 orderBuy.getClientId(),
                 OrderDate.of(event.getDate()),
