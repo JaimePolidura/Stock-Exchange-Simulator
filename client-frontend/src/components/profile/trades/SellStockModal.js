@@ -25,12 +25,12 @@ const SellStockModal = props => {
 
         let orderToDisplay = {
             orderId: response.data.orderId,
-            orderTypeId: response.data.orderTypeId,
             ticker: props.listedCompany.ticker,
             quantity: response.data.quantity,
             date: response.data.date,
             executionPrice: response.data.executionPrice,
             tradeId: response.data.tradeId,
+            type: 'Sell',
         }
 
         props.onOrderSellSended(orderToDisplay);

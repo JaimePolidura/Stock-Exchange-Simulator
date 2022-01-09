@@ -80,11 +80,6 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         }
     }
 
-    @SneakyThrows
-    private void waitForOrders(){
-        Thread.sleep(configuration.matchingEngineSleep());
-    }
-
     private void checkForOrdersInQueue(){
         if(!thereIsTwoOrdersInBuyAndSell()) return;
 
@@ -110,6 +105,11 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         }else{
             processMismatch(buyOrder, sellOrder);
         }
+    }
+
+    @SneakyThrows
+    private void waitForOrders(){
+        Thread.sleep(configuration.matchingEngineSleep());
     }
 
     private boolean thereIsTwoOrdersInBuyAndSell(){

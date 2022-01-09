@@ -20,7 +20,7 @@ public class OnBuyOrderCancelled {
 
     @EventListener({OrderCancelled.class})
     public void on(OrderCancelled event){
-        Optional<BuyOrder> buyOrderOptional = buyOrders.findByOrderId(OrderId.of(event.getOrderId()));
+        Optional<BuyOrder> buyOrderOptional = buyOrders.findByOrderId(OrderId.of(event.getOrderIdCancelled()));
 
         if(buyOrderOptional.isPresent()){
             updateStateToCancelled(buyOrderOptional);

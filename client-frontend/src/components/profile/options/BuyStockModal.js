@@ -32,11 +32,11 @@ const BuyStockModal = props => {
     const onSuccess = response => {
         let orderToDisplay = {
             orderId: response.data.orderId,
-            orderTypeId: response.data.orderTypeId,
             ticker: listedCompany.ticker,
             quantity: response.data.quantity,
             date: response.data.date,
             executionPrice: response.data.executionPrice,
+            type: 'Buy',
         }
 
         props.onOrderBuySended(orderToDisplay);
