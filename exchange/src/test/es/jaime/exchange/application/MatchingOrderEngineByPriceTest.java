@@ -1,6 +1,8 @@
 package es.jaime.exchange.application;
 
 import es.jaime.exchange._shared.EventBusMock;
+import es.jaime.exchange._shared.OrderCancellatorProcessorMock;
+import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.TradeOrder;
@@ -29,12 +31,16 @@ public class MatchingOrderEngineByPriceTest {
 
     @Before
     public void setUp(){
-        this.executorService = Executors.newSingleThreadExecutor();
+        EventBus eventBusMock = new EventBusMock();
+        MatchingPriceEngine matchingPriceEngine = new MatchingPriceEngineImpl();
+        OrderCancellationProcessor orderCancellationProcessorMock = new OrderCancellatorProcessorMock();
 
+        this.executorService = Executors.newSingleThreadExecutor();
         this.exchangeConfiguration = new ExchangeConfigurationMock();
         this.queuePublisher = new QueuePublisherMock();
-        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, new MatchingPriceEngineImpl(), new EventBusMock());
-        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, new MatchingPriceEngineImpl(), messagePublisher, new EventBusMock());
+        this.tradeProcessorTest = new TradeProcessorImpl(this.queuePublisher, exchangeConfiguration, matchingPriceEngine, eventBusMock);
+        this.matchingEngineTest = new MatchingOrderEngineByPrice(this.tradeProcessorTest, exchangeConfiguration, matchingPriceEngine,
+                orderCancellationProcessorMock, eventBusMock);
 
         createBuyOrders().forEach(order -> matchingEngineTest.addBuyOrder(order));
         createSellOrders().forEach(order -> matchingEngineTest.addSellOrder(order));
