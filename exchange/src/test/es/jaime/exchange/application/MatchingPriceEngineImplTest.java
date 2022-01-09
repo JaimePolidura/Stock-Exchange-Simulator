@@ -53,7 +53,7 @@ public class MatchingPriceEngineImplTest {
     }
 
     private SellOrder createSellOrder(double price){
-        return new SellOrder("a", "a", "a", price, 1, "a");
+        return new SellOrder("a", "a", "a", price, 1, "a", "asa");
     }
 
     private BuyOrder createBuyOrder(double price){

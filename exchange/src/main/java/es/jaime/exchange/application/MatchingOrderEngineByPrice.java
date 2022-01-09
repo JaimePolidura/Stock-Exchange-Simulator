@@ -168,4 +168,9 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
     public void stop() {
         this.running = false;
     }
+
+    @Override
+    public void start() {
+        this.running = true;
+    }
 }

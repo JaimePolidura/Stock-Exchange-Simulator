@@ -39,10 +39,6 @@ class OrderDisplayInTable extends React.Component {
         );
     }
 
-    getTypeNameFromType(name){
-        return name == "BUY" ? "Buy" : "Sell";
-    }
-
     calculateTotalValue(){
         return this.state.order.executionPrice !== -1 ?
             '~' + (this.state.order.quantity * this.state.order.executionPrice) :

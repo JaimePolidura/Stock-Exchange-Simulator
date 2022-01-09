@@ -17,4 +17,5 @@ public interface MatchingOrderEngine extends Runnable {
     Map<String, CancelOrder> getCancelOrders();
 
     void stop();
+    void start();
 }

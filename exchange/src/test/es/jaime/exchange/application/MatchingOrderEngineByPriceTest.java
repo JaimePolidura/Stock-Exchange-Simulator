@@ -5,6 +5,7 @@ import es.jaime.exchange._shared.OrderCancellatorProcessorMock;
 import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
+import es.jaime.exchange.domain.models.orders.CancelOrder;
 import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class MatchingOrderEngineByPriceTest {
@@ -28,12 +30,13 @@ public class MatchingOrderEngineByPriceTest {
     private MessagePublisher queuePublisher;
     private ExchangeConfiguration exchangeConfiguration;
     private ExecutorService executorService;
+    private OrderCancellationProcessor orderCancellationProcessorMock;
 
     @Before
     public void setUp(){
         EventBus eventBusMock = new EventBusMock();
         MatchingPriceEngine matchingPriceEngine = new MatchingPriceEngineImpl();
-        OrderCancellationProcessor orderCancellationProcessorMock = new OrderCancellatorProcessorMock();
+        this.orderCancellationProcessorMock = new OrderCancellatorProcessorMock();
 
         this.executorService = Executors.newSingleThreadExecutor();
         this.exchangeConfiguration = new ExchangeConfigurationMock();
@@ -60,7 +63,7 @@ public class MatchingOrderEngineByPriceTest {
                 .mapToDouble(ExecutionOrder::getExecutionPrice)
                 .toArray();
 
-        Assert.assertArrayEquals(expectedBuyOrderByPrice, actualBuyOrderByPrice, 0);
+        assertArrayEquals(expectedBuyOrderByPrice, actualBuyOrderByPrice, 0);
     }
 
     @Test
@@ -71,7 +74,7 @@ public class MatchingOrderEngineByPriceTest {
                 .mapToDouble(ExecutionOrder::getExecutionPrice)
                 .toArray();
 
-        Assert.assertArrayEquals(expectedSellOrderByPrice, actualSellOrderByPrice, 0);
+        assertArrayEquals(expectedSellOrderByPrice, actualSellOrderByPrice, 0);
     }
 
     //First match should be -> sellorder:{ exec.price: -1, quantity: 13} & buyorder: {exec.price: 12, quantity: 12}
@@ -81,12 +84,38 @@ public class MatchingOrderEngineByPriceTest {
 
         Queue<Message> executedOrderQueueMessage = getExecutedOrdersQueue();
 
-        Assert.assertEquals(2, executedOrderQueueMessage.size());
+        assertEquals(2, executedOrderQueueMessage.size());
 
-        Assert.assertEquals(5, matchingEngineTest.getSellOrdersQueue().size());
-        Assert.assertEquals(4, matchingEngineTest.getBuyOrdersQueue().size());
+        assertEquals(5, matchingEngineTest.getSellOrdersQueue().size());
+        assertEquals(4, matchingEngineTest.getBuyOrdersQueue().size());
     }
-    
+
+    @Test
+    public void testCancel(){
+        BuyOrder buyOrderToCancel = this.matchingEngineTest.getBuyOrdersQueue().peek();
+        int initialNumberOfBuyOrders = this.matchingEngineTest.getBuyOrdersQueue().size();
+        int initialNumberOfSellOrders = this.matchingEngineTest.getSellOrdersQueue().size();
+
+        this.matchingEngineTest.addCancelOrder(new CancelOrder(UUID.randomUUID().toString(), buyOrderToCancel.getClientId(),
+                buyOrderToCancel.getOrderId(), buyOrderToCancel.getTicker()));
+
+        //The cancellation of order should be checked first and removed
+        executeOneMatch();
+
+        String orderIdCancelled = ((OrderCancellatorProcessorMock) orderCancellationProcessorMock)
+                .getLastOrderExecuted().getOrderId();
+
+        assertEquals(buyOrderToCancel.getOrderId() , orderIdCancelled);
+        assertEquals(initialNumberOfBuyOrders - 1, this.matchingEngineTest.getBuyOrdersQueue().size());
+        assertEquals(initialNumberOfSellOrders, this.matchingEngineTest.getSellOrdersQueue().size());
+
+        //As the order has been cancelled there should be no cancellation so the order would get executed
+        executeOneMatch();
+
+        assertEquals(initialNumberOfBuyOrders - 2, this.matchingEngineTest.getBuyOrdersQueue().size());
+        assertEquals(initialNumberOfSellOrders - 1, this.matchingEngineTest.getSellOrdersQueue().size());
+    }
+
     @SneakyThrows
     @Test
     public void testAllMatches(){
@@ -95,7 +124,7 @@ public class MatchingOrderEngineByPriceTest {
 
         Queue<Message> executedOrders = getExecutedOrdersQueue();
 
-        Assert.assertEquals(10, executedOrders.size());
+        assertEquals(10, executedOrders.size());
     }
 
     private List<BuyOrder> createBuyOrders(){
@@ -126,7 +155,7 @@ public class MatchingOrderEngineByPriceTest {
 
     private SellOrder createRandomSellOrder(double executionPrice, int quantity){
         return new SellOrder(UUID.randomUUID().toString(), UUID.randomUUID().toString(),
-                "12/12/12", executionPrice, quantity, UUID.randomUUID().toString()
+                "12/12/12", executionPrice, quantity, UUID.randomUUID().toString(), "s<"
         );
     }
 
@@ -154,6 +183,7 @@ public class MatchingOrderEngineByPriceTest {
     }
 
     private void startMatchingEngine(){
+        this.matchingEngineTest.start();
         this.executorService.submit(this.matchingEngineTest);
     }
 
