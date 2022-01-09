@@ -2,6 +2,7 @@ package es.jaime.gateway.orders.execution.sell._shared.domain;
 
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.execution._shared.domain.ExecutionOrder;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import lombok.Getter;
 
 public class SellOrder extends ExecutionOrder {
@@ -27,6 +28,10 @@ public class SellOrder extends ExecutionOrder {
 
     public SellOrder updateQuantity(OrderQuantity orderQuantity){
         return new SellOrder(orderId, clientId, date, type, state, ticker, orderQuantity, executionPrice, positionIdToSell);
+    }
+
+    public SellOrder updateExecutionPrice(OrderExecutionPrice executionPrice){
+        return new SellOrder(orderId, clientId, date, type, state, ticker, quantity, executionPrice, positionIdToSell);
     }
 
     public static SellOrder create(String clientId, String ticker, int quantity, double executinPrice, String positionIdToSell){

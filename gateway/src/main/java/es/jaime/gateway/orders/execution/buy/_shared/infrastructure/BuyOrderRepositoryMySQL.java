@@ -2,7 +2,7 @@ package es.jaime.gateway.orders.execution.buy._shared.infrastructure;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 @Repository
 @Transactional("gateway-transaction-manager")
-public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> implements BuyOrderRepostiry {
+public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> implements BuyOrderRepostory {
     public BuyOrderRepositoryMySQL(SessionFactory sessionFactory) {
         super(sessionFactory, BuyOrder.class);
     }
@@ -34,6 +34,13 @@ public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> imple
     public List<BuyOrder> findByOrderClientIdAndState(OrderClientId clientId, OrderState state) {
         return byQuery("SELECT * FROM buy_orders WHERE clientId = '"+clientId.value()+"' AND state = '"+state.value()+"'")
                 .orElse(Collections.EMPTY_LIST);
+    }
+
+    @Override
+    public Optional<BuyOrder> findLastOrderByStateAndByTicker(OrderState orderState, OrderTicker orderTicker) {
+        Optional<List<BuyOrder>> result = byQuery("SELECT * FROM buy_orders WHERE state = '"+orderState.value()+"' AND ticker = '"+orderTicker.value()+"' ORDER BY date DESC LIMIT 1");
+
+        return result.map(buyOrders -> buyOrders.get(0));
     }
 
     @Override

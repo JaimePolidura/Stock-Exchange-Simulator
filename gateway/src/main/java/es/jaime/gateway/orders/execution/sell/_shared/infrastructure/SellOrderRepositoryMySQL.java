@@ -2,6 +2,7 @@ package es.jaime.gateway.orders.execution.sell._shared.infrastructure;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
 import es.jaime.gateway.orders._shared.domain.*;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.execution.sell._shared.domain.SellOrderRepostiry;
 import org.hibernate.SessionFactory;
@@ -34,6 +35,14 @@ public class SellOrderRepositoryMySQL extends HibernateRepository<SellOrder> imp
     public List<SellOrder> findByOrderClientIdAndState(OrderClientId clientId, OrderState state) {
         return byQuery("SELECT * FROM sell_orders WHERE clientId = '"+clientId.value()+"' AND state = '"+state.value()+"'")
                 .orElse(Collections.EMPTY_LIST);
+    }
+
+    @Override
+    public Optional<SellOrder> findLastOrderByStateAndByTicker(OrderState orderState, OrderTicker orderTicker) {
+        Optional<List<SellOrder>> result = byQuery("SELECT * FROM sell_orders WHERE state = '"+orderState.value()+"' AND ticker = '"+orderTicker.value()+"' ORDER BY date DESC LIMIT 1");
+
+
+        return result.map(sellOrders -> sellOrders.get(0));
     }
 
     @Override

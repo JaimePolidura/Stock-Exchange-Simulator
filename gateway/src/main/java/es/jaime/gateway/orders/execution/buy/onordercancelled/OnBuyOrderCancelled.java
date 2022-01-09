@@ -3,7 +3,7 @@ package es.jaime.gateway.orders.execution.buy.onordercancelled;
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.cancel._shared.domain.OrderCancelled;
-import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class OnBuyOrderCancelled {
-    private final BuyOrderRepostiry buyOrders;
+    private final BuyOrderRepostory buyOrders;
 
-    public OnBuyOrderCancelled(BuyOrderRepostiry buyOrders) {
+    public OnBuyOrderCancelled(BuyOrderRepostory buyOrders) {
         this.buyOrders = buyOrders;
     }
 

@@ -4,15 +4,15 @@ import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.authentication._shared.domain.UserName;
-import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GetBuyOrderQueryHandler implements QueryHandler<GetBuyOrderQuery, GetBuyOrderQueryResponse> {
-    private final BuyOrderRepostiry buyOrders;
+    private final BuyOrderRepostory buyOrders;
 
-    public GetBuyOrderQueryHandler(BuyOrderRepostiry buyOrders) {
+    public GetBuyOrderQueryHandler(BuyOrderRepostory buyOrders) {
         this.buyOrders = buyOrders;
     }
 

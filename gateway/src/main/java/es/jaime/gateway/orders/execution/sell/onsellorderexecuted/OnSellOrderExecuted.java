@@ -25,15 +25,16 @@ public class OnSellOrderExecuted {
         int quantitySold = event.getQuantity();
 
         if(actualQuantity == quantitySold){
-            changeStateToExecuted(orderSikd);
+            changeStateToExecuted(orderSikd, event);
         }else{
             updateQuantity(orderSikd, actualQuantity - quantitySold);
             createNewOrder(orderSikd, event);
         }
     }
 
-    private void changeStateToExecuted(SellOrder orderSell){
-        SellOrder orderBuyStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed());
+    private void changeStateToExecuted(SellOrder orderSell, SellOrderExecuted event){
+        SellOrder orderBuyStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed())
+                .updateExecutionPrice(OrderExecutionPrice.of(event.getExecutionPrice()));
 
         this.sellOrders.save(orderBuyStateChangedToExecuted);
     }

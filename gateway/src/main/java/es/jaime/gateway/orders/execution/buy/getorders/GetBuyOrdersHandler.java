@@ -3,7 +3,7 @@ package es.jaime.gateway.orders.execution.buy.getorders;
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders._shared.domain.OrderState;
-import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 public class GetBuyOrdersHandler implements QueryHandler<GetBuyOrdersQuery, GetBuyOrdersResponse> {
-    private final BuyOrderRepostiry buyOrders;
+    private final BuyOrderRepostory buyOrders;
 
-    public GetBuyOrdersHandler(BuyOrderRepostiry buyOrders) {
+    public GetBuyOrdersHandler(BuyOrderRepostory buyOrders) {
         this.buyOrders = buyOrders;
     }
 

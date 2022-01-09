@@ -7,7 +7,7 @@ import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.OrderType;
 import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders._shared.domain.OrderState;
-import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostiry;
+import es.jaime.gateway.orders.execution.buy._shared.domain.BuyOrderRepostory;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
@@ -16,10 +16,10 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameForma
 @Service
 public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     private final MessagePublisher queuePublisher;
-    private final BuyOrderRepostiry buyOrders;
+    private final BuyOrderRepostory buyOrders;
     private final ListedCompanyFinderService listedCompanyFinder;
 
-    public BuyOrderCommandHandler(MessagePublisher queuePublisher, BuyOrderRepostiry buyOrders,
+    public BuyOrderCommandHandler(MessagePublisher queuePublisher, BuyOrderRepostory buyOrders,
                                    ListedCompanyFinderService listedCompanyFinder) {
         this.queuePublisher = queuePublisher;
         this.buyOrders = buyOrders;
