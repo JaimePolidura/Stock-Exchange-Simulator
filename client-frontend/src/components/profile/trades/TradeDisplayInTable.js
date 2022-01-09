@@ -1,8 +1,6 @@
 import React from "react";
 import './TradeDisplayInTable.css';
 import SellStockModal from "./SellStockModal";
-import listedCompaniesData from "../../../data/ListedCompaniesData";
-import {set} from "react-hook-form";
 
 class TradeDisplayInTable extends React.Component {
     constructor(props) {

@@ -5,7 +5,7 @@ import es.jaime.exchange._shared.OrderCancellatorProcessorMock;
 import es.jaime.exchange.domain.events.EventBus;
 import es.jaime.exchange.domain.models.messages.Message;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
-import es.jaime.exchange.domain.models.orders.TradeOrder;
+import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
@@ -57,7 +57,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedBuyOrderByPrice = new double[]{12.0, 10.0, 9.0, 8.0, -1.0};
         double[] actualBuyOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getBuyOrdersQueue())
                 .stream()
-                .mapToDouble(TradeOrder::getExecutionPrice)
+                .mapToDouble(ExecutionOrder::getExecutionPrice)
                 .toArray();
 
         Assert.assertArrayEquals(expectedBuyOrderByPrice, actualBuyOrderByPrice, 0);
@@ -68,7 +68,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedSellOrderByPrice = new double[]{-1.0, 8.0, 10.0, 11.0, 11.0, };
         double[] actualSellOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getSellOrdersQueue())
                 .stream()
-                .mapToDouble(TradeOrder::getExecutionPrice)
+                .mapToDouble(ExecutionOrder::getExecutionPrice)
                 .toArray();
 
         Assert.assertArrayEquals(expectedSellOrderByPrice, actualSellOrderByPrice, 0);
@@ -136,8 +136,8 @@ public class MatchingOrderEngineByPriceTest {
         return queuePublisherMock.getQueue();
     }
 
-    private List<? extends TradeOrder> iterateThroughPriorityQueue(Queue<? extends TradeOrder> queue){
-        List<TradeOrder> result = new ArrayList<>();
+    private List<? extends ExecutionOrder> iterateThroughPriorityQueue(Queue<? extends ExecutionOrder> queue){
+        List<ExecutionOrder> result = new ArrayList<>();
         int queueSize = queue.size();
 
         for (int i = 0; i < queueSize; i++)

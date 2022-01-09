@@ -4,7 +4,7 @@ import es.jaime.exchange.domain.events.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
-import es.jaime.exchange.domain.models.orders.TradeOrder;
+import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
 import lombok.SneakyThrows;
@@ -91,24 +91,32 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         BuyOrder buyOrder = buyOrders.poll();
         SellOrder sellOrder = sellOrders.poll();
 
-        var someOfThemAreCancelled = checkIfOrderIsCancelled(buyOrder) || checkIfOrderIsCancelled(sellOrder);
+        var buyOrderCancelled = checkIfOrderIsCancelled(buyOrder);
+        var sellOrderCancelled = checkIfOrderIsCancelled(sellOrder);
+        var someOfThemAreCancelled = buyOrderCancelled || sellOrderCancelled;
 
-        if(someOfThemAreCancelled) return;
+        if(someOfThemAreCancelled) {
+            if(!buyOrderCancelled) reenqueueIfSomeOrderWasntAllCompleted(buyOrder, this.buyOrders);
+            if(!sellOrderCancelled) reenqueueIfSomeOrderWasntAllCompleted(sellOrder, this.sellOrders);
+
+            return;
+        }
 
         if(matchingPriceEngine.isThereAnyMatch(buyOrder, sellOrder)){
             tradeProcessor.process(buyOrder, sellOrder);
 
-            reenqueueIfSomeOrderWasntAllCompleted(buyOrder, sellOrder);
+            reenqueueIfSomeOrderWasntAllCompleted(buyOrder, this.buyOrders);
+            reenqueueIfSomeOrderWasntAllCompleted(sellOrder, this.sellOrders);
         }else{
             processMismatch(buyOrder, sellOrder);
         }
     }
 
     private boolean thereIsTwoOrdersInBuyAndSell(){
-        return !(buyOrders.isEmpty() || sellOrders.isEmpty());
+        return buyOrders.size() > 0 && sellOrders.size() > 0;
     }
 
-    private boolean checkIfOrderIsCancelled(TradeOrder order){
+    private boolean checkIfOrderIsCancelled(ExecutionOrder order){
         if(this.cancelOrders.containsKey(order.getOrderId())){
             CancelOrder cancelOrder = this.cancelOrders.remove(order.getOrderId());
 
@@ -120,12 +128,9 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         return false;
     }
 
-    private void reenqueueIfSomeOrderWasntAllCompleted(BuyOrder buyOrder, SellOrder sellOrder){
-        if(buyOrder.getQuantity() > 0){
-            this.buyOrders.add(buyOrder);
-        }
-        if(sellOrder.getQuantity() > 0){
-            this.sellOrders.add(sellOrder);
+    private <T extends ExecutionOrder> void reenqueueIfSomeOrderWasntAllCompleted(T order, Queue<T> queue){
+        if(order.getQuantity() > 0){
+            queue.add(order);
         }
     }
 
@@ -138,7 +143,7 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         if(ttlExpiredSellOrder) eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(sellOrder))); else sellOrders.add(sellOrder);
     }
 
-    private boolean decreaseTtl(TradeOrder order){
+    private boolean decreaseTtl(ExecutionOrder order){
         int actualTtlOrder = order.decreaseTtlByOne();
 
         return actualTtlOrder <= 0;

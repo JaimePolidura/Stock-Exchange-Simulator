@@ -1,8 +1,8 @@
 package es.jaime.exchange.domain.services;
 
 import es.jaime.exchange.domain.models.orders.CancelOrder;
-import es.jaime.exchange.domain.models.orders.TradeOrder;
+import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 
 public interface OrderCancellationProcessor {
-    void cancel(TradeOrder order, CancelOrder cancelOrder);
+    void cancel(ExecutionOrder order, CancelOrder cancelOrder);
 }

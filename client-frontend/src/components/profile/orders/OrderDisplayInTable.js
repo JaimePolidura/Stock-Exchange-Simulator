@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import SellStockModal from "../trades/SellStockModal";
 import CancelOrderModal from "./CancelOrderModal";
 
 class OrderDisplayInTable extends React.Component {
@@ -19,7 +18,7 @@ class OrderDisplayInTable extends React.Component {
                 <tr className="trade-tr" onClick={() => {this.openModal()}}>
                     <td>{this.state.order.ticker}</td>
                     <td>{this.state.listedCompany.name}</td>
-                    <td>{this.getTypeNameFromTypeId(this.state.order.orderTypeId)}</td>
+                    <td>{this.state.order.type}</td>
                     <td>{this.state.order.quantity}</td>
                     <td>{this.calculateTotalValue()}</td>
                     <td>{this.state.order.date}</td>
@@ -40,8 +39,8 @@ class OrderDisplayInTable extends React.Component {
         );
     }
 
-    getTypeNameFromTypeId(id){
-        return id == 1 ? "Buy" : "Sell";
+    getTypeNameFromType(name){
+        return name == "BUY" ? "Buy" : "Sell";
     }
 
     calculateTotalValue(){

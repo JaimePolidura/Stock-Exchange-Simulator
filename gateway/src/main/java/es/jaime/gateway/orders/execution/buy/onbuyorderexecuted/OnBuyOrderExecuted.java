@@ -18,7 +18,7 @@ public class OnBuyOrderExecuted {
 
     @EventListener({BuyOrderExecuted.class})
     public void on(BuyOrderExecuted event){
-        System.out.println(event);
+        System.out.println(event.getOrderId());
 
         BuyOrder orderBought = buyOrders.findByOrderId(OrderId.of(event.getOrderId()))
                 .get();

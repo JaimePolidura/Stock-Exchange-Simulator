@@ -20,7 +20,8 @@ public class SellOrderArrivedEvent extends DomainEvent{
                 String.valueOf(primitives.get("date")),
                 Double.parseDouble(String.valueOf(primitives.get("executionPrice"))),
                 Integer.parseInt(String.valueOf(primitives.get("quantity"))),
-                String.valueOf(primitives.get("positionId"))
+                String.valueOf(primitives.get("positionId")),
+                String.valueOf(primitives.get("ticker"))
         ));
     }
 

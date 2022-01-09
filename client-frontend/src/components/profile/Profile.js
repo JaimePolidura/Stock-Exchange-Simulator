@@ -19,16 +19,17 @@ class Profile extends React.Component {
             orders: [],
             socket: props.value,
             listedCompanies: [],
-            listedCompaniesLoaded: false
+            listedCompaniesLoaded: false,
+            ordersLoaded: false,
         };
 
         this.setUpListedCompanies();
         this.setUpSocket();
-        this.getTradesFromApi();
+        this.getOpenPositionsFromApi();
         this.getOrdersFromApi();
     }
 
-    getTradesFromApi() {
+    getOpenPositionsFromApi() {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
                 this.setState({trades: this.state.trades.concat(res.data.trades)});
@@ -37,23 +38,18 @@ class Profile extends React.Component {
     }
 
     getOrdersFromApi(){
-        backendService.getOrdersBuyAndSell().then(res => {
-            res.data.orders.forEach(order => {
-                let orderToAdd = {
-                    orderId: order.orderId,
-                    date: order.date,
-                    orderTypeId: order.orderTypeId,
-                    quantity: order.body.quantity,
-                    executionPrice: order.body.executionPrice,
-                    // tradeId: order.body.tradeId,
-                    ticker: order.body.ticker
-                };
+        backendService.getBuyOrders().then(buyOrdersRes => {
+            backendService.getSellOrders().then(sellOrdersRes => {
+                let buyOrders = [...buyOrdersRes.data.orders].map(order => {return {...order, type: 'Buy'}});
+                let sellOrders = [...sellOrdersRes.data.orders].map(order => {return {...order, type: 'Sell'}});
 
-                if(orderToAdd.orderTypeId == 2) orderToAdd = {...orderToAdd,  tradeId: order.body.tradeId};
+                let allOrders = buyOrders.concat(sellOrders);
 
-                this.addOrder(orderToAdd);
+                this.setState({orders: allOrders}, () => {
+                    this.setState({ordersLoaded: true});
+                });
             });
-        })
+        });
     }
 
     setUpListedCompanies(){
@@ -76,18 +72,16 @@ class Profile extends React.Component {
     }
 
     onBuyOrderExecuted(executedOrder){
-        this.getTradesFromApi();
+        this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }
 
     onSellOrderExecuted(executedOrder){
-        this.getTradesFromApi();
+        this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }
 
     onOrderCancelled(orderCancelled){
-        console.log(orderCancelled);
-
         let allOrders = this.state.orders;
         let orderFoundIndex = allOrders.findIndex(order => order.orderId == orderCancelled.orderIdCancelled);
         allOrders.splice(orderFoundIndex,1);
@@ -161,7 +155,7 @@ class Profile extends React.Component {
                 }
                 <br />
 
-                {this.state.listedCompaniesLoaded == true &&
+                {this.state.listedCompaniesLoaded == true && this.state.ordersLoaded == true &&
                     <Orders listedCompanies={this.state.listedCompanies}
                             orders={this.state.orders}/>
                 }

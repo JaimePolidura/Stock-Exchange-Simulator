@@ -7,7 +7,7 @@ import es.jaime.exchange.domain.models.messages.messages.BuyOrderExecutedMessage
 import es.jaime.exchange.domain.models.messages.EventNames;
 import es.jaime.exchange.domain.models.messages.messages.SellOrderExecutedMessage;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
-import es.jaime.exchange.domain.models.orders.TradeOrder;
+import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 import es.jaime.exchange.domain.models.orders.OrderType;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import es.jaime.exchange.domain.services.*;
@@ -41,6 +41,9 @@ public class TradeProcessorImpl implements TradeProcessor {
 
             System.out.println("Order executed");
 
+            System.out.println(buyOrder.getTicker());
+            System.out.println(sellOrder.getTicker());
+
             publishBuyOrderExecutedMessage(buyOrder, priceMatch, quantityStockTradeMatch);
             publishSellOrderExecutedMessage(sellOrder, priceMatch, quantityStockTradeMatch, buyOrder.getTicker());
 
@@ -69,13 +72,13 @@ public class TradeProcessorImpl implements TradeProcessor {
         );
     }
 
-    private int getQuantityStockTradeMatch(TradeOrder buyOrder, TradeOrder sellOrder){
+    private int getQuantityStockTradeMatch(ExecutionOrder buyOrder, ExecutionOrder sellOrder){
         return buyOrder.getQuantity() == sellOrder.getQuantity() ?
                 buyOrder.getQuantity() :
                 Math.min(buyOrder.getQuantity(), sellOrder.getQuantity());
     }
 
-    private void handleException(TradeOrder buyOrder, TradeOrder sellOrder){
+    private void handleException(ExecutionOrder buyOrder, ExecutionOrder sellOrder){
         var exceptionSet = Set.of(new UnprocessableTrade(buyOrder), new UnprocessableTrade(sellOrder));
 
         for (var domainException : exceptionSet)

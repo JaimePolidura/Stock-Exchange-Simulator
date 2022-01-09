@@ -34,9 +34,9 @@ const BuyStockModal = props => {
             orderId: response.data.orderId,
             orderTypeId: response.data.orderTypeId,
             ticker: listedCompany.ticker,
-            quantity: response.data.body.quantity,
+            quantity: response.data.quantity,
             date: response.data.date,
-            executionPrice: response.data.body.executionPrice,
+            executionPrice: response.data.executionPrice,
         }
 
         props.onOrderBuySended(orderToDisplay);

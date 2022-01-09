@@ -1,9 +1,9 @@
 package es.jaime.exchange.domain.exceptions;
 
-import es.jaime.exchange.domain.models.orders.TradeOrder;
+import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 
 public class TtlExpired extends DomainException{
-    public TtlExpired(TradeOrder order) {
+    public TtlExpired(ExecutionOrder order) {
         super("TTL Expired!", order);
     }
 }

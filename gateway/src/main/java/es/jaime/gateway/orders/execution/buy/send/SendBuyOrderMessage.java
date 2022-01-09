@@ -32,7 +32,7 @@ public class SendBuyOrderMessage implements CommandMessage {
             put("date", date.value());
             put("executionPrice", executionPrice.value());
             put("quantity", quantity.value());
-            put("ticker", ticker);
+            put("ticker", ticker.value());
             put("type", type.value());
         }};
     }

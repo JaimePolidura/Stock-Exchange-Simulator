@@ -25,8 +25,12 @@ class BackendService {
         return axios.get(apiRoute + "listedcompanies/get/" + ticker);
     }
 
-    getOrdersBuyAndSell() {
-        return axios.get(apiRoute + "orders/get/type?orderTypesId=1,2");
+    getSellOrders(){
+        return axios.get(apiRoute + "orders/sell/get?orderStates=PENDING");
+    }
+
+    getBuyOrders(){
+        return axios.get(apiRoute + "orders/buy/get?orderStates=PENDING");
     }
 
     getAllListedCompanies(){
@@ -38,7 +42,7 @@ class BackendService {
     }
 
     cancelOrder(orderId){
-        return axios.post(apiRoute + "orders/send/cancel/" + orderId);
+        return axios.post(apiRoute + "orders/cancel/send/" + orderId);
     }
 
 }
