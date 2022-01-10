@@ -2,9 +2,10 @@
   "name": "client-order-event-dispatcher",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node index.js"
+    "compilexd": "tsc",
+    "start": "tsc && node index.js"
   },
   "author": "jaime",
   "license": "ISC",
@@ -12,7 +13,8 @@
     "amqplib": "^0.8.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
-    "socket.io": "^4.4.0"
+    "socket.io": "^4.4.0",
+    "typescript": "^4.5.4"
   },
   "devDependencies": {
     "webpack-dev-middleware": "^5.2.2"
