@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import CancelOrderModal from "./CancelOrderModal";
 
-class OrderDisplayInTable extends React.Component {
-    constructor(props) {
+class OrderDisplayInTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -12,7 +12,7 @@ class OrderDisplayInTable extends React.Component {
         };
     }
 
-    render() {
+    render(): any {
         return (
             <>
                 <tr className="trade-tr" onClick={() => {this.openModal()}}>
@@ -30,7 +30,7 @@ class OrderDisplayInTable extends React.Component {
 
     }
 
-    renderCancelOrderModal(){
+    renderCancelOrderModal(): any{
         return (
             <CancelOrderModal showModal={this.state.showModal}
                               onHide={() => this.closeModal()}
@@ -39,23 +39,23 @@ class OrderDisplayInTable extends React.Component {
         );
     }
 
-    calculateTotalValue(){
+    calculateTotalValue(): string{
         return this.state.order.executionPrice !== -1 ?
             '~' + (this.state.order.quantity * this.state.order.executionPrice) :
             'Market';
     }
 
-    renderExecutionType(){
+    renderExecutionType(): string{
         return this.state.order.executionPrice !== -1 ?
             "Limit at " + this.state.order.executionPrice + "$" :
             "Market";
     }
 
-    openModal(){
+    openModal(): void{
         this.setState({showModal: true});
     }
 
-    closeModal(){
+    closeModal(): void{
         this.setState({showModal: false});
     }
 }

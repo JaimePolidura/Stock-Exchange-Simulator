@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import './CancelOrderModal.css';
 import backend from "../../../services/BackendService";
 
-const CancelOrderModal = props => {
+const CancelOrderModal = (props: any) => {
     const [ order, setOrder ] = useState(props.order);
 
     const close = () => {
@@ -29,9 +29,9 @@ const CancelOrderModal = props => {
                 <Modal.Body>
                     <h6>Are you sure you want to cancel the order?</h6>
                     <br />
-                    <div class="options">
-                        <button onClick={() => cancelOrder()} class="btn btn-danger">Yes</button>
-                        <button onClick={() => close()} class="btn btn-primary">No</button>
+                    <div className="options">
+                        <button onClick={() => cancelOrder()} className="btn btn-danger">Yes</button>
+                        <button onClick={() => close()} className="btn btn-primary">No</button>
                     </div>
                 </Modal.Body>
             </Modal>

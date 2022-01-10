@@ -2,8 +2,8 @@ import TradeDisplayInTable from "./TradeDisplayInTable";
 import React from "react";
 import './Trades.css';
 
-export default class Trades extends React.Component {
-    constructor(props) {
+export default class Trades extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -13,9 +13,9 @@ export default class Trades extends React.Component {
         };
     }
 
-    render() {
+    render(): any {
         return (
-            <table class="display-table">
+            <table className="display-table">
                 <thead>
                 <tr>
                     <th>Ticker</th>
@@ -31,10 +31,10 @@ export default class Trades extends React.Component {
                 </thead>
 
                 <tbody>
-                    {this.state.trades.map(trade =>
+                    {this.state.trades.map((trade: any) =>
                         <TradeDisplayInTable key={trade.tradeId}
                                              listedCompany={this.getListedCompany(trade.ticker)}
-                                             onOrderSellSended={order => this.onOrderSellSended(order)}
+                                             onOrderSellSended={(order: any) => this.onOrderSellSended(order)}
                                              value={trade}/>)
                     }
                 </tbody>
@@ -42,15 +42,15 @@ export default class Trades extends React.Component {
         );
    }
     
-    getListedCompany(ticker){
-        let found = this.state.listedCompanies.find(listedCompany => listedCompany.ticker == ticker);
+    getListedCompany(ticker: string): string | any{
+        let found = this.state.listedCompanies.find((listedCompany: any) => listedCompany.ticker == ticker);
 
         return found == null || false ?
             "Loading" :
             found;
     }
 
-    onOrderSellSended(order){
+    onOrderSellSended(order: any): void{
         this.state.onOrderSellSended(order);
     }
 }

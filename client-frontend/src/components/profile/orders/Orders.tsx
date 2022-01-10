@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import OrderDisplayInTable from "./OrderDisplayInTable";
 
-export default class Orders extends React.Component {
-    constructor(props) {
+export default class Orders extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -11,13 +11,13 @@ export default class Orders extends React.Component {
         }
     }
 
-    render() {
+    render(): any {
         if(this.state.orders.length == 0){
             return null;
         }
 
         return (
-            <table class="display-table">
+            <table className="display-table">
                 <thead>
                 <tr>
                     <th>Ticker</th>
@@ -31,7 +31,7 @@ export default class Orders extends React.Component {
                 </thead>
 
                 <tbody>
-                    {this.state.orders.map(order =>
+                    {this.state.orders.map((order: any) =>
                          <OrderDisplayInTable key={order.orderId}
                                               listedCompany={this.getListedCompanyFromTicker(order.ticker)}
                                               value={order}/>)}
@@ -40,7 +40,7 @@ export default class Orders extends React.Component {
         );
     }
 
-    getListedCompanyFromTicker(ticker){
-        return this.state.listedCompanies.find(ite => ite.ticker == ticker);
+    getListedCompanyFromTicker(ticker: string): any{
+        return this.state.listedCompanies.find((ite: any) => ite.ticker == ticker);
     }
 }

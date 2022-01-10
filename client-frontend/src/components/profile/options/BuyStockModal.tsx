@@ -4,12 +4,12 @@ import {useForm} from "react-hook-form";
 import backendService from "../../../services/BackendService";
 import backend from "../../../services/BackendService";
 
-const BuyStockModal = props => {
+const BuyStockModal = (props: any) => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
     const [ listedCompany, setListedCompany ] = useState(null);
 
-    const onSubmit = form => {
+    const onSubmit = (form: any) => {
         let finalRequestToApi = {
             executionPrice: buyExecutionType == 'market' ? -1 : form.price,
             quantity: form.quantity,
@@ -21,7 +21,7 @@ const BuyStockModal = props => {
             .catch(error => onFailure(error));
     }
 
-    const onChangeExecutionType = e => {
+    const onChangeExecutionType = (e: any) => {
         setBuyExecutionType(e.target.value);
 
         if(e.target.value === 'market'){
@@ -29,10 +29,13 @@ const BuyStockModal = props => {
         }
     }
 
-    const onSuccess = response => {
+    const onSuccess = (response: any) => {
+        // @ts-ignore
+        let listedCompanyTicker = listedCompany == null ? "" : listedCompany.ticker;
+
         let orderToDisplay = {
             orderId: response.data.orderId,
-            ticker: listedCompany.ticker,
+            ticker: listedCompanyTicker,
             quantity: response.data.quantity,
             date: response.data.date,
             executionPrice: response.data.executionPrice,
@@ -44,11 +47,11 @@ const BuyStockModal = props => {
         window.alert("The order has been sended");
     }
 
-    const onFailure = error => {
+    const onFailure = (error: any) => {
         console.log(error);
     }
 
-    const onTickerInputChanged = e => {
+    const onTickerInputChanged = (e: any) => {
         let ticker = e.target.value;
 
         backendService.getCompanyIsListedData(ticker)

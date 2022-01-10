@@ -1,4 +1,6 @@
+// @ts-ignore
 import React from 'react';
+// @ts-ignore
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -9,11 +11,14 @@ import auth from "./services/AuthenticationService";
 const bypassurls = ["login"];
 
 axios.interceptors.request.use(request => {
-    for(let i = 0; i < bypassurls.length; i++)
-        if(request.url.includes(bypassurls[i]))
-            return request;
+    for(let i = 0; i < bypassurls.length; i++){
+        let url: any = request.url;
 
-    let requestHeaders = request.headers;
+        if(url.includes(bypassurls[i]))
+            return request;
+    }
+
+    let requestHeaders: any = request.headers;
     let requestJWTHeader = {
         'Authorization': `Bearer ${auth.getToken()}`,
     }

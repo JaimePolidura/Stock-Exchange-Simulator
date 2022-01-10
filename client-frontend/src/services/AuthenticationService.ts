@@ -1,44 +1,48 @@
 import BackendService from "./BackendService";
 
 class AuthenticationService {
+    authenticated: boolean;
+    token: string;
+    username: string;
+
     constructor() {
         this.authenticated = false;
-        this.token = null;
-        this.username = null;
+        this.token = "";
+        this.username = "";
     }
 
-    login(request, onSuccess, onFailure){
+    login(request: any, onSuccess: any, onFailure: any): void{
         BackendService.login(request)
             .then(response => onSuccess(response.data))
             .catch(error => onFailure(error));
     }
 
-    isAuthenticated(){
+    isAuthenticated(): boolean{
         return this.authenticated;
     }
 
-    logout(){
+    logout(): void{
         this.authenticated = false;
-        this.token = null;
+        this.token = "";
     }
 
-    getToken(){
+    getToken(): string{
         return this.token;
     }
 
-    setToken(value){
+    setToken(value: string): void{
         this.token = value;
     }
 
-    setAuthenticated(value) {
+    setAuthenticated(value: boolean): void {
         this.authenticated = value;
     }
 
-    getUsername(){
+    getUsername(): string{
         return this.username;
     }
 
-    setUsername(value){
+    setUsername(value: string): void{
         this.username = value;
     }
 }

@@ -3,8 +3,8 @@ import './Options.css';
 import auth from "../../../services/AuthenticationService";
 import BuyStockModal from "./BuyStockModal";
 
-export default class Options extends React.Component {
-    constructor(props) {
+export default class Options extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -37,25 +37,25 @@ export default class Options extends React.Component {
     }
 
     renderBuyStockModal(){
-        return <BuyStockModal onOrderBuySended={order => this.onOrderBuySended(order)}
+        return <BuyStockModal onOrderBuySended={(order: any) => this.onOrderBuySended(order)}
                               showModal={this.state.showBuyStockModal}
                               onHide={() => this.closeBuyStockModal()}/>
     }
 
-    onOrderBuySended(order){
+    onOrderBuySended(order: any): void{
         this.props.onOrderBuySended(order);
         this.closeBuyStockModal();
     }
 
-    showBuyStockModal(){
+    showBuyStockModal(): void{
         this.setState({showBuyStockModal: true});
     }
 
-    closeBuyStockModal(){
+    closeBuyStockModal(): void{
         this.setState({showBuyStockModal: false});
     }
 
-    logout(){
+    logout(): void{
         auth.logout();
         this.props.history.push("/");
     }

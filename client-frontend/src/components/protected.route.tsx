@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import auth from "../services/AuthenticationService";
 
-export const ProtectedRoute = ({component: Component, value,...rest}) => {
+export const ProtectedRoute = ({component: Component, value,...rest}: any) => {
   return (
     <Route
       {...rest}

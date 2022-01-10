@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {ProtectedRoute} from "./components/protected.route";
 import React from "react";
 
-function App (props) {
+function App (props: any) {
   return (
       <Router>
           <div className="App">

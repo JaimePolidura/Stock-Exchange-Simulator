@@ -4,8 +4,8 @@ import './Navbar-main-css.css'
 class NavbarMain extends React.Component {
     render() {
         return (
-            <div class = "navbar">
-                <div class = "main-title">Broker</div>
+            <div className = "navbar">
+                <div className = "main-title">Broker</div>
             </div>
         );
     }

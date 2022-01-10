@@ -8,6 +8,12 @@ const ERROR_ORDER = "order-error";
 const ORDER_CANCELLED = "order-cancelled";
 
 class ClientEventDispatcherSocketService {
+    socket: any;
+    onExecutedSellOrderCallback: any;
+    onExecutedBuyOrderCallback: any;
+    onErrorOrderCallback: any;
+    onOrderCancelledCallback: any;
+
     constructor() {
         this.socket = null;
         this.onExecutedSellOrderCallback = null;
@@ -16,7 +22,7 @@ class ClientEventDispatcherSocketService {
         this.onOrderCancelledCallback = null;
     }
 
-    connect(clientId){
+    connect(clientId: string): void{
         this.socket = io(URL, {
             transports : ['websocket'],
             auth: {username: auth.username, token: auth.token},
@@ -25,9 +31,7 @@ class ClientEventDispatcherSocketService {
         });
     }
 
-    onNewMessage(msg){
-        console.log(msg);
-
+    onNewMessage(msg: any): void{
         if(msg.name == EXECUTED_SELL_ORDER) {
             this.onExecutedSellOrderCallback(msg);
         }else if(msg.name == EXECUTED_BUY_ORDER){
@@ -39,19 +43,19 @@ class ClientEventDispatcherSocketService {
         }
     }
 
-    onExecutedSellOrder(callback){
+    onExecutedSellOrder(callback: any): void{
         this.onExecutedSellOrderCallback = callback;
     }
 
-    onExecutedBuyOrder(callback){
+    onExecutedBuyOrder(callback: any): void{
         this.onExecutedBuyOrderCallback = callback;
     }
 
-    onErrorOrder(callback){
+    onErrorOrder(callback: any): void{
         this.onErrorOrderCallback = callback;
     }
 
-    onOrderCancelled(callback){
+    onOrderCancelled(callback: any): void{
         this.onOrderCancelledCallback = callback;
     }
 }

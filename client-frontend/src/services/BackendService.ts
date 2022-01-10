@@ -5,7 +5,7 @@ const apiRoute = "http://localhost:8080/";
 
 class BackendService {
 
-    login(request){
+    login(request: any){
         return axios.post(apiRoute + "auth/login", request);
     }
 
@@ -13,15 +13,15 @@ class BackendService {
         return profileData;
     }
 
-    sendBuyOrder(order){
+    sendBuyOrder(order: any){
         return axios.post(apiRoute + "orders/buy/send", order);
     }
 
-    sendSellOrder(order){
+    sendSellOrder(order: any){
         return axios.post(apiRoute + "orders/sell/send", order);
     }
 
-    getCompanyIsListedData(ticker){
+    getCompanyIsListedData(ticker: any){
         return axios.get(apiRoute + "listedcompanies/get/" + ticker);
     }
 
@@ -40,8 +40,8 @@ class BackendService {
     getOpenPositions(){
         return axios.get(apiRoute + "positions/open/get");
     }
-
-    cancelOrder(orderId){
+    
+    cancelOrder(orderId: any){
         return axios.post(apiRoute + "orders/cancel/send/" + orderId);
     }
 

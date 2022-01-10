@@ -8,8 +8,8 @@ import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
 import socket from "../../services/SocketService";
 
-class Profile extends React.Component {
-    constructor(props) {
+class Profile extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         let profileData = backendService.getProfielData();
@@ -29,7 +29,7 @@ class Profile extends React.Component {
         this.getOrdersFromApi();
     }
 
-    getOpenPositionsFromApi() {
+    getOpenPositionsFromApi(): void {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
                 this.setState({trades: this.state.trades.concat(res.data.trades)});
@@ -37,7 +37,7 @@ class Profile extends React.Component {
         });
     }
 
-    getOrdersFromApi(){
+    getOrdersFromApi(): void {
         backendService.getBuyOrders().then(buyOrdersRes => {
             backendService.getSellOrders().then(sellOrdersRes => {
                 let buyOrders = [...buyOrdersRes.data.orders].map(order => {return {...order, type: 'Buy'}});
@@ -52,7 +52,7 @@ class Profile extends React.Component {
         });
     }
 
-    setUpListedCompanies(){
+    setUpListedCompanies(): void {
         backendService.getAllListedCompanies().then(res => {
             this.setState({listedCompanies: []}, () => {
                 this.setState({listedCompanies: this.state.listedCompanies.concat(res.data.allListedCompanies)}, () => {
@@ -62,34 +62,34 @@ class Profile extends React.Component {
         });
     }
 
-    setUpSocket() {
+    setUpSocket(): void {
         socket.connect(auth.getUsername());
 
-        socket.onExecutedSellOrder(msg => this.onSellOrderExecuted(msg.body));
-        socket.onErrorOrder(msg => this.onErrorOrder(msg.body));
-        socket.onExecutedBuyOrder(msg => this.onBuyOrderExecuted(msg.body));
-        socket.onOrderCancelled(msg => this.onOrderCancelled(msg.body));
+        socket.onExecutedSellOrder((msg: any) => this.onSellOrderExecuted(msg.body));
+        socket.onErrorOrder((msg: any) => this.onErrorOrder(msg.body));
+        socket.onExecutedBuyOrder((msg: any) => this.onBuyOrderExecuted(msg.body));
+        socket.onOrderCancelled((msg: any) => this.onOrderCancelled(msg.body));
     }
 
-    onBuyOrderExecuted(executedOrder){
+    onBuyOrderExecuted(executedOrder: any): void{
         this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }
 
-    onSellOrderExecuted(executedOrder){
+    onSellOrderExecuted(executedOrder: any): void{
         this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }
 
-    onOrderCancelled(orderCancelled){
+    onOrderCancelled(orderCancelled: any): void{
         let allOrders = this.state.orders;
-        let orderFoundIndex = allOrders.findIndex(order => order.orderId == orderCancelled.orderIdCancelled);
+        let orderFoundIndex = allOrders.findIndex((order: any) => order.orderId == orderCancelled.orderIdCancelled);
         allOrders.splice(orderFoundIndex,1);
 
         this.setState({orders: allOrders});
     }
 
-    addTrade(trade){
+    addTrade(trade: any): void{
         let tradeArray = this.state.trades;
         tradeArray.push(trade);
 
@@ -98,11 +98,11 @@ class Profile extends React.Component {
         });
     }
     
-    removeOrderOrDecreaseQuantity(orderToRemove){
+    removeOrderOrDecreaseQuantity(orderToRemove: any): void{
         let allOrders = this.state.orders;
 
-        let orderFound = allOrders.find(order => order.orderId == orderToRemove.orderId);
-        let orderFoundIndex = allOrders.findIndex(order => order.orderId == orderToRemove.orderId);
+        let orderFound = allOrders.find((order: any) => order.orderId == orderToRemove.orderId);
+        let orderFoundIndex = allOrders.findIndex((order: any) => order.orderId == orderToRemove.orderId);
 
         if(orderFound.quantity == orderToRemove.quantity){
             allOrders.splice(orderFoundIndex,1);
@@ -113,24 +113,24 @@ class Profile extends React.Component {
         this.setState({orders: allOrders});
     }
 
-    onErrorOrder(body){
+    onErrorOrder(body: any): void{
         let allOrders = this.state.orders;
-        let orderToRemoveIndex = allOrders.findIndex(order => order.orderId == body.orderId);
+        let orderToRemoveIndex = allOrders.findIndex((order: any) => order.orderId == body.orderId);
 
         allOrders.splice(orderToRemoveIndex, 1);
 
         this.setState({orders: allOrders});
     }
 
-    onOrderBuySended(order){
+    onOrderBuySended(order: any): void{
         this.addOrder(order);
     }
 
-    onOrderSellSended(order){
+    onOrderSellSended(order: any): void{
         this.addOrder(order);
     }
 
-    addOrder(order){
+    addOrder(order: any): void{
         let orderArrays = this.state.orders;
         orderArrays.push(order);
 
@@ -139,10 +139,10 @@ class Profile extends React.Component {
         });
     }
 
-    render() {
+    render(): any {
         return (
-            <div class="content div-config-dif-background">
-                <Options onOrderBuySended = {order => this.onOrderBuySended(order)}/>
+            <div className="content div-config-dif-background">
+                <Options onOrderBuySended = {(order: any) => this.onOrderBuySended(order)}/>
                 <hr/>
 
                 <Stats cash = {this.state.cash} />
@@ -151,7 +151,7 @@ class Profile extends React.Component {
                     <Trades trades={this.state.trades}
                             key={this.state.trades}
                             listedCompanies={this.state.listedCompanies}
-                            onOrderSellSended={order => this.onOrderSellSended(order)}/>
+                            onOrderSellSended={(order: any) => this.onOrderSellSended(order)}/>
                 }
                 <br />
 

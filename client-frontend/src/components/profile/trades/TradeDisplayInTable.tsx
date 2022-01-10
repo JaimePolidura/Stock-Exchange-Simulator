@@ -1,9 +1,9 @@
-import React from "react";
+import React, {ReactComponentElement} from "react";
 import './TradeDisplayInTable.css';
 import SellStockModal from "./SellStockModal";
 
-class TradeDisplayInTable extends React.Component {
-    constructor(props) {
+class TradeDisplayInTable extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -34,51 +34,51 @@ class TradeDisplayInTable extends React.Component {
         );
     }
 
-    actualPriceFromTicker(ticker){
+    actualPriceFromTicker(ticker: string): number{
         return 1000;
     }
 
-    renderSellStockModal(){
+    renderSellStockModal(): any{
         return (
             <SellStockModal showModal={this.state.showModal}
                             onHide={() => this.closeModal()}
                             listedCompany = {this.state.listedCompany}
                             trade={this.state.trade}
                             renderMarketValue = {() => this.renderMarketValue()}
-                            onOrderSellSended = {order => this.onOrderSellSended(order)}
+                            onOrderSellSended = {(order: any) => this.onOrderSellSended(order)}
             />
         );
     }
 
-    onOrderSellSended(order){
+    onOrderSellSended(order: any): void{
         this.setState({showModal: false});
 
         this.state.onOrderSellSended(order);
     }
 
-    openModal(){
+    openModal(): void{
         this.setState({showModal: true});
     }
 
-    closeModal(){
+    closeModal(): void{
         this.setState({showModal: false});
     }
 
-    renderResult(){
+    renderResult(): any{
         let result = this.calculateResult();
 
         return result >= 0 ?
-            <div class="green">+ {result} $</div> :
-            <div class="red">{result} $</div>;
+            <div className="green">+ {result} $</div> :
+            <div className="red">{result} $</div>;
     }
 
-    renderMarketValue(){
+    renderMarketValue(): string{
         let trade = this.state.trade;
 
         return Math.round(trade.quantity * this.actualPriceFromTicker(trade.ticker)) + " $";
     }
 
-    renderResultYield(){
+    renderResultYield(): any{
         let trade = this.state.trade;
 
         let investedCapital = trade.quantity * trade.openingPrice;
@@ -87,11 +87,11 @@ class TradeDisplayInTable extends React.Component {
         let resultYield = Math.round(((actualCapital / investedCapital) - 1) * 100);
 
         return resultYield >= 0 ?
-            <div class="green">+ {resultYield} %</div> :
-            <div class="red">{resultYield} %</div>;
+            <div className="green">+ {resultYield} %</div> :
+            <div className="red">{resultYield} %</div>;
     }
 
-    calculateResult(){
+    calculateResult(): number{
         let trade = this.state.trade;
 
         return Math.round((this.actualPriceFromTicker(trade.ticker) - trade.openingPrice) * trade.quantity);

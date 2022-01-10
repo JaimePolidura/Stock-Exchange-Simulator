@@ -3,11 +3,11 @@ import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backend from "../../../services/BackendService";
 
-const SellStockModal = props => {
+const SellStockModal = (props: any) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
 
-    const onSubmit = form => {
+    const onSubmit = (form: any) => {
         let finalRequestToApi = {
             positionId: props.trade.positionId,
             quantity: form.quantity,
@@ -20,7 +20,7 @@ const SellStockModal = props => {
         );
     }
 
-    const onSuccess = response => {
+    const onSuccess = (response: any) => {
         window.alert("The order has been sended");
 
         let orderToDisplay = {
@@ -36,7 +36,7 @@ const SellStockModal = props => {
         props.onOrderSellSended(orderToDisplay);
     }
 
-    const onFailure = response => {
+    const onFailure = (response: any) => {
         window.alert("There has been an error " + response);
     }
 
@@ -44,7 +44,7 @@ const SellStockModal = props => {
         reset();
     }
 
-    const onChangeSellExecutionType = e => {
+    const onChangeSellExecutionType = (e: any) => {
         setSellExecutionType(e.target.value);
 
         if(e.target.value === 'market')
@@ -73,7 +73,7 @@ const SellStockModal = props => {
 
                     <br />
 
-                    <select class="form-control"
+                    <select className="form-control"
                             defaultValue={sellExecutionType}
                             onChange={e => onChangeSellExecutionType(e)}>
 
