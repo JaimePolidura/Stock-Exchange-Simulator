@@ -24,7 +24,6 @@ const Login = (props: any) => {
         reset();
     }
 
-    // @ts-ignore
     return (
         <div className="myContainer div-config-dif-background">
             <h2 className="title">Login</h2>

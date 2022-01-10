@@ -14,14 +14,6 @@ class ClientEventDispatcherSocketService {
     onErrorOrderCallback: any;
     onOrderCancelledCallback: any;
 
-    constructor() {
-        this.socket = null;
-        this.onExecutedSellOrderCallback = null;
-        this.onExecutedBuyOrderCallback = null;
-        this.onErrorOrderCallback = null;
-        this.onOrderCancelledCallback = null;
-    }
-
     connect(clientId: string): void{
         this.socket = io(URL, {
             transports : ['websocket'],

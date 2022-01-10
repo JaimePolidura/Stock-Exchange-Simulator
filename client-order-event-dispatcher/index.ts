@@ -1,4 +1,4 @@
-const axios = require('axios').default;
+const axios = require('axios');
 const express = require("express");
 const app = express();
 const http = require('http');
@@ -14,7 +14,7 @@ const queuesListener: string[] = [
     "sxs.exchange.events.client-order-event-dispatcher.order-cancelled",
 ];
 
-const gateway: string = "http://localhost:8080/";
+const gateway: string = "http://gateway:8080";
 
 const io = socketIo(server, {
     origin: "*",
@@ -31,16 +31,19 @@ io.on('connection', socket => {
 io.use((socket, next) => {
     const username: string = socket.handshake.auth.username;
     const token: string = socket.handshake.auth.token;
-
     authenticate(socket, username, token);
 
     next();
 });
 
 const authenticate = (socket, username: string, token: string): void => {
-    axios.get(`${gateway}auth/isvalidtoken?username=${username}&token=${token}`)
+    axios.get(`${gateway}/auth/isvalidtoken?username=${username}&token=${token}`)
         .then(res => {if (res.data == false) {closeSocketConnection(socket)}})
-        .catch(err => closeSocketConnection(socket));
+        .catch(err => {
+            console.log("auronplay")
+            console.log(err);
+            closeSocketConnection(socket)
+        });
 }
 
 const closeSocketConnection = (socket): void => socket.disconnect(0);

@@ -72,6 +72,8 @@ class Profile extends React.Component<any, any> {
     }
 
     onBuyOrderExecuted(executedOrder: any): void{
+        console.log("Hola");
+
         this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }
