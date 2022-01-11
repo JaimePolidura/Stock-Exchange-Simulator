@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class GetOpenPositionsQueryResponse implements QueryResponse {
-    @Getter private final List<GetTradeQueryResponse> trades;
+    @Getter private final List<GetTradeQueryResponse> openPositions;
 
     public static GetOpenPositionsQueryResponse fromAggregateList(List<OpenPosition> trades){
         return new GetOpenPositionsQueryResponse(trades.stream()

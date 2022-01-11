@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backend from "../../../services/BackendService";
+import {SendSellOrderRequest} from "../../../services/model/sendsellorder/SendSellOrderRequest";
+import {AxiosResponse} from "axios";
+import {SendSellOrderResponse} from "../../../services/model/sendsellorder/SendSellOrderResponse";
 
 const SellStockModal = (props: any) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
 
     const onSubmit = (form: any) => {
-        let finalRequestToApi = {
+        let finalRequestToApi: SendSellOrderRequest = {
             positionId: props.trade.positionId,
             quantity: form.quantity,
             executionPrice: sellExecutionType == 'market' ? -1 : form.price,
@@ -20,16 +23,15 @@ const SellStockModal = (props: any) => {
         );
     }
 
-    const onSuccess = (response: any) => {
+    const onSuccess = (response: AxiosResponse<SendSellOrderResponse>) => {
         window.alert("The order has been sended");
-
+        
         let orderToDisplay = {
             orderId: response.data.orderId,
             ticker: props.listedCompany.ticker,
             quantity: response.data.quantity,
             date: response.data.date,
             executionPrice: response.data.executionPrice,
-            tradeId: response.data.tradeId,
             type: 'Sell',
         }
 

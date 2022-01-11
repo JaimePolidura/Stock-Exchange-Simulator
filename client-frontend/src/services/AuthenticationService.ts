@@ -1,4 +1,6 @@
 import BackendService from "./BackendService";
+import {LoginRequest} from "./model/login/LoginRequest";
+import {LoginResponse} from "./model/login/LoginResponse";
 
 class AuthenticationService {
     authenticated: boolean;
@@ -11,9 +13,17 @@ class AuthenticationService {
         this.username = "";
     }
 
-    login(request: any, onSuccess: any, onFailure: any): void{
+    login(request: LoginRequest, onSuccess: any, onFailure: any): void{
         BackendService.login(request)
-            .then(response => onSuccess(response.data))
+            .then(res => {
+                let response: LoginResponse = res.data;
+
+                this.authenticated = true;
+                this.token = response.token;
+                this.username = request.password;
+
+                onSuccess();
+            })
             .catch(error => onFailure(error));
     }
 

@@ -3,14 +3,17 @@ import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backendService from "../../../services/BackendService";
 import backend from "../../../services/BackendService";
+import {SendBuyOrderRequest} from "../../../services/model/sendbuyorder/SendBuyOrderRequest";
+import {SendBuyOrderResponse} from "../../../services/model/sendbuyorder/SendBuyOrderResponse";
+import {AxiosResponse} from "axios";
 
 const BuyStockModal = (props: any) => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
-    const [ listedCompany, setListedCompany ] = useState(null);
+    const [ listedCompany, setListedCompany ] = useState({});
 
     const onSubmit = (form: any) => {
-        let finalRequestToApi = {
+        let finalRequestToApi: SendBuyOrderRequest = {
             executionPrice: buyExecutionType == 'market' ? -1 : form.price,
             quantity: form.quantity,
             ticker: form.ticker.toUpperCase(),
@@ -29,7 +32,7 @@ const BuyStockModal = (props: any) => {
         }
     }
 
-    const onSuccess = (response: any) => {
+    const onSuccess = (response: AxiosResponse<SendBuyOrderResponse>) => {
         // @ts-ignore
         let listedCompanyTicker = listedCompany == null ? "" : listedCompany.ticker;
 
@@ -54,14 +57,14 @@ const BuyStockModal = (props: any) => {
     const onTickerInputChanged = (e: any) => {
         let ticker = e.target.value;
 
-        backendService.getCompanyIsListedData(ticker)
+        backendService.getListedCompanies(ticker)
             .then(response => {
                 setListedCompany(response.data);
                 clearErrorToInputTicker();
             })
             .catch(error => {
                 addErrorToInputTicker();
-                setListedCompany(null);
+                setListedCompany({});
             });
     }
 

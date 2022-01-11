@@ -3,21 +3,18 @@ import '../../index.css';
 import './Login.css';
 import { useForm } from 'react-hook-form';
 import auth from "../../services/AuthenticationService";
+import {LoginRequest} from "../../services/model/login/LoginRequest";
 
 const Login = (props: any) => {
     const {register, handleSubmit, reset} = useForm();
 
     const onSubmit = (request: any) => {
-        auth.login(request, (response: any) => onSuccess(response, request.username), (error: any) => onFailure(error));
+        let requestToApi: LoginRequest = {username: request.username, password: request.password};
+
+        auth.login(requestToApi, () => onSuccess(), (error: any) => onFailure(error));
     }
 
-    const onSuccess = (response: any, username: any) => {
-        auth.setToken(response.token);
-        auth.setAuthenticated(true);
-        auth.setUsername(username);
-
-        props.history.push("/profile");
-    }
+    const onSuccess = () => props.history.push("/profile");
 
     const onFailure = (error: any) => {
         window.alert("User not found");

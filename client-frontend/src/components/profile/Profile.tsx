@@ -32,7 +32,9 @@ class Profile extends React.Component<any, any> {
     getOpenPositionsFromApi(): void {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
-                this.setState({trades: this.state.trades.concat(res.data.trades)});
+                console.log(res.data.openPositions);
+
+                this.setState({trades: this.state.trades.concat(res.data.openPositions)});
             });
         });
     }
