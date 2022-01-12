@@ -33,16 +33,16 @@ public class OnSellOrderExecuted {
     }
 
     private void changeStateToExecuted(SellOrder orderSell, SellOrderExecuted event){
-        SellOrder orderBuyStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed())
+        SellOrder orderStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed())
                 .updateExecutionPrice(OrderExecutionPrice.of(event.getExecutionPrice()));
 
-        this.sellOrders.save(orderBuyStateChangedToExecuted);
+        this.sellOrders.save(orderStateChangedToExecuted);
     }
 
     private void updateQuantity(SellOrder orderSell, int newQuantity){
-        SellOrder orderBuyUpdatedQuantitty = orderSell.updateQuantity(OrderQuantity.of(newQuantity));
+        SellOrder orderUpdatedQuantitty = orderSell.updateQuantity(OrderQuantity.of(newQuantity));
 
-        this.sellOrders.save(orderBuyUpdatedQuantitty);
+        this.sellOrders.save(orderUpdatedQuantitty);
     }
 
     private void createNewOrder(SellOrder orderSell, OrderExecuted event){
@@ -50,7 +50,7 @@ public class OnSellOrderExecuted {
                 OrderId.generate(),
                 orderSell.getClientId(),
                 OrderDate.of(event.getDate()),
-                OrderType.buy(),
+                OrderType.sell(),
                 OrderState.executed(),
                 orderSell.getTicker(),
                 OrderQuantity.of(event.getQuantity()),

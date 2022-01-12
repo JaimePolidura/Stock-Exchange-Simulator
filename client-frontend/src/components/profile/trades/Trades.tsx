@@ -6,6 +6,8 @@ export default class Trades extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
 
+        console.log(props.trades);
+
         this.state = {
             trades: props.trades,
             onOrderSellSended: props.onOrderSellSended,
@@ -32,7 +34,7 @@ export default class Trades extends React.Component<any, any> {
 
                 <tbody>
                     {this.state.trades.map((trade: any) =>
-                        <TradeDisplayInTable key={trade.tradeId}
+                        <TradeDisplayInTable key={trade.positionId}
                                              listedCompany={this.getListedCompany(trade.ticker)}
                                              onOrderSellSended={(order: any) => this.onOrderSellSended(order)}
                                              value={trade}/>)

@@ -7,6 +7,7 @@ import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
 import socket from "../../services/SocketService";
+import {ExecutionOrder} from "../../model/orders/ExecutionOrder";
 
 class Profile extends React.Component<any, any> {
     constructor(props: any) {
@@ -74,8 +75,6 @@ class Profile extends React.Component<any, any> {
     }
 
     onBuyOrderExecuted(executedOrder: any): void{
-        console.log("Hola");
-
         this.getOpenPositionsFromApi();
         this.removeOrderOrDecreaseQuantity(executedOrder);
     }

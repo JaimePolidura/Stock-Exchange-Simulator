@@ -18,10 +18,14 @@ public class OnBuyOrderExecuted {
 
     @EventListener({BuyOrderExecuted.class})
     public void on(BuyOrderExecuted event){
-        System.out.println(event.getOrderId());
-
         BuyOrder orderBought = buyOrders.findByOrderId(OrderId.of(event.getOrderId()))
-                .get();
+                .orElse(null);
+
+        if(orderBought == null){
+            System.out.println("null");
+            System.out.println(event.getOrderId());
+            return;
+        }
 
         int actualQuantity = orderBought.getQuantity().value();
         int quantityBought = event.getQuantity();

@@ -1,16 +1,15 @@
 import axios, {AxiosResponse} from 'axios';
 import {ProfileData as profileData} from "../components/profile/ProfileData";
-import {LoginRequest} from "./model/login/LoginRequest";
-import {SendBuyOrderRequest} from "./model/sendbuyorder/SendBuyOrderRequest";
-import {SendBuyOrderResponse} from "./model/sendbuyorder/SendBuyOrderResponse";
-import {SendSellOrderRequest} from "./model/sendsellorder/SendSellOrderRequest";
-import {SendSellOrderResponse} from "./model/sendsellorder/SendSellOrderResponse";
-import {GetListedCompanies} from "./model/getlistedcompanies/GetListedCompanies";
-import {GetSellOrdersResponse} from "./model/getsellorders/GetSellOrdersResponse";
-import {GetBuyOrdersResponse} from "./model/getbuyorders/GetBuyOrdersResponse";
-import {GetOpenPositionsResponse} from "./model/getopenpositions/GetOpenPositionsResponse";
-import {OpenPosition} from "./model/getopenpositions/OpenPosition";
-import {CancelOrderResponse} from "./model/cancelorder/CancelOrderResponse";
+import {LoginRequest} from "./requests/login/LoginRequest";
+import {SendBuyOrderRequest} from "./requests/sendbuyorder/SendBuyOrderRequest";
+import {SendBuyOrderResponse} from "./requests/sendbuyorder/SendBuyOrderResponse";
+import {SendSellOrderRequest} from "./requests/sendsellorder/SendSellOrderRequest";
+import {SendSellOrderResponse} from "./requests/sendsellorder/SendSellOrderResponse";
+import {GetListedCompanies} from "./requests/getlistedcompanies/GetListedCompanies";
+import {GetSellOrdersResponse} from "./requests/getsellorders/GetSellOrdersResponse";
+import {GetBuyOrdersResponse} from "./requests/getbuyorders/GetBuyOrdersResponse";
+import {GetOpenPositionsResponse} from "./requests/getopenpositions/GetOpenPositionsResponse";
+import {CancelOrderResponse} from "./requests/cancelorder/CancelOrderResponse";
 
 const apiRoute = "http://localhost:8080/";
 

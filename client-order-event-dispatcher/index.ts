@@ -31,6 +31,10 @@ io.on('connection', socket => {
 io.use((socket, next) => {
     const username: string = socket.handshake.auth.username;
     const token: string = socket.handshake.auth.token;
+
+    console.log(username);
+    console.log(token);
+
     authenticate(socket, username, token);
 
     next();
@@ -38,12 +42,9 @@ io.use((socket, next) => {
 
 const authenticate = (socket, username: string, token: string): void => {
     axios.get(`${gateway}/auth/isvalidtoken?username=${username}&token=${token}`)
-        .then(res => {if (res.data == false) {closeSocketConnection(socket)}})
-        .catch(err => {
-            console.log("auronplay")
-            console.log(err);
-            closeSocketConnection(socket)
-        });
+        .then(res => {
+            console.log(res.data); if (res.data == false) closeSocketConnection(socket)})
+        .catch(err => closeSocketConnection(socket));
 }
 
 const closeSocketConnection = (socket): void => socket.disconnect(0);
@@ -63,6 +64,9 @@ ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
                 console.log("new message from exchange "+ messageToJSON.to  +": " + message.content.toString());
 
                 messageToJSON.meta.to.forEach(to => {
+                    console.log("lu")
+                    console.log(to);
+
                     io.emit(to, messageToJSON);
                 });
             });

@@ -3,7 +3,7 @@ import '../../index.css';
 import './Login.css';
 import { useForm } from 'react-hook-form';
 import auth from "../../services/AuthenticationService";
-import {LoginRequest} from "../../services/model/login/LoginRequest";
+import {LoginRequest} from "../../services/requests/login/LoginRequest";
 
 const Login = (props: any) => {
     const {register, handleSubmit, reset} = useForm();

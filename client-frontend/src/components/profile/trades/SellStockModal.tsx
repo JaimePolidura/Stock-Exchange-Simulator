@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import backend from "../../../services/BackendService";
-import {SendSellOrderRequest} from "../../../services/model/sendsellorder/SendSellOrderRequest";
+import {SendSellOrderRequest} from "../../../services/requests/sendsellorder/SendSellOrderRequest";
 import {AxiosResponse} from "axios";
-import {SendSellOrderResponse} from "../../../services/model/sendsellorder/SendSellOrderResponse";
+import {SendSellOrderResponse} from "../../../services/requests/sendsellorder/SendSellOrderResponse";
 
 const SellStockModal = (props: any) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();

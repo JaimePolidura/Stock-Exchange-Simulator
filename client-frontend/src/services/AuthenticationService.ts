@@ -1,6 +1,6 @@
 import BackendService from "./BackendService";
-import {LoginRequest} from "./model/login/LoginRequest";
-import {LoginResponse} from "./model/login/LoginResponse";
+import {LoginRequest} from "./requests/login/LoginRequest";
+import {LoginResponse} from "./requests/login/LoginResponse";
 
 class AuthenticationService {
     authenticated: boolean;
@@ -20,7 +20,7 @@ class AuthenticationService {
 
                 this.authenticated = true;
                 this.token = response.token;
-                this.username = request.password;
+                this.username = request.username;
 
                 onSuccess();
             })

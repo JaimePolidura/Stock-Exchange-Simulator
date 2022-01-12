@@ -39,11 +39,6 @@ public class TradeProcessorImpl implements TradeProcessor {
             buyOrder.decreaseQuantityBy(quantityStockTradeMatch);
             sellOrder.decreaseQuantityBy(quantityStockTradeMatch);
 
-            System.out.println("Order executed");
-
-            System.out.println(buyOrder.getTicker());
-            System.out.println(sellOrder.getTicker());
-
             publishBuyOrderExecutedMessage(buyOrder, priceMatch, quantityStockTradeMatch);
             publishSellOrderExecutedMessage(sellOrder, priceMatch, quantityStockTradeMatch, buyOrder.getTicker());
 

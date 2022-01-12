@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.Map;
 
-@ToString
 public final class SellOrderExecuted extends OrderExecuted {
     @Getter private
     String positionId;
