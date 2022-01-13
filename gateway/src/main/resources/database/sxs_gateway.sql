@@ -48,20 +48,21 @@ CREATE TABLE `orders` (
     PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP VIEW IF EXISTS open_positions;
-CREATE VIEW open_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate FROM orders WHERE executedOrderType = 'OPEN';
-
-DROP VIEW IF EXISTS closed_positions;
-CREATE VIEW closed_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate FROM orders WHERE executedOrderType = 'CLOSED';
-
 DROP VIEW IF EXISTS buy_orders;
-CREATE VIEW buy_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute FROM orders WHERE type = 'BUY';
+CREATE VIEW buy_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute, pendingOrderType FROM orders WHERE type = 'BUY';
 
 DROP VIEW IF EXISTS sell_orders;
-CREATE VIEW sell_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute, positionIdToSell FROM orders WHERE type = 'SELL';
+CREATE VIEW sell_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute, positionIdToSell, pendingOrderType FROM orders WHERE type = 'SELL';
 
 DROP VIEW IF EXISTS cancel_orders;
-CREATE VIEW cancel_orders AS SELECT orderId, clientId, date, state, ticker, orderIdToCancel FROM orders WHERE type = 'CANCEL';
+CREATE VIEW cancel_orders AS SELECT orderId, clientId, date, state, ticker, orderIdToCancel, pendingOrderType FROM orders WHERE type = 'CANCEL';
+
+DROP VIEW IF EXISTS closed_positions;
+CREATE VIEW closed_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate, executedOrderType FROM orders WHERE executedOrderType = 'CLOSED';
+
+DROP VIEW IF EXISTS open_positions;
+CREATE VIEW open_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate, executedOrderType FROM orders WHERE executedOrderType = 'OPEN';
+
 
 INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN');
 INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN');

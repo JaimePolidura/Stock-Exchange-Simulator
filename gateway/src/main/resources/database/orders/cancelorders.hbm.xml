@@ -17,8 +17,8 @@
             <property column="date" name="value" type="string" access="field"/>
         </component>
 
-        <component name="type" class="es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType" access="field">
-            <property column="type" name="value" type="string" access="field"/>
+        <component name="pendingOrderType" class="es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType" access="field">
+            <property column="pendingOrderType" name="value" type="string" access="field"/>
         </component>
 
         <component name="state" class="es.jaime.gateway.orders._shared.domain.OrderState" access="field">

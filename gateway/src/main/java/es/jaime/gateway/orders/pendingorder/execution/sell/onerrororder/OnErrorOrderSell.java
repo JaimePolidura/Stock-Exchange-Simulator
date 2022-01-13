@@ -27,7 +27,7 @@ public class OnErrorOrderSell {
                     sellOrder.getOrderId(),
                     sellOrder.getClientId(),
                     sellOrder.getDate(),
-                    sellOrder.getType(),
+                    sellOrder.getPendingOrderType(),
                     OrderState.error(),
                     sellOrder.getTicker(),
                     sellOrder.getQuantity(),

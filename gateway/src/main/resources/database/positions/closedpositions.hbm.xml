@@ -5,12 +5,16 @@
 
 <hibernate-mapping>
     <class name="es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPosition" table="closed_positions">
-        <composite-id name="positionId" class="es.jaime.gateway.orders.positions._shared.PositionId" access="field">
-            <key-property column="positionId" name="value" length="40" access="field"/>
+        <composite-id name="orderId" class="es.jaime.gateway.orders._shared.domain.OrderId" access="field">
+            <key-property column="orderId" name="value" length="40" access="field"/>
         </composite-id>
 
         <component name="clientId" class="es.jaime.gateway.orders.positions._shared.PositionClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
+        </component>
+
+        <component name="date" class="es.jaime.gateway.orders._shared.domain.OrderDate" access="field">
+            <property column="date" name="value" type="string" access="field"/>
         </component>
 
         <component name="ticker" class="es.jaime.gateway.orders.positions._shared.PositionTicker" access="field">
@@ -37,8 +41,8 @@
             <property column="closingDate" name="value" type="string" access="field"/>
         </component>
 
-        <component name="status" class="es.jaime.gateway.orders.positions._shared.PositionStatus" access="field">
-            <property column="status" name="value" type="string" access="field"/>
+        <component name="executedOrderType" class="es.jaime.gateway.orders.positions._shared.ExecutedOrderType" access="field">
+            <property column="executedOrderType" name="value" type="string" access="field"/>
         </component>
     </class>
 </hibernate-mapping>

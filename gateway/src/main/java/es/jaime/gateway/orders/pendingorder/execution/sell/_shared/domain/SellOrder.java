@@ -24,15 +24,15 @@ public class SellOrder extends ExecutionOrder {
     }
 
     public SellOrder changeStateTo(OrderState orderState){
-        return new SellOrder(orderId, clientId, date, type, orderState, ticker, quantity, priceToExecute, positionIdToSell);
+        return new SellOrder(orderId, clientId, date, pendingOrderType, orderState, ticker, quantity, priceToExecute, positionIdToSell);
     }
 
     public SellOrder updateQuantity(OrderQuantity orderQuantity){
-        return new SellOrder(orderId, clientId, date, type, state, ticker, orderQuantity, priceToExecute, positionIdToSell);
+        return new SellOrder(orderId, clientId, date, pendingOrderType, state, ticker, orderQuantity, priceToExecute, positionIdToSell);
     }
 
     public SellOrder updateExecutionPrice(OrderPriceToExecute executionPrice){
-        return new SellOrder(orderId, clientId, date, type, state, ticker, quantity, executionPrice, positionIdToSell);
+        return new SellOrder(orderId, clientId, date, pendingOrderType, state, ticker, quantity, executionPrice, positionIdToSell);
     }
 
     public static SellOrder create(String clientId, String ticker, int quantity, double executinPrice, String positionIdToSell){

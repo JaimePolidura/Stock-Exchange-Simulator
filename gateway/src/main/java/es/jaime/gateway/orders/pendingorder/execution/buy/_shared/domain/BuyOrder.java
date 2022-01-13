@@ -16,15 +16,15 @@ public final class BuyOrder extends ExecutionOrder {
     }
 
     public BuyOrder changeStateTo(OrderState orderState){
-        return new BuyOrder(orderId, clientId, date, type, orderState, ticker, quantity, priceToExecute);
+        return new BuyOrder(orderId, clientId, date, pendingOrderType, orderState, ticker, quantity, priceToExecute);
     }
 
     public BuyOrder updateQuantity(OrderQuantity orderQuantity){
-        return new BuyOrder(orderId, clientId, date, type, state, ticker, orderQuantity, priceToExecute);
+        return new BuyOrder(orderId, clientId, date, pendingOrderType, state, ticker, orderQuantity, priceToExecute);
     }
 
     public BuyOrder updateExecutionPrice(OrderPriceToExecute executionPrice){
-        return new BuyOrder(orderId, clientId, date, type, state, ticker, quantity, executionPrice);
+        return new BuyOrder(orderId, clientId, date, pendingOrderType, state, ticker, quantity, executionPrice);
     }
 
     public static BuyOrder create(String clientId, String ticker, int quantity, double executinPrice){
