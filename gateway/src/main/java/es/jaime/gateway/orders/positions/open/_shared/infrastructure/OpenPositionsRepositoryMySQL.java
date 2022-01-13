@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.positions.open._shared.infrastructure;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
+import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.*;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionsRepository;
@@ -27,28 +28,32 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
     }
 
     @Override
-    public List<OpenPosition> findByClientId(PositionClientId clientId) {
+    public List<OpenPosition> findByClientId(OrderClientId clientId) {
         return byQuery("SELECT * FROM open_positions WHERE clientId = '"+clientId.value()+"'").get();
     }
     
     @Override
-    public Optional<OpenPosition> findByPositionId(PositionId tradeId) {
-        return byId(tradeId);
+    public Optional<OpenPosition> findByPositionId(OrderId orderId) {
+        return byId(orderId);
     }
 
     @Override
-    public void deleteByPositionId(PositionId positionId) {
+    public void deleteByPositionId(OrderId positionId) {
         delete("open_positions", "positionId = '" + positionId.value() + "'");
     }
+
     @Override
     protected Function<Object[], OpenPosition> queryMapper() {
         return primitives -> new OpenPosition(
-                PositionId.of(String.valueOf(primitives[0])),
-                PositionClientId.from(String.valueOf(primitives[1])),
-                PositionTicker.of(String.valueOf(primitives[2])),
-                PositionQuantity.of(Integer.parseInt(String.valueOf(primitives[3]))),
-                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[4]))),
-                PositionOpeningDate.of(String.valueOf(primitives[5]))
+                OrderId.of(String.valueOf(primitives[0])),
+                OrderClientId.of(String.valueOf(primitives[1])),
+                OrderDate.of(String.valueOf(primitives[2])),
+                OrderTicker.of(String.valueOf(primitives[3])),
+                OrderQuantity.of(Integer.parseInt(String.valueOf(primitives[4]))),
+                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[5]))),
+                PositionOpeningDate.of(String.valueOf(primitives[6])),
+                ExecutedOrderType.of(String.valueOf(primitives[7])),
+                OrderState.of(String.valueOf(primitives[8]))
         );
     }
 }

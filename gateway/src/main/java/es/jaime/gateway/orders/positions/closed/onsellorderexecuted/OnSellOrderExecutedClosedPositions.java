@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.positions.closed.onsellorderexecuted;
 
+import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderExecuted;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPosition;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionRepository;
@@ -22,7 +23,7 @@ public class OnSellOrderExecutedClosedPositions {
     @EventListener({SellOrderExecuted.class})
     @Order(1)
     public void on(SellOrderExecuted event){
-        OpenPosition openPosition = openPositionFinder.find(PositionId.of(event.getPositionId()))
+        OpenPosition openPosition = openPositionFinder.find(OrderId.of(event.getPositionId()))
                 .get();
 
         closedPositions.save(ClosedPosition.create(

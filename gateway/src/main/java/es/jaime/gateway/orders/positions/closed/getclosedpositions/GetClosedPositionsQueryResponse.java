@@ -29,7 +29,7 @@ public class GetClosedPositionsQueryResponse implements QueryResponse {
         @Getter private final String closingDate;
 
         public static GetClosedPosition fromAggregate(ClosedPosition closedPosition) {
-            return new GetClosedPosition(closedPosition.getPositionId().value(), closedPosition.getTicker().value(),
+            return new GetClosedPosition(closedPosition.getOrderId().value(), closedPosition.getTicker().value(),
                     closedPosition.getQuantity().value(), closedPosition.getOpeningPrice().value(), closedPosition.getOpeningDate().value(),
                     closedPosition.getClosingPrice().value(), closedPosition.getClosingDate().value());
         }

@@ -16,7 +16,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class SendSellOrderMessage implements CommandMessage {
     @Getter private final OrderId orderID;
-    @Getter private final PositionId positionId;
+    @Getter private final OrderId orderId;
     @Getter private final OrderClientId clientID;
     @Getter private final OrderDate date;
     @Getter private final OrderPriceToExecute executionPrice;
@@ -33,7 +33,7 @@ public class SendSellOrderMessage implements CommandMessage {
     public Map<String, Object> body() {
         return new HashMap<>(){{
             put("orderId", orderID.value());
-            put("positionId", positionId.value());
+            put("positionId", orderId.value());
             put("clientId", clientID.value());
             put("date", date.value());
             put("executionPrice", executionPrice.value());

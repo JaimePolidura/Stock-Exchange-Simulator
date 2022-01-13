@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.positions.open._shared.domain;
 
+import es.jaime.gateway.orders._shared.domain.OrderId;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ public class OpenPositionFinder {
         this.openPositions = openPositions;
     }
 
-    public Optional<OpenPosition> find(PositionId id){
+    public Optional<OpenPosition> find(OrderId id){
         return openPositions.findByPositionId(id);
     }
 }

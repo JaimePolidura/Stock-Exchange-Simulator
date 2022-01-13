@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway._shared.domain.exceptions.IllegalAccess;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.authentication._shared.domain.UserName;
+import es.jaime.gateway.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,8 @@ public class GetCancelOrderQueryHandler implements QueryHandler<GetCancelOrderQu
         return GetCancelOrderQueryResponse.fromAggreage(order);
     }
 
-    private void ensureUserOwnsTheOrder(CancelOrder order, UserName userName){
-        if(!userName.value().equals(order.getClientId().value())){
+    private void ensureUserOwnsTheOrder(CancelOrder order, OrderClientId clientId){
+        if(!clientId.value().equals(order.getClientId().value())){
             throw new IllegalAccess("You dont own that order!");
         }
     }

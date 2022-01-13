@@ -27,7 +27,7 @@ public class GetOpenPositionsQueryResponse implements QueryResponse {
         @Getter private int quantity;
 
         private static GetTradeQueryResponse fromAggregate(OpenPosition aggregate){
-            return new GetTradeQueryResponse(aggregate.getPositionId().value(), aggregate.getTicker().value(),
+            return new GetTradeQueryResponse(aggregate.getOrderId().value(), aggregate.getTicker().value(),
                     aggregate.getOpeningDate().value(), aggregate.getOpeningPrice().value(), aggregate.getQuantity().value());
         }
     }

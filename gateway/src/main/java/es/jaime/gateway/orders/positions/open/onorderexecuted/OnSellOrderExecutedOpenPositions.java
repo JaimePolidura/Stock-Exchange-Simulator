@@ -1,5 +1,7 @@
 package es.jaime.gateway.orders.positions.open.onorderexecuted;
 
+import es.jaime.gateway.orders._shared.domain.OrderId;
+import es.jaime.gateway.orders._shared.domain.OrderQuantity;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderExecuted;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionsRepository;
@@ -19,7 +21,7 @@ public class OnSellOrderExecutedOpenPositions {
     @EventListener({SellOrderExecuted.class})
     @Order(10)
     public void on(SellOrderExecuted event){
-        OpenPosition openPositionToSell = openPositions.findByPositionId(PositionId.of(event.getPositionId()))
+        OpenPosition openPositionToSell = openPositions.findByPositionId(OrderId.of(event.getPositionId()))
                 .get();
 
         if(openPositionToSell.getQuantity().value() > event.getQuantity())
@@ -29,19 +31,12 @@ public class OnSellOrderExecutedOpenPositions {
     }
 
     private void deleteOpenPosition(OpenPosition toDelete) {
-        this.openPositions.deleteByPositionId(toDelete.getPositionId());
+        this.openPositions.deleteByPositionId(toDelete.getOrderId());
     }
 
     private void updateQuantity(OpenPosition openPosition, SellOrderExecuted event) {
-        PositionQuantity updatedQuantity = PositionQuantity.of(openPosition.getQuantity().value() - event.getQuantity());
+        OpenPosition openPositionUpdatedQuantity = openPosition.decreasyQuantityBy(event.getQuantity());
 
-        openPositions.save(new OpenPosition(
-                openPosition.getPositionId(),
-                openPosition.getClientId(),
-                openPosition.getTicker(),
-                updatedQuantity,
-                openPosition.getOpeningPrice(),
-                openPosition.getOpeningDate()
-        ));
+        this.openPositions.save(openPositionUpdatedQuantity);
     }
 }

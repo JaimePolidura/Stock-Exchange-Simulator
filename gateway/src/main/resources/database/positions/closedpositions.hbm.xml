@@ -44,5 +44,9 @@
         <component name="executedOrderType" class="es.jaime.gateway.orders.positions._shared.ExecutedOrderType" access="field">
             <property column="executedOrderType" name="value" type="string" access="field"/>
         </component>
+
+        <component name="state" class="es.jaime.gateway.orders._shared.domain.OrderState" access="field">
+            <property column="state" name="value" type="string" access="field"/>
+        </component>
     </class>
 </hibernate-mapping>

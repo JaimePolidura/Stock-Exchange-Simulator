@@ -11,7 +11,7 @@ public class ClosedPositionClosingPrice extends DoubleValueObject {
         super(0);
     }
 
-    public static ClosedPositionClosingPrice from(double value){
+    public static ClosedPositionClosingPrice of(double value){
         return new ClosedPositionClosingPrice(value);
     }
 }

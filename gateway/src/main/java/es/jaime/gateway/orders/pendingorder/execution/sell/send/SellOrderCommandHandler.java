@@ -67,7 +67,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 OrderTicker.of(positionToSell.getTicker().value()),
                 command.getQuantity(),
                 command.getExecutionPrice(),
-                OrderPositionIdToSell.of(positionToSell.getPositionId().value())
+                OrderPositionIdToSell.of(positionToSell.getOrderId().value())
         ));
     }
 
@@ -76,7 +76,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
 
         messagePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendSellOrderMessage(
                 command.getOrderID(),
-                positionToSell.getPositionId(),
+                positionToSell.getOrderId(),
                 command.getClientID(),
                 command.getOrderDate(),
                 command.getExecutionPrice(),

@@ -10,7 +10,7 @@ import lombok.Getter;
 
 public class SellOrderCommand implements Command {
     @Getter private final OrderClientId clientID;
-    @Getter private final PositionId positionId;
+    @Getter private final OrderId positionId;
     @Getter private final OrderId orderID;
     @Getter private final OrderDate orderDate;
     @Getter private final OrderPriceToExecute executionPrice;
@@ -18,7 +18,7 @@ public class SellOrderCommand implements Command {
 
     public SellOrderCommand(String clientId, String positionId, double executionPrice, int quantity) {
         this.clientID = OrderClientId.of(clientId);
-        this.positionId = PositionId.of(positionId);
+        this.positionId = OrderId.of(positionId);
         this.executionPrice = OrderPriceToExecute.of(executionPrice);
         this.quantity = OrderQuantity.of(quantity);
         this.orderID = OrderId.generate();

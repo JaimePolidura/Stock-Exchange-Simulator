@@ -12,6 +12,10 @@ public class ExecutedOrderType extends StringValueObject {
         ensureValidExecutedOrderType(value);
     }
 
+    public static ExecutedOrderType of(String value){
+        return new ExecutedOrderType(value);
+    }
+
     private void ensureValidExecutedOrderType(String value){
         Arrays.stream(ExecutedOrderTypes.values())
                 .map(Enum::toString)

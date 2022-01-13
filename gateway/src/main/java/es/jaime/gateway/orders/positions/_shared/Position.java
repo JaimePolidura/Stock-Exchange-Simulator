@@ -4,10 +4,10 @@ import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;
 
 public abstract class Position extends Order {
-    @Getter private final ExecutedOrderType executedOrderType;
-    @Getter private final PositionOpeningPrice openingPrice;
-    @Getter private final PositionOpeningDate openingDate;
-    @Getter private final OrderQuantity quantity;
+    @Getter protected final ExecutedOrderType executedOrderType;
+    @Getter protected final PositionOpeningPrice openingPrice;
+    @Getter protected final PositionOpeningDate openingDate;
+    @Getter protected final OrderQuantity quantity;
 
     public Position(OrderId orderId, OrderClientId clientId, OrderDate date, OrderState state, OrderTicker ticker,
                     ExecutedOrderType executedOrderType, PositionOpeningPrice openingPrice, OrderQuantity quantity,

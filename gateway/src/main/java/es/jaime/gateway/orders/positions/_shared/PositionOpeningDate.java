@@ -9,7 +9,7 @@ public final class PositionOpeningDate extends StringValueObject {
 
     public PositionOpeningDate () {super(null);}
 
-    public static PositionOpeningDate from(String value){
+    public static PositionOpeningDate of(String value){
         return new PositionOpeningDate(value);
     }
 }

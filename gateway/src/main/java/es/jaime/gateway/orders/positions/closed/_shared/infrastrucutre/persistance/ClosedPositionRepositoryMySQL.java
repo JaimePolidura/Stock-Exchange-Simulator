@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.positions.closed._shared.infrastrucutre.persistance;
 
 import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
+import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.*;
 import es.jaime.gateway.orders.positions.closed._shared.domain.*;
 import org.hibernate.SessionFactory;
@@ -23,22 +24,24 @@ public class ClosedPositionRepositoryMySQL extends HibernateRepository<ClosedPos
     }
 
     @Override
-    public List<ClosedPosition> findByClientId(PositionClientId clientId) {
+    public List<ClosedPosition> findByClientId(OrderClientId clientId) {
         return byQuery("SELECT * FROM closed_positions WHERE clientId = '"+clientId.value()+"'").get();
     }
 
     @Override
     protected Function<Object[], ClosedPosition> queryMapper() {
         return objects -> new ClosedPosition(
-                PositionId.of(String.valueOf(objects[0])),
-                PositionClientId.from(String.valueOf(objects[1])),
-                PositionTicker.of(String.valueOf(objects[2])),
-                PositionQuantity.of(Integer.parseInt(String.valueOf(objects[3]))),
-                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(objects[4]))),
-                PositionOpeningDate.of(String.valueOf(objects[5])),
-                ClosedPositionClosingPrice.from(Double.parseDouble(String.valueOf(objects[6]))),
-                ClosedPositionClosingDate.from(String.valueOf(objects[7])),
-                PositionStatus.of(String.valueOf(objects[8]))
+                OrderId.of(String.valueOf(objects[0])),
+                OrderClientId.of(String.valueOf(objects[1])),
+                OrderDate.of(String.valueOf(objects[2])),
+                OrderTicker.of(String.valueOf(objects[3])),
+                OrderQuantity.of(Integer.parseInt(String.valueOf(objects[4]))),
+                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(objects[5]))),
+                PositionOpeningDate.of(String.valueOf(objects[6])),
+                ClosedPositionClosingPrice.of(Double.parseDouble(String.valueOf(objects[7]))),
+                ClosedPositionClosingDate.from(String.valueOf(objects[8])),
+                ExecutedOrderType.of(String.valueOf(objects[9])),
+                OrderState.of(String.valueOf(objects[10]))
         );
     }
 }
