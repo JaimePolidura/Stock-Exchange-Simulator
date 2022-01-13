@@ -9,7 +9,7 @@ public final class ClosedPositionClosingDate extends StringValueObject {
 
     public ClosedPositionClosingDate () {super(null);}
 
-    public static ClosedPositionClosingDate from(String value){
+    public static ClosedPositionClosingDate of(String value){
         return new ClosedPositionClosingDate(value);
     }
 }

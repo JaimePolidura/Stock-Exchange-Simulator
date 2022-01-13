@@ -14,6 +14,7 @@ import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderFinder;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
@@ -49,9 +50,9 @@ public class CancelOrderCommandHandler implements CommandHandler<CancelOrderComm
                 command.getOrderId(),
                 command.getClientId(),
                 OrderDate.now(),
-                PendingOrderType.cancel(),
                 OrderState.pending(),
                 tickerOfOrderToCancel,
+                PendingOrderType.cancel(),
                 OrderIdToCancel.of(command.getOrderIdToCancel().value())
         ));
     }

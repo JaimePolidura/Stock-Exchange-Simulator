@@ -44,9 +44,9 @@ public class OrdersCancelRepositoryMySQL extends HibernateRepository<CancelOrder
                 OrderId.of(String.valueOf(primitives[0])),
                 OrderClientId.of(String.valueOf(primitives[1])),
                 OrderDate.of(String.valueOf(primitives[2])),
-                PendingOrderType.cancel(),
-                OrderState.of(String.valueOf(primitives[4])),
-                OrderTicker.of(String.valueOf(primitives[5])),
+                OrderState.of(String.valueOf(primitives[3])),
+                OrderTicker.of(String.valueOf(primitives[4])),
+                PendingOrderType.of(String.valueOf(primitives[5])),
                 OrderIdToCancel.of(String.valueOf(primitives[6]))
         );
     }

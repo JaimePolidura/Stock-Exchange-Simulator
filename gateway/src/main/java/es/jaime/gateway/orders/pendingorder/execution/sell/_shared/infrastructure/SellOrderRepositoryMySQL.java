@@ -53,9 +53,9 @@ public class SellOrderRepositoryMySQL extends HibernateRepository<SellOrder> imp
                 OrderId.of(String.valueOf(primitives[0])),
                 OrderClientId.of(String.valueOf(primitives[1])),
                 OrderDate.of(String.valueOf(primitives[2])),
-                PendingOrderType.buy(),
-                OrderState.of(String.valueOf(primitives[4])),
-                OrderTicker.of(String.valueOf(primitives[5])),
+                OrderState.of(String.valueOf(primitives[3])),
+                OrderTicker.of(String.valueOf(primitives[4])),
+                PendingOrderType.of(String.valueOf(primitives[5])),
                 OrderQuantity.of(Integer.parseInt(String.valueOf(primitives[6]))),
                 OrderPriceToExecute.of(Double.parseDouble(String.valueOf(primitives[7]))),
                 OrderPositionIdToSell.of(String.valueOf(primitives[8]))

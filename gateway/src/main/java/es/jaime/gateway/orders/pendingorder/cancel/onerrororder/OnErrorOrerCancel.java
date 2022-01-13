@@ -1,6 +1,7 @@
 package es.jaime.gateway.orders.pendingorder.cancel.onerrororder;
 
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
+import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
 import es.jaime.gateway.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders._shared.domain.OrderId;
@@ -29,9 +30,9 @@ public class OnErrorOrerCancel {
                     orderCancel.getOrderId(),
                     orderCancel.getClientId(),
                     OrderDate.now(),
-                    PendingOrderType.cancel(),
                     OrderState.error(),
                     orderCancel.getTicker(),
+                    PendingOrderType.cancel(),
                     orderCancel.getOrderIdToCancel()
             ));
         }

@@ -27,21 +27,21 @@ public class ClosedPositionRepositoryMySQL extends HibernateRepository<ClosedPos
     public List<ClosedPosition> findByClientId(OrderClientId clientId) {
         return byQuery("SELECT * FROM closed_positions WHERE clientId = '"+clientId.value()+"'").get();
     }
-
+    
     @Override
     protected Function<Object[], ClosedPosition> queryMapper() {
-        return objects -> new ClosedPosition(
-                OrderId.of(String.valueOf(objects[0])),
-                OrderClientId.of(String.valueOf(objects[1])),
-                OrderDate.of(String.valueOf(objects[2])),
-                OrderTicker.of(String.valueOf(objects[3])),
-                OrderQuantity.of(Integer.parseInt(String.valueOf(objects[4]))),
-                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(objects[5]))),
-                PositionOpeningDate.of(String.valueOf(objects[6])),
-                ClosedPositionClosingPrice.of(Double.parseDouble(String.valueOf(objects[7]))),
-                ClosedPositionClosingDate.from(String.valueOf(objects[8])),
-                ExecutedOrderType.of(String.valueOf(objects[9])),
-                OrderState.of(String.valueOf(objects[10]))
+        return primitives -> new ClosedPosition(
+                OrderId.of(String.valueOf(primitives[0])),
+                OrderClientId.of(String.valueOf(primitives[1])),
+                OrderDate.of(String.valueOf(primitives[2])),
+                OrderState.of(String.valueOf(primitives[3])),
+                OrderTicker.of(String.valueOf(primitives[4])),
+                OrderQuantity.of(Integer.parseInt(String.valueOf(primitives[5]))),
+                ExecutedOrderType.of(String.valueOf(primitives[6])),
+                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[7]))),
+                PositionOpeningDate.of(String.valueOf(primitives[8])),
+                ClosedPositionClosingPrice.of(Double.parseDouble(String.valueOf(primitives[9]))),
+                ClosedPositionClosingDate.of(String.valueOf(primitives[10]))
         );
     }
 }

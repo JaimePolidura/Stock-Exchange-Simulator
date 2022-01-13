@@ -3,12 +3,14 @@ package es.jaime.gateway.orders.pendingorder.cancel.onrodercancelled;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders._shared.domain.OrderId;
+import es.jaime.gateway.orders._shared.domain.OrderTicker;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderCancelled;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +31,10 @@ public class OnOrderCancelled {
                 orderCancel.getOrderId(),
                 orderCancel.getClientId(),
                 OrderDate.now(),
-                PendingOrderType.cancel(),
                 OrderState.executed(),
                 orderCancel.getTicker(),
-                OrderIdToCancel.of(orderCancelled.getOrderIdCancelled())
+                PendingOrderType.cancel(),
+                orderCancel.getOrderIdToCancel()
         ));
     }
 }

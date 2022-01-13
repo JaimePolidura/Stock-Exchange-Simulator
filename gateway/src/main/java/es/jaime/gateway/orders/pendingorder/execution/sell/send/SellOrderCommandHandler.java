@@ -62,9 +62,9 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
-                PendingOrderType.sell(),
                 OrderState.pending(),
                 OrderTicker.of(positionToSell.getTicker().value()),
+                PendingOrderType.sell(),
                 command.getQuantity(),
                 command.getExecutionPrice(),
                 OrderPositionIdToSell.of(positionToSell.getOrderId().value())

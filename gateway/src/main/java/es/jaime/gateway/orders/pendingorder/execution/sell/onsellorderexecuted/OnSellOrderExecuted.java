@@ -7,6 +7,7 @@ import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderExecuted;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
+import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.OrderPositionIdToSell;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderExecuted;
@@ -55,9 +56,9 @@ public class OnSellOrderExecuted {
                 OrderId.generate(),
                 orderSell.getClientId(),
                 OrderDate.of(event.getDate()),
-                PendingOrderType.sell(),
                 OrderState.executed(),
                 orderSell.getTicker(),
+                PendingOrderType.sell(),
                 OrderQuantity.of(event.getQuantity()),
                 OrderPriceToExecute.of(event.getExecutionPrice()),
                 orderSell.getPositionIdToSell()

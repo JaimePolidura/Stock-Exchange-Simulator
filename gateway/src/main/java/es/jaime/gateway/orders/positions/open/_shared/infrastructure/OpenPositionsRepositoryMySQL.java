@@ -48,12 +48,12 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
                 OrderId.of(String.valueOf(primitives[0])),
                 OrderClientId.of(String.valueOf(primitives[1])),
                 OrderDate.of(String.valueOf(primitives[2])),
-                OrderTicker.of(String.valueOf(primitives[3])),
-                OrderQuantity.of(Integer.parseInt(String.valueOf(primitives[4]))),
-                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[5]))),
-                PositionOpeningDate.of(String.valueOf(primitives[6])),
-                ExecutedOrderType.of(String.valueOf(primitives[7])),
-                OrderState.of(String.valueOf(primitives[8]))
+                OrderState.of(String.valueOf(primitives[3])),
+                OrderTicker.of(String.valueOf(primitives[4])),
+                OrderQuantity.of(Integer.parseInt(String.valueOf(primitives[5]))),
+                ExecutedOrderType.of(String.valueOf(primitives[6])),
+                PositionOpeningPrice.of(Double.parseDouble(String.valueOf(primitives[7]))),
+                PositionOpeningDate.of(String.valueOf(primitives[8]))
         );
     }
 }

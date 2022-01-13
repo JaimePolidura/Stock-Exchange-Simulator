@@ -27,14 +27,13 @@ public class OnErrorOrderSell {
                     sellOrder.getOrderId(),
                     sellOrder.getClientId(),
                     sellOrder.getDate(),
-                    sellOrder.getPendingOrderType(),
                     OrderState.error(),
                     sellOrder.getTicker(),
+                    sellOrder.getPendingOrderType(),
                     sellOrder.getQuantity(),
                     sellOrder.getPriceToExecute(),
                     sellOrder.getPositionIdToSell()
             ));
         }
-
     }
 }

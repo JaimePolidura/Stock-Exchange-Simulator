@@ -61,9 +61,9 @@ public class OnBuyOrderExecuted {
                 OrderId.generate(),
                 orderBuy.getClientId(),
                 OrderDate.of(event.getDate()),
-                PendingOrderType.buy(),
-                OrderState.executed(),
+                OrderState.pending(),
                 orderBuy.getTicker(),
+                PendingOrderType.buy(),
                 OrderQuantity.of(event.getQuantity()),
                 OrderPriceToExecute.of(event.getExecutionPrice())
         ));
