@@ -4,40 +4,40 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.positions.closed._shared.domain.ClosedPosition" table="closed_positions">
-        <composite-id name="positionId" class="es.jaime.gateway.positions._shared.PositionId" access="field">
+    <class name="es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPosition" table="closed_positions">
+        <composite-id name="positionId" class="es.jaime.gateway.orders.positions._shared.PositionId" access="field">
             <key-property column="positionId" name="value" length="40" access="field"/>
         </composite-id>
 
-        <component name="clientId" class="es.jaime.gateway.positions._shared.PositionClientId" access="field">
+        <component name="clientId" class="es.jaime.gateway.orders.positions._shared.PositionClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
         </component>
 
-        <component name="ticker" class="es.jaime.gateway.positions._shared.PositionTicker" access="field">
+        <component name="ticker" class="es.jaime.gateway.orders.positions._shared.PositionTicker" access="field">
             <property column="ticker" name="value" type="string" access="field"/>
         </component>
 
-        <component name="quantity" class="es.jaime.gateway.positions._shared.PositionQuantity" access="field">
+        <component name="quantity" class="es.jaime.gateway.orders.positions._shared.PositionQuantity" access="field">
             <property column="quantity" name="value" type="integer" access="field"/>
         </component>
 
-        <component name="openingPrice" class="es.jaime.gateway.positions._shared.PositionOpeningPrice" access="field">
+        <component name="openingPrice" class="es.jaime.gateway.orders.positions._shared.PositionOpeningPrice" access="field">
             <property column="openingPrice" name="value" type="double" access="field"/>
         </component>
 
-        <component name="openingDate" class="es.jaime.gateway.positions._shared.PositionOpeningDate" access="field">
+        <component name="openingDate" class="es.jaime.gateway.orders.positions._shared.PositionOpeningDate" access="field">
             <property column="openingDate" name="value" type="string" access="field"/>
         </component>
 
-        <component name="closingPrice" class="es.jaime.gateway.positions.closed._shared.domain.ClosedPositionClosingPrice" access="field">
+        <component name="closingPrice" class="es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingPrice" access="field">
             <property column="closingPrice" name="value" type="double" access="field"/>
         </component>
 
-        <component name="closingDate" class="es.jaime.gateway.positions.closed._shared.domain.ClosedPositionClosingDate" access="field">
+        <component name="closingDate" class="es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingDate" access="field">
             <property column="closingDate" name="value" type="string" access="field"/>
         </component>
 
-        <component name="status" class="es.jaime.gateway.positions._shared.PositionStatus" access="field">
+        <component name="status" class="es.jaime.gateway.orders.positions._shared.PositionStatus" access="field">
             <property column="status" name="value" type="string" access="field"/>
         </component>
     </class>

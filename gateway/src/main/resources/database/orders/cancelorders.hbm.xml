@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.orders.cancel._shared.domain.CancelOrder" table="cancel_orders">
+    <class name="es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder" table="cancel_orders">
         <composite-id name="orderId" class="es.jaime.gateway.orders._shared.domain.OrderId" access="field">
             <key-property column="orderId" name="value" length="10" access="field"/>
         </composite-id>
@@ -17,7 +17,7 @@
             <property column="date" name="value" type="string" access="field"/>
         </component>
 
-        <component name="type" class="es.jaime.gateway.orders._shared.domain.OrderType" access="field">
+        <component name="type" class="es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType" access="field">
             <property column="type" name="value" type="string" access="field"/>
         </component>
 
@@ -29,7 +29,7 @@
             <property column="ticker" name="value" type="string" access="field"/>
         </component>
 
-        <component name="orderIdToCancel" class="es.jaime.gateway.orders._shared.domain.OrderIdToCancel" access="field">
+        <component name="orderIdToCancel" class="es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel" access="field">
             <property column="orderIdToCancel" name="value" type="string" access="field"/>
         </component>
     </class>

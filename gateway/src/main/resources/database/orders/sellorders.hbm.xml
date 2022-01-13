@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="es.jaime.gateway.orders.execution.sell._shared.domain.SellOrder" table="sell_orders">
+    <class name="es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrder" table="sell_orders">
         <composite-id name="orderId" class="es.jaime.gateway.orders._shared.domain.OrderId" access="field">
             <key-property column="orderId" name="value" length="10" access="field"/>
         </composite-id>
@@ -17,7 +17,7 @@
             <property column="date" name="value" type="string" access="field"/>
         </component>
 
-        <component name="type" class="es.jaime.gateway.orders._shared.domain.OrderType" access="field">
+        <component name="type" class="es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType" access="field">
             <property column="type" name="value" type="string" access="field"/>
         </component>
 
@@ -33,11 +33,11 @@
             <property column="quantity" name="value" type="int" access="field"/>
         </component>
 
-        <component name="executionPrice" class="es.jaime.gateway.orders._shared.domain.OrderExecutionPrice" access="field">
+        <component name="priceToExecute" class="es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute" access="field">
             <property column="executionPrice" name="value" type="double" access="field"/>
         </component>
 
-        <component name="positionIdToSell" class="es.jaime.gateway.orders._shared.domain.OrderPositionIdToSell" access="field">
+        <component name="positionIdToSell" class="es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.OrderPositionIdToSell" access="field">
             <property column="positionIdToSell" name="value" type="string" access="field"/>
         </component>
     </class>

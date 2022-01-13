@@ -9,7 +9,6 @@ public abstract class Order extends Aggregate {
     @Getter protected OrderId orderId;
     @Getter protected OrderClientId clientId;
     @Getter protected OrderDate date;
-    @Getter protected OrderType type;
     @Getter protected OrderState state;
     @Getter protected OrderTicker ticker;
 }
