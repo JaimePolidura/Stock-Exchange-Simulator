@@ -6,10 +6,7 @@ import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.orders._shared.domain.OrderClientId;
-import es.jaime.gateway.orders._shared.domain.OrderQuantity;
-import es.jaime.gateway.orders._shared.domain.OrderState;
-import es.jaime.gateway.orders._shared.domain.OrderTicker;
+import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.OrderPositionIdToSell;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrder;
@@ -69,6 +66,14 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 command.getExecutionPrice(),
                 OrderPositionIdToSell.of(positionToSell.getOrderId().value())
         ));
+
+        if(!hasBeenSaved(command.getOrderID())){
+            saveToRepository(command, positionToSell);
+        }
+    }
+
+    private boolean hasBeenSaved(OrderId orderId){
+        return sellOrders.findByOrderId(orderId).isPresent();
     }
 
     private void publishMessage(SellOrderCommand command, OpenPosition positionToSell){

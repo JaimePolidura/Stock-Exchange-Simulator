@@ -33,6 +33,7 @@ class Profile extends React.Component<any, any> {
     getOpenPositionsFromApi(): void {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
+                console.log("positions");
                 console.log(res.data.openPositions);
 
                 this.setState({trades: this.state.trades.concat(res.data.openPositions)});
@@ -75,13 +76,23 @@ class Profile extends React.Component<any, any> {
     }
 
     onBuyOrderExecuted(executedOrder: any): void{
-        this.getOpenPositionsFromApi();
-        this.removeOrderOrDecreaseQuantity(executedOrder);
+        console.log("order buy executed");
+        console.log(executedOrder);
+
+        setTimeout(() =>{
+            this.getOpenPositionsFromApi();
+            this.removeOrderOrDecreaseQuantity(executedOrder);
+        }, 100);
     }
 
     onSellOrderExecuted(executedOrder: any): void{
-        this.getOpenPositionsFromApi();
-        this.removeOrderOrDecreaseQuantity(executedOrder);
+        console.log("sell order executed");
+        console.log(executedOrder);
+
+        setTimeout(() => {
+            this.getOpenPositionsFromApi();
+            this.removeOrderOrDecreaseQuantity(executedOrder);
+        }, 100);
     }
 
     onOrderCancelled(orderCancelled: any): void{

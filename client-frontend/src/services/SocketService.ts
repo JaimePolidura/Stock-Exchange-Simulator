@@ -19,13 +19,14 @@ class ClientEventDispatcherSocketService {
             transports : ['websocket'],
             auth: {username: auth.username, token: auth.token},
         }).on(clientId, msg => {
+            console.log("newmessage")
+            console.log(msg);
+
             this.onNewMessage(msg);
         });
     }
 
     onNewMessage(msg: any): void{
-        console.log(msg);
-
         if(msg.name == EXECUTED_SELL_ORDER) {
             this.onExecutedSellOrderCallback(msg);
         }else if(msg.name == EXECUTED_BUY_ORDER){

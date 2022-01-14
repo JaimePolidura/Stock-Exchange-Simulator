@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
+import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderQuantity;
 import es.jaime.gateway.orders._shared.domain.OrderTicker;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
@@ -52,6 +53,14 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getQuantity(),
                 command.getExecutionPrice()
         ));
+
+        if(!hasBeenSaved(command.getOrderID())){
+            saveOrderToRepository(command);
+        }
+    }
+
+    private boolean hasBeenSaved(OrderId orderId){
+        return buyOrders.findByOrderId(orderId).isPresent();
     }
 
     private void publishMessage(BuyOrderCommand command){
