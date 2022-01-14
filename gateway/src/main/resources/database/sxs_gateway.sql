@@ -49,33 +49,32 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP VIEW IF EXISTS buy_orders;
-CREATE VIEW buy_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute, pendingOrderType FROM orders WHERE type = 'BUY';
+CREATE VIEW buy_orders AS SELECT orderId, clientId, date, state, ticker, pendingOrderType, quantity, priceToExecute FROM orders WHERE pendingOrderType = 'BUY';
 
 DROP VIEW IF EXISTS sell_orders;
-CREATE VIEW sell_orders AS SELECT orderId, clientId, date, state, ticker, quantity, priceToExecute, positionIdToSell, pendingOrderType FROM orders WHERE type = 'SELL';
+CREATE VIEW sell_orders AS SELECT orderId, clientId, date, state, ticker, pendingOrderType, quantity, priceToExecute, positionIdToSell FROM orders WHERE pendingOrderType = 'SELL';
 
 DROP VIEW IF EXISTS cancel_orders;
-CREATE VIEW cancel_orders AS SELECT orderId, clientId, date, state, ticker, orderIdToCancel, pendingOrderType FROM orders WHERE type = 'CANCEL';
+CREATE VIEW cancel_orders AS SELECT orderId, clientId, date, state, ticker, pendingOrderType, orderIdToCancel FROM orders WHERE pendingOrderType = 'CANCEL';
 
 DROP VIEW IF EXISTS closed_positions;
-CREATE VIEW closed_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate, closingPrice, closingDate, executedOrderType FROM orders WHERE executedOrderType = 'CLOSED';
+CREATE VIEW closed_positions AS SELECT orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate, closingPrice, closingDate FROM orders WHERE executedOrderType = 'CLOSED';
 
 DROP VIEW IF EXISTS open_positions;
-CREATE VIEW open_positions AS SELECT orderId, clientId, date, ticker, quantity, openingPrice, openingDate, executedOrderType FROM orders WHERE executedOrderType = 'OPEN';
+CREATE VIEW open_positions AS SELECT orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate FROM orders WHERE executedOrderType = 'OPEN';
 
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN', '2016-12-01T01:02:02');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('427fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'FB', 123, 234, 'OPEN', '2016-12-01T01:02:02');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('26749a9c-gfa8-12dc-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'ADBE', 15, 86, 'OPEN', '2016-12-01T01:02:02');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('2be271ae-7fa8-15ed-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'GOOG', 5, 2015.1, 'OPEN', '2016-12-01T01:02:2');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('b3d55dd4-a03d-61wc-bf63-0242ac130002', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'LMT', 11, 374, 'OPEN', '2016-12-01T01:02:02');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('34f2204a-4fa8-11ec-81d3-0212ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'IDT', 23, 15.4, 'OPEN', '2016-12-01T01:02:01');
 
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('427fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'FB', 123, 234, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('26749a9c-gfa8-12dc-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'ADBE', 15, 86, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('2be271ae-7fa8-15ed-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'GOOG', 5, 2015.1, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('b3d55dd4-a03d-61wc-bf63-0242ac130002', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'LMT', 11, 374, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('34f2204a-4fa8-11ec-81d3-0212ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'IDT', 23, 15.4, 'OPEN');
-
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('35f2104a-4ff8-11ec-81d3-0211ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac120003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('427fe65a-4fa8-11ec-81d3-0242ac110003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'FB', 123, 234, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('26249a9c-gfa8-12dc-81d3-0242ac170003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'ADBE', 15, 86, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('3be271ae-7fa8-15ed-81d3-0242ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'GOOG', 5, 2015.1, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('bhdd5dd4-a03d-61wc-bf63-0242ac130002', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'LMT', 11, 374, 'OPEN');
-INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType) VALUES ('34f2214a-4fb8-11ec-81d3-0212ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'IDT', 23, 15.4, 'OPEN');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('35f2104a-4ff8-11ec-81d3-0211ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac120003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('427fe65a-4fa8-11ec-81d3-0242ac110003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'FB', 123, 234, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('26249a9c-gfa8-12dc-81d3-0242ac170003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'ADBE', 15, 86, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('3be271ae-7fa8-15ed-81d3-0242ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'GOOG', 5, 2015.1, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('bhdd5dd4-a03d-61wc-bf63-0242ac130002', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'LMT', 11, 374, 'OPEN', '2016-12-01T01:02:03');
+INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('34f2214a-4fb8-11ec-81d3-0212ac130003', 'juan', '2016-12-01T01:02:03', 'EXECUTED', 'IDT', 23, 15.4, 'OPEN', '2016-12-01T01:02:03');

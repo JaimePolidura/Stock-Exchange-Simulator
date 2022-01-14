@@ -24,6 +24,10 @@ public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> imple
 
     @Override
     public void save(BuyOrder order) {
+        System.out.println(order);
+        System.out.println(order.getOrderId().value());
+        System.out.println(order.getTicker().value());
+        System.out.println(order.getPendingOrderType().value());
         super.persist(order);
     }
 

@@ -9,7 +9,7 @@
             <key-property column="orderId" name="value" length="40" access="field"/>
         </composite-id>
 
-        <component name="clientId" class="es.jaime.gateway.orders.positions._shared.PositionClientId" access="field">
+        <component name="clientId" class="es.jaime.gateway.orders._shared.domain.OrderClientId" access="field">
             <property column="clientId" name="value" type="string" access="field"/>
         </component>
 
@@ -21,11 +21,11 @@
             <property column="state" name="value" type="string" access="field"/>
         </component>
 
-        <component name="ticker" class="es.jaime.gateway.orders.positions._shared.PositionTicker" access="field">
+        <component name="ticker" class="es.jaime.gateway.orders._shared.domain.OrderTicker" access="field">
             <property column="ticker" name="value" type="string" access="field"/>
         </component>
 
-        <component name="quantity" class="es.jaime.gateway.orders.positions._shared.PositionQuantity" access="field">
+        <component name="quantity" class="es.jaime.gateway.orders._shared.domain.OrderQuantity" access="field">
             <property column="quantity" name="value" type="integer" access="field"/>
         </component>
 

@@ -12,6 +12,10 @@ public class ExecutedOrderType extends StringValueObject {
         ensureValidExecutedOrderType(value);
     }
 
+    public ExecutedOrderType() {
+        super(null);
+    }
+
     public static ExecutedOrderType of(String value){
         return new ExecutedOrderType(value);
     }

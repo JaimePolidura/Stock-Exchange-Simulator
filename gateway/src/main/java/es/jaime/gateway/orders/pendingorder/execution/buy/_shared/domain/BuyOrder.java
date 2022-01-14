@@ -9,7 +9,6 @@ import org.checkerframework.checker.units.qual.C;
 public final class BuyOrder extends ExecutionOrder {
     public BuyOrder(OrderId orderId, OrderClientId clientId, OrderDate date, OrderState state, OrderTicker ticker,
                     PendingOrderType pendingOrderType, OrderQuantity quantity, OrderPriceToExecute priceToExecute){
-
         super(orderId, clientId, date, pendingOrderType, state, ticker, quantity, priceToExecute);
     }
 
