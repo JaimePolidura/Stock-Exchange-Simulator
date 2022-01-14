@@ -24,10 +24,6 @@ public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> imple
 
     @Override
     public void save(BuyOrder order) {
-        System.out.println(order);
-        System.out.println(order.getOrderId().value());
-        System.out.println(order.getTicker().value());
-        System.out.println(order.getPendingOrderType().value());
         super.persist(order);
     }
 
@@ -47,6 +43,11 @@ public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> imple
         Optional<List<BuyOrder>> result = byQuery("SELECT * FROM buy_orders WHERE state = '"+orderState.value()+"' AND ticker = '"+orderTicker.value()+"' ORDER BY date DESC LIMIT 1");
 
         return result.map(buyOrders -> buyOrders.get(0));
+    }
+    
+    @Override
+    public void deleteByOrderId(OrderId orderId) {
+        delete("buy_orders", "orderId = '"+orderId.value()+"'");
     }
 
     @Override

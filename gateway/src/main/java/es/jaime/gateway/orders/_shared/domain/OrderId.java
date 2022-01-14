@@ -13,10 +13,6 @@ public final class OrderId extends StringValueObject {
         super(null);
     }
 
-    public String getOrderId(){
-        return value();
-    }
-
     public static OrderId generate(){
         return new OrderId(UUID.randomUUID().toString());
     }

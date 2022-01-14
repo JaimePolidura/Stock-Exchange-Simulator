@@ -7,10 +7,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OnBuyOrderExecutedPositions {
+public class OnBuyOrderOpenPositions {
     private final OpenPositionsRepository openPositions;
 
-    public OnBuyOrderExecutedPositions(OpenPositionsRepository repository) {
+    public OnBuyOrderOpenPositions(OpenPositionsRepository repository) {
         this.openPositions = repository;
     }
 

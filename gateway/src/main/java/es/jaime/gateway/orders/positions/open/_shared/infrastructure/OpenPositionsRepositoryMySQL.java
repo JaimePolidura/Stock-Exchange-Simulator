@@ -38,8 +38,8 @@ public class OpenPositionsRepositoryMySQL extends HibernateRepository<OpenPositi
     }
 
     @Override
-    public void deleteByPositionId(OrderId positionId) {
-        delete("open_positions", "positionId = '" + positionId.value() + "'");
+    public void deleteByPositionId(OrderId orderId) {
+        delete("open_positions", "orderId = '" + orderId.value() + "'");
     }
 
     @Override

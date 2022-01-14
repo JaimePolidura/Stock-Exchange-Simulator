@@ -27,8 +27,7 @@ public class OnBuyOrderExecuted {
                 .orElse(null);
 
         if(orderBought == null){
-            System.out.println("null");
-            System.out.println(event.getOrderId());
+            System.err.printf("buy order not found %s", event.getOrderId());
             return;
         }
 
@@ -36,18 +35,15 @@ public class OnBuyOrderExecuted {
         int quantityBought = event.getQuantity();
 
         if(actualQuantity == quantityBought){
-            changeStateToExecuted(orderBought, event);
+            deleteOrder(orderBought);
         }else{
             updateQuantity(orderBought, actualQuantity - quantityBought);
             createNewOrder(orderBought, event);
         }
     }
 
-    private void changeStateToExecuted(BuyOrder orderBuy, BuyOrderExecuted event){
-        BuyOrder orderBuyStateChangedToExecuted = orderBuy.changeStateTo(OrderState.executed())
-                .updateExecutionPrice(OrderPriceToExecute.of(event.getExecutionPrice()));
-
-        this.buyOrders.save(orderBuyStateChangedToExecuted);
+    private void deleteOrder(BuyOrder orderBuy){
+        this.buyOrders.deleteByOrderId(orderBuy.getOrderId());
     }
 
     private void updateQuantity(BuyOrder orderBuy, int newQuantity){

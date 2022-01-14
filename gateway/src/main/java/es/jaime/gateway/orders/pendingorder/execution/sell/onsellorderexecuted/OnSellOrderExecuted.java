@@ -7,7 +7,6 @@ import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderExecuted;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
-import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.OrderPositionIdToSell;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderExecuted;
@@ -29,39 +28,20 @@ public class OnSellOrderExecuted {
 
         int actualQuantity = orderSikd.getQuantity().value();
         int quantitySold = event.getQuantity();
-
-        if(actualQuantity == quantitySold){
-            changeStateToExecuted(orderSikd, event);
-        }else{
+        
+        if(actualQuantity == quantitySold)
+            deleteOrder(orderSikd);
+        else
             updateQuantity(orderSikd, actualQuantity - quantitySold);
-            createNewOrder(orderSikd, event);
-        }
     }
 
-    private void changeStateToExecuted(SellOrder orderSell, SellOrderExecuted event){
-        SellOrder orderStateChangedToExecuted = orderSell.changeStateTo(OrderState.executed())
-                .updateExecutionPrice(OrderPriceToExecute.of(event.getExecutionPrice()));
-
-        this.sellOrders.save(orderStateChangedToExecuted);
+    private void deleteOrder(SellOrder orderSell){
+        this.sellOrders.deleteByOrderId(orderSell.getOrderId());
     }
 
     private void updateQuantity(SellOrder orderSell, int newQuantity){
         SellOrder orderUpdatedQuantitty = orderSell.updateQuantity(OrderQuantity.of(newQuantity));
 
         this.sellOrders.save(orderUpdatedQuantitty);
-    }
-
-    private void createNewOrder(SellOrder orderSell, OrderExecuted event){
-        this.sellOrders.save(new SellOrder(
-                OrderId.generate(),
-                orderSell.getClientId(),
-                OrderDate.of(event.getDate()),
-                OrderState.executed(),
-                orderSell.getTicker(),
-                PendingOrderType.sell(),
-                OrderQuantity.of(event.getQuantity()),
-                OrderPriceToExecute.of(event.getExecutionPrice()),
-                orderSell.getPositionIdToSell()
-        ));
     }
 }

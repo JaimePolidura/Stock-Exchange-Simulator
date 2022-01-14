@@ -43,8 +43,12 @@ public class SellOrderRepositoryMySQL extends HibernateRepository<SellOrder> imp
     public Optional<SellOrder> findLastOrderByStateAndByTicker(OrderState orderState, OrderTicker orderTicker) {
         Optional<List<SellOrder>> result = byQuery("SELECT * FROM sell_orders WHERE state = '"+orderState.value()+"' AND ticker = '"+orderTicker.value()+"' ORDER BY date DESC LIMIT 1");
 
-
         return result.map(sellOrders -> sellOrders.get(0));
+    }
+
+    @Override
+    public void deleteByOrderId(OrderId orderId) {
+        delete("sell_orders", "orderId = '"+orderId.value()+"'");
     }
 
     @Override

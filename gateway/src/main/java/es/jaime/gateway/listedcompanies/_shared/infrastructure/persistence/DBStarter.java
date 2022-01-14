@@ -1,7 +1,10 @@
 package es.jaime.gateway.listedcompanies._shared.infrastructure.persistence;
 
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
+import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class DBStarter implements CommandLineRunner {
+public class DBStarter implements ApplicationRunner {
     private final ListedCompaniesRepository repository;
+    private final BuyOrderRepostory buyOrderRepostory;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(ApplicationArguments args) throws Exception {
         try {
             repository.findAll();
         }catch (Exception e){
