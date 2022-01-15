@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
+/**
+ * Source code lines: 4299
+ * 3500?
+ */
 @SpringBootApplication(exclude = {HibernateJpaAutoConfiguration.class})
 public class GatewayApplication {
 	public static void main(String[] args) {

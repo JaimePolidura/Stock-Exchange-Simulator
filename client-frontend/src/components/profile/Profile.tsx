@@ -33,25 +33,17 @@ class Profile extends React.Component<any, any> {
     getOpenPositionsFromApi(): void {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
-                console.log("positions");
-                console.log(res.data.openPositions);
-
                 this.setState({trades: this.state.trades.concat(res.data.openPositions)});
             });
         });
     }
 
     getOrdersFromApi(): void {
-        backendService.getBuyOrders().then(buyOrdersRes => {
-            backendService.getSellOrders().then(sellOrdersRes => {
-                let buyOrders = [...buyOrdersRes.data.orders].map(order => {return {...order, type: 'Buy'}});
-                let sellOrders = [...sellOrdersRes.data.orders].map(order => {return {...order, type: 'Sell'}});
+        backendService.getPendingOrders().then(pendingOrdersRes => {
+            let allOrders = [...pendingOrdersRes.data.orders];
 
-                let allOrders = buyOrders.concat(sellOrders);
-
-                this.setState({orders: allOrders}, () => {
-                    this.setState({ordersLoaded: true});
-                });
+            this.setState({orders: allOrders}, () => {
+                this.setState({ordersLoaded: true});
             });
         });
     }

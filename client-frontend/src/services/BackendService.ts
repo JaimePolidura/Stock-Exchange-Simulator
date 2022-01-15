@@ -6,10 +6,9 @@ import {SendBuyOrderResponse} from "./requests/sendbuyorder/SendBuyOrderResponse
 import {SendSellOrderRequest} from "./requests/sendsellorder/SendSellOrderRequest";
 import {SendSellOrderResponse} from "./requests/sendsellorder/SendSellOrderResponse";
 import {GetListedCompanies} from "./requests/getlistedcompanies/GetListedCompanies";
-import {GetSellOrdersResponse} from "./requests/getsellorders/GetSellOrdersResponse";
-import {GetBuyOrdersResponse} from "./requests/getbuyorders/GetBuyOrdersResponse";
 import {GetOpenPositionsResponse} from "./requests/getopenpositions/GetOpenPositionsResponse";
 import {CancelOrderResponse} from "./requests/cancelorder/CancelOrderResponse";
+import {GetExecutionOrders} from "./requests/getexecutionorders/GetExecutionOrders";
 
 const apiRoute = "http://localhost:8080/";
 
@@ -35,12 +34,8 @@ class BackendService {
         return axios.get(apiRoute + "listedcompanies/get/" + ticker);
     }
 
-    getSellOrders(): Promise<AxiosResponse<GetSellOrdersResponse>>{
-        return axios.get(apiRoute + "orders/sell/get?orderStates=PENDING");
-    }
-
-    getBuyOrders(): Promise<AxiosResponse<GetBuyOrdersResponse>>{
-        return axios.get(apiRoute + "orders/buy/get?orderStates=PENDING");
+    getPendingOrders(): Promise<AxiosResponse<GetExecutionOrders>>{
+        return axios.get(apiRoute + "orders/execution/get?orderStates=PENDING");
     }
 
     getAllListedCompanies(): Promise<AxiosResponse<GetListedCompanies>>{

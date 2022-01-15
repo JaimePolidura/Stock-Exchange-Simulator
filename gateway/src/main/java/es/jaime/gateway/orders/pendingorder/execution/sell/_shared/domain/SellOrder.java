@@ -6,6 +6,8 @@ import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOr
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
 import lombok.Getter;
 
+import java.util.Map;
+
 public class SellOrder extends ExecutionOrder {
     @Getter private OrderPositionIdToSell positionIdToSell;
 
@@ -48,6 +50,21 @@ public class SellOrder extends ExecutionOrder {
                 OrderQuantity.of(quantity),
                 OrderPriceToExecute.of(executinPrice),
                 OrderPositionIdToSell.of(positionIdToSell)
+        );
+    }
+
+    @Override
+    public Map<String, Object> toPrimitives() {
+        return Map.of(
+                "orderId", orderId.value(),
+                "clientId", clientId.value(),
+                "date", date.value(),
+                "state", state.value(),
+                "ticker", ticker.value(),
+                "pendingOrderType", pendingOrderType.value(),
+                "quantity", quantity.value(),
+                "executionPrice", priceToExecute.value(),
+                "positionIdToSell", positionIdToSell.value()
         );
     }
 }

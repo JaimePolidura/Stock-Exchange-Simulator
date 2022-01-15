@@ -5,6 +5,8 @@ import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrder;
 import lombok.Getter;
 
+import java.util.Map;
+
 public abstract class ExecutionOrder extends PendingOrder {
     @Getter protected OrderQuantity quantity;
     @Getter protected OrderPriceToExecute priceToExecute;
@@ -15,4 +17,6 @@ public abstract class ExecutionOrder extends PendingOrder {
         this.quantity = quantity;
         this.priceToExecute = executionPrice;
     }
+
+    public abstract Map<String, Object> toPrimitives();
 }

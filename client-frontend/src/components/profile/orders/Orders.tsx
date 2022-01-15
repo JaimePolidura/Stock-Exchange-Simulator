@@ -9,12 +9,20 @@ export default class Orders extends React.Component<any, any> {
             orders: props.orders,
             listedCompanies: props.listedCompanies,
         }
+
+        console.log("orders")
+        console.log(this.state.orders);
+        console.log(this.state.listedCompanies);
     }
 
     render(): any {
         if(this.state.orders.length == 0){
             return null;
         }
+
+        console.log("2");
+        console.log(this.state.orders);
+        console.log(this.state.listedCompanies);
 
         return (
             <table className="display-table">
@@ -41,6 +49,11 @@ export default class Orders extends React.Component<any, any> {
     }
 
     getListedCompanyFromTicker(ticker: string): any{
+        console.log("hola");
+        console.log(this.state.listedCompanies);
+        console.log(ticker);
+        console.log(this.state.listedCompanies.find((ite: any) => ite.ticker == ticker));
+
         return this.state.listedCompanies.find((ite: any) => ite.ticker == ticker);
     }
 }

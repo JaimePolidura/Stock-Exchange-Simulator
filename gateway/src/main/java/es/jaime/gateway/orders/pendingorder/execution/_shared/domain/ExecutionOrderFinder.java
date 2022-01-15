@@ -1,5 +1,6 @@
 package es.jaime.gateway.orders.pendingorder.execution._shared.domain;
 
+import es.jaime.gateway.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders._shared.domain.OrderTicker;
@@ -10,6 +11,8 @@ import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOr
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +32,16 @@ public class ExecutionOrderFinder {
         return orderBuyOptional
                 .map(orderBuy -> (ExecutionOrder) orderBuy)
                 .or(() -> orderSellOptional.map(orderSell -> (ExecutionOrder) orderSell));
+    }
+
+    public List<ExecutionOrder> findByClientIdAndState(OrderClientId clientId, OrderState state){
+        List<BuyOrder> orderBuyList = buyOrders.findByOrderClientIdAndState(clientId, state);
+        List<SellOrder> orderSellList = sellOrders.findByOrderClientIdAndState(clientId, state);
+
+        List<ExecutionOrder> toReturn = new ArrayList<>(orderBuyList);
+        toReturn.addAll(orderSellList);
+
+        return toReturn;
     }
 
     public Optional<ExecutionOrder> findLastOrderFor(OrderTicker ticker){

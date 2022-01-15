@@ -6,6 +6,8 @@ import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOr
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
 import org.checkerframework.checker.units.qual.C;
 
+import java.util.Map;
+
 public final class BuyOrder extends ExecutionOrder {
     public BuyOrder(OrderId orderId, OrderClientId clientId, OrderDate date, OrderState state, OrderTicker ticker,
                     PendingOrderType pendingOrderType, OrderQuantity quantity, OrderPriceToExecute priceToExecute){
@@ -31,5 +33,19 @@ public final class BuyOrder extends ExecutionOrder {
     public static BuyOrder create(String clientId, String ticker, int quantity, double executinPrice){
         return new BuyOrder(OrderId.generate(), OrderClientId.of(clientId), OrderDate.now(), OrderState.pending(),
                 OrderTicker.of(ticker), PendingOrderType.buy(), OrderQuantity.of(quantity), OrderPriceToExecute.of(executinPrice));
+    }
+
+    @Override
+    public Map<String, Object> toPrimitives() {
+        return Map.of(
+                "orderId", orderId.value(),
+                "clientId", clientId.value(),
+                "date", date.value(),
+                "state", state.value(),
+                "ticker", ticker.value(),
+                "pendingOrderType", pendingOrderType.value(),
+                "quantity", quantity.value(),
+                "executionPrice", priceToExecute.value()
+        );
     }
 }

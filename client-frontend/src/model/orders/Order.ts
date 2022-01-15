@@ -2,7 +2,7 @@ export interface Order {
     orderId: string;
     clientId: string;
     date: string;
-    type: OrderType;
+    pendingOrderType: PendingOrderType;
     state: OrderState;
     ticker: string;
 }
@@ -14,7 +14,7 @@ export enum OrderState {
     EXECUTED,
 }
 
-export enum OrderType {
+export enum PendingOrderType {
     BUY,
     SELL,
     CANCEL,
