@@ -33,16 +33,17 @@ const BuyStockModal = (props: any) => {
     }
 
     const onSuccess = (response: AxiosResponse<SendBuyOrderResponse>) => {
+        let order = response.data.order;
         // @ts-ignore
         let listedCompanyTicker = listedCompany == null ? "" : listedCompany.ticker;
 
         let orderToDisplay = {
-            orderId: response.data.orderId,
+            orderId: order.orderId,
             ticker: listedCompanyTicker,
-            quantity: response.data.quantity,
-            date: response.data.date,
-            executionPrice: response.data.executionPrice,
-            type: 'Buy',
+            quantity: order.quantity,
+            date: order.date,
+            executionPrice: order.executionPrice,
+            pendingOrderType: 'BUY',
         }
 
         props.onOrderBuySended(orderToDisplay);

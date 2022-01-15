@@ -18,7 +18,7 @@ class OrderDisplayInTable extends React.Component<any, any> {
                 <tr className="trade-tr" onClick={() => {this.openModal()}}>
                     <td>{this.state.order.ticker}</td>
                     <td>{this.state.listedCompany.name}</td>
-                    <td>{this.state.order.type}</td>
+                    <td>{this.state.order.pendingOrderType}</td>
                     <td>{this.state.order.quantity}</td>
                     <td>{this.calculateTotalValue()}</td>
                     <td>{this.state.order.date}</td>
