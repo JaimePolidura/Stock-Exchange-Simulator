@@ -1,13 +1,13 @@
 package es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain;
 
 import es.jaime.gateway._shared.domain.EventName;
-import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderExecuted;
+import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderExecuted;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public final class SellOrderExecuted extends OrderExecuted {
+public final class SellOrderExecuted extends ExecutionOrderExecuted {
     @Getter private
     String positionId;
 

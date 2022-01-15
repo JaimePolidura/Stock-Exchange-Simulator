@@ -1,8 +1,8 @@
-package es.jaime.gateway.orders.pendingorder.execution.onerrororder;
+package es.jaime.gateway.orders.pendingorder.execution.onordercancelled;
 
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderState;
-import es.jaime.gateway.orders.pendingorder._shared.domain.events.ErrorDuringOrderExecution;
+import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderCancelled;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrder;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderFinder;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderSaver;
@@ -14,16 +14,16 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class OnExecutionOrderError {
-    private final ExecutionOrderFinder executionOrderFinder;
+public class OnExecutionOrderCancelled {
     private final ExecutionOrderSaver executionOrderSaver;
+    private final ExecutionOrderFinder executionOrderFinder;
 
-    @EventListener({ErrorDuringOrderExecution.class})
-    public void on(ErrorDuringOrderExecution event){
-        Optional<ExecutionOrder> executionOrderOptional = executionOrderFinder.findById(OrderId.of(event.getOrderId()));
+    @EventListener({OrderCancelled.class})
+    public void on(OrderCancelled event){
+        Optional<ExecutionOrder> executionOrderOptional = executionOrderFinder.findById(OrderId.of(event.getOrderIdCancelled()));
 
         executionOrderOptional.ifPresent(executionOrder -> {
-            executionOrderSaver.changeStateAndSave(executionOrder, OrderState.error());
+            executionOrderSaver.changeStateAndSave(executionOrder, OrderState.cancelled());
         });
     }
 }

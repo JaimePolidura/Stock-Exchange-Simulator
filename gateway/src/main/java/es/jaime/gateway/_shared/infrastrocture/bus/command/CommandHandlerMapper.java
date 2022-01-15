@@ -11,13 +11,8 @@ import java.util.Map;
 @Service
 public class CommandHandlerMapper {
     private final Map<Class<Command>, CommandHandler> commandsHandlers;
-    private final ApplicationContext context;
-    private final ApplicationCQRSClassMapper mapper;
 
-    public CommandHandlerMapper(ApplicationContext context, ApplicationCQRSClassMapper mapper) {
-        this.context = context;
-        this.mapper = mapper;
-
+    public CommandHandlerMapper(ApplicationCQRSClassMapper mapper) {
         this.commandsHandlers = mapper.find(CommandHandler.class);
     }
 

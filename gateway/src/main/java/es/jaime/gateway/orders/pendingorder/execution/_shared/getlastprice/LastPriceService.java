@@ -4,7 +4,7 @@ import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceT
 import es.jaime.gateway.orders._shared.domain.OrderTicker;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrder;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderFinder;
-import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderExecuted;
+import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderExecuted;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +49,8 @@ public class LastPriceService {
         return OrderPriceToExecute.of(this.cacheLastPrices.get(ticker.value()));
     }
 
-    @EventListener({OrderExecuted.class})
-    protected void on(OrderExecuted event){
+    @EventListener({ExecutionOrderExecuted.class})
+    protected void on(ExecutionOrderExecuted event){
         cacheLastPrices.put(event.getTicker(), event.getExecutionPrice());
     }
 }

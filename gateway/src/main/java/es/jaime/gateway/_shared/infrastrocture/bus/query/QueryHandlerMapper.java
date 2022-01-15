@@ -11,13 +11,8 @@ import java.util.Map;
 @Service
 public class QueryHandlerMapper {
     private final Map<Class<Query>, QueryHandler> queryHandlers;
-    private final ApplicationCQRSClassMapper mapper;
-    private final ApplicationContext context;
 
-    public QueryHandlerMapper(ApplicationCQRSClassMapper mapper, ApplicationContext context) {
-        this.mapper = mapper;
-        this.context = context;
-
+    public QueryHandlerMapper(ApplicationCQRSClassMapper mapper) {
         queryHandlers = mapper.find(QueryHandler.class);
     }
 

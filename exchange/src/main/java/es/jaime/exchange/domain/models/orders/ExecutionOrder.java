@@ -9,7 +9,7 @@ public abstract class ExecutionOrder implements Comparable<ExecutionOrder> {
     @Getter private final double executionPrice;
     @Getter private int quantity;
     @Getter private final String ticker;
-    @Getter private int ttl = 1;
+    @Getter private int ttl = 100;
 
     public ExecutionOrder(String orderId, String clientId, String date, double executionPrice, int quantity, String ticker) {
         this.orderId = orderId;
