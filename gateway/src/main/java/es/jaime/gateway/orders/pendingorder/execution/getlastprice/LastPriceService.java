@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution._shared.getlastprice;
+package es.jaime.gateway.orders.pendingorder.execution.getlastprice;
 
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
 import es.jaime.gateway.orders._shared.domain.OrderTicker;

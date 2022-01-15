@@ -6,19 +6,16 @@ import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPosition;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionRepository;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionFinder;
+import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 @Service("onsellorderexecuted-closedpositions")
+@AllArgsConstructor
 public class OnSellOrderExecutedClosedPositions {
     private final ClosedPositionRepository closedPositions;
     private final OpenPositionFinder openPositionFinder;
-
-    public OnSellOrderExecutedClosedPositions(ClosedPositionRepository closedPositions, OpenPositionFinder openPositionFinder) {
-        this.closedPositions = closedPositions;
-        this.openPositionFinder = openPositionFinder;
-    }
 
     @EventListener({SellOrderExecuted.class})
     @Order(1)
