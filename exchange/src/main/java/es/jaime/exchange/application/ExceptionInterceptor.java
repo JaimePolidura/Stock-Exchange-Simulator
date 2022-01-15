@@ -30,7 +30,7 @@ public class ExceptionInterceptor {
 
         messagePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + EventNames.ORDER_ERROR,
+                configuration.eventsExchangeName() + ".*." + EventNames.ORDER_ERROR.getName(),
                 new ErrorOrderMessage(exception.getMessage(), order.getClientId(), order.getOrderId())
         );
     }

@@ -20,6 +20,10 @@ public class PendingOrderType extends StringValueObject {
 
     public PendingOrderType() { super(null); }
 
+    public boolean isBuy(){
+        return this.value().equalsIgnoreCase(Types.BUY.toString());
+    }
+
     public static PendingOrderType of(String value){
         return new PendingOrderType(value);
     }

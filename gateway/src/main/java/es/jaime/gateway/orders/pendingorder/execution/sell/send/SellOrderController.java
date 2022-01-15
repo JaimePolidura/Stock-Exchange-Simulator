@@ -3,14 +3,16 @@ package es.jaime.gateway.orders.pendingorder.execution.sell.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.pendingorder.execution.sell.getorder.GetSellOrderQuery;
-import es.jaime.gateway.orders.pendingorder.execution.sell.getorder.GetSellOrderQueryResponse;
+import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQuery;
+import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQueryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -24,7 +26,7 @@ public class SellOrderController extends Controller {
     }
 
     @PostMapping("/orders/sell/send")
-    public ResponseEntity<GetSellOrderQueryResponse> sendOrderSell(@RequestBody Request request){
+    public ResponseEntity<Resposne> sendOrderSell(@RequestBody Request request){
         //Order-id generated in commandExecute order
         SellOrderCommand sellOrderCommand = new SellOrderCommand(
                 getLoggedUsername(),
@@ -34,12 +36,20 @@ public class SellOrderController extends Controller {
         );
         this.commandBus.dispatch(sellOrderCommand);
 
-        GetSellOrderQueryResponse orderAdded = queryBus.ask(new GetSellOrderQuery(
+        GetExecutionOrderQueryResponse orderAdded = queryBus.ask(new GetExecutionOrderQuery(
                 sellOrderCommand.getOrderID().value(),
                 getLoggedUsername())
         );
 
-        return buildNewHttpResponseOK(orderAdded);
+        return buildNewHttpResponseOK(new Resposne(orderAdded));
+    }
+
+    private static class Resposne {
+        public final Map<String, Object> order;
+
+        public Resposne(GetExecutionOrderQueryResponse queryResponse){
+            this.order = queryResponse.toPrimitives();
+        }
     }
 
     @AllArgsConstructor

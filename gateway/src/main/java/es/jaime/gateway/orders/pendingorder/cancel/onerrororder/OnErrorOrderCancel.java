@@ -1,7 +1,6 @@
 package es.jaime.gateway.orders.pendingorder.cancel.onerrororder;
 
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
-import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
 import es.jaime.gateway.orders._shared.domain.OrderDate;
 import es.jaime.gateway.orders._shared.domain.OrderId;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class OnErrorOrerCancel {
+public class OnErrorOrderCancel {
     private final OrdersCancelRepository cancelOrders;
 
     @EventListener({ErrorDuringOrderExecution.class})

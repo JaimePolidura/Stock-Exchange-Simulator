@@ -18,5 +18,9 @@ public abstract class ExecutionOrder extends PendingOrder {
         this.priceToExecute = executionPrice;
     }
 
+    public boolean isBuy(){
+        return super.pendingOrderType.isBuy();
+    }
+
     public abstract Map<String, Object> toPrimitives();
 }

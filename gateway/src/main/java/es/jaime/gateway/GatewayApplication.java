@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 /**
  * Source code lines: 4299
+ * 4263
+ * 4209
+ * 4195
+ *
  * 3500?
  */
 @SpringBootApplication(exclude = {HibernateJpaAutoConfiguration.class})

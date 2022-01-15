@@ -26,10 +26,6 @@ public final class BuyOrder extends ExecutionOrder {
         return new BuyOrder(orderId, clientId, date, state, ticker, pendingOrderType, orderQuantity, priceToExecute);
     }
 
-    public BuyOrder updateExecutionPrice(OrderPriceToExecute executionPrice){
-        return new BuyOrder(orderId, clientId, date, state, ticker, pendingOrderType, quantity, executionPrice);
-    }
-
     public static BuyOrder create(String clientId, String ticker, int quantity, double executinPrice){
         return new BuyOrder(OrderId.generate(), OrderClientId.of(clientId), OrderDate.now(), OrderState.pending(),
                 OrderTicker.of(ticker), PendingOrderType.buy(), OrderQuantity.of(quantity), OrderPriceToExecute.of(executinPrice));
