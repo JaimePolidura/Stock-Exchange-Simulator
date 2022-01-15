@@ -2,6 +2,7 @@ package es.jaime.gateway.listedcompanies.getlistedcomapny;
 
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,12 +14,9 @@ import java.io.Serializable;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public final class GetListedCompanyController extends Controller {
     private final QueryBus queryBus;
-
-    public GetListedCompanyController(QueryBus queryBus) {
-        this.queryBus = queryBus;
-    }
 
     @GetMapping("/listedcompanies/get/{ticker}")
     public ResponseEntity<Response> getListedCompany (@PathVariable String ticker){

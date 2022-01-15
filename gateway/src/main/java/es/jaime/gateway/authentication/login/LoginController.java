@@ -12,19 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public final class LoginController extends Controller {
     private final CommandBus commandBus;
     private final QueryBus queryBus;
 
-    public LoginController(CommandBus commandBus, QueryBus queryBus) {
-        this.commandBus = commandBus;
-        this.queryBus = queryBus;
-    }
-
     @PostMapping("/auth/login")
     public ResponseEntity<GenerateTokenUserQueryResponse> login (@RequestBody Request request) {
-        System.out.println("hola");
-
         commandBus.dispatch(new AuthenticateCommand(
                 request.username,
                 request.password

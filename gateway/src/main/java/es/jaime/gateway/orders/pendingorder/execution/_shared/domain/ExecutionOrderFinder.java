@@ -8,6 +8,7 @@ import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrde
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrder;
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,14 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ExecutionOrderFinder {
     private final BuyOrderRepostory buyOrders;
     private final SellOrderRepostiry sellOrders;
-
-    public ExecutionOrderFinder(BuyOrderRepostory buyOrders, SellOrderRepostiry sellOrders) {
-        this.buyOrders = buyOrders;
-        this.sellOrders = sellOrders;
-    }
 
     public Optional<ExecutionOrder> findById(OrderId orderId){
         Optional<BuyOrder> orderBuyOptional = buyOrders.findByOrderId(orderId);

@@ -10,12 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class IsValidTokenController extends Controller {
     private final QueryBus queryBus;
-
-    public IsValidTokenController(QueryBus queryBus) {
-        this.queryBus = queryBus;
-    }
 
     @GetMapping("/auth/isvalidtoken")
     public ResponseEntity<Boolean> isValidToken(Request request){

@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
+import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer;
@@ -18,19 +19,13 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameForma
 import static java.lang.String.*;
 
 @Component
+@AllArgsConstructor
 public class RabbitMQEventsListener implements CommandLineRunner {
     private static final String CONSUMER_NAME = "domain-event-consumer";
 
     private final DomainEventListenersInformation eventListenersInformation;
     private final RabbitListenerEndpointRegistry registry;
     private final EventBus eventBus;
-
-    public RabbitMQEventsListener(DomainEventListenersInformation eventListenersInformation, RabbitListenerEndpointRegistry registry,
-                                  EventBus eventBus) {
-        this.eventListenersInformation = eventListenersInformation;
-        this.registry = registry;
-        this.eventBus = eventBus;
-    }
 
     @Override
     public void run(String... args) {

@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.Utils;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,9 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameForma
 
 @Configuration("rabbitmq-declarables")
 @DependsOn({"rabbitmq-configuration"})
+@AllArgsConstructor
 public class RabbitMQDeclarables {
     private final ListedCompanyFinderService listedCompanyFinder;
-
-    public RabbitMQDeclarables(ListedCompanyFinderService listedCompanyFinder) {
-        this.listedCompanyFinder = listedCompanyFinder;
-    }
 
     @Bean
     public Declarables declarables() {

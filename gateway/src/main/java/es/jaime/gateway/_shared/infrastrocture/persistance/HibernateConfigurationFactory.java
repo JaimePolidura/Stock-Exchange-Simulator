@@ -1,8 +1,10 @@
 package es.jaime.gateway._shared.infrastrocture.persistance;
 
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.hibernate.cfg.AvailableSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -14,12 +16,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class HibernateConfigurationFactory {
     private final ResourcePatternResolver resourceResolver;
-
-    public HibernateConfigurationFactory(ResourcePatternResolver resourceResolver) {
-        this.resourceResolver = resourceResolver;
-    }
 
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();

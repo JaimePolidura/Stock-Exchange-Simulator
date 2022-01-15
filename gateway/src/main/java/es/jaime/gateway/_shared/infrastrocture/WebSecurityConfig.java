@@ -1,6 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture;
 
 import es.jaime.gateway.authentication._shared.infrastructure.JWTFilterRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,12 +13,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JWTFilterRequest jwtFilterRequest;
-
-    public WebSecurityConfig(JWTFilterRequest jwtFilterRequest) {
-        this.jwtFilterRequest = jwtFilterRequest;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

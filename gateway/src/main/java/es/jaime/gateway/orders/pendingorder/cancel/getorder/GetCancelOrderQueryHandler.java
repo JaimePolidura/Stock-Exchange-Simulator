@@ -7,15 +7,13 @@ import es.jaime.gateway.authentication._shared.domain.UserName;
 import es.jaime.gateway.orders._shared.domain.OrderClientId;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class GetCancelOrderQueryHandler implements QueryHandler<GetCancelOrderQuery, GetCancelOrderQueryResponse> {
     private final OrdersCancelRepository cancelOrders;
-
-    public GetCancelOrderQueryHandler(OrdersCancelRepository cancelOrders) {
-        this.cancelOrders = cancelOrders;
-    }
 
     @Override
     public GetCancelOrderQueryResponse handle(GetCancelOrderQuery query) {

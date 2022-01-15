@@ -14,6 +14,7 @@ import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrderIdToCancel;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.OrdersCancelRepository;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrderFinder;
+import lombok.AllArgsConstructor;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +22,11 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameForma
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.newOrdersQueueName;
 
 @Service
+@AllArgsConstructor
 public class CancelOrderCommandHandler implements CommandHandler<CancelOrderCommand> {
     private final ExecutionOrderFinder executionOrderFinder;
     private final OrdersCancelRepository ordersCancel;
-
     private final MessagePublisher messagePublisher;
-
-    public CancelOrderCommandHandler(ExecutionOrderFinder executionOrderFinder, OrdersCancelRepository ordersCancel,
-                                     MessagePublisher messagePublisher) {
-        this.executionOrderFinder = executionOrderFinder;
-        this.ordersCancel = ordersCancel;
-        this.messagePublisher = messagePublisher;
-    }
 
     @Override
     public void handle(CancelOrderCommand command) {

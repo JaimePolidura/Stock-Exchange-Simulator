@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.messages.CommandMessage;
 import es.jaime.gateway._shared.domain.messages.MessageNames;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -11,12 +12,9 @@ import java.util.Map;
 
 @Component("rabbitmq-starter")
 @DependsOn({"rabbitmq-declarables"})
+@AllArgsConstructor
 public class RabbitMQStarter implements CommandLineRunner {
     private final QueuePublisherRabbitMQ publisherRabbitMQ;
-
-    public RabbitMQStarter(QueuePublisherRabbitMQ publisherRabbitMQ) {
-        this.publisherRabbitMQ = publisherRabbitMQ;
-    }
 
     @Override
     public void run(String... args) {

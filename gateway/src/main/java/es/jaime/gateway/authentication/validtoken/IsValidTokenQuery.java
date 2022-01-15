@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class IsValidTokenQuery implements Query {
     @Getter private final String userName;
-    @Getter  private final String token;
+    @Getter private final String token;
 }

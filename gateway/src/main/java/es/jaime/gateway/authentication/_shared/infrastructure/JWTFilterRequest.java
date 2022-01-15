@@ -1,5 +1,6 @@
 package es.jaime.gateway.authentication._shared.infrastructure;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,12 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JWTFilterRequest extends OncePerRequestFilter {
     private final UserDetailsImpl userDetailsImpl;
-
-    public JWTFilterRequest(UserDetailsImpl userDetailsImpl) {
-        this.userDetailsImpl = userDetailsImpl;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

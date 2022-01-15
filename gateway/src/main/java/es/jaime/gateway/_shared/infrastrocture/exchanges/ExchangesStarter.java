@@ -9,6 +9,7 @@ import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -19,12 +20,9 @@ import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarabl
 
 @Configuration
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
+@AllArgsConstructor
 public class ExchangesStarter implements CommandLineRunner {
     private final ListedCompaniesRepository repository;
-
-    public ExchangesStarter(ListedCompaniesRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void run(String... args) {

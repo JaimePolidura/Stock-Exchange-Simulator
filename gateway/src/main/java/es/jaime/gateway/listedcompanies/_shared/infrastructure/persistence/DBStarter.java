@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class DBStarter implements ApplicationRunner {
     private final ListedCompaniesRepository repository;
-    private final BuyOrderRepostory buyOrderRepostory;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

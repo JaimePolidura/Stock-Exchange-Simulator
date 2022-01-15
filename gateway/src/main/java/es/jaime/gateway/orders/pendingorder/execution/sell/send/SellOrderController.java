@@ -16,14 +16,10 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
+@AllArgsConstructor
 public class SellOrderController extends Controller {
     private final CommandBus commandBus;
     private final QueryBus queryBus;
-
-    public SellOrderController(CommandBus commandBus, QueryBus queryBus) {
-        this.commandBus = commandBus;
-        this.queryBus = queryBus;
-    }
 
     @PostMapping("/orders/sell/send")
     public ResponseEntity<Resposne> sendOrderSell(@RequestBody Request request){

@@ -13,22 +13,17 @@ import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOr
 import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionFinder;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 
 @Service
+@AllArgsConstructor
 public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand> {
     private final SellOrderRepostiry sellOrders;
     private final MessagePublisher messagePublisher;
     private final OpenPositionFinder openPositionFinder;
-
-    public SellOrderCommandHandler(SellOrderRepostiry sellOrders, MessagePublisher messagePublisher,
-                                   OpenPositionFinder openPositionFinder) {
-        this.sellOrders = sellOrders;
-        this.messagePublisher = messagePublisher;
-        this.openPositionFinder = openPositionFinder;
-    }
 
     @Override
     public void handle(SellOrderCommand command) {

@@ -11,23 +11,18 @@ import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders._shared.domain.OrderState;
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.newOrdersQueueName;
 
 @Service
+@AllArgsConstructor
 public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     private final MessagePublisher queuePublisher;
     private final BuyOrderRepostory buyOrders;
     private final ListedCompanyFinderService listedCompanyFinder;
-
-    public BuyOrderCommandHandler(MessagePublisher queuePublisher, BuyOrderRepostory buyOrders,
-                                   ListedCompanyFinderService listedCompanyFinder) {
-        this.queuePublisher = queuePublisher;
-        this.buyOrders = buyOrders;
-        this.listedCompanyFinder = listedCompanyFinder;
-    }
 
     @Override
     public void handle(BuyOrderCommand command) {
