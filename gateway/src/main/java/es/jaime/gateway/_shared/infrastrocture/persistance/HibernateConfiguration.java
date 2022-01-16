@@ -16,7 +16,6 @@ import java.io.IOException;
 @EnableTransactionManagement
 public class HibernateConfiguration {
     private final HibernateConfigurationFactory factory;
-    private final String CONTEXT = "GATEWAY";
 
     public HibernateConfiguration(HibernateConfigurationFactory factory) {
         this.factory = factory;

@@ -5,7 +5,7 @@ import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
-import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables;
+import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
@@ -14,34 +14,35 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQDeclarables.*;
+import static java.lang.String.format;
 
 @Configuration
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
 @AllArgsConstructor
 public class ExchangesStarter implements CommandLineRunner {
     private final ListedCompaniesRepository repository;
+    private final DockerClient dockerClient;
+    private final EventBus eventBus;
 
     @Override
     public void run(String... args) {
+        Map<ListedCompany, String> exchangesContainers = new HashMap<>();
         List<ListedCompany> listedCompanies = repository.findAll();
-        DockerClient dockerClient = startDockerConnection();
 
         for (ListedCompany listedCompany : listedCompanies) {
-            startDockerContainer(dockerClient, listedCompany);
+            String containerId = startDockerContainer(dockerClient, listedCompany);
+
+            exchangesContainers.put(listedCompany, containerId);
         }
+
+        eventBus.publish(new AllExchangesStarted(exchangesContainers));
     }
 
-    private DockerClient startDockerConnection(){
-        DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost("tcp://host.docker.internal:2375").build();
-
-        return DockerClientBuilder.getInstance(config).build();
-    }
-
-    private void startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
+    private String startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
         String containerID = dockerClient.createContainerCmd("sxs-exchange")
                 .withCmd(cmdToExchange(listedCompany))
                 .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
@@ -53,6 +54,8 @@ public class ExchangesStarter implements CommandLineRunner {
 
         dockerClient.startContainerCmd(containerID)
                 .exec();
+
+        return containerID;
     }
 
     private List<String> cmdToExchange(ListedCompany listedCompany){

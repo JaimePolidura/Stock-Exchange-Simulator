@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,6 +20,7 @@ public class SpringApplicationEventBus implements EventBus {
     }
 
     @Override
+    @Transactional
     public void publish(final DomainEvent event) {
         this.publisher.publishEvent(event);
     }
