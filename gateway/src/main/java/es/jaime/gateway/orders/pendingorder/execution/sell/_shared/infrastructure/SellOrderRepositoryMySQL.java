@@ -52,6 +52,12 @@ public class SellOrderRepositoryMySQL extends HibernateRepository<SellOrder> imp
     }
 
     @Override
+    public List<SellOrder> findByTicker(OrderTicker orderTicker) {
+        return byQuery("SELECT * FROM sell_orders WHERE ticker = '"+orderTicker.value()+"'")
+                .orElse(Collections.EMPTY_LIST);
+    }
+
+    @Override
     protected Function<Object[], SellOrder> queryMapper() {
         return primitives -> new SellOrder(
                 OrderId.of(String.valueOf(primitives[0])),

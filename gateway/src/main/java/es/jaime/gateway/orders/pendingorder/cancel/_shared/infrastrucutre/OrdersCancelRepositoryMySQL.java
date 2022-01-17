@@ -39,6 +39,12 @@ public class OrdersCancelRepositoryMySQL extends HibernateRepository<CancelOrder
     }
 
     @Override
+    public List<CancelOrder> findByTicker(OrderTicker orderTicker) {
+        return byQuery("SELECT * FROM cancel_orders WHERE ticker = '"+orderTicker.value()+"'")
+                .orElse(Collections.EMPTY_LIST);
+    }
+
+    @Override
     protected Function<Object[], CancelOrder> queryMapper() {
         return primitives -> new CancelOrder(
                 OrderId.of(String.valueOf(primitives[0])),

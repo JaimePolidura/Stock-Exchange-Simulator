@@ -1,9 +1,11 @@
 package es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain;
 
+import es.jaime.gateway._shared.domain.messages.Message;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrder;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
+import es.jaime.gateway.orders.pendingorder.execution.buy.send.SendBuyOrderMessage;
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.Map;
@@ -43,5 +45,10 @@ public final class BuyOrder extends ExecutionOrder {
                 "quantity", quantity.value(),
                 "executionPrice", priceToExecute.value()
         );
+    }
+
+    @Override
+    public SendBuyOrderMessage toMessage() {
+        return new SendBuyOrderMessage(orderId, clientId, date, priceToExecute, quantity, ticker, pendingOrderType);
     }
 }

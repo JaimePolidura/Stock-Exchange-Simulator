@@ -31,6 +31,18 @@ public class ExecutionOrderFinder {
                 .or(() -> orderSellOptional.map(orderSell -> (ExecutionOrder) orderSell));
     }
 
+    public List<ExecutionOrder> findByTicker(OrderTicker ticker){
+        List<BuyOrder> orderBuyList = buyOrders.findByTicker(ticker);
+        List<SellOrder> orderSellList = sellOrders.findByTicker(ticker);
+
+        List<ExecutionOrder> toReturn = new ArrayList<>();
+
+        toReturn.addAll(orderSellList);
+        toReturn.addAll(orderBuyList);
+
+        return toReturn;
+    }
+
     public List<ExecutionOrder> findByClientIdAndState(OrderClientId clientId, OrderState state){
         List<BuyOrder> orderBuyList = buyOrders.findByOrderClientIdAndState(clientId, state);
         List<SellOrder> orderSellList = sellOrders.findByOrderClientIdAndState(clientId, state);

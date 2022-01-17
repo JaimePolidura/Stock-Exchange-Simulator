@@ -51,6 +51,12 @@ public class BuyOrderRepositoryMySQL extends HibernateRepository<BuyOrder> imple
     }
 
     @Override
+    public List<BuyOrder> findByTicker(OrderTicker orderTicker) {
+        return byQuery("SELECT * FROM buy_orders WHERE ticker = '"+orderTicker.value()+"'")
+                .orElse(Collections.EMPTY_LIST);
+    }
+
+    @Override
     protected Function<Object[], BuyOrder> queryMapper() {
         return primitives -> new BuyOrder(
                 OrderId.of(String.valueOf(primitives[0])),

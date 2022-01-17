@@ -1,9 +1,11 @@
 package es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain;
 
+import es.jaime.gateway._shared.domain.messages.Message;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.ExecutionOrder;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
+import es.jaime.gateway.orders.pendingorder.execution.sell.send.SendSellOrderMessage;
 import lombok.Getter;
 
 import java.util.Map;
@@ -66,5 +68,10 @@ public class SellOrder extends ExecutionOrder {
                 "executionPrice", priceToExecute.value(),
                 "positionIdToSell", positionIdToSell.value()
         );
+    }
+
+    @Override
+    public SendSellOrderMessage toMessage() {
+        return new SendSellOrderMessage(orderId, positionIdToSell, clientId, date, priceToExecute, quantity, ticker, pendingOrderType);
     }
 }

@@ -1,13 +1,12 @@
-package es.jaime.gateway._shared.infrastrocture.exchanges;
+package es.jaime.gateway._shared.infrastrocture.exchanges.ordresrestorer;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
+import es.jaime.gateway._shared.infrastrocture.exchanges.AllExchangesStarted;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
-import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
-import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
+import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderFinder;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.event.EventListener;
@@ -20,12 +19,14 @@ import java.util.concurrent.Executor;
 
 @Service
 @AllArgsConstructor
-public class ExchangesDataRestorer implements Runnable{
-    private static final int INITIAL_TIME = 10000;
-    private static final int DELAY_BEETWEEN_CHECK = 500;
+public class ExchangesOrderRestorerChecker implements Runnable{
+    private static final int INITIAL_TIME = 15000;
+    private static final int DELAY_BEETWEEN_CHECK = 1000;
 
     private Map<ListedCompany, String> exchangesContainers;
     private final Executor executor;
+    private final PendingOrderFinder orderFinder;
+    private final MessagePublisher messagePublisher;
     private final DockerClient dockerClient;
 
     @EventListener({AllExchangesStarted.class})
@@ -49,16 +50,16 @@ public class ExchangesDataRestorer implements Runnable{
                 Container exchangeContainer = findContainerById(allContainers, entry.getValue());
 
                 if(notRunning(exchangeContainer)){
-                    this.executor.execute(() -> this.restoreData(listedCompany));
+                    restoreData(listedCompany);
                 }
             }
 
-            Thread.sleep(INITIAL_TIME);
+            Thread.sleep(DELAY_BEETWEEN_CHECK);
         }
     }
 
     private void restoreData(ListedCompany listedCompany){
-        //TODO
+        this.executor.execute(new ExchangeOrderRestorerService(orderFinder, messagePublisher, listedCompany));
     }
 
     private Container findContainerById(List<Container> containers, String id){
@@ -69,6 +70,6 @@ public class ExchangesDataRestorer implements Runnable{
     }
 
     private boolean notRunning(Container container){
-        return container.getState().equalsIgnoreCase("running");
+        return !container.getState().equalsIgnoreCase("running");
     }
 }

@@ -1,8 +1,10 @@
 package es.jaime.gateway.orders.pendingorder.cancel._shared.domain;
 
+import es.jaime.gateway._shared.domain.messages.Message;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrder;
+import es.jaime.gateway.orders.pendingorder.cancel.send.CancelOrderMessage;
 import lombok.Getter;
 import org.checkerframework.checker.units.qual.C;
 
@@ -29,5 +31,10 @@ public class CancelOrder extends PendingOrder {
                 PendingOrderType.cancel(),
                 OrderIdToCancel.of(orderIdToCancel)
         );
+    }
+
+    @Override
+    public CancelOrderMessage toMessage() {
+        return CancelOrderMessage.create(orderId, clientId, OrderId.of(orderIdToCancel.value()), ticker);
     }
 }
