@@ -4,7 +4,8 @@ public enum MessageNames {
     EXECUTED_BUY_ORDER("order-executed-buy"),
     ERROR_ORDER("order-error"),
     ORDER_CANCELLED("order-cancelled"),
-    EXECUTED_SELL_ORDER("order-executed-sell");
+    EXECUTED_SELL_ORDER("order-executed-sell"),
+    EXCHANGE_STARTED("exchange-started");
 
     private final String name;
 

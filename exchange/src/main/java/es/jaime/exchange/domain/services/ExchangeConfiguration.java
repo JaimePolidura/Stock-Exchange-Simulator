@@ -6,4 +6,6 @@ public interface ExchangeConfiguration {
     String eventsExchangeName();
 
     int matchingEngineSleep();
+
+    String ticker();
 }

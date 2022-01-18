@@ -1,7 +1,7 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.events.*;
 import es.jaime.exchange.domain.exceptions.TtlExpired;
+import es.jaime.exchange.domain.models.events.*;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
 import es.jaime.exchange.domain.models.orders.ExecutionOrder;
@@ -42,18 +42,18 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         this.running = true;
     }
 
-    @EventListener({BuyOrderArrivedEvent.class})
-    public void onNewBuyOrder(BuyOrderArrivedEvent buyOrderArrivedEvent) {
+    @EventListener({BuyOrderArrived.class})
+    public void onNewBuyOrder(BuyOrderArrived buyOrderArrivedEvent) {
         addBuyOrder(buyOrderArrivedEvent.getBuyOrder());
     }
 
-    @EventListener({SellOrderArrivedEvent.class})
-    public void onNewSellOrder(SellOrderArrivedEvent sellOrderArrivedEvent) {
+    @EventListener({SellOrderArrived.class})
+    public void onNewSellOrder(SellOrderArrived sellOrderArrivedEvent) {
         addSellOrder(sellOrderArrivedEvent.getSellOrder());
     }
 
-    @EventListener({CancelOrderArrivedEvent.class})
-    public void onNewCancelOrder(CancelOrderArrivedEvent event){
+    @EventListener({CancelOrderArrived.class})
+    public void onNewCancelOrder(CancelOrderArrived event){
         addCancelOrder(event.getCancelOrder());
     }
 
@@ -139,8 +139,8 @@ public class MatchingOrderEngineByPrice implements MatchingOrderEngine, Runnable
         boolean ttlExpiredBuyOrder = decreaseTtl(buyOrder);
         boolean ttlExpiredSellOrder = decreaseTtl(sellOrder);
 
-        if(ttlExpiredBuyOrder) eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(buyOrder))); else buyOrders.add(buyOrder);
-        if(ttlExpiredSellOrder) eventBus.publish(new ExceptionOccurredEvent(new TtlExpired(sellOrder))); else sellOrders.add(sellOrder);
+        if(ttlExpiredBuyOrder) eventBus.publish(new ExceptionOccurred(new TtlExpired(buyOrder))); else buyOrders.add(buyOrder);
+        if(ttlExpiredSellOrder) eventBus.publish(new ExceptionOccurred(new TtlExpired(sellOrder))); else sellOrders.add(sellOrder);
     }
 
     private boolean decreaseTtl(ExecutionOrder order){

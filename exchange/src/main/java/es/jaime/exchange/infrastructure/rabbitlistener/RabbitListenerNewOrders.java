@@ -1,10 +1,10 @@
 package es.jaime.exchange.infrastructure.rabbitlistener;
 
-import es.jaime.exchange.domain.events.BuyOrderArrivedEvent;
-import es.jaime.exchange.domain.events.DomainEvent;
-import es.jaime.exchange.domain.events.EventBus;
-import es.jaime.exchange.domain.events.SellOrderArrivedEvent;
+import es.jaime.exchange.domain.models.events.DomainEvent;
+import es.jaime.exchange.domain.models.events.EventBus;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
+import es.jaime.exchange.infrastructure.ActiveOrderStorer;
+import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer;
@@ -19,6 +19,7 @@ import static java.lang.String.valueOf;
 
 @Component
 @Order(2)
+@AllArgsConstructor
 public class RabbitListenerNewOrders implements CommandLineRunner {
     private static final String CONSUMER_NAME = "new-orders-consumer";
 
@@ -26,14 +27,7 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
     private final DomainEventListenersInformation eventListenersInformation;
     private final RabbitListenerEndpointRegistry registry;
     private final EventBus eventBus;
-
-    public RabbitListenerNewOrders(ExchangeConfiguration configuration, DomainEventListenersInformation eventListenersInformation,
-                                   RabbitListenerEndpointRegistry registry, EventBus eventBus) {
-        this.configuration = configuration;
-        this.eventListenersInformation = eventListenersInformation;
-        this.registry = registry;
-        this.eventBus = eventBus;
-    }
+    private final ActiveOrderStorer activeOrderStorer;
 
     @Override
     public void run(String... args) {
@@ -49,16 +43,20 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
         System.out.println("recieved order: " + messageString);
 
         Map<String, Object> toMap = deserializeToMap(messageString);
+        String messageId = String.valueOf(toMap.get("id"));
         String eventName = valueOf(toMap.get("name"));
+
+        if(activeOrderStorer.contains(messageId)){
+            System.out.printf("Duplicated message for id %s", messageId);
+            return;
+        }
+
         DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
-        DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(getBody(toMap));
+        DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(toMap);
 
         this.eventBus.publish(domainEventToPublish);
     }
 
-    private Map<String, Object> getBody(Map<String, Object> map){
-        return (Map<String, Object>) map.get("body");
-    }
 
     private Map<String, Object> deserializeToMap(String rawString){
         return new JSONObject(rawString).toMap();

@@ -17,4 +17,9 @@ public class ExchangeConfigurationMock implements ExchangeConfiguration {
     public int matchingEngineSleep() {
         return 250;
     }
+
+    @Override
+    public String ticker() {
+        return "not needed";
+    }
 }

@@ -1,7 +1,7 @@
 package es.jaime.exchange._shared;
 
-import es.jaime.exchange.domain.events.DomainEvent;
-import es.jaime.exchange.domain.events.EventBus;
+import es.jaime.exchange.domain.models.events.DomainEvent;
+import es.jaime.exchange.domain.models.events.EventBus;
 
 import java.util.List;
 

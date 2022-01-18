@@ -2,7 +2,7 @@ package es.jaime.exchange.domain.models.orders;
 
 import lombok.Getter;
 
-public abstract class ExecutionOrder implements Comparable<ExecutionOrder> {
+public abstract class ExecutionOrder extends Order implements Comparable<ExecutionOrder> {
     @Getter private final String orderId;
     @Getter private final String clientId;
     @Getter private final String date;

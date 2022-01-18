@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class CancelOrder {
+public class CancelOrder extends Order{
     @Getter private final String orderId;
     @Getter private final String clientId;
     @Getter private final String orderToCancel;

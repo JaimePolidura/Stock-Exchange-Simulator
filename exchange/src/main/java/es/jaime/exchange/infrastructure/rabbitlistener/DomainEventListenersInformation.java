@@ -1,6 +1,6 @@
 package es.jaime.exchange.infrastructure.rabbitlistener;
 
-import es.jaime.exchange.domain.events.DomainEvent;
+import es.jaime.exchange.domain.models.events.DomainEvent;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
