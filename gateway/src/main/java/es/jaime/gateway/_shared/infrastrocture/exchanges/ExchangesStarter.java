@@ -38,8 +38,6 @@ public class ExchangesStarter implements CommandLineRunner {
 
             exchangesContainers.put(listedCompany, containerId);
         }
-
-        eventBus.publish(new AllExchangesStarted(exchangesContainers));
     }
 
     private String startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
@@ -62,7 +60,8 @@ public class ExchangesStarter implements CommandLineRunner {
         return List.of(
                 RabbitMQNameFormatter.newOrdersQueueName(listedCompany.ticker()),
                 RabbitMQNameFormatter.EVENTS_EXCHANGE,
-                "1000"
+                "1000",
+                listedCompany.ticker().value()
         );
     }
 }

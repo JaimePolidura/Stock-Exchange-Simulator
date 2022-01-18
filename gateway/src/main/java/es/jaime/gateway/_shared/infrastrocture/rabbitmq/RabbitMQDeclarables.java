@@ -37,12 +37,13 @@ public class RabbitMQDeclarables {
         TopicExchange exchange = new TopicExchange(EVENTS_EXCHANGE);
 
         List<EventName> events = eventNames();
-        List<String> listeners = getModuleListeners();
 
-        for (String listener : listeners) {
-            for (EventName eventName : events) {
-                String queueName = eventListenerQueueName(listener, eventName);
-                String routingKey = eventListenerRoutingKey(eventName);
+        for (EventName event : events) {
+            List<String> listeners = event.getListeners();
+
+            for (String listener : listeners) {
+                String queueName = eventListenerQueueName(listener, event);
+                String routingKey = eventListenerRoutingKey(event);
 
                 Queue queue = new Queue(queueName);
                 Binding binding = BindingBuilder
@@ -54,6 +55,7 @@ public class RabbitMQDeclarables {
                 declarablesToReturn.add(binding);
             }
         }
+
         declarablesToReturn.add(exchange);
 
         return declarablesToReturn;
