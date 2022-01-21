@@ -33,8 +33,10 @@ public class OnSellOrderExecutedOpenPositions {
     }
 
     private void updateQuantity(OpenPosition openPosition, SellOrderExecuted event) {
-        OpenPosition openPositionUpdatedQuantity = openPosition.decreasyQuantityBy(event.getQuantity());
+        int newQuantity = openPosition.getQuantity().value() - event.getQuantity();
+        OpenPosition newOpenPosition = OpenPosition.create(event.getClientId(), event.getTicker(), openPosition.getOpeningPrice().value(), newQuantity);
 
-        this.openPositions.save(openPositionUpdatedQuantity);
+        this.openPositions.deleteByPositionId(openPosition.getOrderId());
+        this.openPositions.save(newOpenPosition);
     }
 }
