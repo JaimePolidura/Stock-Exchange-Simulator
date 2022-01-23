@@ -4,8 +4,8 @@ import es.jaime.exchange.domain.models.events.EventBus;
 import es.jaime.exchange.domain.models.events.ExceptionOccurred;
 import es.jaime.exchange.domain.exceptions.DomainException;
 import es.jaime.exchange.domain.models.events.OrderMessagePublished;
+import es.jaime.exchange.domain.models.messages.MessageNames;
 import es.jaime.exchange.domain.models.messages.messages.ErrorOrderMessage;
-import es.jaime.exchange.domain.models.messages.EventName;
 import es.jaime.exchange.domain.models.orders.ExecutionOrder;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MessagePublisher;
@@ -30,7 +30,7 @@ public class ExceptionInterceptor {
 
         messagePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + EventName.ORDER_ERROR.getName(),
+                configuration.eventsExchangeName() + ".*." + MessageNames.ERROR_ORDER.getName(),
                 new ErrorOrderMessage(exception.getMessage(), order.getClientId(), order.getOrderId())
         );
 
