@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Map;
 
 @AllArgsConstructor
-public final class BuyOrderArrived extends OrderArrived {
+public final class BuyOrderArrived extends AsyncDomainEvent {
     @Getter private BuyOrder buyOrder;
     @Getter private String messageId;
 
@@ -28,17 +28,7 @@ public final class BuyOrderArrived extends OrderArrived {
     }
 
     @Override
-    public String messageId() {
-        return messageId;
-    }
-
-    @Override
     public String eventName() {
         return "new-order-buy";
-    }
-
-    @Override
-    public String getOrderId() {
-        return this.buyOrder.getOrderId();
     }
 }

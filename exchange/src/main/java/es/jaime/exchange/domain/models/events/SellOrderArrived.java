@@ -34,11 +34,6 @@ public class SellOrderArrived extends OrderArrived {
     }
 
     @Override
-    public String messageId() {
-        return this.messageId;
-    }
-
-    @Override
     public String getOrderId() {
         return this.sellOrder.getOrderId();
     }

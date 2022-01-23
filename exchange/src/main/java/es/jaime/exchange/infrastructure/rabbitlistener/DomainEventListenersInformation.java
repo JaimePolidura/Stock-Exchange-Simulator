@@ -1,5 +1,6 @@
 package es.jaime.exchange.infrastructure.rabbitlistener;
 
+import es.jaime.exchange.domain.models.events.AsyncDomainEvent;
 import es.jaime.exchange.domain.models.events.DomainEvent;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 @Component("eventslisteners-information")
 public final class DomainEventListenersInformation {
-    private final Map<String, DomainEvent> domainEventNamesWithInstances;
+    private final Map<String, AsyncDomainEvent> domainEventNamesWithInstances;
 
     public DomainEventListenersInformation() {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
@@ -28,35 +29,38 @@ public final class DomainEventListenersInformation {
     }
 
     @SneakyThrows
-    private Map<String, DomainEvent> mapDomainEventNamesWithInstances(Reflections reflections){
+    private Map<String, AsyncDomainEvent> mapDomainEventNamesWithInstances(Reflections reflections){
         Set<Method> methodsListeners = reflections.getMethodsAnnotatedWith(EventListener.class);
 
-        System.out.println("-> " + methodsListeners.size());
-
-        Map<Class<? extends DomainEvent>, DomainEvent> domainEventsInstances = new HashMap<>();
-        Map<String, DomainEvent> domainEventsNamesMappedWithInstances = new HashMap<>();
+        Map<Class<? extends AsyncDomainEvent>, DomainEvent> domainEventsInstances = new HashMap<>();
+        Map<String, AsyncDomainEvent> domainEventsNamesMappedWithInstances = new HashMap<>();
 
         for (Method methodsListener : methodsListeners) {
             Class<? extends DomainEvent> domainEventClass = (Class<? extends DomainEvent>) methodsListener.getParameterTypes()[0];
 
             if(domainEventsInstances.containsKey(domainEventClass)) continue;
+            if(!isAsynchEvent(domainEventClass)) continue;
             if(Modifier.isAbstract(domainEventClass.getModifiers())) continue;
 
-            DomainEvent domainEventInstance = domainEventClass.newInstance();
+            Class<? extends AsyncDomainEvent> asynchDomainEventClass = (Class<? extends AsyncDomainEvent>) domainEventClass;
+
+            AsyncDomainEvent domainEventInstance = asynchDomainEventClass.newInstance();
             String eventName = domainEventInstance.eventName();
 
             if(eventName.equalsIgnoreCase("")) continue;
 
-            domainEventsInstances.put(domainEventClass, domainEventInstance);
+            domainEventsInstances.put(asynchDomainEventClass, domainEventInstance);
             domainEventsNamesMappedWithInstances.put(eventName, domainEventInstance);
         }
-
-        System.out.println("-> " + domainEventsNamesMappedWithInstances.size());
 
         return domainEventsNamesMappedWithInstances;
     }
 
-    public DomainEvent getInstanceFor(String domainEventName){
+    private boolean isAsynchEvent(Class<? extends DomainEvent> eventClass){
+        return AsyncDomainEvent.class.isAssignableFrom(eventClass);
+    }
+
+    public AsyncDomainEvent getInstanceFor(String domainEventName){
         return this.domainEventNamesWithInstances.get(domainEventName);
     }
 }

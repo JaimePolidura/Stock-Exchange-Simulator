@@ -1,5 +1,6 @@
 package es.jaime.exchange.infrastructure.rabbitlistener;
 
+import es.jaime.exchange.domain.models.events.AsyncDomainEvent;
 import es.jaime.exchange.domain.models.events.DomainEvent;
 import es.jaime.exchange.domain.models.events.EventBus;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
@@ -51,7 +52,7 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
             return;
         }
 
-        DomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
+        AsyncDomainEvent domainEventToExecute = eventListenersInformation.getInstanceFor(eventName);
         DomainEvent domainEventToPublish = domainEventToExecute.fromPrimitives(toMap);
 
         this.eventBus.publish(domainEventToPublish);

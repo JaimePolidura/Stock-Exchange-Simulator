@@ -26,11 +26,6 @@ public final class CancelOrderArrived extends OrderArrived {
     }
 
     @Override
-    public String messageId() {
-        return this.messageId;
-    }
-
-    @Override
     public String eventName() {
         return "cancel-order";
     }
