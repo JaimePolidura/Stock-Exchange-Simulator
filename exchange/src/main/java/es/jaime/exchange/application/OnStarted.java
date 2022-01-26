@@ -1,6 +1,6 @@
 package es.jaime.exchange.application;
 
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.messages.messages.ExchangeStarted;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.domain.services.MessagePublisher;
@@ -17,7 +17,7 @@ public class OnStarted implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         messagePublisher.publish(configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageNames.EXCHANGE_STARTED.getName(),
+                configuration.eventsExchangeName() + ".*." + MessageName.EXCHANGE_STARTED.getName(),
                 new ExchangeStarted(configuration.ticker()));
     }
 }

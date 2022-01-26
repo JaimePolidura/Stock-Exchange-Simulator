@@ -42,8 +42,7 @@ io.use((socket, next) => {
 
 const authenticate = (socket, username: string, token: string): void => {
     axios.get(`${gateway}/auth/isvalidtoken?username=${username}&token=${token}`)
-        .then(res => {
-            console.log(res.data); if (res.data == false) closeSocketConnection(socket)})
+        .then(res => {if (res.data == false) closeSocketConnection(socket)})
         .catch(err => closeSocketConnection(socket));
 }
 
@@ -61,10 +60,9 @@ ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
             channel.consume(queue, message => {
                 let messageToJSON: any = JSON.parse(message.content.toString());
 
-                console.log("new message from exchange "+ messageToJSON.to  +": " + message.content.toString());
+                console.log("new message from exchange : " + message.content.toString());
 
                 messageToJSON.meta.to.forEach(to => {
-                    console.log("lu")
                     console.log(to);
 
                     io.emit(to, messageToJSON);

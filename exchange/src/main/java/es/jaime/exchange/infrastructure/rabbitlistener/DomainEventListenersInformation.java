@@ -2,6 +2,7 @@ package es.jaime.exchange.infrastructure.rabbitlistener;
 
 import es.jaime.exchange.domain.models.events.AsyncDomainEvent;
 import es.jaime.exchange.domain.models.events.DomainEvent;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -45,12 +46,12 @@ public final class DomainEventListenersInformation {
             Class<? extends AsyncDomainEvent> asynchDomainEventClass = (Class<? extends AsyncDomainEvent>) domainEventClass;
 
             AsyncDomainEvent domainEventInstance = asynchDomainEventClass.newInstance();
-            String eventName = domainEventInstance.eventName();
+            MessageName eventName = domainEventInstance.eventName();
 
-            if(eventName.equalsIgnoreCase("")) continue;
+            if(eventName == null) continue;
 
             domainEventsInstances.put(asynchDomainEventClass, domainEventInstance);
-            domainEventsNamesMappedWithInstances.put(eventName, domainEventInstance);
+            domainEventsNamesMappedWithInstances.put(eventName.getName(), domainEventInstance);
         }
 
         return domainEventsNamesMappedWithInstances;

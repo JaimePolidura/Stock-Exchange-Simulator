@@ -1,7 +1,7 @@
 package es.jaime.exchange.domain.models.messages.messages;
 
 import es.jaime.exchange.domain.models.messages.EventMessage;
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.orders.OrderType;
 import lombok.AllArgsConstructor;
 
@@ -20,8 +20,8 @@ public final class SellOrderExecutedMessage implements EventMessage {
     private final String ticker;
 
     @Override
-    public MessageNames name() {
-        return MessageNames.EXECUTED_SELL_ORDER;
+    public MessageName name() {
+        return MessageName.EXECUTED_SELL_ORDER;
     }
 
     @Override

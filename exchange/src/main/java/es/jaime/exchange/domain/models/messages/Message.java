@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface Message extends Serializable {
     MessageTypes type();
-    MessageNames name();
+    MessageName name();
 
     Map<String, Object> body();
 

@@ -1,7 +1,7 @@
 package es.jaime.exchange.domain.models.messages.messages;
 
 import es.jaime.exchange.domain.models.messages.Message;
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.messages.MessageTypes;
 import lombok.AllArgsConstructor;
 
@@ -20,8 +20,8 @@ public final class OrderCancelledMessage implements Message {
     }
 
     @Override
-    public MessageNames name() {
-        return MessageNames.ORDER_CANCELLED;
+    public MessageName name() {
+        return MessageName.ORDER_CANCELLED;
     }
 
     @Override

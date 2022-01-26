@@ -1,7 +1,7 @@
 package es.jaime.exchange.domain.models.messages.messages;
 
 import es.jaime.exchange.domain.models.messages.Message;
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.messages.MessageTypes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +18,8 @@ public class ExchangeStarted implements Message {
     }
 
     @Override
-    public MessageNames name() {
-        return MessageNames.EXCHANGE_STARTED;
+    public MessageName name() {
+        return MessageName.EXCHANGE_STARTED;
     }
 
     @Override

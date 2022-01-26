@@ -1,5 +1,6 @@
 package es.jaime.exchange.domain.models.events;
 
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.orders.SellOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +30,8 @@ public class SellOrderArrived extends OrderArrived {
     }
 
     @Override
-    public String eventName() {
-        return "new-order-sell";
+    public MessageName eventName() {
+        return MessageName.NEW_ORDER_SELL;
     }
 
     @Override

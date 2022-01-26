@@ -1,7 +1,7 @@
 package es.jaime.exchange.domain.models.messages.messages;
 
 import es.jaime.exchange.domain.models.messages.EventMessage;
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -14,8 +14,8 @@ public class ErrorOrderMessage implements EventMessage {
     private final String orderId;
 
     @Override
-    public MessageNames name() {
-        return MessageNames.ERROR_ORDER;
+    public MessageName name() {
+        return MessageName.ERROR_ORDER;
     }
 
     @Override

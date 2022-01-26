@@ -1,5 +1,6 @@
 package es.jaime.exchange.domain.models.events;
 
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.orders.BuyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public final class BuyOrderArrived extends AsyncDomainEvent {
     }
 
     @Override
-    public String eventName() {
-        return "new-order-buy";
+    public MessageName eventName() {
+        return MessageName.NEW_ORDER_BUY;
     }
 }

@@ -1,5 +1,6 @@
 package es.jaime.exchange.domain.models.events;
 
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,8 +27,8 @@ public final class CancelOrderArrived extends OrderArrived {
     }
 
     @Override
-    public String eventName() {
-        return "cancel-order";
+    public MessageName eventName() {
+        return MessageName.NEW_ORDER_CANCEL;
     }
 
     @Override

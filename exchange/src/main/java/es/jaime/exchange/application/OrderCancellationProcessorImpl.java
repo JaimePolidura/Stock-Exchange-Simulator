@@ -2,7 +2,7 @@ package es.jaime.exchange.application;
 
 import es.jaime.exchange.domain.models.events.EventBus;
 import es.jaime.exchange.domain.models.events.OrderMessagePublished;
-import es.jaime.exchange.domain.models.messages.MessageNames;
+import es.jaime.exchange.domain.models.messages.MessageName;
 import es.jaime.exchange.domain.models.messages.messages.OrderCancelledMessage;
 import es.jaime.exchange.domain.models.orders.CancelOrder;
 import es.jaime.exchange.domain.models.orders.ExecutionOrder;
@@ -23,7 +23,7 @@ public class OrderCancellationProcessorImpl implements OrderCancellationProcesso
     public void cancel(ExecutionOrder order, CancelOrder cancelOrder) {
         this.messagePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageNames.ORDER_CANCELLED.getName(),
+                configuration.eventsExchangeName() + ".*." + MessageName.ORDER_CANCELLED.getName(),
                 new OrderCancelledMessage(order.getClientId(), cancelOrder.getOrderId(), order.getOrderId())
         );
 
