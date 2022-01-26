@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.hibernate.cfg.AvailableSettings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -45,6 +44,8 @@ public class HibernateConfigurationFactory {
         );
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+
+        System.out.println(dataSource.getUrl());
 
         Resource mysqlResource = resourceResolver.getResource(String.format(
                 "classpath:database/%s.sql",

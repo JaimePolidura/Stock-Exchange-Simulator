@@ -9,7 +9,7 @@ public class StringValueObject extends ValueObject{
         this.value = value;
     }
 
-    public String value () {
+    public String value() {
         return this.value;
     }
 

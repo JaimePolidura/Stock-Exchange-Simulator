@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Repository
-@Transactional("gateway-transaction-manager")
+//@Repository
+//@Transactional("gateway-transaction-manager")
 public class OrdersCancelRepositoryMySQL extends HibernateRepository<CancelOrder> implements OrdersCancelRepository {
     public OrdersCancelRepositoryMySQL(SessionFactory sessionFactory) {
         super(sessionFactory, CancelOrder.class);

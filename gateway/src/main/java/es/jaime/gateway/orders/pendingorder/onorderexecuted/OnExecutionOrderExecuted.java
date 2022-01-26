@@ -27,14 +27,12 @@ public class OnExecutionOrderExecuted {
 
         ExecutionOrder orderExecuged = executionOrderOptional.get();
 
-        System.out.println("a porro");
-
         int actualQuantity = orderExecuged.getQuantity().value();
         int quantityBought = event.getQuantity();
         OrderQuantity newQuantity = OrderQuantity.of(actualQuantity - quantityBought);
 
         if(actualQuantity == quantityBought)
-            executionOrderDeleter.deleteById(orderExecuged.getOrderId());
+            executionOrderDeleter.deleteById(orderExecuged);
         else
             executionOrderSaver.changeQuantityAndSave(orderExecuged, newQuantity);
     }

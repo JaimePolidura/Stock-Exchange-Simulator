@@ -65,7 +65,7 @@ public class SellOrder extends ExecutionOrder {
                 "ticker", ticker.value(),
                 "pendingOrderType", pendingOrderType.value(),
                 "quantity", quantity.value(),
-                "executionPrice", priceToExecute.value(),
+                "priceToExecute", priceToExecute.value(),
                 "positionIdToSell", positionIdToSell.value()
         );
     }

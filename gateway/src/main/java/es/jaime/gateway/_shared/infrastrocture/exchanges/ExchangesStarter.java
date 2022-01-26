@@ -1,10 +1,9 @@
 package es.jaime.gateway._shared.infrastrocture.exchanges;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
 import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
@@ -24,6 +23,8 @@ import static java.lang.String.format;
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
 @AllArgsConstructor
 public class ExchangesStarter implements CommandLineRunner {
+    private static final String IMAGE_EXCHANGE = "sxs-exchange";
+
     private final ListedCompaniesRepository repository;
     private final DockerClient dockerClient;
     private final EventBus eventBus;
@@ -33,6 +34,8 @@ public class ExchangesStarter implements CommandLineRunner {
         Map<ListedCompany, String> exchangesContainers = new HashMap<>();
         List<ListedCompany> listedCompanies = repository.findAll();
 
+        removeExchangesContainers();
+
         for (ListedCompany listedCompany : listedCompanies) {
             String containerId = startDockerContainer(dockerClient, listedCompany);
 
@@ -40,8 +43,15 @@ public class ExchangesStarter implements CommandLineRunner {
         }
     }
 
+    private void removeExchangesContainers(){
+        dockerClient.listContainersCmd().exec().stream()
+                .filter(container -> container.getImage().equalsIgnoreCase(IMAGE_EXCHANGE))
+                .map(Container::getId)
+                .forEach(id -> dockerClient.stopContainerCmd(id).exec());
+    }
+
     private String startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
-        String containerID = dockerClient.createContainerCmd("sxs-exchange")
+        String containerID = dockerClient.createContainerCmd(IMAGE_EXCHANGE)
                 .withCmd(cmdToExchange(listedCompany))
                 .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
                 .withHostConfig(HostConfig

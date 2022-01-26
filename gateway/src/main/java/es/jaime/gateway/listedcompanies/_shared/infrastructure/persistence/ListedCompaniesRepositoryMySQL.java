@@ -1,57 +1,69 @@
 package es.jaime.gateway.listedcompanies._shared.infrastructure.persistence;
 
-import es.jaime.gateway._shared.infrastrocture.persistance.HibernateRepository;
+import es.jaime.connection.DatabaseConnection;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyName;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import org.hibernate.SessionFactory;
+import es.jaime.mapper.EntityMapper;
+import es.jaime.repository.DataBaseRepositoryValueObjects;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 @Repository
-@Transactional("gateway-transaction-manager")
-public class ListedCompaniesRepositoryMySQL extends HibernateRepository<ListedCompany> implements ListedCompaniesRepository {
-    private final Map<ListedCompanyTicker, ListedCompany> indexedCacheByTicker;
-    private List<ListedCompany> allListedCompaniesCache;
-
-    public ListedCompaniesRepositoryMySQL(SessionFactory sessionFactory) {
-        super(sessionFactory, ListedCompany.class);
-
-        this.indexedCacheByTicker = new HashMap<>();
-        this.allListedCompaniesCache = new ArrayList<>();
+public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjects<ListedCompany, ListedCompanyTicker> implements ListedCompaniesRepository {
+    protected ListedCompaniesRepositoryMySQL(DatabaseConnection databaseConnection) {
+        super(databaseConnection);
     }
 
     @Override
     public Optional<ListedCompany> findByTicker(ListedCompanyTicker ticker) {
-        ensureCacheLoadedOrLoad();
-
-        return Optional.ofNullable(indexedCacheByTicker.get(ticker));
+        return super.findById(ticker);
     }
 
     @Override
     public List<ListedCompany> findAll() {
-        ensureCacheLoadedOrLoad();
-
-        return allListedCompaniesCache;
+        return super.all();
     }
 
-    private void ensureCacheLoadedOrLoad(){
-        boolean loaded = this.indexedCacheByTicker.size() != 0 && this.allListedCompaniesCache.size() != 0;
-
-        if(!loaded){
-            addAllListedCompaniesInCache();
-        }
+    @Override
+    protected Function<ListedCompanyTicker, Object> idValueObjectToIdPrimitive() {
+        return ListedCompanyTicker::value;
     }
 
-    private void addAllListedCompaniesInCache(){
-        List<ListedCompany> allListedCompanies = super.all();
+    @Override
+    protected Map<String, Object> toValueObjects(ListedCompany listedCompany) {
+        return Map.of(
+                "ticker", listedCompany.ticker(),
+                "name", listedCompany.name()
+        );
+    }
 
-        this.allListedCompaniesCache = allListedCompanies;
+    @Override
+    protected EntityMapper<ListedCompany> entityMapper() {
+        return EntityMapper
+                .table("listedcompanies")
+                .classToMap(ListedCompany.class)
+                .idField("ticker")
+                .build();
+    }
 
-        for (var listedCompany : allListedCompanies) {
-            this.indexedCacheByTicker.put(listedCompany.ticker(), listedCompany);
-        }
+    @Override
+    public ListedCompany buildObjectFromResultSet(ResultSet resultSet) throws SQLException {
+        return new ListedCompany(ListedCompanyTicker.of(resultSet.getString("ticker")), ListedCompanyName.of(resultSet.getString("name")));
+    }
+
+    @Override
+    protected Map<String, Object> toPrimitives(ListedCompany listedCompany) {
+        return Map.of(
+                "ticker", listedCompany.ticker().value(),
+                "name", listedCompany.name().value()
+        );
     }
 }

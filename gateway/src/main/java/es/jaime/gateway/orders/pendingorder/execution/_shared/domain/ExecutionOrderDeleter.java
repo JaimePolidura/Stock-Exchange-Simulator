@@ -1,7 +1,7 @@
 package es.jaime.gateway.orders.pendingorder.execution._shared.domain;
 
-import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
+import es.jaime.gateway.orders.pendingorder.execution.sell._shared.domain.SellOrderRepostiry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExecutionOrderDeleter {
     private final BuyOrderRepostory buyOrders;
-    private final BuyOrderRepostory sellOrders;
+    private final SellOrderRepostiry sellOrders;
 
-    public void deleteById(OrderId orderId){
-        buyOrders.deleteByOrderId(orderId);
-        sellOrders.deleteByOrderId(orderId);
+    public void deleteById(ExecutionOrder order) {
+        if(order.getPendingOrderType().isBuy())
+            buyOrders.deleteByOrderId(order.getOrderId());
+        else
+            sellOrders.deleteByOrderId(order.getOrderId());
     }
 }

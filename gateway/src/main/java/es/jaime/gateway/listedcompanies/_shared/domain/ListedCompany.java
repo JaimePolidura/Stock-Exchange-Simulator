@@ -23,4 +23,8 @@ public final class ListedCompany extends Aggregate {
     public ListedCompanyName name() {
         return name;
     }
+
+    public static ListedCompany create (String ticker, String name){
+        return new ListedCompany(ListedCompanyTicker.of(ticker), ListedCompanyName.of(name));
+    }
 }

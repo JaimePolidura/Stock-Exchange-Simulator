@@ -43,7 +43,7 @@ public final class BuyOrder extends ExecutionOrder {
                 "ticker", ticker.value(),
                 "pendingOrderType", pendingOrderType.value(),
                 "quantity", quantity.value(),
-                "executionPrice", priceToExecute.value()
+                "priceToExecute", priceToExecute.value()
         );
     }
 
