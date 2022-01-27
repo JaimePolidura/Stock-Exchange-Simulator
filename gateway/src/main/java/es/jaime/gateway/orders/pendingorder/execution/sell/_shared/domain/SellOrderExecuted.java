@@ -11,9 +11,9 @@ public final class SellOrderExecuted extends ExecutionOrderExecuted {
     @Getter private
     String positionId;
 
-    public SellOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
+    public SellOrderExecuted(String orderId, String clientId, String ticker, double priceToExecute,
                              int quantity, String date, String positionId) {
-        super(orderId, clientId, ticker, executionPrice, quantity, date);
+        super(orderId, clientId, ticker, priceToExecute, quantity, date);
         this.positionId = positionId;
     }
 
@@ -28,7 +28,7 @@ public final class SellOrderExecuted extends ExecutionOrderExecuted {
                 String.valueOf(body.get("orderId")),
                 String.valueOf(((ArrayList<String>) meta.get("to")).get(0)),
                 String.valueOf(body.get("ticker")),
-                Double.parseDouble(String.valueOf(body.get("executionPrice"))),
+                Double.parseDouble(String.valueOf(body.get("priceToExecute"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
                 String.valueOf(body.get("date")),
                 String.valueOf(body.get("positionId"))

@@ -9,15 +9,15 @@ public abstract class ExecutionOrderExecuted extends DomainEvent {
     @Getter private String orderId;
     @Getter private String clientId;
     @Getter private String ticker;
-    @Getter private double executionPrice;
+    @Getter private double priceToExecute;
     @Getter private int quantity;
     @Getter private String date;
 
-    public ExecutionOrderExecuted(String orderId, String clientId, String ticker, double executionPrice, int quantity, String date) {
+    public ExecutionOrderExecuted(String orderId, String clientId, String ticker, double priceToExecute, int quantity, String date) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.ticker = ticker;
-        this.executionPrice = executionPrice;
+        this.priceToExecute = priceToExecute;
         this.quantity = quantity;
         this.date = date;
     }

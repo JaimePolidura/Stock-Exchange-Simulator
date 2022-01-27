@@ -3,8 +3,8 @@ package es.jaime.gateway.orders.pendingorder.execution.sell.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQuery;
-import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQueryResponse;
+import es.jaime.gateway.orders.pendingorder.execution._shared.application.getorder.GetExecutionOrderQuery;
+import es.jaime.gateway.orders.pendingorder.execution._shared.application.getorder.GetExecutionOrderQueryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +27,7 @@ public class SellOrderController extends Controller {
         SellOrderCommand sellOrderCommand = new SellOrderCommand(
                 getLoggedUsername(),
                 request.positionId,
-                request.executionPrice,
+                request.priceToExecute,
                 request.quantity
         );
         this.commandBus.dispatch(sellOrderCommand);
@@ -47,11 +47,11 @@ public class SellOrderController extends Controller {
             this.order = queryResponse.toPrimitives();
         }
     }
-
+    
     @AllArgsConstructor
     private static final class Request {
         public final String positionId;
         public final int quantity;
-        public final double executionPrice;
+        public final double priceToExecute;
     }
 }

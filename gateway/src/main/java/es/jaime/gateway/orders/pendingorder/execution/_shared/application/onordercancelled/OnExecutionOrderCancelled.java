@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution.onordercancelled;
+package es.jaime.gateway.orders.pendingorder.execution._shared.application.onordercancelled;
 
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderState;

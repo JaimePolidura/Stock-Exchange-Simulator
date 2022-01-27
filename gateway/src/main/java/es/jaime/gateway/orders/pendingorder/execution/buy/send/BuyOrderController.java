@@ -3,10 +3,9 @@ package es.jaime.gateway.orders.pendingorder.execution.buy.send;
 import es.jaime.gateway._shared.domain.command.CommandBus;
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
-import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQuery;
-import es.jaime.gateway.orders.pendingorder.execution.getorder.GetExecutionOrderQueryResponse;
+import es.jaime.gateway.orders.pendingorder.execution._shared.application.getorder.GetExecutionOrderQuery;
+import es.jaime.gateway.orders.pendingorder.execution._shared.application.getorder.GetExecutionOrderQueryResponse;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,7 @@ public class BuyOrderController extends Controller {
         BuyOrderCommand buyOrderCommand = new BuyOrderCommand(
                 getLoggedUsername(),
                 request.ticker,
-                request.executionPrice,
+                request.priceToExecute,
                 request.quantity
         );
 
@@ -46,7 +45,7 @@ public class BuyOrderController extends Controller {
     private static final class Request {
         public final String ticker;
         public final int quantity;
-        public final double executionPrice;
+        public final double priceToExecute;
     }
 
     private static class Response{

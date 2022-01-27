@@ -8,6 +8,6 @@ public final class BuyOrder extends ExecutionOrder {
 
     @Override
     public int compareTo(ExecutionOrder other) {
-        return (int) (other.getExecutionPrice() - getExecutionPrice());
+        return (int) (other.getPriceToExecute() - this.getPriceToExecute());
     }
 }

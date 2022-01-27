@@ -1,6 +1,7 @@
 import React, {ReactComponentElement} from "react";
-import './TradeDisplayInTable.css';
+import './OpenPositionDisplayInTable.css';
 import SellStockModal from "./SellStockModal";
+import backendService from "../../../services/BackendService";
 
 class TradeDisplayInTable extends React.Component<any, any> {
     constructor(props: any) {
@@ -12,7 +13,15 @@ class TradeDisplayInTable extends React.Component<any, any> {
             sellExecutionType: "Market",
             onOrderSellSended: props.onOrderSellSended,
             listedCompany: props.listedCompany,
+            actualPrice: -1,
         };
+
+        this.loadPriceByApi();
+    }
+
+    loadPriceByApi(){
+        backendService.getLastPrice(this.state.trade.ticker)
+            .then(res => this.setState({actualPrice: res.data}));
     }
 
     render() {
@@ -34,8 +43,10 @@ class TradeDisplayInTable extends React.Component<any, any> {
         );
     }
 
-    actualPriceFromTicker(ticker: string): number{
-        return 1000;
+    actualPriceFromTicker(ticker: string): any{
+        return this.state.actualPrice != -1 ?
+            this.state.actualPrice :
+            'Loading' ;
     }
 
     renderSellStockModal(): any{
@@ -65,6 +76,8 @@ class TradeDisplayInTable extends React.Component<any, any> {
     }
 
     renderResult(): any{
+        if(this.state.actualPrice == -1) return 'Loading';
+
         let result = this.calculateResult();
 
         return result >= 0 ?
@@ -73,12 +86,16 @@ class TradeDisplayInTable extends React.Component<any, any> {
     }
 
     renderMarketValue(): string{
+        if(this.state.actualPrice == -1) return 'Loading';
+
         let trade = this.state.trade;
 
         return Math.round(trade.quantity * this.actualPriceFromTicker(trade.ticker)) + " $";
     }
 
     renderResultYield(): any{
+        if(this.state.actualPrice == -1) return 'Loading';
+
         let trade = this.state.trade;
 
         let investedCapital = trade.quantity * trade.openingPrice;
@@ -91,7 +108,9 @@ class TradeDisplayInTable extends React.Component<any, any> {
             <div className="red">{resultYield} %</div>;
     }
 
-    calculateResult(): number{
+    calculateResult(): string | number{
+        if(this.state.actualPrice == -1) return 'Loading';
+
         let trade = this.state.trade;
 
         return Math.round((this.actualPriceFromTicker(trade.ticker) - trade.openingPrice) * trade.quantity);

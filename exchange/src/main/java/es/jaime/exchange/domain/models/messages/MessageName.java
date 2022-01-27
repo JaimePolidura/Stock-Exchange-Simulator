@@ -11,7 +11,7 @@ public enum MessageName {
     NEW_ORDER_SELL("new-order-sell");
 
     private final String name;
-<g
+
     MessageName(String name) {
         this.name = name;
     }

@@ -4,9 +4,6 @@ import es.jaime.gateway._shared.domain.command.CommandHandler;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-import es.jaime.gateway.orders._shared.domain.OrderId;
-import es.jaime.gateway.orders._shared.domain.OrderQuantity;
-import es.jaime.gateway.orders._shared.domain.OrderTicker;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrder;
 import es.jaime.gateway.orders._shared.domain.OrderState;
@@ -46,16 +43,8 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getTicker(),
                 PendingOrderType.buy(),
                 command.getQuantity(),
-                command.getExecutionPrice()
+                command.getPriceToExecute()
         ));
-
-        if(!hasBeenSaved(command.getOrderID())){
-            saveOrderToRepository(command);
-        }
-    }
-
-    private boolean hasBeenSaved(OrderId orderId){
-        return buyOrders.findByOrderId(orderId).isPresent();
     }
 
     private void publishMessage(BuyOrderCommand command){
@@ -65,7 +54,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
                 command.getOrderID(),
                 command.getClientID(),
                 command.getOrderDate(),
-                command.getExecutionPrice(),
+                command.getPriceToExecute(),
                 command.getQuantity(),
                 command.getTicker(),
                 PendingOrderType.buy()

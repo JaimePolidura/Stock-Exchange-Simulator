@@ -32,7 +32,7 @@ public class SendBuyOrderMessage implements CommandMessage {
             put("orderId", orderID.value());
             put("clientId", clientID.value());
             put("date", date.value());
-            put("executionPrice", executionPrice.value());
+            put("priceToExecute", executionPrice.value());
             put("quantity", quantity.value());
             put("ticker", ticker.value());
             put("type", type.value());

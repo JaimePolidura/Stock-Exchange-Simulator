@@ -13,7 +13,7 @@ public final class SellOrderExecutedMessage implements EventMessage {
     private final String orderId;
     private final String clientId;
     private final String positionId;
-    private final double executionPrice;
+    private final double priceToExecute;
     private final int quantity;
     private final String date;
     private final OrderType orderType;
@@ -28,7 +28,7 @@ public final class SellOrderExecutedMessage implements EventMessage {
     public Map<String, Object> body() {
         return Map.of(
                 "positionId", positionId,
-                "executionPrice", executionPrice,
+                "priceToExecute", priceToExecute,
                 "quantity", quantity,
                 "date", date,
                 "orderId", orderId,

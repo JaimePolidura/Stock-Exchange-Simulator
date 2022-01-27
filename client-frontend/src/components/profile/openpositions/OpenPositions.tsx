@@ -1,8 +1,8 @@
-import TradeDisplayInTable from "./TradeDisplayInTable";
+import TradeDisplayInTable from "./OpenPositionDisplayInTable";
 import React from "react";
-import './Trades.css';
+import './OpenPositions.css';
 
-export default class Trades extends React.Component<any, any> {
+export default class OpenPositions extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
 

@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.onorderexecuted;
+package es.jaime.gateway.orders.pendingorder._shared.application.onorderexecuted;
 
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderQuantity;

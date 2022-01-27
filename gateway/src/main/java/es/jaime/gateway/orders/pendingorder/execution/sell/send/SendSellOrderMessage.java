@@ -34,7 +34,7 @@ public class SendSellOrderMessage implements CommandMessage {
             put("positionId", orderIdToSell.value());
             put("clientId", clientID.value());
             put("date", date.value());
-            put("executionPrice", executionPrice.value());
+            put("priceToExecute", executionPrice.value());
             put("quantity", quantity.value());
             put("ticker", ticker);
             put("type", type.value());

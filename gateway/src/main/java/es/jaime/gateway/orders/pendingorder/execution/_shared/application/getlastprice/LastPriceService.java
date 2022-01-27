@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution.getlastprice;
+package es.jaime.gateway.orders.pendingorder.execution._shared.application.getlastprice;
 
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
 import es.jaime.gateway.orders._shared.domain.OrderTicker;
@@ -31,9 +31,8 @@ public class LastPriceService {
     private OrderPriceToExecute getLastPriceFromRepository(OrderTicker ticker){
         Optional<ExecutionOrder> lastOrderExecutedOptional = executionOrderFinder.findLastOrderFor(ticker);
 
-        if(lastOrderExecutedOptional.isEmpty()){
-            return OrderPriceToExecute.of(1);
-        }
+        if(lastOrderExecutedOptional.isEmpty()) return OrderPriceToExecute.of(1);
+
         ExecutionOrder lastOrderExecuted = lastOrderExecutedOptional.get();
 
         this.cacheLastPrices.put(lastOrderExecuted.getTicker().value(), lastOrderExecuted.getPriceToExecute().value());
@@ -51,6 +50,6 @@ public class LastPriceService {
 
     @EventListener({ExecutionOrderExecuted.class})
     protected void on(ExecutionOrderExecuted event){
-        cacheLastPrices.put(event.getTicker(), event.getExecutionPrice());
+        cacheLastPrices.put(event.getTicker(), event.getPriceToExecute());
     }
 }

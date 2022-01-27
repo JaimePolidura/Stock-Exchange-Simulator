@@ -27,7 +27,7 @@ public final class BuyOrderExecuted extends ExecutionOrderExecuted {
                 String.valueOf(body.get("orderId")),
                 String.valueOf(((ArrayList<String>) meta.get("to")).get(0)),
                 String.valueOf(body.get("ticker")),
-                Double.parseDouble(String.valueOf(body.get("executionPrice"))),
+                Double.parseDouble(String.valueOf(body.get("priceToExecute"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
                 String.valueOf(body.get("date"))
         );

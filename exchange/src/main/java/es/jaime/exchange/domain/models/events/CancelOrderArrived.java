@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.Map;
 
 @AllArgsConstructor
-public final class CancelOrderArrived extends OrderArrived {
+public final class CancelOrderArrived extends OrderArrived implements AsyncDomainEvent {
     @Getter private CancelOrder cancelOrder;
     @Getter private String messageId;
 

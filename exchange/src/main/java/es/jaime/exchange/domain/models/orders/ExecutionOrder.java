@@ -6,7 +6,7 @@ public abstract class ExecutionOrder extends Order implements Comparable<Executi
     @Getter private final String orderId;
     @Getter private final String clientId;
     @Getter private final String date;
-    @Getter private final double executionPrice;
+    @Getter private final double priceToExecute;
     @Getter private int quantity;
     @Getter private final String ticker;
     @Getter private int ttl = 100;
@@ -15,7 +15,7 @@ public abstract class ExecutionOrder extends Order implements Comparable<Executi
         this.orderId = orderId;
         this.clientId = clientId;
         this.date = date;
-        this.executionPrice = executionPrice;
+        this.priceToExecute = executionPrice;
         this.quantity = quantity;
         this.ticker = ticker;
     }

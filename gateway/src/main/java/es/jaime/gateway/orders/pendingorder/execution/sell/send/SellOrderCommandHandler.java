@@ -58,17 +58,9 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 OrderTicker.of(positionToSell.getTicker().value()),
                 PendingOrderType.sell(),
                 command.getQuantity(),
-                command.getExecutionPrice(),
+                command.getPriceToExecute(),
                 OrderPositionIdToSell.of(positionToSell.getOrderId().value())
         ));
-
-        if(!hasBeenSaved(command.getOrderID())){
-            saveToRepository(command, positionToSell);
-        }
-    }
-
-    private boolean hasBeenSaved(OrderId orderId){
-        return sellOrders.findByOrderId(orderId).isPresent();
     }
 
     private void publishMessage(SellOrderCommand command, OpenPosition positionToSell){
@@ -79,7 +71,7 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
                 OrderPositionIdToSell.of(positionToSell.getOrderId().value()),
                 command.getClientID(),
                 command.getOrderDate(),
-                command.getExecutionPrice(),
+                command.getPriceToExecute(),
                 command.getQuantity(),
                 positionToSell.getTicker(),
                 PendingOrderType.sell())

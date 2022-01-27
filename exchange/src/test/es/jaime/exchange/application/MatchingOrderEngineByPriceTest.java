@@ -59,7 +59,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedBuyOrderByPrice = new double[]{12.0, 10.0, 9.0, 8.0, -1.0};
         double[] actualBuyOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getBuyOrdersQueue())
                 .stream()
-                .mapToDouble(ExecutionOrder::getExecutionPrice)
+                .mapToDouble(ExecutionOrder::getPriceToExecute)
                 .toArray();
 
         assertArrayEquals(expectedBuyOrderByPrice, actualBuyOrderByPrice, 0);
@@ -70,7 +70,7 @@ public class MatchingOrderEngineByPriceTest {
         double[] expectedSellOrderByPrice = new double[]{-1.0, 8.0, 10.0, 11.0, 11.0, };
         double[] actualSellOrderByPrice = iterateThroughPriorityQueue(this.matchingEngineTest.getSellOrdersQueue())
                 .stream()
-                .mapToDouble(ExecutionOrder::getExecutionPrice)
+                .mapToDouble(ExecutionOrder::getPriceToExecute)
                 .toArray();
 
         assertArrayEquals(expectedSellOrderByPrice, actualSellOrderByPrice, 0);

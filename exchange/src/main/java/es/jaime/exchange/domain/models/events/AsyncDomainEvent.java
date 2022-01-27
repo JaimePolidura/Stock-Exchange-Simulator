@@ -1,7 +1,10 @@
 package es.jaime.exchange.domain.models.events;
 
+import es.jaime.exchange.domain.models.messages.MessageName;
+
 import java.util.Map;
 
-public abstract class AsyncDomainEvent extends DomainEvent{
-    public abstract DomainEvent fromPrimitives(Map<String, Object> primitives);
+public interface AsyncDomainEvent{
+    DomainEvent fromPrimitives(Map<String, Object> primitives);
+    MessageName eventName();
 }

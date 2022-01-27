@@ -29,7 +29,7 @@ public class OnSellOrderExecutedClosedPositions {
                 event.getQuantity(),
                 openPosition.getOpeningPrice().value(),
                 openPosition.getOpeningDate().value(),
-                event.getExecutionPrice(),
+                event.getPriceToExecute(),
                 event.getDate()
         ));
     }

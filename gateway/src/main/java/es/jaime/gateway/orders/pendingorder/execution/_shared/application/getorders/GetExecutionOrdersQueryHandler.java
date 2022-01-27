@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution.getorders;
+package es.jaime.gateway.orders.pendingorder.execution._shared.application.getorders;
 
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.orders._shared.domain.OrderState;

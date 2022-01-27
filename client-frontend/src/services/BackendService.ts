@@ -50,6 +50,10 @@ class BackendService {
         return axios.post(apiRoute + "orders/cancel/send/" + orderId);
     }
 
+    getLastPrice(ticker: string): Promise<AxiosResponse<number>> {
+        return axios.get(apiRoute + "orders/lastprice/" + ticker);
+    }
+
 }
 
 export default new BackendService();

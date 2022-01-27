@@ -10,13 +10,13 @@ public final class BuyOrderCommand implements Command {
     @Getter private final OrderId orderID;
     @Getter private final OrderDate orderDate;
     @Getter private final OrderTicker ticker;
-    @Getter private final OrderPriceToExecute executionPrice;
+    @Getter private final OrderPriceToExecute priceToExecute;
     @Getter private final OrderQuantity quantity;
 
-    public BuyOrderCommand(String clientId, String ticker, double executionPrice, int quantity) {
+    public BuyOrderCommand(String clientId, String ticker, double priceToExecute, int quantity) {
         this.clientID = OrderClientId.of(clientId);
         this.ticker = OrderTicker.of(ticker);
-        this.executionPrice = OrderPriceToExecute.of(executionPrice);
+        this.priceToExecute = OrderPriceToExecute.of(priceToExecute);
         this.quantity = OrderQuantity.of(quantity);
         this.orderID = OrderId.generate();
         this.orderDate = OrderDate.now();

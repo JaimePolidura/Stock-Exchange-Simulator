@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,8 +19,11 @@ import java.util.function.Function;
 
 @Repository
 public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjects<ListedCompany, ListedCompanyTicker> implements ListedCompaniesRepository {
+    private List<ListedCompany> listedCompanies;
+
     protected ListedCompaniesRepositoryMySQL(DatabaseConnection databaseConnection) {
         super(databaseConnection);
+        this.listedCompanies = new ArrayList<>();
     }
 
     @Override
@@ -29,7 +33,11 @@ public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjec
 
     @Override
     public List<ListedCompany> findAll() {
-        return super.all();
+        if(!listedCompanies.isEmpty()){
+            return this.listedCompanies;
+        }
+
+        return this.listedCompanies = super.all();
     }
 
     @Override

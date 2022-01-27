@@ -14,7 +14,7 @@ const BuyStockModal = (props: any) => {
 
     const onSubmit = (form: any) => {
         let finalRequestToApi: SendBuyOrderRequest = {
-            executionPrice: buyExecutionType == 'market' ? -1 : form.price,
+            priceToExecute: buyExecutionType == 'market' ? -1 : form.price,
             quantity: form.quantity,
             ticker: form.ticker.toUpperCase(),
         }
@@ -42,7 +42,7 @@ const BuyStockModal = (props: any) => {
             ticker: listedCompanyTicker,
             quantity: order.quantity,
             date: order.date,
-            executionPrice: order.executionPrice,
+            executionPrice: order.priceToExecute,
             pendingOrderType: 'BUY',
         }
 

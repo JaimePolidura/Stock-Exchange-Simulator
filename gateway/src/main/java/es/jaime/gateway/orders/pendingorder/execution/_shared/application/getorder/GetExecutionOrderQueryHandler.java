@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution.getorder;
+package es.jaime.gateway.orders.pendingorder.execution._shared.application.getorder;
 
 import es.jaime.gateway._shared.domain.exceptions.NotTheOwner;
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;

@@ -1,13 +1,12 @@
 import React from "react";
 import './Profile.css';
 import backendService from "../../services/BackendService";
-import Trades from "./trades/Trades";
+import OpenPositions from "./openpositions/OpenPositions";
 import Stats from "./stats/Stats";
 import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
 import socket from "../../services/SocketService";
-import {ExecutionOrder} from "../../model/orders/ExecutionOrder";
 
 class Profile extends React.Component<any, any> {
     constructor(props: any) {
@@ -68,9 +67,6 @@ class Profile extends React.Component<any, any> {
     }
 
     onBuyOrderExecuted(executedOrder: any): void{
-        console.log("order buy executed");
-        console.log(executedOrder);
-
         setTimeout(() =>{
             this.getOpenPositionsFromApi();
             this.removeOrderOrDecreaseQuantity(executedOrder);
@@ -78,9 +74,6 @@ class Profile extends React.Component<any, any> {
     }
 
     onSellOrderExecuted(executedOrder: any): void{
-        console.log("sell order executed");
-        console.log(executedOrder);
-
         setTimeout(() => {
             this.getOpenPositionsFromApi();
             this.removeOrderOrDecreaseQuantity(executedOrder);
@@ -154,10 +147,10 @@ class Profile extends React.Component<any, any> {
                 <Stats cash = {this.state.cash} />
                 <br/>
                 {this.state.listedCompaniesLoaded == true &&
-                    <Trades trades={this.state.trades}
-                            key={this.state.trades}
-                            listedCompanies={this.state.listedCompanies}
-                            onOrderSellSended={(order: any) => this.onOrderSellSended(order)}/>
+                    <OpenPositions trades={this.state.trades}
+                                   key={this.state.trades}
+                                   listedCompanies={this.state.listedCompanies}
+                                   onOrderSellSended={(order: any) => this.onOrderSellSended(order)}/>
                 }
                 <br />
 

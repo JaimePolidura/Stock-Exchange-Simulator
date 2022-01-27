@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.Map;
 
 @AllArgsConstructor
-public class SellOrderArrived extends OrderArrived {
+public class SellOrderArrived extends OrderArrived implements AsyncDomainEvent {
     @Getter private SellOrder sellOrder;
     @Getter private String messageId;
 
@@ -22,7 +22,7 @@ public class SellOrderArrived extends OrderArrived {
                 String.valueOf(body.get("orderId")),
                 String.valueOf(body.get("clientId")),
                 String.valueOf(body.get("date")),
-                Double.parseDouble(String.valueOf(body.get("executionPrice"))),
+                Double.parseDouble(String.valueOf(body.get("priceToExecute"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
                 String.valueOf(body.get("positionId")),
                 String.valueOf(body.get("ticker"))

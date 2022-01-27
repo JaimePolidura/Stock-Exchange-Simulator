@@ -12,6 +12,6 @@ public final class SellOrder extends ExecutionOrder {
 
     @Override
     public int compareTo(ExecutionOrder other) {
-        return (int) (getExecutionPrice() - other.getExecutionPrice());
+        return (int) (this.getPriceToExecute() - other.getPriceToExecute());
     }
 }

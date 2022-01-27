@@ -50,7 +50,7 @@ public final class DomainEventListenersInformation {
 
             if(eventName == null) continue;
 
-            domainEventsInstances.put(asynchDomainEventClass, domainEventInstance);
+            domainEventsInstances.put(asynchDomainEventClass, (DomainEvent) domainEventInstance);
             domainEventsNamesMappedWithInstances.put(eventName.getName(), domainEventInstance);
         }
 

@@ -17,7 +17,7 @@ public class OnBuyOrderOpenPositions {
         openPositions.save(OpenPosition.create(
                 event.getClientId(),
                 event.getTicker(),
-                event.getExecutionPrice(),
+                event.getPriceToExecute(),
                 event.getQuantity()
         ));
     }

@@ -1,6 +1,5 @@
 package es.jaime.gateway._shared.domain.event;
 
-
 import es.jaime.gateway._shared.domain.EventName;
 
 import java.io.Serializable;

@@ -14,7 +14,7 @@ const SellStockModal = (props: any) => {
         let finalRequestToApi: SendSellOrderRequest = {
             positionId: props.trade.positionId,
             quantity: form.quantity,
-            executionPrice: sellExecutionType == 'market' ? -1 : form.price,
+            priceToExecute: sellExecutionType == 'market' ? -1 : form.price,
         }
 
         backend.sendSellOrder(finalRequestToApi).then(
@@ -33,7 +33,7 @@ const SellStockModal = (props: any) => {
             ticker: props.listedCompany.ticker,
             quantity: orderAdded.quantity,
             date: orderAdded.date,
-            executionPrice: orderAdded.executionPrice,
+            executionPrice: orderAdded.priceToExecute,
             pendingOrderType: 'SELL',
         }
 
