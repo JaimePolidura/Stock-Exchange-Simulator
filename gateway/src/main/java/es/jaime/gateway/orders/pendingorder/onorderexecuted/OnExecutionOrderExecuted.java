@@ -18,8 +18,6 @@ public class OnExecutionOrderExecuted {
 
     @EventListener({ExecutionOrderExecuted.class})
     public void on(ExecutionOrderExecuted event){
-        System.out.println("idk");
-
         Optional<ExecutionOrder> executionOrderOptional = executionOrderFinder.findById(OrderId.of(event.getOrderId()));
 
         if(executionOrderOptional.isEmpty()){

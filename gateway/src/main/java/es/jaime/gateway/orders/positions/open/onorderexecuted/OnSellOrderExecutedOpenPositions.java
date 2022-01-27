@@ -19,8 +19,6 @@ public class OnSellOrderExecutedOpenPositions {
     @EventListener({SellOrderExecuted.class})
     @Order(10)
     public void on(SellOrderExecuted event) {
-        System.out.println("2");
-
         OpenPosition openPositionToSell = openPositions.findByPositionId(OrderId.of(event.getPositionId()))
                 .get();
 

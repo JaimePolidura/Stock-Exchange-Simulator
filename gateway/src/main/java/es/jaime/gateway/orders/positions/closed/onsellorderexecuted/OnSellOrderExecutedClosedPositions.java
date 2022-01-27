@@ -20,8 +20,6 @@ public class OnSellOrderExecutedClosedPositions {
     @EventListener({SellOrderExecuted.class})
     @Order(1)
     public void on(SellOrderExecuted event){
-        System.out.println("1");
-
         OpenPosition openPosition = openPositionFinder.find(OrderId.of(event.getPositionId()))
                 .get();
 

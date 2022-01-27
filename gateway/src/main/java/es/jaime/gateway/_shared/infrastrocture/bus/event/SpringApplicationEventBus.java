@@ -1,5 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.bus.event;
 
+import es.jaime.gateway._shared.domain.database.TransactionManager;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import es.jaime.gateway._shared.domain.event.EventBus;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SpringApplicationEventBus implements EventBus {
     private final ApplicationEventPublisher publisher;
+    private final TransactionManager transactionManager;
 
     @Override
     public void publish(final List<DomainEvent> events) {
@@ -20,8 +22,13 @@ public class SpringApplicationEventBus implements EventBus {
     }
 
     @Override
-    @Transactional
     public void publish(final DomainEvent event) {
-        this.publisher.publishEvent(event);
+        try{
+            transactionManager.start();
+            this.publisher.publishEvent(event);
+            transactionManager.commit();
+        }catch (Exception e){
+            transactionManager.rollback();
+        }
     }
 }

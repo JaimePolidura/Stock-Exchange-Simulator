@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.infrastrocture.myorm;
+package es.jaime.gateway._shared.infrastrocture.persistance;
 
 import es.jaime.connection.DatabaseConnection;
 import org.springframework.context.annotation.Configuration;
