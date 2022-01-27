@@ -18,11 +18,13 @@ public class OnSellOrderExecutedOpenPositions {
 
     @EventListener({SellOrderExecuted.class})
     @Order(10)
-    public void on(SellOrderExecuted event){
+    public void on(SellOrderExecuted event) {
+        System.out.println("2");
+
         OpenPosition openPositionToSell = openPositions.findByPositionId(OrderId.of(event.getPositionId()))
                 .get();
 
-        if(openPositionToSell.getQuantity().value() > event.getQuantity())
+        if (openPositionToSell.getQuantity().value() > event.getQuantity())
             updateQuantity(openPositionToSell, event);
         else
             deleteOpenPosition(openPositionToSell);
@@ -33,10 +35,18 @@ public class OnSellOrderExecutedOpenPositions {
     }
 
     private void updateQuantity(OpenPosition openPosition, SellOrderExecuted event) {
-        int newQuantity = openPosition.getQuantity().value() - event.getQuantity();
-        OpenPosition newOpenPosition = OpenPosition.create(event.getClientId(), event.getTicker(), openPosition.getOpeningPrice().value(), newQuantity);
+        OrderQuantity updatedQuantity = OrderQuantity.of(openPosition.getQuantity().value() - event.getQuantity());
 
-        this.openPositions.deleteByPositionId(openPosition.getOrderId());
-        this.openPositions.save(newOpenPosition);
+        openPositions.save(new OpenPosition(
+                openPosition.getOrderId(),
+                openPosition.getClientId(),
+                openPosition.getDate(),
+                openPosition.getState(),
+                openPosition.getTicker(),
+                updatedQuantity,
+                openPosition.getExecutedOrderType(),
+                openPosition.getOpeningPrice(),
+                openPosition.getOpeningDate()
+        ));
     }
 }
