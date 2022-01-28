@@ -2,6 +2,7 @@ import React from "react";
 import './Options.css';
 import auth from "../../../services/AuthenticationService";
 import BuyStockModal from "./BuyStockModal";
+import ReportModal from "./report/ReportModal";
 
 export default class Options extends React.Component<any, any> {
     constructor(props: any) {
@@ -9,6 +10,7 @@ export default class Options extends React.Component<any, any> {
 
         this.state = {
             showBuyStockModal: false,
+            showReportModal: false,
         };
     }
 
@@ -23,6 +25,7 @@ export default class Options extends React.Component<any, any> {
                         <div className="header-utils-utils">
                             <button className="btn btn-light">Deposit</button>
                             <button className="btn btn-light">Withdraw</button>
+                            <button className="btn btn-light" onClick={() => this.showReportModal()}>Reports</button>
                             <button className="btn btn-light">Settings</button>
                         </div>
                     </div>
@@ -31,6 +34,7 @@ export default class Options extends React.Component<any, any> {
                     </div>
                 </div>
 
+                {this.renderTaxesModal()}
                 {this.renderBuyStockModal()}
             </>
         );
@@ -42,9 +46,22 @@ export default class Options extends React.Component<any, any> {
                               onHide={() => this.closeBuyStockModal()}/>
     }
 
+    renderTaxesModal(){
+        return <ReportModal showModal={this.state.showReportModal}
+                            onHide={() => this.hideReportModal()}/>
+    }
+
     onOrderBuySended(order: any): void{
         this.props.onOrderBuySended(order);
         this.closeBuyStockModal();
+    }
+
+    showReportModal(): void {
+        this.setState({showReportModal: true});
+    }
+
+    hideReportModal(): void {
+        this.setState({showReportModal: false});
     }
 
     showBuyStockModal(): void{

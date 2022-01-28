@@ -1,7 +1,7 @@
-import React, {ReactComponentElement} from "react";
+import React from "react";
 import './OpenPositionDisplayInTable.css';
 import SellStockModal from "./SellStockModal";
-import backendService from "../../../services/BackendService";
+import lastPricesService from "../../../services/LastPricesService";
 
 class TradeDisplayInTable extends React.Component<any, any> {
     constructor(props: any) {
@@ -20,8 +20,9 @@ class TradeDisplayInTable extends React.Component<any, any> {
     }
 
     loadPriceByApi(){
-        backendService.getLastPrice(this.state.trade.ticker)
-            .then(res => this.setState({actualPrice: res.data}));
+        lastPricesService.getLastPrice(this.state.trade.ticker).then(res => {
+            this.setState({actualPrice: res});
+        });
     }
 
     render() {
