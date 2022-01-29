@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
-import backendService from "../../../services/BackendService";
-import backend from "../../../services/BackendService";
-import {SendBuyOrderRequest} from "../../../services/requests/sendbuyorder/SendBuyOrderRequest";
-import {SendBuyOrderResponse} from "../../../services/requests/sendbuyorder/SendBuyOrderResponse";
+import backendService from "../../../services/api/BackendService";
+import backend from "../../../services/api/BackendService";
+import {SendBuyOrderRequest} from "../../../services/api/requests/sendbuyorder/SendBuyOrderRequest";
+import {SendBuyOrderResponse} from "../../../services/api/requests/sendbuyorder/SendBuyOrderResponse";
 import {AxiosResponse} from "axios";
 
 const BuyStockModal = (props: any) => {

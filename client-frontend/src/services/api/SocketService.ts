@@ -1,5 +1,5 @@
 import {io} from "socket.io-client";
-import auth from "./AuthenticationService";
+import auth from "../AuthenticationService";
 
 const URL = 'ws://localhost:4000';
 const EXECUTED_BUY_ORDER = "order-executed-buy";

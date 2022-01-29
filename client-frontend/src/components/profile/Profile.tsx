@@ -1,12 +1,12 @@
 import React from "react";
 import './Profile.css';
-import backendService from "../../services/BackendService";
+import backendService from "../../services/api/BackendService";
 import OpenPositions from "./openpositions/OpenPositions";
 import Stats from "./stats/Stats";
 import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
-import socket from "../../services/SocketService";
+import socket from "../../services/api/SocketService";
 
 class Profile extends React.Component<any, any> {
     constructor(props: any) {

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import './CancelOrderModal.css';
-import backend from "../../../services/BackendService";
+import backend from "../../../services/api/BackendService";
 
 const CancelOrderModal = (props: any) => {
     const [ order, setOrder ] = useState(props.order);

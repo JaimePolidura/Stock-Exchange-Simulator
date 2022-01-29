@@ -1,6 +1,6 @@
-import BackendService from "./BackendService";
-import {LoginRequest} from "./requests/login/LoginRequest";
-import {LoginResponse} from "./requests/login/LoginResponse";
+import BackendService from "./api/BackendService";
+import {LoginRequest} from "./api/requests/login/LoginRequest";
+import {LoginResponse} from "./api/requests/login/LoginResponse";
 
 class AuthenticationService {
     authenticated: boolean;

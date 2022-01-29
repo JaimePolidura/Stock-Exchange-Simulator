@@ -1,4 +1,4 @@
-import backend from "./BackendService";
+import backend from "./api/BackendService";
 
 class LastPricesService {
     private lastPrices: {[ticker: string]: number};

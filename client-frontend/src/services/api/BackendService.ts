@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {ProfileData as profileData} from "../components/profile/ProfileData";
+import {ProfileData as profileData} from "../../components/profile/ProfileData";
 import {LoginRequest} from "./requests/login/LoginRequest";
 import {SendBuyOrderRequest} from "./requests/sendbuyorder/SendBuyOrderRequest";
 import {SendBuyOrderResponse} from "./requests/sendbuyorder/SendBuyOrderResponse";

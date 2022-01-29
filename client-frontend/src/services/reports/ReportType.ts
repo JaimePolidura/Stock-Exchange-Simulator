@@ -1,0 +1,4 @@
+export enum ReportType {
+    OPEN_POSITIONS_AT_DATE= "OPEN_POSITIONS_AT_DATE",
+    SALES_AT_YEAR = "SALES_AT_YEAR",
+}
