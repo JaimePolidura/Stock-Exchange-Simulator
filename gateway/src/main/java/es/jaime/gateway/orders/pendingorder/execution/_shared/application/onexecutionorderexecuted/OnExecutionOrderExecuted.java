@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder._shared.application.onorderexecuted;
+package es.jaime.gateway.orders.pendingorder.execution._shared.application.onexecutionorderexecuted;
 
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import es.jaime.gateway.orders._shared.domain.OrderQuantity;
@@ -25,15 +25,15 @@ public class OnExecutionOrderExecuted {
             return;
         }
 
-        ExecutionOrder orderExecuged = executionOrderOptional.get();
+        ExecutionOrder orderExecuted = executionOrderOptional.get();
 
-        int actualQuantity = orderExecuged.getQuantity().value();
+        int actualQuantity = orderExecuted.getQuantity().value();
         int quantityBought = event.getQuantity();
         OrderQuantity newQuantity = OrderQuantity.of(actualQuantity - quantityBought);
 
         if(actualQuantity == quantityBought)
-            executionOrderDeleter.deleteById(orderExecuged);
+            executionOrderDeleter.deleteById(orderExecuted);
         else
-            executionOrderSaver.changeQuantityAndSave(orderExecuged, newQuantity);
+            executionOrderSaver.changeQuantityAndSave(orderExecuted, newQuantity);
     }
 }

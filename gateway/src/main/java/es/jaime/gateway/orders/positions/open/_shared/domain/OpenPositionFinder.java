@@ -19,7 +19,7 @@ public class OpenPositionFinder {
         return openPositions.findByPositionId(id);
     }
 
-    public List<OpenPosition> findOpenByClientIdAndSince(OrderClientId clientId, ClosedPositionClosingDate openingDate){
-        return openPositions.findOpenByClientIdAndSince(clientId, PositionOpeningDate.of(openingDate.value()));
+    public List<OpenPosition> findOpenByClientIdAndSince(OrderClientId clientId, PositionOpeningDate openingDate){
+        return openPositions.findOpenByClientIdAndSince(clientId, openingDate);
     }
 }

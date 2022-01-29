@@ -43,11 +43,12 @@ public class ClosedPositionRepositoryMySQL extends DataBaseRepositoryValueObject
     }
 
     @Override
-    @SneakyThrows
-    public List<ClosedPosition> findBetweenDateAndClientId(PositionOpeningDate from, ClosedPositionClosingDate to, OrderClientId clientId) {
-        return buildListFromQuery("SELECT * FROM closed_positions WHERE clientId = '"+clientId.value()+"' AND NOT (" +
-                "(openingDate < '"+from.value()+"' AND closingDate < '"+from.value()+"') OR " +
-                "(openingDate > '"+to.value()+"' AND closingDate > '"+to.value()+"'))");
+    public List<ClosedPosition> findByClientIdAndOpeningClosingDateBetween(OrderClientId clientId, PositionOpeningDate dateToBeBetween) {
+        return buildListFromQuery(
+                Select.from(TABLE).where("clientId").equal(clientId.value())
+                        .and("openingDate").smallerOrEqual(dateToBeBetween.value())
+                        .and("closingDate").biggerOrEqual(dateToBeBetween.value())
+        );
     }
 
     @Override

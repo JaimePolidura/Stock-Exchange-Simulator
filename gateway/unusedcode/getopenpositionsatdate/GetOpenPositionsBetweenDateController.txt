@@ -20,7 +20,7 @@ public class GetOpenPositionsBetweenDateController extends Controller {
 
     @GetMapping("/orders/positionsbetweendate")
     public ResponseEntity<List<Map<String, Object>>> positionsAtDate(@RequestParam String from, @RequestParam String to){
-        GetOpenPositionsBetweenDateQueryResponse queryResponse = this.queryBus.ask(new GetOpenPositionsBetweenDateQuery(
+            GetOpenPositionsBetweenDateQueryResponse queryResponse = this.queryBus.ask(new GetOpenPositionsBetweenDateQuery(
                 getLoggedUsername(),
                 from,
                 to
