@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.positions.closed._shared.infrastrucutre.persistance;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
@@ -25,8 +25,8 @@ import java.util.function.Function;
 public class ClosedPositionRepositoryMySQL extends DataBaseRepositoryValueObjects<ClosedPosition, OrderId> implements ClosedPositionRepository {
     private static final String TABLE = "closed_positions";
 
-    protected ClosedPositionRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected ClosedPositionRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

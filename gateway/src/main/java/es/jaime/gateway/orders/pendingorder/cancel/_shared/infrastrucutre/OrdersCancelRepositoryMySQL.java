@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.pendingorder.cancel._shared.infrastrucutre;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
 import es.jaime.gateway.orders.pendingorder.cancel._shared.domain.CancelOrder;
@@ -20,8 +20,8 @@ import java.util.function.Function;
 
 @Repository
 public class OrdersCancelRepositoryMySQL extends DataBaseRepositoryValueObjects<CancelOrder, OrderId> implements OrdersCancelRepository {
-    protected OrdersCancelRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected OrdersCancelRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

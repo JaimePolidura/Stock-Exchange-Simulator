@@ -1,6 +1,6 @@
 package es.jaime.gateway.listedcompanies._shared.infrastructure.persistence;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyName;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,8 +18,8 @@ import java.util.function.Function;
 
 @Repository
 public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjects<ListedCompany, ListedCompanyTicker> implements ListedCompaniesRepository {
-    protected ListedCompaniesRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected ListedCompaniesRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

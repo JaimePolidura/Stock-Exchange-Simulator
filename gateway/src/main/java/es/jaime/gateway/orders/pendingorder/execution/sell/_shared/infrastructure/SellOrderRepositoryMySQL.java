@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.pendingorder.execution.sell._shared.infrastructure;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
@@ -23,8 +23,8 @@ import java.util.function.Function;
 
 @Repository
 public class SellOrderRepositoryMySQL extends DataBaseRepositoryValueObjects<SellOrder, OrderId> implements SellOrderRepostiry {
-    protected SellOrderRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected SellOrderRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

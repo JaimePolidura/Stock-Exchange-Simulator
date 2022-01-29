@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.pendingorder.execution.buy._shared.infrastructure;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderType;
@@ -22,8 +22,8 @@ import java.util.function.Function;
 
 @Repository
 public class BuyOrderRepositoryMySQL extends DataBaseRepositoryValueObjects<BuyOrder, OrderId> implements BuyOrderRepostory {
-    protected BuyOrderRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected BuyOrderRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

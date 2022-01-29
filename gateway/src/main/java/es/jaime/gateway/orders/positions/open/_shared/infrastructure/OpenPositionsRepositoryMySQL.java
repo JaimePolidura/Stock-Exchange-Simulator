@@ -1,6 +1,6 @@
 package es.jaime.gateway.orders.positions.open._shared.infrastructure;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
@@ -24,8 +24,8 @@ import java.util.function.Function;
 public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects<OpenPosition, OrderId> implements OpenPositionsRepository {
     private static final String TABLE = "open_positions";
 
-    protected OpenPositionsRepositoryMySQL(DatabaseConnection databaseConnection) {
-        super(databaseConnection);
+    protected OpenPositionsRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
+        super(databaseConfiguration);
     }
 
     @Override

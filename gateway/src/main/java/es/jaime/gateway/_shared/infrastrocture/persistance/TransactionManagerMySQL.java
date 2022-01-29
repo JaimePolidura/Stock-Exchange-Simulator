@@ -1,6 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.persistance;
 
-import es.jaime.connection.DatabaseConnection;
+import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway._shared.domain.database.TransactionManager;
 import es.jaime.transacions.DatabaseTransacionManager;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class TransactionManagerMySQL implements TransactionManager {
     private final DatabaseTransacionManager databaseTransacionManager;
 
-    public TransactionManagerMySQL(DatabaseConnection databaseConnection) {
-        this.databaseTransacionManager = new DatabaseTransacionManager(databaseConnection);
+    public TransactionManagerMySQL(DatabaseConfiguration databaseConfiguration) {
+        this.databaseTransacionManager = new DatabaseTransacionManager(databaseConfiguration);
     }
 
     @Override
