@@ -5,6 +5,7 @@ import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningPrice;
+import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingDate;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionsRepository;
 import es.jaime.mapper.EntityMapper;
@@ -38,9 +39,11 @@ public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects
         return buildListFromQuery(Select.from(TABLE).where("clientId").equal(clientId.value()));
     }
 
-    @Override
-    public List<OpenPosition> findOpenSince(PositionOpeningDate openingDate) {
-        return buildListFromQuery(Select.from(TABLE).where(openingDate.value()).smallerOrEqual(openingDate.value()));
+    public List<OpenPosition> findOpenByClientIdAndSince(OrderClientId clientId, PositionOpeningDate date) {
+        return buildListFromQuery(
+                Select.from(TABLE).where("openingDate").smallerOrEqual(date.value())
+                        .and("clientId").equal(clientId.value())
+        );
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class GetOpenPositionsAtDateQueryResponse implements QueryResponse {
+public class GetOpenPositionsBetweenDateQueryResponse implements QueryResponse {
     @Getter private final List<Position> positionList;
 
     public List<Map<String, Object>> toPrimitives(){

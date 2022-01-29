@@ -15,19 +15,19 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class GetOpenPositionsAtDateQueryHandler implements QueryHandler<GetOpenPositionsAtDateQuery, GetOpenPositionsAtDateQueryResponse> {
+public class GetOpenPositionsBetweenDateQueryHandler implements QueryHandler<GetOpenPositionsBetweenDateQuery, GetOpenPositionsBetweenDateQueryResponse> {
     private final OpenPositionFinder openPositionFinder;
     private final ClosedPositionFinder closedPositionFinder;
 
     @Override
-    public GetOpenPositionsAtDateQueryResponse handle(GetOpenPositionsAtDateQuery query) {
+    public GetOpenPositionsBetweenDateQueryResponse handle(GetOpenPositionsBetweenDateQuery query) {
         PositionOpeningDate from = PositionOpeningDate.of(query.getFrom());
         ClosedPositionClosingDate to = ClosedPositionClosingDate.of(query.getTo());
 
-        List<OpenPosition> openPositionList = openPositionFinder.findOpenSince(from);
-        List<ClosedPosition> closedPositionsList = closedPositionFinder.findBetweenDate(from, to);
+        List<OpenPosition> openPositionList = openPositionFinder.findOpenByClientIdAndSince(query.getClientId(), to);
+        List<ClosedPosition> closedPositionsList = closedPositionFinder.findBetweenDateAndClientId(from, to, query.getClientId());
 
-        return new GetOpenPositionsAtDateQueryResponse(new ArrayList<>(){{
+        return new GetOpenPositionsBetweenDateQueryResponse(new ArrayList<>(){{
             addAll(openPositionList);
             addAll(closedPositionsList);
         }});

@@ -12,6 +12,7 @@ import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionRep
 import es.jaime.mapper.EntityMapper;
 import es.jaime.repository.DataBaseRepositoryValueObjects;
 import es.jaimetruman.select.Select;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -42,11 +43,11 @@ public class ClosedPositionRepositoryMySQL extends DataBaseRepositoryValueObject
     }
 
     @Override
-    public List<ClosedPosition> findBetweenDate(PositionOpeningDate openingDate, ClosedPositionClosingDate closingDate) {
-        return buildListFromQuery(
-                Select.from(TABLE).where("openingDate").smallerOrEqual(openingDate.value())
-                        .and("closingDate").biggerOrEqual(closingDate.value())
-        );
+    @SneakyThrows
+    public List<ClosedPosition> findBetweenDateAndClientId(PositionOpeningDate from, ClosedPositionClosingDate to, OrderClientId clientId) {
+        return buildListFromQuery("SELECT * FROM closed_positions WHERE clientId = '"+clientId.value()+"' AND NOT (" +
+                "(openingDate < '"+from.value()+"' AND closingDate < '"+from.value()+"') OR " +
+                "(openingDate > '"+to.value()+"' AND closingDate > '"+to.value()+"'))");
     }
 
     @Override

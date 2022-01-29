@@ -2,15 +2,18 @@ package es.jaime.gateway.orders.positions._shared.application.getopenpositionsat
 
 import es.jaime.gateway._shared.domain.exceptions.NotValid;
 import es.jaime.gateway._shared.domain.query.Query;
+import es.jaime.gateway.orders._shared.domain.OrderClientId;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public final class GetOpenPositionsAtDateQuery implements Query {
+public final class GetOpenPositionsBetweenDateQuery implements Query {
     @Getter private final LocalDateTime from;
     @Getter private final LocalDateTime to;
+    @Getter private final OrderClientId clientId;
 
-    public GetOpenPositionsAtDateQuery(String from, String to) {
+    public GetOpenPositionsBetweenDateQuery(String clientId, String from, String to) {
+        this.clientId = OrderClientId.of(clientId);
         this.from = LocalDateTime.parse(from);
         this.to = LocalDateTime.parse(to);
 

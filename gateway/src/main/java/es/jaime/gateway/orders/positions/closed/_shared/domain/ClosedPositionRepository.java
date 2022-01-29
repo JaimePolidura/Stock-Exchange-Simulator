@@ -10,5 +10,5 @@ public interface ClosedPositionRepository {
 
     List<ClosedPosition> findByClientId(OrderClientId clientId);
 
-    List<ClosedPosition> findBetweenDate(PositionOpeningDate openingDate, ClosedPositionClosingDate closingPrice);
+    List<ClosedPosition> findBetweenDateAndClientId(PositionOpeningDate openingDate, ClosedPositionClosingDate closingPrice, OrderClientId orderClientId);
 }

@@ -63,6 +63,21 @@ CREATE VIEW closed_positions AS SELECT orderId, clientId, date, state, ticker, q
 DROP VIEW IF EXISTS open_positions;
 CREATE VIEW open_positions AS SELECT orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate FROM orders WHERE executedOrderType = 'OPEN';
 
+INSERT INTO closed_positions (orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate, closingPrice, closingDate)
+VALUES ('1', 'jaime', '2020-02-01T00:00', 'EXECUTED', 'GOOG', 1, 'CLOSED', 10, '2019-12-21T12:03', 12, '2020-02-01T00:00');
+
+INSERT INTO closed_positions (orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate, closingPrice, closingDate)
+VALUES ('2', 'jaime', '2020-02-01T00:00', 'EXECUTED', 'AMZN', 2, 'CLOSED', 10, '2018-02-01T00:00', 12, '2021-02-01T00:00');
+
+INSERT INTO closed_positions (orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate, closingPrice, closingDate)
+VALUES ('3', 'jaime', '2020-02-01T00:00', 'EXECUTED', 'IDT', 2, 'CLOSED', 10, '2015-02-01T00:00', 12, '2016-02-01T00:00');
+
+INSERT INTO open_positions (orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate)
+VALUES ('4', 'jaime', '2020-02-01T00:00', 'EXECUTED', 'IDT', 2, 'OPEN', 10, '2017-02-01T00:00');
+
+INSERT INTO open_positions (orderId, clientId, date, state, ticker, quantity, executedOrderType, openingPrice, openingDate)
+VALUES ('5', 'jaime', '2020-02-01T00:00', 'EXECUTED', 'IDT', 2, 'OPEN', 10, '2021-02-01T00:00');
+
 # INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('34f2104a-4ff8-11ec-81d3-0211ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'AMZN', 4, 131, 'OPEN', '2016-12-01T01:02:03');
 # INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('171fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'V', 34, 92.1, 'OPEN', '2016-12-01T01:02:02');
 # INSERT INTO orders (orderId, clientId, date, state ,ticker, quantity, openingPrice, executedOrderType, openingDate) VALUES ('427fe75a-4fa8-11ec-81d3-0242ac130003', 'jaime', '2016-12-01T01:02:03', 'EXECUTED', 'FB', 123, 234, 'OPEN', '2016-12-01T01:02:02');
