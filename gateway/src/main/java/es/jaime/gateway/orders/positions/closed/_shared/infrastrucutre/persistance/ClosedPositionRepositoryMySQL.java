@@ -2,9 +2,9 @@ package es.jaime.gateway.orders.positions.closed._shared.infrastrucutre.persista
 
 import es.jaime.connection.DatabaseConnection;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.positions._shared.ExecutedOrderType;
-import es.jaime.gateway.orders.positions._shared.PositionOpeningDate;
-import es.jaime.gateway.orders.positions._shared.PositionOpeningPrice;
+import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
+import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
+import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningPrice;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPosition;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingDate;
 import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingPrice;
@@ -23,6 +23,8 @@ import java.util.function.Function;
 
 @Repository
 public class ClosedPositionRepositoryMySQL extends DataBaseRepositoryValueObjects<ClosedPosition, OrderId> implements ClosedPositionRepository {
+    private static final String TABLE = "closed_positions";
+
     protected ClosedPositionRepositoryMySQL(DatabaseConnection databaseConnection) {
         super(databaseConnection);
     }
@@ -35,14 +37,22 @@ public class ClosedPositionRepositoryMySQL extends DataBaseRepositoryValueObject
     @Override
     public List<ClosedPosition> findByClientId(OrderClientId clientId) {
         return buildListFromQuery(
-                Select.from("closed_positions").where("clientId").equal(clientId.value())
+                Select.from(TABLE).where("clientId").equal(clientId.value())
+        );
+    }
+
+    @Override
+    public List<ClosedPosition> findBetweenDate(PositionOpeningDate openingDate, ClosedPositionClosingDate closingDate) {
+        return buildListFromQuery(
+                Select.from(TABLE).where("openingDate").smallerOrEqual(openingDate.value())
+                        .and("closingDate").biggerOrEqual(closingDate.value())
         );
     }
 
     @Override
     protected EntityMapper<ClosedPosition> entityMapper() {
         return EntityMapper
-                .table("closed_positions")
+                .table(TABLE)
                 .idField("orderId")
                 .classToMap(ClosedPosition.class)
                 .build();

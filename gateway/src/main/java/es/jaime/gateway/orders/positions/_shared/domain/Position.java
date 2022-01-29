@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.positions._shared;
+package es.jaime.gateway.orders.positions._shared.domain;
 
 import es.jaime.gateway.orders._shared.domain.*;
 import lombok.Getter;

@@ -6,7 +6,6 @@ import es.jaime.gateway._shared.domain.database.TransactionManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor

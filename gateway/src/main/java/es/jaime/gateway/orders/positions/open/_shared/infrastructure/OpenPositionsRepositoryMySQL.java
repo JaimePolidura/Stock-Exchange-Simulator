@@ -2,9 +2,9 @@ package es.jaime.gateway.orders.positions.open._shared.infrastructure;
 
 import es.jaime.connection.DatabaseConnection;
 import es.jaime.gateway.orders._shared.domain.*;
-import es.jaime.gateway.orders.positions._shared.ExecutedOrderType;
-import es.jaime.gateway.orders.positions._shared.PositionOpeningDate;
-import es.jaime.gateway.orders.positions._shared.PositionOpeningPrice;
+import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
+import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
+import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningPrice;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionsRepository;
 import es.jaime.mapper.EntityMapper;
@@ -22,6 +22,8 @@ import java.util.function.Function;
 
 @Repository
 public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects<OpenPosition, OrderId> implements OpenPositionsRepository {
+    private static final String TABLE = "open_positions";
+
     protected OpenPositionsRepositoryMySQL(DatabaseConnection databaseConnection) {
         super(databaseConnection);
     }
@@ -33,7 +35,12 @@ public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects
 
     @Override
     public List<OpenPosition> findByClientId(OrderClientId clientId) {
-        return buildListFromQuery(Select.from("open_positions").where("clientId").equal(clientId.value()));
+        return buildListFromQuery(Select.from(TABLE).where("clientId").equal(clientId.value()));
+    }
+
+    @Override
+    public List<OpenPosition> findOpenSince(PositionOpeningDate openingDate) {
+        return buildListFromQuery(Select.from(TABLE).where(openingDate.value()).smallerOrEqual(openingDate.value()));
     }
 
     @Override
@@ -48,7 +55,7 @@ public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects
 
     @Override
     protected EntityMapper<OpenPosition> entityMapper() {
-        return EntityMapper.table("open_positions")
+        return EntityMapper.table(TABLE)
                 .classToMap(OpenPosition.class)
                 .idField("orderId")
                 .build();

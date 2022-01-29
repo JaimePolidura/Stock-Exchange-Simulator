@@ -6,10 +6,10 @@ import es.jaime.transacions.DatabaseTransacionManager;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TransacionManagerMySQL implements TransactionManager {
+public class TransactionManagerMySQL implements TransactionManager {
     private final DatabaseTransacionManager databaseTransacionManager;
 
-    public TransacionManagerMySQL(DatabaseConnection databaseConnection) {
+    public TransactionManagerMySQL(DatabaseConnection databaseConnection) {
         this.databaseTransacionManager = new DatabaseTransacionManager(databaseConnection);
     }
 

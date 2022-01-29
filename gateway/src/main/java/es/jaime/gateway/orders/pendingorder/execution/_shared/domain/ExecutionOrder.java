@@ -21,6 +21,4 @@ public abstract class ExecutionOrder extends PendingOrder {
     public boolean isBuy(){
         return super.pendingOrderType.isBuy();
     }
-
-    public abstract Map<String, Object> toPrimitives();
 }

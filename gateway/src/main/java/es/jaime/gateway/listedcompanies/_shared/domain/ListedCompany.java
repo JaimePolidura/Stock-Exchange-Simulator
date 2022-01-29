@@ -27,4 +27,12 @@ public final class ListedCompany extends Aggregate {
     public static ListedCompany create (String ticker, String name){
         return new ListedCompany(ListedCompanyTicker.of(ticker), ListedCompanyName.of(name));
     }
+
+    @Override
+    public Map<String, Object> toPrimitives() {
+        return Map.of(
+                "ticker", ticker.value(),
+                "name", name.value()
+        );
+    }
 }

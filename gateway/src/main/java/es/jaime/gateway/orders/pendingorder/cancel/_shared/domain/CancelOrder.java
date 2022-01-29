@@ -6,6 +6,8 @@ import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrder;
 import es.jaime.gateway.orders.pendingorder.cancel.send.CancelOrderMessage;
 import lombok.Getter;
 
+import java.util.Map;
+
 public class CancelOrder extends PendingOrder {
     @Getter private OrderIdToCancel orderIdToCancel;
 
@@ -34,5 +36,18 @@ public class CancelOrder extends PendingOrder {
     @Override
     public CancelOrderMessage toMessage() {
         return CancelOrderMessage.create(orderId, clientId, OrderId.of(orderIdToCancel.value()), ticker);
+    }
+
+    @Override
+    public Map<String, Object> toPrimitives() {
+        return Map.of(
+                "orderId", getOrderId().value(),
+                "clientId", getClientId().value(),
+                "date", getDate().value(),
+                "state", getState().value(),
+                "ticker", getTicker().value(),
+                "pendingOrderType", getPendingOrderType().value(),
+                "orderIdToCancel", getOrderIdToCancel().value()
+        );
     }
 }

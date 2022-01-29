@@ -19,11 +19,8 @@ import java.util.function.Function;
 
 @Repository
 public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjects<ListedCompany, ListedCompanyTicker> implements ListedCompaniesRepository {
-    private List<ListedCompany> listedCompanies;
-
     protected ListedCompaniesRepositoryMySQL(DatabaseConnection databaseConnection) {
         super(databaseConnection);
-        this.listedCompanies = new ArrayList<>();
     }
 
     @Override
@@ -33,11 +30,7 @@ public class ListedCompaniesRepositoryMySQL extends DataBaseRepositoryValueObjec
 
     @Override
     public List<ListedCompany> findAll() {
-        if(!listedCompanies.isEmpty()){
-            return this.listedCompanies;
-        }
-
-        return this.listedCompanies = super.all();
+        return super.all();
     }
 
     @Override

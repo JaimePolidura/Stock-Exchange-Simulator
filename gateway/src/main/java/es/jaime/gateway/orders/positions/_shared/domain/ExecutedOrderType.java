@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.positions._shared;
+package es.jaime.gateway.orders.positions._shared.domain;
 
 import es.jaime.gateway._shared.domain.exceptions.ResourceNotFound;
 import es.jaime.gateway._shared.domain.valueObject.StringValueObject;

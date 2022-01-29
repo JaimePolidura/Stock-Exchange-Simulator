@@ -3,7 +3,7 @@ package es.jaime.gateway._shared.infrastrocture.persistance;
 import es.jaime.connection.DatabaseConnection;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration("database-configuration")
 public class DatabaseConnectionConfiguration extends DatabaseConnection{
     @Override
     protected String url() {

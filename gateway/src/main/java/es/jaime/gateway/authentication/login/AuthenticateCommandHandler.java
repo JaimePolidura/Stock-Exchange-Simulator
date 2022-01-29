@@ -21,7 +21,7 @@ public class AuthenticateCommandHandler implements CommandHandler<AuthenticateCo
         if(userOptional.isEmpty()){
             throw new ResourceNotFound("User not found");
         }
-        if(!userOptional.get().getUserPassword().equals(command.getPassword())){
+        if(!userOptional.get().getPassword().equals(command.getPassword())){
             throw new ResourceNotFound("Password mismatch");
         }
     }

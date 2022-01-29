@@ -20,14 +20,13 @@ import java.util.Map;
 import static java.lang.String.format;
 
 @Configuration
-@DependsOn({"rabbitmq-configuration", "rabbitmq-starter"})
+@DependsOn({"rabbitmq-configuration", "rabbitmq-starter", "database-configuration"})
 @AllArgsConstructor
 public class ExchangesStarter implements CommandLineRunner {
     private static final String IMAGE_EXCHANGE = "sxs-exchange";
 
     private final ListedCompaniesRepository repository;
     private final DockerClient dockerClient;
-    private final EventBus eventBus;
 
     @Override
     public void run(String... args) {
