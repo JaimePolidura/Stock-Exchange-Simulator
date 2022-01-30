@@ -11,10 +11,8 @@ const Login = (props: any) => {
     const onSubmit = (request: any) => {
         let requestToApi: LoginRequest = {username: request.username, password: request.password};
 
-        auth.login(requestToApi, () => onSuccess(), (error: any) => onFailure(error));
+        auth.login(requestToApi, () => props.history.push("/profile"), (error: any) => onFailure(error));
     }
-
-    const onSuccess = () => props.history.push("/profile");
 
     const onFailure = (error: any) => {
         window.alert("User not found");

@@ -1,40 +1,27 @@
-import React, {useState} from 'react';
+import React, {ReactComponentElement, useState} from 'react';
 import {Modal} from "react-bootstrap";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './ReportModal.css';
 import {ReportType} from "../../../../services/reports/ReportType";
+import {EnumDictionary} from "../../../../utils/EnumDictionary";
+import OpenPositionsAtDateForm from "./form/OpenPositionsAtDateForm";
+import SalesAtYearForm from "./form/SalesAtYearForm";
 
 const ReportModal = (props: any) => {
     const [ reportType, setReportType ] = useState<ReportType>(ReportType.OPEN_POSITIONS_AT_DATE);
-    const [ dateOfGetOpenPositionsAtDate, setDateOfGetOpenPositionsAtDate ] = useState<Date | null>(new Date());
 
-    const onSubmit = () => {
-    }
+    const forms: EnumDictionary<ReportType, ReactComponentElement<any>> = {
+        [ReportType.OPEN_POSITIONS_AT_DATE]: <OpenPositionsAtDateForm />,
+        [ReportType.SALES_AT_YEAR]: <SalesAtYearForm />,
+    };
 
     const onChangeExecutionType = (e: any): void => {
-        if(e.target.value == 'OPEN_POSITIONS_AT_DATE'){
-            setReportType(ReportType.OPEN_POSITIONS_AT_DATE);
-        }else{
-            setReportType(ReportType.SALES_AT_YEAR);
-        }
+        // @ts-ignore
+        setReportType(ReportType[e.target.value]);
     }
 
-    const renderGenerateReportOpenPositionsAtDate = (): any => {
-        return <DatePicker className="date-picker" selected={dateOfGetOpenPositionsAtDate} onChange={(date) => setDateOfGetOpenPositionsAtDate(date)} />;
-    }
-
-    const renderGenerateReportSalesAtYear = (): any => {
-        return (
-            <>
-                <select className="form-control">
-                    <option>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                </select>
-            </>
-        );
+    const renderForm = (): ReactComponentElement<any> => {
+        return forms[reportType];
     }
 
     return (
@@ -50,16 +37,8 @@ const ReportModal = (props: any) => {
                     </select>
 
                     <br />
-
-                    {reportType == ReportType.OPEN_POSITIONS_AT_DATE && renderGenerateReportOpenPositionsAtDate()}
-                    {reportType == ReportType.SALES_AT_YEAR && renderGenerateReportSalesAtYear()}
-
+                    {renderForm()}
                     <br />
-                    <br />
-
-                    <div className="mymodal-footer">
-                        <button className="btn btn-primary" onClick={() => onSubmit()}>✓ Generate ✓</button>
-                    </div>
                 </Modal.Body>
             </Modal>
         </>
