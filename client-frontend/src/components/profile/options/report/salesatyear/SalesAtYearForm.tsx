@@ -1,4 +1,5 @@
 import React from "react";
+import "../Report.css";
 
 export const SalesAtYearForm = (props: any) => {
     const onSubmit = () => {
@@ -16,7 +17,7 @@ export const SalesAtYearForm = (props: any) => {
             <br />
             <br />
             <div className="mymodal-footer">
-                <button className="btn btn-primary" onClick={() => onSubmit()}>✓ Generate ✓</button>
+                <button className="btn btn-primary footer-btn" onClick={() => onSubmit()}>✓ Generate ✓</button>
             </div>
         </>
     );

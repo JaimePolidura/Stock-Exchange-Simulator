@@ -9,6 +9,9 @@ import {GetListedCompanies} from "./requests/getlistedcompanies/GetListedCompani
 import {GetOpenPositionsResponse} from "./requests/getopenpositions/GetOpenPositionsResponse";
 import {CancelOrderResponse} from "./requests/cancelorder/CancelOrderResponse";
 import {GetExecutionOrders} from "./requests/getexecutionorders/GetExecutionOrders";
+import {OpenPosition} from "../../model/positions/OpenPosition";
+import {ClosedPosition} from "../../model/positions/ClosedPosition";
+import {GetOpenPositionsAtDateResponse} from "./requests/getopenpositionsatdate/GetOpenPositionsAtDateResponse";
 
 const apiRoute = "http://localhost:8080/";
 
@@ -45,13 +48,17 @@ class BackendService {
     getOpenPositions(): Promise<AxiosResponse<GetOpenPositionsResponse>>{
         return axios.get(apiRoute + "positions/open/get");
     }
-    
+
     cancelOrder(orderId: string): Promise<AxiosResponse<CancelOrderResponse>>{
         return axios.post(apiRoute + "orders/cancel/send/" + orderId);
     }
 
     getLastPrice(ticker: string): Promise<AxiosResponse<number>> {
         return axios.get(apiRoute + "orders/lastprice/" + ticker);
+    }
+
+    getOpenPositionsAtDate(date: string): Promise<AxiosResponse<GetOpenPositionsAtDateResponse>>{
+        return axios.get(apiRoute + "positions/openpositionsatdate?date=" + date);
     }
 
 }

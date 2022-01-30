@@ -1,7 +1,5 @@
-export interface OpenPosition {
-    positionId: string;
-    ticker: string;
-    openingDate: string;
-    openingPrice: string;
-    quantity: number;
+import {ExecutedOrderType} from "./ExecutedOrderType";
+import {Position} from "./Position";
+
+export interface OpenPosition extends Position{
 }

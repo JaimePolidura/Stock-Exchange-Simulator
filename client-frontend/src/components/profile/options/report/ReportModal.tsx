@@ -2,10 +2,10 @@ import React, {ReactComponentElement, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import './ReportModal.css';
-import {ReportType} from "../../../../services/reports/ReportType";
+import {ReportType} from "../../../../model/reports/ReportType";
 import {EnumDictionary} from "../../../../utils/EnumDictionary";
-import OpenPositionsAtDateForm from "./form/OpenPositionsAtDateForm";
-import SalesAtYearForm from "./form/SalesAtYearForm";
+import OpenPositionsAtDateForm from "./positionsatdate/OpenPositionsAtDateForm";
+import SalesAtYearForm from "./salesatyear/SalesAtYearForm";
 
 const ReportModal = (props: any) => {
     const [ reportType, setReportType ] = useState<ReportType>(ReportType.OPEN_POSITIONS_AT_DATE);
