@@ -1,12 +1,11 @@
-import TradeDisplayInTable from "./OpenPositionDisplayInTable";
-import React from "react";
-import './OpenPositions.css';
+import TradeDisplayInTable from "./openpositionsdisplayintable/OpenPositionDisplayInTable";
+import React, {ReactElement} from "react";
+import {ListedCompany} from "../../../model/listedcomapnies/ListedCompany";
+import {OpenPosition} from "../../../model/positions/OpenPosition";
 
-export default class OpenPositions extends React.Component<any, any> {
-    constructor(props: any) {
+export default class OpenPositions extends React.Component<OpenPositoinsProps, OpenPositionsState> {
+    constructor(props: OpenPositionsState) {
         super(props);
-
-        console.log(props.trades);
 
         this.state = {
             trades: props.trades,
@@ -15,7 +14,7 @@ export default class OpenPositions extends React.Component<any, any> {
         };
     }
 
-    render(): any {
+    render(): ReactElement {
         return (
             <table className="display-table">
                 <thead>
@@ -34,6 +33,7 @@ export default class OpenPositions extends React.Component<any, any> {
 
                 <tbody>
                     {this.state.trades.map((trade: any) =>
+                        // @ts-ignore
                         <TradeDisplayInTable key={trade.positionId}
                                              listedCompany={this.getListedCompany(trade.ticker)}
                                              onOrderSellSended={(order: any) => this.onOrderSellSended(order)}
@@ -43,16 +43,25 @@ export default class OpenPositions extends React.Component<any, any> {
             </table>
         );
    }
-    
-    getListedCompany(ticker: string): string | any{
-        let found = this.state.listedCompanies.find((listedCompany: any) => listedCompany.ticker == ticker);
 
-        return found == null || false ?
-            "Loading" :
-            found;
-    }
+   getListedCompany(ticker: string): ListedCompany {
+       // @ts-ignore
+       return this.state.listedCompanies.find((listedCompany: ListedCompany) => listedCompany.ticker == ticker);
+   }
 
-    onOrderSellSended(order: any): void{
-        this.state.onOrderSellSended(order);
-    }
+   onOrderSellSended(order: any): void{
+       this.state.onOrderSellSended(order);
+   }
+}
+
+export interface OpenPositionsState {
+    trades: OpenPosition[],
+    onOrderSellSended: any,
+    listedCompanies: ListedCompany[],
+}
+
+export interface OpenPositoinsProps {
+    trades: OpenPosition[],
+    onOrderSellSended: any,
+    listedCompanies: ListedCompany[],
 }

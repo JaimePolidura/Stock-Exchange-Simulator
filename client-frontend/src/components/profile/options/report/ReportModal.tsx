@@ -7,7 +7,7 @@ import {EnumDictionary} from "../../../../utils/EnumDictionary";
 import OpenPositionsAtDateForm from "./positionsatdate/OpenPositionsAtDateForm";
 import SalesAtYearForm from "./salesatyear/SalesAtYearForm";
 
-const ReportModal = (props: any) => {
+const ReportModal = (props: ReportModalProps) => {
     const [ reportType, setReportType ] = useState<ReportType>(ReportType.OPEN_POSITIONS_AT_DATE);
 
     const forms: EnumDictionary<ReportType, ReactComponentElement<any>> = {
@@ -46,3 +46,8 @@ const ReportModal = (props: any) => {
 }
 
 export default ReportModal;
+
+export interface ReportModalProps {
+    showModal: boolean,
+    onHide: any,
+}

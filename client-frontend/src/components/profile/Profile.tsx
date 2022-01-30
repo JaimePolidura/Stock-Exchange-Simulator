@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import './Profile.css';
 import backendService from "../../services/api/BackendService";
 import OpenPositions from "./openpositions/OpenPositions";
@@ -7,8 +7,11 @@ import Options from "./options/Options";
 import Orders from "./orders/Orders";
 import auth from "../../services/AuthenticationService";
 import socket from "../../services/api/SocketService";
+import {OpenPosition} from "../../model/positions/OpenPosition";
+import {ExecutionOrder} from "../../model/orders/ExecutionOrder";
+import {ListedCompany} from "../../model/listedcomapnies/ListedCompany";
 
-class Profile extends React.Component<any, any> {
+class Profile extends React.Component<{}, ProfileState> {
     constructor(props: any) {
         super(props);
 
@@ -21,6 +24,7 @@ class Profile extends React.Component<any, any> {
             listedCompanies: [],
             listedCompaniesLoaded: false,
             ordersLoaded: false,
+            openPositionsLoaded: false,
         };
 
         this.setUpListedCompanies();
@@ -32,7 +36,9 @@ class Profile extends React.Component<any, any> {
     getOpenPositionsFromApi(): void {
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
-                this.setState({trades: this.state.trades.concat(res.data.openPositions)});
+                this.setState({trades: this.state.trades.concat(res.data.openPositions)}, () => {
+                    this.setState({openPositionsLoaded: true});
+                });
             });
         });
     }
@@ -96,16 +102,18 @@ class Profile extends React.Component<any, any> {
             trades: tradeArray,
         });
     }
-    
+
     removeOrderOrDecreaseQuantity(orderToRemove: any): void{
         let allOrders = this.state.orders;
 
         let orderFound = allOrders.find((order: any) => order.orderId == orderToRemove.orderId);
         let orderFoundIndex = allOrders.findIndex((order: any) => order.orderId == orderToRemove.orderId);
 
+        // @ts-ignore
         if(orderFound.quantity == orderToRemove.quantity){
             allOrders.splice(orderFoundIndex,1);
         }else{
+            // @ts-ignore
             orderFound.quantity = orderFound.quantity - orderToRemove.quantity;
         }
 
@@ -138,7 +146,7 @@ class Profile extends React.Component<any, any> {
         });
     }
 
-    render(): any {
+    render(): ReactElement {
         return (
             <div className="content div-config-dif-background">
                 <Options onOrderBuySended = {(order: any) => this.onOrderBuySended(order)}/>
@@ -146,15 +154,14 @@ class Profile extends React.Component<any, any> {
 
                 <Stats cash = {this.state.cash} />
                 <br/>
-                {this.state.listedCompaniesLoaded == true &&
+                {this.state.listedCompaniesLoaded && this.state.openPositionsLoaded &&
                     <OpenPositions trades={this.state.trades}
-                                   key={this.state.trades}
                                    listedCompanies={this.state.listedCompanies}
                                    onOrderSellSended={(order: any) => this.onOrderSellSended(order)}/>
                 }
                 <br />
 
-                {this.state.listedCompaniesLoaded == true && this.state.ordersLoaded == true &&
+                {this.state.listedCompaniesLoaded && this.state.ordersLoaded &&
                     <Orders listedCompanies={this.state.listedCompanies}
                             orders={this.state.orders}/>
                 }
@@ -165,5 +172,15 @@ class Profile extends React.Component<any, any> {
     }
 }
 
-
 export default Profile;
+
+export interface ProfileState {
+    trades: OpenPosition[],
+    cash: number,
+    orders: ExecutionOrder[],
+    socket: any,
+    listedCompanies: ListedCompany[],
+    listedCompaniesLoaded: boolean,
+    ordersLoaded: boolean,
+    openPositionsLoaded: boolean,
+}

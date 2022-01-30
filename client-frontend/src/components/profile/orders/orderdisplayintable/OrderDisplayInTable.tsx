@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import CancelOrderModal from "./CancelOrderModal";
+import CancelOrderModal from "./cancelordermodal/CancelOrderModal";
+import {ExecutionOrder} from "../../../../model/orders/ExecutionOrder";
+import {ListedCompany} from "../../../../model/listedcomapnies/ListedCompany";
 
-class OrderDisplayInTable extends React.Component<any, any> {
-    constructor(props: any) {
+class OrderDisplayInTable extends React.Component<OrderDisplayInTableProps, OrderDisplayInTableStatus> {
+    constructor(props: OrderDisplayInTableProps) {
         super(props);
 
         this.state = {
@@ -40,14 +42,14 @@ class OrderDisplayInTable extends React.Component<any, any> {
     }
 
     calculateTotalValue(): string{
-        return this.state.order.executionPrice !== -1 ?
-            '~' + (this.state.order.quantity * this.state.order.executionPrice) :
+        return this.state.order.priceToExecute !== -1 ?
+            '~' + (this.state.order.quantity * this.state.order.priceToExecute) :
             'Market';
     }
 
     renderExecutionType(): string{
-        return this.state.order.executionPrice !== -1 ?
-            "Limit at " + this.state.order.executionPrice + "$" :
+        return this.state.order.priceToExecute !== -1 ?
+            "Limit at " + this.state.order.priceToExecute + "$" :
             "Market";
     }
 
@@ -61,3 +63,14 @@ class OrderDisplayInTable extends React.Component<any, any> {
 }
 
 export default OrderDisplayInTable;
+
+export interface OrderDisplayInTableStatus {
+    order: ExecutionOrder,
+    listedCompany: ListedCompany,
+    showModal: boolean,
+}
+
+export interface OrderDisplayInTableProps {
+    value: ExecutionOrder,
+    listedCompany: ListedCompany,
+}

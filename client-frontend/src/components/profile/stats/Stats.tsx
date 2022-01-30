@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 
-const Stats = (props: { cash: { cash: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
+const Stats = (props: any) => {
     return (
-        <h5>Cash: {props.cash.cash} $</h5>
+        <h5>Cash: 2451 $</h5>
     );
 }
 

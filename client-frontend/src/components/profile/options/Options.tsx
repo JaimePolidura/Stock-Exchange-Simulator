@@ -1,10 +1,10 @@
 import React from "react";
 import './Options.css';
 import auth from "../../../services/AuthenticationService";
-import BuyStockModal from "./BuyStockModal";
+import BuyStockModal from "./buystockmodal/BuyStockModal";
 import ReportModal from "./report/ReportModal";
 
-export default class Options extends React.Component<any, any> {
+export default class Options extends React.Component<any, OptionsState> {
     constructor(props: any) {
         super(props);
 
@@ -76,4 +76,13 @@ export default class Options extends React.Component<any, any> {
         auth.logout();
         this.props.history.push("/");
     }
+}
+
+export interface OptionsState {
+    showBuyStockModal: boolean,
+    showReportModal: boolean,
+}
+
+export interface OptionsProps {
+    onOrderBuySended: any,
 }

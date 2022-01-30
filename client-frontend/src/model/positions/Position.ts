@@ -5,6 +5,6 @@ export interface Position {
     executedOrderType: ExecutedOrderType;
     ticker: string;
     openingDate: string;
-    openingPrice: string;
+    openingPrice: number;
     quantity: number;
 }

@@ -9,8 +9,6 @@ import {GetListedCompanies} from "./requests/getlistedcompanies/GetListedCompani
 import {GetOpenPositionsResponse} from "./requests/getopenpositions/GetOpenPositionsResponse";
 import {CancelOrderResponse} from "./requests/cancelorder/CancelOrderResponse";
 import {GetExecutionOrders} from "./requests/getexecutionorders/GetExecutionOrders";
-import {OpenPosition} from "../../model/positions/OpenPosition";
-import {ClosedPosition} from "../../model/positions/ClosedPosition";
 import {GetOpenPositionsAtDateResponse} from "./requests/getopenpositionsatdate/GetOpenPositionsAtDateResponse";
 
 const apiRoute = "http://localhost:8080/";

@@ -1,28 +1,22 @@
 import React, {Component} from 'react';
-import OrderDisplayInTable from "./OrderDisplayInTable";
+import OrderDisplayInTable from "./orderdisplayintable/OrderDisplayInTable";
+import {ExecutionOrder} from "../../../model/orders/ExecutionOrder";
+import {ListedCompany} from "../../../model/listedcomapnies/ListedCompany";
 
-export default class Orders extends React.Component<any, any> {
-    constructor(props: any) {
+export default class Orders extends React.Component<OrdersProps, OrdersState> {
+    constructor(props: OrdersProps) {
         super(props);
 
         this.state = {
             orders: props.orders,
             listedCompanies: props.listedCompanies,
         }
-
-        console.log("orders")
-        console.log(this.state.orders);
-        console.log(this.state.listedCompanies);
     }
 
     render(): any {
         if(this.state.orders.length == 0){
             return null;
         }
-
-        console.log("2");
-        console.log(this.state.orders);
-        console.log(this.state.listedCompanies);
 
         return (
             <table className="display-table">
@@ -49,11 +43,16 @@ export default class Orders extends React.Component<any, any> {
     }
 
     getListedCompanyFromTicker(ticker: string): any{
-        console.log("hola");
-        console.log(this.state.listedCompanies);
-        console.log(ticker);
-        console.log(this.state.listedCompanies.find((ite: any) => ite.ticker == ticker));
-
         return this.state.listedCompanies.find((ite: any) => ite.ticker == ticker);
     }
+}
+
+export interface OrdersState {
+    orders: ExecutionOrder[],
+    listedCompanies: ListedCompany[],
+}
+
+export interface OrdersProps {
+    orders: ExecutionOrder[],
+    listedCompanies: ListedCompany[],
 }

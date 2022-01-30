@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import './CancelOrderModal.css';
-import backend from "../../../services/api/BackendService";
+import backend from "../../../../../services/api/BackendService";
+import {Order} from "../../../../../model/orders/Order";
 
-const CancelOrderModal = (props: any) => {
-    const [ order, setOrder ] = useState(props.order);
+const CancelOrderModal = (props: CancelOrderModalProps) => {
+    const [ order, setOrder ] = useState<Order>(props.order);
 
     const close = () => {
         props.onHide();
@@ -40,3 +41,9 @@ const CancelOrderModal = (props: any) => {
 }
 
 export default CancelOrderModal;
+
+export interface CancelOrderModalProps {
+    order: Order;
+    onHide: any;
+    showModal: any,
+}

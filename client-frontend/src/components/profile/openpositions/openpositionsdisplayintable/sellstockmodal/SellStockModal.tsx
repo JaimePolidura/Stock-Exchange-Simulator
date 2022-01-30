@@ -1,21 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
-import backend from "../../../services/api/BackendService";
-import {SendSellOrderRequest} from "../../../services/api/requests/sendsellorder/SendSellOrderRequest";
+import backend from "../../../../../services/api/BackendService";
+import {SendSellOrderRequest} from "../../../../../services/api/requests/sendsellorder/SendSellOrderRequest";
 import {AxiosResponse} from "axios";
-import {SendSellOrderResponse} from "../../../services/api/requests/sendsellorder/SendSellOrderResponse";
+import {SendSellOrderResponse} from "../../../../../services/api/requests/sendsellorder/SendSellOrderResponse";
+import {ListedCompany} from "../../../../../model/listedcomapnies/ListedCompany";
+import {OpenPosition} from "../../../../../model/positions/OpenPosition";
+import lastPricesService from "../../../../../services/LastPricesService";
 
-const SellStockModal = (props: any) => {
+const SellStockModal = (props: SellStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
+    const [ lastPrice, setLastPrice ] = useState(0);
+
+    useEffect(() => {
+        lastPricesService.getLastPrice(props.listedCompany.ticker)
+            .then(res => setLastPrice(res));
+    }, []);
 
     const onSubmit = (form: any) => {
         let finalRequestToApi: SendSellOrderRequest = {
-            positionId: props.trade.positionId,
+            positionId: props.trade.orderId,
             quantity: form.quantity,
             priceToExecute: sellExecutionType == 'market' ? -1 : form.price,
         }
+
+        console.log(finalRequestToApi);
 
         backend.sendSellOrder(finalRequestToApi).then(
             response => onSuccess(response),
@@ -63,8 +74,8 @@ const SellStockModal = (props: any) => {
             <Modal.Body>
                 <p>
                     Currency: USD<br />
-                    Initial price: {props.trade.averagePrice}<br />
-                    Acual price: {props.trade.actualPrice}<br />
+                    Initial price: {props.trade.openingPrice}<br />
+                    Acual price: {lastPrice}<br />
                     Liquidation value: {props.renderMarketValue()}<br />
                 </p>
 
@@ -107,3 +118,12 @@ const SellStockModal = (props: any) => {
 }
 
 export default SellStockModal;
+
+export interface SellStockModalProps {
+    showModal: boolean,
+    onHide: any,
+    listedCompany: ListedCompany,
+    trade: OpenPosition,
+    renderMarketValue: any,
+    onOrderSellSended: any,
+}

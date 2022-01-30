@@ -2,9 +2,7 @@ import React from "react";
 import "../Report.css";
 
 export const SalesAtYearForm = (props: any) => {
-    const onSubmit = () => {
-
-    }
+    const onSubmit = () => {}
 
     return (
         <>

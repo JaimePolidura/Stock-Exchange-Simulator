@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
-import backendService from "../../../services/api/BackendService";
-import backend from "../../../services/api/BackendService";
-import {SendBuyOrderRequest} from "../../../services/api/requests/sendbuyorder/SendBuyOrderRequest";
-import {SendBuyOrderResponse} from "../../../services/api/requests/sendbuyorder/SendBuyOrderResponse";
+import backendService from "../../../../services/api/BackendService";
+import backend from "../../../../services/api/BackendService";
+import {SendBuyOrderRequest} from "../../../../services/api/requests/sendbuyorder/SendBuyOrderRequest";
+import {SendBuyOrderResponse} from "../../../../services/api/requests/sendbuyorder/SendBuyOrderResponse";
 import {AxiosResponse} from "axios";
 
-const BuyStockModal = (props: any) => {
+const BuyStockModal = (props: BuyStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
     const [ buyExecutionType, setBuyExecutionType ] = useState('market');
     const [ listedCompany, setListedCompany ] = useState({});
@@ -131,3 +131,9 @@ const BuyStockModal = (props: any) => {
 }
 
 export default BuyStockModal;
+
+export interface BuyStockModalProps {
+    onOrderBuySended: any,
+    showModal: boolean,
+    onHide: any,
+}

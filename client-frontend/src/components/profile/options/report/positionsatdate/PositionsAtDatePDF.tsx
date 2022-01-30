@@ -2,10 +2,9 @@ import React from "react";
 import {useState} from "react";
 import {Position} from "../../../../../model/positions/Position";
 import ReactPDF, { Document, Page, Text, View, Image } from "@react-pdf/renderer";
-import {PositionsAtDatePDFState} from "./PositionsAtDatePDFState";
 import {DataTableCell, Table, TableBody, TableCell, TableHeader} from "@david.kucsai/react-pdf-table";
 
-export const PositionsAtDatePDF = (props: PositionsAtDatePDFState) => {
+export const PositionsAtDatePDF = (props: PositionsAtDatePDFProps) => {
     const [ positions, setPositions ] = useState<Position[]>(props.positions);
     const [ date, setDate ] = useState<Date>(props.date);
 
@@ -41,4 +40,9 @@ export const PositionsAtDatePDF = (props: PositionsAtDatePDFState) => {
             </Page>
         </Document>
     );
+}
+
+export interface PositionsAtDatePDFProps {
+    positions: Position[],
+    date: Date,
 }

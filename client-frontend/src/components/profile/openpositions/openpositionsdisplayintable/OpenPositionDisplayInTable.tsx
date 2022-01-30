@@ -1,9 +1,12 @@
 import React from "react";
 import './OpenPositionDisplayInTable.css';
-import SellStockModal from "./SellStockModal";
-import lastPricesService from "../../../services/LastPricesService";
+import SellStockModal from "./sellstockmodal/SellStockModal";
+import lastPricesService from "../../../../services/LastPricesService";
+import {OpenPosition} from "../../../../model/positions/OpenPosition";
+import {ListedCompany} from "../../../../model/listedcomapnies/ListedCompany";
+import OpenPositions from "../OpenPositions";
 
-class TradeDisplayInTable extends React.Component<any, any> {
+class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, TradeDisplayInTableState> {
     constructor(props: any) {
         super(props);
 
@@ -119,3 +122,18 @@ class TradeDisplayInTable extends React.Component<any, any> {
 }
 
 export default TradeDisplayInTable;
+
+export interface TradeDisplayInTableState {
+    trade: OpenPosition,
+    showModal: boolean,
+    sellExecutionType: string,
+    actualPrice: number,
+    listedCompany: ListedCompany,
+    onOrderSellSended: any
+}
+
+export interface TradeDisplayInTableProps {
+    value: OpenPositions,
+    onOrderSellSended: any,
+    listedCompany: ListedCompany,
+}
