@@ -2,9 +2,10 @@ import TradeDisplayInTable from "./openpositionsdisplayintable/OpenPositionDispl
 import React, {ReactElement} from "react";
 import {ListedCompany} from "../../../model/listedcomapnies/ListedCompany";
 import {OpenPosition} from "../../../model/positions/OpenPosition";
+import {SellOrder} from "../../../model/orders/SellOrder";
 
 export default class OpenPositions extends React.Component<OpenPositoinsProps, OpenPositionsState> {
-    constructor(props: OpenPositionsState) {
+    constructor(props: OpenPositoinsProps) {
         super(props);
 
         this.state = {
@@ -32,9 +33,9 @@ export default class OpenPositions extends React.Component<OpenPositoinsProps, O
                 </thead>
 
                 <tbody>
-                    {this.state.trades.map((trade: any) =>
+                    {this.state.trades.map((trade: OpenPosition) =>
                         // @ts-ignore
-                        <TradeDisplayInTable key={trade.positionId}
+                        <TradeDisplayInTable key={trade.orderId}
                                              listedCompany={this.getListedCompany(trade.ticker)}
                                              onOrderSellSended={(order: any) => this.onOrderSellSended(order)}
                                              value={trade}/>)
@@ -49,19 +50,19 @@ export default class OpenPositions extends React.Component<OpenPositoinsProps, O
        return this.state.listedCompanies.find((listedCompany: ListedCompany) => listedCompany.ticker == ticker);
    }
 
-   onOrderSellSended(order: any): void{
+   onOrderSellSended(order: SellOrder): void{
        this.state.onOrderSellSended(order);
    }
 }
 
 export interface OpenPositionsState {
     trades: OpenPosition[],
-    onOrderSellSended: any,
+    onOrderSellSended: (order: SellOrder) => void,
     listedCompanies: ListedCompany[],
 }
 
 export interface OpenPositoinsProps {
     trades: OpenPosition[],
-    onOrderSellSended: any,
+    onOrderSellSended: (order: SellOrder) => void,
     listedCompanies: ListedCompany[],
 }

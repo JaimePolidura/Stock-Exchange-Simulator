@@ -38,19 +38,19 @@ class ClientEventDispatcherSocketService {
         }
     }
 
-    onExecutedSellOrder(callback: any): void{
+    onExecutedSellOrder(callback: (msg: any) => void): void{
         this.onExecutedSellOrderCallback = callback;
     }
 
-    onExecutedBuyOrder(callback: any): void{
+    onExecutedBuyOrder(callback: (msg: any) => void): void{
         this.onExecutedBuyOrderCallback = callback;
     }
 
-    onErrorOrder(callback: any): void{
+    onErrorOrder(callback: (msg: any) => void): void{
         this.onErrorOrderCallback = callback;
     }
 
-    onOrderCancelled(callback: any): void{
+    onOrderCancelled(callback: (msg: any) => void): void{
         this.onOrderCancelledCallback = callback;
     }
 }

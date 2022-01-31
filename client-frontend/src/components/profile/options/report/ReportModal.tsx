@@ -49,5 +49,5 @@ export default ReportModal;
 
 export interface ReportModalProps {
     showModal: boolean,
-    onHide: any,
+    onHide: () => void,
 }

@@ -4,10 +4,10 @@ import SellStockModal from "./sellstockmodal/SellStockModal";
 import lastPricesService from "../../../../services/LastPricesService";
 import {OpenPosition} from "../../../../model/positions/OpenPosition";
 import {ListedCompany} from "../../../../model/listedcomapnies/ListedCompany";
-import OpenPositions from "../OpenPositions";
+import {SellOrder} from "../../../../model/orders/SellOrder";
 
 class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, TradeDisplayInTableState> {
-    constructor(props: any) {
+    constructor(props: TradeDisplayInTableProps) {
         super(props);
 
         this.state = {
@@ -65,7 +65,7 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
         );
     }
 
-    onOrderSellSended(order: any): void{
+    onOrderSellSended(order: SellOrder): void{
         this.setState({showModal: false});
 
         this.state.onOrderSellSended(order);
@@ -129,11 +129,11 @@ export interface TradeDisplayInTableState {
     sellExecutionType: string,
     actualPrice: number,
     listedCompany: ListedCompany,
-    onOrderSellSended: any
+    onOrderSellSended: (order: SellOrder) => void
 }
 
 export interface TradeDisplayInTableProps {
-    value: OpenPositions,
-    onOrderSellSended: any,
+    value: OpenPosition,
+    onOrderSellSended: (order: SellOrder) => void,
     listedCompany: ListedCompany,
 }

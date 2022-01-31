@@ -3,6 +3,7 @@ import './Options.css';
 import auth from "../../../services/AuthenticationService";
 import BuyStockModal from "./buystockmodal/BuyStockModal";
 import ReportModal from "./report/ReportModal";
+import {BuyOrder} from "../../../model/orders/BuyOrder";
 
 export default class Options extends React.Component<any, OptionsState> {
     constructor(props: any) {
@@ -41,7 +42,7 @@ export default class Options extends React.Component<any, OptionsState> {
     }
 
     renderBuyStockModal(){
-        return <BuyStockModal onOrderBuySended={(order: any) => this.onOrderBuySended(order)}
+        return <BuyStockModal onOrderBuySended={(order: BuyOrder) => this.onOrderBuySended(order)}
                               showModal={this.state.showBuyStockModal}
                               onHide={() => this.closeBuyStockModal()}/>
     }
@@ -51,7 +52,7 @@ export default class Options extends React.Component<any, OptionsState> {
                             onHide={() => this.hideReportModal()}/>
     }
 
-    onOrderBuySended(order: any): void{
+    onOrderBuySended(order: BuyOrder): void{
         this.props.onOrderBuySended(order);
         this.closeBuyStockModal();
     }
@@ -81,8 +82,4 @@ export default class Options extends React.Component<any, OptionsState> {
 export interface OptionsState {
     showBuyStockModal: boolean,
     showReportModal: boolean,
-}
-
-export interface OptionsProps {
-    onOrderBuySended: any,
 }

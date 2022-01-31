@@ -8,6 +8,7 @@ import {SendSellOrderResponse} from "../../../../../services/api/requests/sendse
 import {ListedCompany} from "../../../../../model/listedcomapnies/ListedCompany";
 import {OpenPosition} from "../../../../../model/positions/OpenPosition";
 import lastPricesService from "../../../../../services/LastPricesService";
+import {SellOrder} from "../../../../../model/orders/SellOrder";
 
 const SellStockModal = (props: SellStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
@@ -37,18 +38,7 @@ const SellStockModal = (props: SellStockModalProps) => {
     const onSuccess = (response: AxiosResponse<SendSellOrderResponse>): void => {
         window.alert("The order has been sended");
 
-        let orderAdded = response.data.order;
-
-        let orderToDisplay = {
-            orderId: orderAdded.orderId,
-            ticker: props.listedCompany.ticker,
-            quantity: orderAdded.quantity,
-            date: orderAdded.date,
-            priceToExecute: orderAdded.priceToExecute,
-            pendingOrderType: 'SELL',
-        }
-
-        props.onOrderSellSended(orderToDisplay);
+        props.onOrderSellSended(response.data.order);
     }
 
     const onFailure = (response: any) => {
@@ -121,9 +111,9 @@ export default SellStockModal;
 
 export interface SellStockModalProps {
     showModal: boolean,
-    onHide: any,
+    onHide: () => void,
     listedCompany: ListedCompany,
     trade: OpenPosition,
-    renderMarketValue: any,
-    onOrderSellSended: any,
+    renderMarketValue: () => string,
+    onOrderSellSended: (order: SellOrder) => void,
 }

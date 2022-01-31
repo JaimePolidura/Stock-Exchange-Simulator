@@ -10,6 +10,9 @@ import socket from "../../services/api/SocketService";
 import {OpenPosition} from "../../model/positions/OpenPosition";
 import {ExecutionOrder} from "../../model/orders/ExecutionOrder";
 import {ListedCompany} from "../../model/listedcomapnies/ListedCompany";
+import {BuyOrder} from "../../model/orders/BuyOrder";
+import {SellOrder} from "../../model/orders/SellOrder";
+import {Order} from "../../model/orders/Order";
 
 class Profile extends React.Component<{}, ProfileState> {
     constructor(props: any) {
@@ -35,7 +38,7 @@ class Profile extends React.Component<{}, ProfileState> {
 
     getOpenPositionsFromApi(): void {
         this.setState({openPositionsLoaded: false});
-        
+
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
                 this.setState({trades: this.state.trades.concat(res.data.openPositions)}, () => {
@@ -133,15 +136,15 @@ class Profile extends React.Component<{}, ProfileState> {
         this.setState({orders: allOrders});
     }
 
-    onOrderBuySended(order: any): void{
+    onOrderBuySended(order: BuyOrder): void{
         this.addOrder(order);
     }
 
-    onOrderSellSended(order: any): void{
+    onOrderSellSended(order: SellOrder): void{
         this.addOrder(order);
     }
 
-    addOrder(order: any): void{
+    addOrder(order: ExecutionOrder): void{
         let orderArrays = this.state.orders;
         orderArrays.push(order);
 

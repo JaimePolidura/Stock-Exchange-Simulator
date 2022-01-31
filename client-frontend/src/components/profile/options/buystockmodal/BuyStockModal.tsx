@@ -7,6 +7,7 @@ import {SendBuyOrderRequest} from "../../../../services/api/requests/sendbuyorde
 import {SendBuyOrderResponse} from "../../../../services/api/requests/sendbuyorder/SendBuyOrderResponse";
 import {AxiosResponse} from "axios";
 import '../../openpositions/openpositionsdisplayintable/OpenPositionDisplayInTable.css';
+import {BuyOrder} from "../../../../model/orders/BuyOrder";
 
 const BuyStockModal = (props: BuyStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
@@ -25,7 +26,7 @@ const BuyStockModal = (props: BuyStockModalProps) => {
             .catch(error => onFailure(error));
     }
 
-    const onChangeExecutionType = (e: any) => {
+    const onChangeExecutionType = (e: any): void => {
         setBuyExecutionType(e.target.value);
 
         if(e.target.value === 'market'){
@@ -33,21 +34,8 @@ const BuyStockModal = (props: BuyStockModalProps) => {
         }
     }
 
-    const onSuccess = (response: AxiosResponse<SendBuyOrderResponse>) => {
-        let order = response.data.order;
-
-        console.log(order);
-        
-        let orderToDisplay = {
-            orderId: order.orderId,
-            ticker: order.ticker,
-            quantity: order.quantity,
-            date: order.date,
-            priceToExecute: order.priceToExecute,
-            pendingOrderType: 'BUY',
-        }
-
-        props.onOrderBuySended(orderToDisplay);
+    const onSuccess = (response: AxiosResponse<SendBuyOrderResponse>): void => {
+        props.onOrderBuySended(response.data.order);
 
         window.alert("The order has been sended");
     }
@@ -134,7 +122,7 @@ const BuyStockModal = (props: BuyStockModalProps) => {
 export default BuyStockModal;
 
 export interface BuyStockModalProps {
-    onOrderBuySended: any,
+    onOrderBuySended: (order: BuyOrder) => void,
     showModal: boolean,
-    onHide: any,
+    onHide: () => void,
 }

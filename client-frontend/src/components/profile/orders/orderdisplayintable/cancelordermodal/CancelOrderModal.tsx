@@ -44,6 +44,6 @@ export default CancelOrderModal;
 
 export interface CancelOrderModalProps {
     order: Order;
-    onHide: any;
-    showModal: any,
+    onHide: () => void;
+    showModal: boolean,
 }

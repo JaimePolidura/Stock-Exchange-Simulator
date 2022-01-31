@@ -42,10 +42,6 @@ class OrderDisplayInTable extends React.Component<OrderDisplayInTableProps, Orde
     }
 
     calculateTotalValue(): string{
-        console.log(this.state.order);
-        console.log(this.state.order.priceToExecute);
-        console.log(this.state.order.priceToExecute != -1);
-
         return this.state.order.priceToExecute != -1 ?
             '~' + (this.state.order.quantity * this.state.order.priceToExecute) :
             'Market';

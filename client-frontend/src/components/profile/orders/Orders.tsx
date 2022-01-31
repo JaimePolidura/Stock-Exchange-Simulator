@@ -43,7 +43,7 @@ export default class Orders extends React.Component<OrdersProps, OrdersState> {
     }
 
     getListedCompanyFromTicker(ticker: string): any{
-        return this.state.listedCompanies.find((ite: any) => ite.ticker == ticker);
+        return this.state.listedCompanies.find((ite: ListedCompany) => ite.ticker == ticker);
     }
 }
 
