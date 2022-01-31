@@ -1,10 +1,10 @@
 import React from "react";
 import './OpenPositionDisplayInTable.css';
 import SellStockModal from "./sellstockmodal/SellStockModal";
-import lastPricesService from "../../../../services/LastPricesService";
 import {OpenPosition} from "../../../../model/positions/OpenPosition";
 import {ListedCompany} from "../../../../model/listedcomapnies/ListedCompany";
 import {SellOrder} from "../../../../model/orders/SellOrder";
+import lastPricesService from "../../../../services/LastPricesService";
 
 class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, TradeDisplayInTableState> {
     constructor(props: TradeDisplayInTableProps) {
@@ -16,16 +16,10 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
             sellExecutionType: "Market",
             onOrderSellSended: props.onOrderSellSended,
             listedCompany: props.listedCompany,
-            actualPrice: -1,
+            lastPrice: -1,
         };
 
         this.loadPriceByApi();
-    }
-
-    loadPriceByApi(){
-        lastPricesService.getLastPrice(this.state.trade.ticker).then(res => {
-            this.setState({actualPrice: res});
-        });
     }
 
     render() {
@@ -48,9 +42,18 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
     }
 
     actualPriceFromTicker(ticker: string): any{
-        return this.state.actualPrice != -1 ?
-            this.state.actualPrice :
-            'Loading' ;
+        if(lastPricesService.isLoaded(ticker)){
+            return lastPricesService.getLastPriceNoSafe(ticker);
+        }else{
+            this.loadPriceByApi();
+            return 'Loading';
+        }
+    }
+
+    loadPriceByApi() {
+        lastPricesService.getLastPrice(this.state.trade.ticker).then(res => {
+            this.setState({lastPrice: res});
+        });
     }
 
     renderSellStockModal(): any{
@@ -80,7 +83,7 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
     }
 
     renderResult(): any{
-        if(this.state.actualPrice == -1) return 'Loading';
+        if(this.actualPriceFromTicker(this.state.trade.ticker) == 'Loading') return 'Loading';
 
         let result = this.calculateResult();
 
@@ -90,7 +93,7 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
     }
 
     renderMarketValue(): string{
-        if(this.state.actualPrice == -1) return 'Loading';
+        if(this.actualPriceFromTicker(this.state.trade.ticker) == 'Loading') return 'Loading';
 
         let trade = this.state.trade;
 
@@ -98,7 +101,7 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
     }
 
     renderResultYield(): any{
-        if(this.state.actualPrice == -1) return 'Loading';
+        if(this.actualPriceFromTicker(this.state.trade.ticker) == 'Loading') return 'Loading';
 
         let trade = this.state.trade;
 
@@ -113,9 +116,7 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
     }
 
     calculateResult(): string | number{
-        if(this.state.actualPrice == -1) return 'Loading';
-
-        let trade = this.state.trade;
+        let trade: OpenPosition = this.state.trade;
 
         return Math.round((this.actualPriceFromTicker(trade.ticker) - trade.openingPrice) * trade.quantity);
     }
@@ -127,9 +128,9 @@ export interface TradeDisplayInTableState {
     trade: OpenPosition,
     showModal: boolean,
     sellExecutionType: string,
-    actualPrice: number,
+    lastPrice: number,
     listedCompany: ListedCompany,
-    onOrderSellSended: (order: SellOrder) => void
+    onOrderSellSended: (order: SellOrder) => void,
 }
 
 export interface TradeDisplayInTableProps {

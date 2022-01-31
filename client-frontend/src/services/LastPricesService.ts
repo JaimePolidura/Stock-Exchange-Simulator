@@ -7,6 +7,14 @@ class LastPricesService {
         this.lastPrices = {};
     }
 
+    isLoaded(ticker: string): boolean {
+        return this.lastPrices[ticker] != undefined;
+    }
+
+    getLastPriceNoSafe(ticker: string): number {
+        return this.lastPrices[ticker];
+    }
+
     async getLastPrice(ticker: string): Promise<any> {
         if(ticker in this.lastPrices)
             return new Promise((() => this.lastPrices[ticker]));
