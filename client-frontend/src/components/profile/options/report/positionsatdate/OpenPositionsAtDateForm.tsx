@@ -43,7 +43,7 @@ const OpenPositionsAtDateForm = (props: any) => {
             <br />
             <br />
 
-            <div className="mymodal-footer">
+            <div className="footer-report-form">
                 {!readyToDownloadPDF &&
                     <button className="btn btn-primary footer-btn" onClick={() => onSubmit()}>✓ Generate ✓</button>
                 }

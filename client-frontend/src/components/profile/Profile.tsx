@@ -34,6 +34,8 @@ class Profile extends React.Component<{}, ProfileState> {
     }
 
     getOpenPositionsFromApi(): void {
+        this.setState({openPositionsLoaded: false});
+        
         backendService.getOpenPositions().then(res => {
             this.setState({trades: []}, () => {
                 this.setState({trades: this.state.trades.concat(res.data.openPositions)}, () => {
@@ -88,7 +90,7 @@ class Profile extends React.Component<{}, ProfileState> {
 
     onOrderCancelled(orderCancelled: any): void{
         let allOrders = this.state.orders;
-        let orderFoundIndex = allOrders.findIndex((order: any) => order.orderId == orderCancelled.orderIdCancelled);
+        let orderFoundIndex = allOrders.findIndex((order: ExecutionOrder) => order.orderId == orderCancelled.orderIdCancelled);
         allOrders.splice(orderFoundIndex,1);
 
         this.setState({orders: allOrders});
@@ -106,14 +108,16 @@ class Profile extends React.Component<{}, ProfileState> {
     removeOrderOrDecreaseQuantity(orderToRemove: any): void{
         let allOrders = this.state.orders;
 
-        let orderFound = allOrders.find((order: any) => order.orderId == orderToRemove.orderId);
-        let orderFoundIndex = allOrders.findIndex((order: any) => order.orderId == orderToRemove.orderId);
+        let orderFound = allOrders.find((order: ExecutionOrder) => order.orderId == orderToRemove.orderId);
+        let orderFoundIndex = allOrders.findIndex((order: ExecutionOrder) => order.orderId == orderToRemove.orderId);
 
-        // @ts-ignore
+        if(orderFound == undefined){
+            return;
+        }
+
         if(orderFound.quantity == orderToRemove.quantity){
             allOrders.splice(orderFoundIndex,1);
         }else{
-            // @ts-ignore
             orderFound.quantity = orderFound.quantity - orderToRemove.quantity;
         }
 

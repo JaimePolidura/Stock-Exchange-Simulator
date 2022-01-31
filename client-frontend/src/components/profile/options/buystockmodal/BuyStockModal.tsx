@@ -6,6 +6,7 @@ import backend from "../../../../services/api/BackendService";
 import {SendBuyOrderRequest} from "../../../../services/api/requests/sendbuyorder/SendBuyOrderRequest";
 import {SendBuyOrderResponse} from "../../../../services/api/requests/sendbuyorder/SendBuyOrderResponse";
 import {AxiosResponse} from "axios";
+import '../../openpositions/openpositionsdisplayintable/OpenPositionDisplayInTable.css';
 
 const BuyStockModal = (props: BuyStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, setError, clearErrors, reset} = useForm();
@@ -34,15 +35,15 @@ const BuyStockModal = (props: BuyStockModalProps) => {
 
     const onSuccess = (response: AxiosResponse<SendBuyOrderResponse>) => {
         let order = response.data.order;
-        // @ts-ignore
-        let listedCompanyTicker = listedCompany == null ? "" : listedCompany.ticker;
 
+        console.log(order);
+        
         let orderToDisplay = {
             orderId: order.orderId,
-            ticker: listedCompanyTicker,
+            ticker: order.ticker,
             quantity: order.quantity,
             date: order.date,
-            executionPrice: order.priceToExecute,
+            priceToExecute: order.priceToExecute,
             pendingOrderType: 'BUY',
         }
 

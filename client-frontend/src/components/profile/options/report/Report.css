@@ -1,14 +1,10 @@
-.mymodal-footer{
+.footer-report-form{
     margin-top: 5%;
     width: 100%;
 
     display: inline-block;
-
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*justify-content: center;*/
 }
 
-.mymodal-footer .footer-btn {
+.footer-report-form .footer-btn {
     width: 100%;
 }

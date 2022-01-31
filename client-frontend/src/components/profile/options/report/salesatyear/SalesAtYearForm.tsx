@@ -14,7 +14,7 @@ export const SalesAtYearForm = (props: any) => {
             </select>
             <br />
             <br />
-            <div className="mymodal-footer">
+            <div className="footer-report-form">
                 <button className="btn btn-primary footer-btn" onClick={() => onSubmit()}>✓ Generate ✓</button>
             </div>
         </>

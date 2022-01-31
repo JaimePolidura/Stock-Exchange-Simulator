@@ -34,7 +34,7 @@ const SellStockModal = (props: SellStockModalProps) => {
         );
     }
 
-    const onSuccess = (response: AxiosResponse<SendSellOrderResponse>) => {
+    const onSuccess = (response: AxiosResponse<SendSellOrderResponse>): void => {
         window.alert("The order has been sended");
 
         let orderAdded = response.data.order;
@@ -44,7 +44,7 @@ const SellStockModal = (props: SellStockModalProps) => {
             ticker: props.listedCompany.ticker,
             quantity: orderAdded.quantity,
             date: orderAdded.date,
-            executionPrice: orderAdded.priceToExecute,
+            priceToExecute: orderAdded.priceToExecute,
             pendingOrderType: 'SELL',
         }
 
