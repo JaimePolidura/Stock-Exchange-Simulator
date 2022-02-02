@@ -3,6 +3,7 @@ package es.jaime.gateway._shared.infrastrocture.persistance;
 import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import lombok.SneakyThrows;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -13,13 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-//TODO Usar applicatoin configuration
+import static java.lang.String.format;
+
 @Configuration("database-configuration")
 public class DatabaseConnectionConfiguration extends DatabaseConfiguration {
     private final ResourcePatternResolver resourceResolver;
+    private final ApplicationConfiguration configuration;
 
-    public DatabaseConnectionConfiguration(ResourcePatternResolver resourceResolver) {
+    public DatabaseConnectionConfiguration(ResourcePatternResolver resourceResolver, ApplicationConfiguration configuration) {
         this.resourceResolver = resourceResolver;
+        this.configuration = configuration;
 
         super.runCommands();
     }
@@ -28,13 +32,19 @@ public class DatabaseConnectionConfiguration extends DatabaseConfiguration {
     protected String url() {
         String link = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false&allowPublicKeyRetrieval=true";
 
-        return String.format(link, "gateway-mysql", 3306, "sxs_gateway", "root", "");
+        return format(link,
+                configuration.get("MYSQL_HOST"),
+                configuration.get("MYSQL_PORT"),
+                configuration.get("MYSQL_DB"),
+                configuration.get("MYSQL_USER"),
+                configuration.get("MYSQL_PASSWORD")
+        );
     }
 
     @Override
     @SneakyThrows
     public List<String> getCommandsToRun() {
-        Resource resource = this.resourceResolver.getResource("classpath:database/sxs_gateway.sql");
+        Resource resource = this.resourceResolver.getResource(format("classpath:%s", configuration.get("MYSQL_DB_SEEDER")));
         String mysqlSentences = new Scanner(resource.getInputStream(), StandardCharsets.UTF_8).useDelimiter("\\A").next();
 
         return new ArrayList<>(Arrays.asList(mysqlSentences.split(";")));
