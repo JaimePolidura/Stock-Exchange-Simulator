@@ -3,9 +3,10 @@ package es.jaime.gateway._shared.infrastrocture.configuration;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+
+import static java.lang.String.format;
 
 @Configuration
 public class ConfigurationFileResolver {
@@ -16,7 +17,7 @@ public class ConfigurationFileResolver {
     }
 
     @SneakyThrows
-    public InputStream resolve(){
-        return resourceLoader.getResource("classpath:config/configuration").getInputStream();
+    public InputStream resolve(String file){
+        return resourceLoader.getResource(format("classpath:%s", file)).getInputStream();
     }
 }
