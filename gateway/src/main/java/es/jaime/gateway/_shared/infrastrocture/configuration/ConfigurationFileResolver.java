@@ -1,12 +1,13 @@
 package es.jaime.gateway._shared.infrastrocture.configuration;
 
 import lombok.SneakyThrows;
-import org.springframework.core.io.Resource;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+
 import java.io.InputStream;
 
-@Service
+@Configuration
 public class ConfigurationFileResolver {
     private final ResourceLoader resourceLoader;
 
@@ -16,8 +17,6 @@ public class ConfigurationFileResolver {
 
     @SneakyThrows
     public InputStream resolve(){
-        Resource resource = resourceLoader.getResource("classpath:config/configuration");
-
-        return resource.getInputStream();
+        return resourceLoader.getResource("classpath:config/configuration").getInputStream();
     }
 }

@@ -1,6 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.persistance;
 
 import es.jaime.configuration.DatabaseConfiguration;
+import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO Usar applicatoin configuration
 @Configuration("database-configuration")
 public class DatabaseConnectionConfiguration extends DatabaseConfiguration {
     private final ResourcePatternResolver resourceResolver;

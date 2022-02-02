@@ -1,16 +1,15 @@
 package es.jaime.gateway._shared.infrastrocture.configuration;
 
-import es.jaime.gateway._shared.domain.GatewayConfiguration;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
+import es.jaime.gateway._shared.domain.ApplicationConfiguration;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
-@Service
-public class GatewayConfigurationInFile implements GatewayConfiguration {
+@Configuration("configuration")
+public class ApplicationConfigurationInFile implements ApplicationConfiguration {
     private final Map<String, Object> configuration;
 
-    public GatewayConfigurationInFile(ConfigurationFileMapper fileMapper) {
+    public ApplicationConfigurationInFile(ConfigurationFileMapper fileMapper) {
         this.configuration = fileMapper.getConfigMap();
     }
 

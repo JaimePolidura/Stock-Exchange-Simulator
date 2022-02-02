@@ -19,6 +19,7 @@ import java.io.IOException;
 @AllArgsConstructor
 public class JWTFilterRequest extends OncePerRequestFilter {
     private final UserDetailsImpl userDetailsImpl;
+    private final JWTUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -27,12 +28,12 @@ public class JWTFilterRequest extends OncePerRequestFilter {
         if (isJWT(authorizationHeader) && isNotEmpty(authorizationHeader)) {
 
             String jwt = authorizationHeader.substring(7);
-            String username = JWTUtils.getUsername(jwt);
+            String username = jwtUtils.getUsername(jwt);
 
             if (isNotAlreadyLogged()) {
                 UserDetails userDetails = userDetailsImpl.loadUserByUsername(username);
 
-                if (JWTUtils.isValid(jwt, username) && !JWTUtils.isExpired(jwt)) {
+                if (jwtUtils.isValid(jwt, username) && !jwtUtils.isExpired(jwt)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -49,7 +50,7 @@ public class JWTFilterRequest extends OncePerRequestFilter {
     }
 
     private boolean isNotEmpty (String authorizationHeader) {
-        return JWTUtils.getUsername(authorizationHeader.substring(7)) != null;
+        return jwtUtils.getUsername(authorizationHeader.substring(7)) != null;
     }
 
     private boolean isNotAlreadyLogged () {

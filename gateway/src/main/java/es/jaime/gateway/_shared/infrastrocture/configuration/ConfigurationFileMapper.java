@@ -1,14 +1,15 @@
 package es.jaime.gateway._shared.infrastrocture.configuration;
 
+import lombok.SneakyThrows;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-@Service
+@Configuration
 public class ConfigurationFileMapper {
     private final ConfigurationFileResolver configurationFileResolver;
 
@@ -16,20 +17,29 @@ public class ConfigurationFileMapper {
         this.configurationFileResolver = configurationFileResolver;
     }
 
+    @SneakyThrows
     public Map<String, Object> getConfigMap(){
         Map<String, Object> configMap = new HashMap<>();
         InputStream inputStream = configurationFileResolver.resolve();
 
-        String[] lines = new Scanner(inputStream, StandardCharsets.UTF_8).useDelimiter("\\A").next().split("\n");
+        Scanner scanner = new Scanner(inputStream);
 
-        for (String line : lines) {
+        while(scanner.hasNextLine()){
+            String line = scanner.nextLine();
+
+            if(!isConfigLine(line)) continue;
+
             String[] lineSplitByEqual = line.split("=");
             String key = lineSplitByEqual[0];
-            Object value = lineSplitByEqual[1];
+            Object value = lineSplitByEqual.length == 1 ? "" : lineSplitByEqual[1];
 
             configMap.put(key, value);
         }
 
         return configMap;
+    }
+
+    private boolean isConfigLine(String line){
+        return !line.startsWith("#") && (line.split("=").length == 2 || line.split("=").length == 1) ;
     }
 }

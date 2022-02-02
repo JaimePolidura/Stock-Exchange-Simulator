@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
+import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
@@ -23,10 +24,9 @@ import static java.lang.String.format;
 @DependsOn({"rabbitmq-configuration", "rabbitmq-starter", "database-configuration"})
 @AllArgsConstructor
 public class ExchangesStarter implements CommandLineRunner {
-    private static final String IMAGE_EXCHANGE = "sxs-exchange";
-
     private final ListedCompaniesRepository repository;
     private final DockerClient dockerClient;
+    private final ApplicationConfiguration configuration;
 
     @Override
     public void run(String... args) {
@@ -44,18 +44,18 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private void removeExchangesContainers(){
         dockerClient.listContainersCmd().exec().stream()
-                .filter(container -> container.getImage().equalsIgnoreCase(IMAGE_EXCHANGE))
+                .filter(container -> container.getImage().equalsIgnoreCase(configuration.get("DOCKER_EXCHANGE_IMAGE")))
                 .map(Container::getId)
                 .forEach(id -> dockerClient.stopContainerCmd(id).exec());
     }
 
     private String startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
-        String containerID = dockerClient.createContainerCmd(IMAGE_EXCHANGE)
+        String containerID = dockerClient.createContainerCmd(configuration.get("DOCKER_EXCHANGE_IMAGE"))
                 .withCmd(cmdToExchange(listedCompany))
                 .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
                 .withHostConfig(HostConfig
                         .newHostConfig()
-                        .withNetworkMode("stock-exchange-simulator_default"))
+                        .withNetworkMode(configuration.get("DOCKER_NETWORK")))
                 .exec()
                 .getId();
 
@@ -69,7 +69,7 @@ public class ExchangesStarter implements CommandLineRunner {
         return List.of(
                 RabbitMQNameFormatter.newOrdersQueueName(listedCompany.ticker()),
                 RabbitMQNameFormatter.EVENTS_EXCHANGE,
-                "1000",
+                configuration.get("EXCHANGE_DELAY_BETWEEN_CHECK"),
                 listedCompany.ticker().value()
         );
     }
