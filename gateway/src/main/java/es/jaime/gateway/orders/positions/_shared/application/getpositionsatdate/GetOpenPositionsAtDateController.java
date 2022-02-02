@@ -3,6 +3,7 @@ package es.jaime.gateway.orders.positions._shared.application.getpositionsatdate
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,14 @@ public class GetOpenPositionsAtDateController extends Controller {
     private final QueryBus queryBus;
 
     @GetMapping("/positions/openpositionsatdate")
-    public ResponseEntity<List<Map<String, Object>>> getOpenPositionsAtDate(@RequestParam String date){
-        GetOpenPositionsAtDateQueryResponse response = queryBus.ask(new GetOpenPositionsAtDateQuery(date, getLoggedUsername()));
+    public ResponseEntity<Response> getOpenPositionsAtDate(@RequestParam String date){
+        GetOpenPositionsAtDateQueryResponse queryResponse = queryBus.ask(new GetOpenPositionsAtDateQuery(date, getLoggedUsername()));
 
-        return buildNewHttpResponseOK(response.toPrimitives());
+        return buildNewHttpResponseOK(new Response(queryResponse.toPrimitives()));
+    }
+
+    @AllArgsConstructor
+    public static class Response {
+        @Getter private final List<Map<String, Object>> positions;
     }
 }
