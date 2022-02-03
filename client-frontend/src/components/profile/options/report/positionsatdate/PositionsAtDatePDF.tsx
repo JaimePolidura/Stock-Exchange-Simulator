@@ -25,7 +25,7 @@ export const PositionsAtDatePDF = (props: PositionsAtDatePDFProps) => {
                             <TableCell style={headerText}>Quantity</TableCell>
                             <TableCell style={headerText}>Opening price</TableCell>
                             <TableCell style={headerText}>Opening date</TableCell>
-                            <TableCell style={headerText}>Status</TableCell>
+                            <TableCell style={headerText}>Status now</TableCell>
                         </TableHeader>
 
                         <TableBody>

@@ -1,10 +1,12 @@
 import backend from "./api/BackendService";
 
 class LastPricesService {
-    private lastPrices: {[ticker: string]: number};
+    private readonly lastPrices: {[ticker: string]: number};
+    private readonly pendingRequest: {[ticker: string]: Promise<any>};
 
     constructor() {
         this.lastPrices = {};
+        this.pendingRequest = {};
     }
 
     isLoaded(ticker: string): boolean {
@@ -16,11 +18,19 @@ class LastPricesService {
     }
 
     async getLastPrice(ticker: string): Promise<any> {
-        if(ticker in this.lastPrices)
+        if(this.lastPrices[ticker] != undefined)
             return new Promise((() => this.lastPrices[ticker]));
 
-        return await backend.getLastPrice(ticker).then(res => {
+        if(this.pendingRequest[ticker] != undefined)
+            return this.pendingRequest[ticker];
+
+        let promise: Promise<any> = backend.getLastPrice(ticker);
+
+        this.pendingRequest[ticker] = promise;
+
+        return await promise.then(res => {
             this.lastPrices[ticker] = res.data;
+            delete this.pendingRequest[ticker];
 
             return res.data;
         });
