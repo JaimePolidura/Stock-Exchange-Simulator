@@ -1,1 +1,1 @@
-USING=configuration/config.dev
+USING=configuration/config.dev-large-db-test
