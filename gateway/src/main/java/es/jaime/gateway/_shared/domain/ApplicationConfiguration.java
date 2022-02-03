@@ -1,6 +1,8 @@
 package es.jaime.gateway._shared.domain;
 
 public interface ApplicationConfiguration {
+    String getConfigName();
+
     String get(String key);
     int getInt(String key);
     double getDouble(String key);

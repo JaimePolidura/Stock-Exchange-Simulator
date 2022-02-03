@@ -3,7 +3,6 @@ package es.jaime.gateway._shared.infrastrocture.persistance;
 import es.jaime.configuration.DatabaseConfiguration;
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import lombok.SneakyThrows;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;

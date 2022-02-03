@@ -8,9 +8,16 @@ import java.util.Map;
 @Configuration("configuration")
 public class ApplicationConfigurationInFile implements ApplicationConfiguration {
     private final Map<String, Object> configuration;
+    private final String configName;
 
     public ApplicationConfigurationInFile(ConfigurationFileMapper fileMapper) {
         this.configuration = fileMapper.getConfigMap();
+        this.configName = fileMapper.getConfigName();
+    }
+
+    @Override
+    public String getConfigName() {
+        return this.configName;
     }
 
     @Override
