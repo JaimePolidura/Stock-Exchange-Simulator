@@ -19,6 +19,9 @@ class TradeDisplayInTable extends React.Component<TradeDisplayInTableProps, Trad
             lastPrice: -1,
         };
 
+    }
+
+    componentDidMount() {
         this.loadPriceByApi();
     }
 

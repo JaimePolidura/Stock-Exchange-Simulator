@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.pendingorder.execution._shared.application.getlastprice;
+package es.jaime.gateway.orders.positions.closed.getlastprice;
 
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;

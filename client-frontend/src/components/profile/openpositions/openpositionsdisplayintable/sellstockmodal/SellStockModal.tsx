@@ -13,11 +13,12 @@ import {SellOrder} from "../../../../../model/orders/SellOrder";
 const SellStockModal = (props: SellStockModalProps) => {
     const {register, handleSubmit, formState: { errors }, reset, clearErrors} = useForm();
     const [ sellExecutionType, setSellExecutionType ] = useState('market');
-    const [ lastPrice, setLastPrice ] = useState(0);
+    const [ lastPrice, setLastPrice ] = useState<number>(0);
 
     useEffect(() => {
-        lastPricesService.getLastPrice(props.listedCompany.ticker)
-            .then(res => setLastPrice(res));
+        let lastPrice: number = lastPricesService.getLastPriceNoSafe(props.listedCompany.ticker)
+
+        setLastPrice(lastPrice);
     }, []);
 
     const onSubmit = (form: any) => {

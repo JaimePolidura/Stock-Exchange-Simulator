@@ -1,8 +1,9 @@
 import backend from "./api/BackendService";
+import {AxiosResponse} from "axios";
 
 class LastPricesService {
     private readonly lastPrices: {[ticker: string]: number};
-    private readonly pendingRequest: {[ticker: string]: Promise<any>};
+    private readonly pendingRequest: {[ticker: string]: Promise<AxiosResponse<number>>};
 
     constructor() {
         this.lastPrices = {};
@@ -11,6 +12,10 @@ class LastPricesService {
 
     isLoaded(ticker: string): boolean {
         return this.lastPrices[ticker] != undefined;
+    }
+
+    isLoading(ticker: string): boolean{
+        return this.pendingRequest[ticker] != undefined;
     }
 
     getLastPriceNoSafe(ticker: string): number {
@@ -24,17 +29,18 @@ class LastPricesService {
         if(this.pendingRequest[ticker] != undefined)
             return this.pendingRequest[ticker];
 
-        let promise: Promise<any> = backend.getLastPrice(ticker);
+        let lastPricePromise: Promise<AxiosResponse<number>> = backend.getLastPrice(ticker);
 
-        this.pendingRequest[ticker] = promise;
+        this.pendingRequest[ticker] = lastPricePromise;
 
-        return await promise.then(res => {
+        return await lastPricePromise.then(res => {
             this.lastPrices[ticker] = res.data;
             delete this.pendingRequest[ticker];
 
             return res.data;
         });
     }
+
 }
 
 export default new LastPricesService();

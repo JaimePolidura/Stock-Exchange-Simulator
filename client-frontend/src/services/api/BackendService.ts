@@ -52,7 +52,7 @@ class BackendService {
     }
 
     getLastPrice(ticker: string): Promise<AxiosResponse<number>> {
-        return axios.get(apiRoute + "orders/lastprice/" + ticker);
+        return axios.get(apiRoute + "lastprice/" + ticker);
     }
 
     getOpenPositionsAtDate(date: string): Promise<AxiosResponse<GetOpenPositionsAtDateResponse>>{
