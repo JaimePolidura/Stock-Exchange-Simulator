@@ -5,54 +5,124 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
-import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
+import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
 @Configuration
-@DependsOn({"rabbitmq-configuration", "rabbitmq-starter", "database-configuration"})
 @AllArgsConstructor
+@Order(2)
 public class ExchangesStarter implements CommandLineRunner {
-    private final ListedCompaniesRepository repository;
+    private final ListedCompaniesRepository listedCompanies;
     private final DockerClient dockerClient;
     private final ApplicationConfiguration configuration;
 
     @Override
     public void run(String... args) {
+        System.out.println("Hola");
+
         Map<ListedCompany, String> exchangesContainers = new HashMap<>();
-        List<ListedCompany> listedCompanies = repository.findAll();
+        List<String> allTickersExchangeNames = this.getTickers();
+        List<String> tickersOfExchangesNotStarted = tickersOfExchangesNotStarted(allTickersExchangeNames);
 
-        removeExchangesContainers();
+        Executors.newCachedThreadPool().submit(() -> {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        for (ListedCompany listedCompany : listedCompanies) {
-            String containerId = startDockerContainer(dockerClient, listedCompany);
+            for (String tickerOfExchangeNotStarted : tickersOfExchangesNotStarted) {
+                startDockerContainer(tickerOfExchangeNotStarted);
+            }
+        });
+    }
 
-            exchangesContainers.put(listedCompany, containerId);
+    private List<String> tickersOfExchangesNotStarted(List<String> tickers){
+        List<String> containerExchangeNames = tickers.stream()
+                .map(this::nameForExchangeContainer)
+                .collect(Collectors.toList());
+
+        List<Container> exchangesRunning = dockerClient.listContainersCmd().withNameFilter(containerExchangeNames).exec();
+        List<String> tickersOfExchangesToStart = new ArrayList<>();
+
+        exchangesRunning.forEach(c -> {
+            System.out.println("-------------------------");
+            System.out.println(c.getId());
+            System.out.println(c.getNames()[0]);
+        });
+
+        for (String exchangeName : containerExchangeNames) {
+            if(created(exchangesRunning, exchangeName) && running(exchangesRunning, exchangeName)){
+                continue;
+            }
+
+            if(created(exchangesRunning, exchangeName) && !running(exchangesRunning, exchangeName)){
+                removeContainer(exchangesRunning, exchangeName);
+            }
+
+            tickersOfExchangesToStart.add(tickerFromExchangeName(exchangeName));
         }
+
+        return tickersOfExchangesToStart;
     }
 
-    private void removeExchangesContainers(){
-        dockerClient.listContainersCmd().exec().stream()
-                .filter(container -> container.getImage().equalsIgnoreCase(configuration.get("DOCKER_EXCHANGE_IMAGE")))
-                .map(Container::getId)
-                .forEach(id -> dockerClient.stopContainerCmd(id).exec());
+    private String tickerFromExchangeName(String exchangeName){
+        return exchangeName.split("-")[1];
     }
 
-    private String startDockerContainer(DockerClient dockerClient, ListedCompany listedCompany){
+    private boolean created(List<Container> exchangesRunning, String ticker){
+        return !notCreated(exchangesRunning, ticker);
+    }
+
+    private boolean notCreated(List<Container> exchangesRunning, String ticker) {
+        return exchangesRunning.stream()
+                .map(c -> c.getNames()[0])
+                .noneMatch(c -> c.equalsIgnoreCase(ticker));
+    }
+
+    private boolean running(List<Container> exchangesRunning, String ticker) {
+        Optional<Container> container = exchangesRunning.stream()
+                .filter(c -> c.getNames()[0].equalsIgnoreCase(ticker))
+                .findFirst();
+
+        return container.isPresent() && container.get().getState().equalsIgnoreCase("running");
+    }
+
+    private void removeContainer(List<Container> containers, String ticker){
+        Container containerToRemove = containers.stream()
+                .filter(c -> c.getNames()[0].equalsIgnoreCase(ticker))
+                .findFirst()
+                .get();
+
+        dockerClient.removeContainerCmd(containerToRemove.getId());
+        dockerClient.stopContainerCmd(containerToRemove.getId());
+        dockerClient.killContainerCmd(containerToRemove.getId());
+    }
+
+    private List<String> getTickers(){
+        return this.listedCompanies.findAll().stream()
+                .map(l -> l.ticker().value())
+                .collect(Collectors.toList());
+    }
+
+    private void startDockerContainer(String ticker){
         String containerID = dockerClient.createContainerCmd(configuration.get("DOCKER_EXCHANGE_IMAGE"))
-                .withCmd(cmdToExchange(listedCompany))
-                .withRestartPolicy(RestartPolicy.unlessStoppedRestart())
+                .withCmd(cmdToExchange(ticker))
+                .withName(nameForExchangeContainer(ticker))
+                .withRestartPolicy(RestartPolicy.onFailureRestart(100))
                 .withHostConfig(HostConfig
                         .newHostConfig()
                         .withNetworkMode(configuration.get("DOCKER_NETWORK")))
@@ -62,15 +132,19 @@ public class ExchangesStarter implements CommandLineRunner {
         dockerClient.startContainerCmd(containerID)
                 .exec();
 
-        return containerID;
     }
 
-    private List<String> cmdToExchange(ListedCompany listedCompany){
+    private List<String> cmdToExchange(String ticker){
         return List.of(
-                RabbitMQNameFormatter.newOrdersQueueName(listedCompany.ticker()),
+                RabbitMQNameFormatter.newOrdersQueueName(ListedCompanyTicker.of(ticker)),
                 RabbitMQNameFormatter.EVENTS_EXCHANGE,
                 configuration.get("EXCHANGE_DELAY_BETWEEN_CHECK"),
-                listedCompany.ticker().value()
+                ticker,
+                configuration.get("EXCHANGE_INITIAL_DELAY")
         );
+    }
+
+    private String nameForExchangeContainer(String ticker){
+        return format("exchange-%s", ticker);
     }
 }

@@ -5,14 +5,15 @@ import es.jaime.gateway._shared.domain.messages.MessageNames;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component("rabbitmq-starter")
-@DependsOn({"rabbitmq-declarables"})
 @AllArgsConstructor
+@Order(1)
 public class RabbitMQStarter implements CommandLineRunner {
     private final QueuePublisherRabbitMQ publisherRabbitMQ;
 

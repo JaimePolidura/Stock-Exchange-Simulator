@@ -37,6 +37,8 @@ public class ClosedPositionsQueryInserter {
                             listedCompanyGenerator.get(), quantityGenerator.get(100), "CLOSED", doubleGenerator.get(1000), dateGenerator.get(),
                             doubleGenerator.get(10000), dateGenerator.get());
 
+                    System.out.println(query);
+
                     databaseConfiguration.sendUpdate(query);
                 } catch (SQLException e) {
                     e.printStackTrace();

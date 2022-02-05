@@ -22,8 +22,7 @@ public class RandomUserGenerator {
         if(users != null && this.users.size() > 0) return this.users;
 
         List<String> users = new ArrayList<>();
-        users.add("jaime");
-
+        users.add("porro");
         for (int i = 0; i < (limit - 1); i++) {
             users.add(String.valueOf(i + 1));
         }

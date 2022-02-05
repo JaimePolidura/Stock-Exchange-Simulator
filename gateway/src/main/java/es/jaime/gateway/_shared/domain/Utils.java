@@ -1,6 +1,8 @@
 package es.jaime.gateway._shared.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class Utils {
@@ -12,6 +14,31 @@ public final class Utils {
 
         for (List<E> element : elements) {
             toReturn.addAll(element);
+        }
+
+        return toReturn;
+    }
+
+    //A - B
+    public static <E> List<E> listDifference(List<E> a, List<E> b){
+        List<E> toReturn = new ArrayList<>();
+
+        for (E elementInA : a) {
+            if(!b.contains(elementInA)){
+                toReturn.add(elementInA);
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static <E> List<E> listUnion(List<E> a, List<E> b){
+        List<E> toReturn = new ArrayList<>(a);
+
+        for (E elementInB : b) {
+            if(!toReturn.contains(elementInB)){
+                toReturn.add(elementInB);
+            }
         }
 
         return toReturn;

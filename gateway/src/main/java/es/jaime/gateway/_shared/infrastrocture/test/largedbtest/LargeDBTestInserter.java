@@ -19,13 +19,19 @@ public class LargeDBTestInserter implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(!correctConfig()) return;
+        System.out.println("pajarraca muñeconchi");
+
+        if(notCorrectConfig() || insertNewDataNotEnabled()) return;
 
         addOpenPositions();
     }
 
-    private boolean correctConfig(){
-        return this.configuration.getConfigName().equalsIgnoreCase(AvailableConfigurations.DEV_DB_LARGE_TEST);
+    private boolean notCorrectConfig(){
+        return !this.configuration.getConfigName().equalsIgnoreCase(AvailableConfigurations.DEV_DB_LARGE_TEST);
+    }
+
+    private boolean insertNewDataNotEnabled(){
+        return !this.configuration.getBoolean("INSERT_NEW_DATA");
     }
 
     @SneakyThrows
