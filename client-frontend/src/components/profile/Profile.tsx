@@ -12,7 +12,7 @@ import {ExecutionOrder} from "../../model/orders/ExecutionOrder";
 import {ListedCompany} from "../../model/listedcomapnies/ListedCompany";
 import {BuyOrder} from "../../model/orders/BuyOrder";
 import {SellOrder} from "../../model/orders/SellOrder";
-import {Order} from "../../model/orders/Order";
+import {ExecutedOrderType} from "../../model/positions/ExecutedOrderType";
 
 class Profile extends React.Component<{}, ProfileState> {
     constructor(props: any) {
@@ -79,9 +79,22 @@ class Profile extends React.Component<{}, ProfileState> {
 
     onBuyOrderExecuted(executedOrder: any): void{
         setTimeout(() =>{
-            this.getOpenPositionsFromApi();
+            this.addOpenPosition(executedOrder);
             this.removeOrderOrDecreaseQuantity(executedOrder);
         }, 100);
+    }
+
+    addOpenPosition(executedOrder: any): void {
+        let newOpenPosition: OpenPosition = {
+            orderId: executedOrder.newPositionId,
+            ticker: executedOrder.ticker,
+            executedOrderType: ExecutedOrderType.OPEN,
+            openingDate: executedOrder.date,
+            openingPrice: executedOrder.priceToExecute,
+            quantity: executedOrder.quantity,
+        };
+
+        this.addTrade(newOpenPosition);
     }
 
     onSellOrderExecuted(executedOrder: any): void{

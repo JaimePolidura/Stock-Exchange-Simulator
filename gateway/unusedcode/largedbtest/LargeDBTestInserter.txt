@@ -6,37 +6,40 @@ import es.jaime.gateway._shared.infrastrocture.configuration.AvailableConfigurat
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
-@Component
+//@Component
 @AllArgsConstructor
 public class LargeDBTestInserter implements CommandLineRunner {
-    private final OpenPositionQueryInserter openPositionQueryInserter;
-    private final ClosedPositionsQueryInserter closedPositionsQueryInserter;
     private final DatabaseConfiguration databaseConfiguration;
     private final ApplicationConfiguration configuration;
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("pajarraca muñeconchi");
+        System.out.println("EL POLLO MORGAN");
 
-        if(notCorrectConfig() || insertNewDataNotEnabled()) return;
+        if(notCorrectConfig()) return;
 
-        addOpenPositions();
+        addIndexes();
+
+        if(!insertNewDataEnabled()){
+            addOpenPositions();
+        }
     }
 
     private boolean notCorrectConfig(){
         return !this.configuration.getConfigName().equalsIgnoreCase(AvailableConfigurations.DEV_DB_LARGE_TEST);
     }
 
-    private boolean insertNewDataNotEnabled(){
-        return !this.configuration.getBoolean("INSERT_NEW_DATA");
+    private boolean insertNewDataEnabled(){
+        return this.configuration.getBoolean("INSERT_NEW_DATA");
     }
 
     @SneakyThrows
     private void addOpenPositions(){
-        openPositionQueryInserter.insertAll();
-        closedPositionsQueryInserter.insertAll();
-    }
+//        openPositionQueryInserter.insertAll();
+//        closedPositionsQueryInserter.insertAll();
+    
 }
