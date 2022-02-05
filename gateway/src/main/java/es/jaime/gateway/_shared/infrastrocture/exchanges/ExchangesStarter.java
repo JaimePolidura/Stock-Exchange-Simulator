@@ -31,21 +31,24 @@ public class ExchangesStarter implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("Hola");
-
         Map<ListedCompany, String> exchangesContainers = new HashMap<>();
         List<String> allTickersExchangeNames = this.getTickers();
         List<String> tickersOfExchangesNotStarted = tickersOfExchangesNotStarted(allTickersExchangeNames);
 
+        startContainers(tickersOfExchangesNotStarted);
+    }
+
+    private void startContainers(List<String> tickersToStart){
         Executors.newCachedThreadPool().submit(() -> {
             try {
+                //By this we make sure that all queues have been initializedd
                 Thread.sleep(10000);
+
+                for (String tickerOfExchangeNotStarted : tickersToStart) {
+                    startDockerContainer(tickerOfExchangeNotStarted);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-
-            for (String tickerOfExchangeNotStarted : tickersOfExchangesNotStarted) {
-                startDockerContainer(tickerOfExchangeNotStarted);
             }
         });
     }
@@ -57,12 +60,6 @@ public class ExchangesStarter implements CommandLineRunner {
 
         List<Container> exchangesRunning = dockerClient.listContainersCmd().withNameFilter(containerExchangeNames).exec();
         List<String> tickersOfExchangesToStart = new ArrayList<>();
-
-        exchangesRunning.forEach(c -> {
-            System.out.println("-------------------------");
-            System.out.println(c.getId());
-            System.out.println(c.getNames()[0]);
-        });
 
         for (String exchangeName : containerExchangeNames) {
             if(created(exchangesRunning, exchangeName) && running(exchangesRunning, exchangeName)){
@@ -89,7 +86,7 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private boolean notCreated(List<Container> exchangesRunning, String ticker) {
         return exchangesRunning.stream()
-                .map(c -> c.getNames()[0])
+                .map(this::getNameFromContainer)
                 .noneMatch(c -> c.equalsIgnoreCase(ticker));
     }
 
@@ -103,13 +100,21 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private void removeContainer(List<Container> containers, String ticker){
         Container containerToRemove = containers.stream()
-                .filter(c -> c.getNames()[0].equalsIgnoreCase(ticker))
+                .filter(container -> sameName(container, ticker))
                 .findFirst()
                 .get();
 
         dockerClient.removeContainerCmd(containerToRemove.getId());
         dockerClient.stopContainerCmd(containerToRemove.getId());
         dockerClient.killContainerCmd(containerToRemove.getId());
+    }
+
+    private boolean sameName(Container container, String expectedName){
+        return getNameFromContainer(container).equalsIgnoreCase(expectedName);
+    }
+
+    private String getNameFromContainer(Container container){
+        return container.getNames()[0];
     }
 
     private List<String> getTickers(){
