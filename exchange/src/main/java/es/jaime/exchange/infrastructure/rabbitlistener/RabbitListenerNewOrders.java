@@ -6,6 +6,7 @@ import es.jaime.exchange.domain.models.events.EventBus;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import es.jaime.exchange.infrastructure.ActiveOrderStorer;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer;
@@ -31,10 +32,16 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
     private final ActiveOrderStorer activeOrderStorer;
 
     @Override
+    @SneakyThrows
     public void run(String... args) {
+        System.out.println("1");
+        Thread.sleep(configuration.initialDelay());
+        System.out.println("2");
+
         AbstractMessageListenerContainer container = (AbstractMessageListenerContainer) registry.getListenerContainer(CONSUMER_NAME);
 
         container.addQueueNames(configuration.queueNewOrders());
+        System.out.println(configuration.queueNewOrders());
 
         container.start();
     }

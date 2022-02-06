@@ -56,7 +56,7 @@ public class CancelOrderCommandHandler implements CommandHandler<CancelOrderComm
 
         this.messagePublisher.publish(
                 EVENTS_EXCHANGE,
-                newOrdersQueueName(ListedCompanyTicker.of(ticker.value())),
+                newOrdersQueueName(ticker.value()),
                 CancelOrderMessage.create(
                         command.getOrderId(),
                         command.getClientId(),

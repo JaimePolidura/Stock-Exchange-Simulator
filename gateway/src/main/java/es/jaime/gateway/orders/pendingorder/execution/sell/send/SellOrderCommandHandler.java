@@ -64,17 +64,20 @@ public class SellOrderCommandHandler implements CommandHandler<SellOrderCommand>
     }
 
     private void publishMessage(SellOrderCommand command, OpenPosition positionToSell){
-        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(positionToSell.getTicker().value()));
+        String routingKey = newOrdersQueueName(positionToSell.getTicker().value());
 
-        messagePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendSellOrderMessage(
-                command.getOrderID(),
-                OrderPositionIdToSell.of(positionToSell.getOrderId().value()),
-                command.getClientID(),
-                command.getOrderDate(),
-                command.getPriceToExecute(),
-                command.getQuantity(),
-                positionToSell.getTicker(),
-                PendingOrderType.sell())
+        messagePublisher.publish(
+                EVENTS_EXCHANGE,
+                routingKey,
+                new SendSellOrderMessage(
+                        command.getOrderID(),
+                        OrderPositionIdToSell.of(positionToSell.getOrderId().value()),
+                        command.getClientID(),
+                        command.getOrderDate(),
+                        command.getPriceToExecute(),
+                        command.getQuantity(),
+                        positionToSell.getTicker(),
+                        PendingOrderType.sell())
         );
     }
 }

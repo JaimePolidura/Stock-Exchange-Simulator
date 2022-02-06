@@ -3,8 +3,6 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq.rabbitlistener;
 import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import es.jaime.gateway._shared.domain.event.EventBus;
-import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
-import io.vavr.collection.List;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,13 +12,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static java.lang.String.*;
 
-//@Component
+@Component
 @AllArgsConstructor
 public class RabbitMQEventsListener implements CommandLineRunner {
     //TODO Improve using domaineventlistener information
@@ -61,9 +59,24 @@ public class RabbitMQEventsListener implements CommandLineRunner {
     }
 
     private String[] getQueuesNames(){
-        return this.eventsToListen
-                .map(event -> eventListenerQueueName(GATEWAY, EventName.valueOf(event)))
-                .collect(Collectors.toList())
-                .toArray(new String[0]);
+        String[] queues = new String[this.eventsToListen.size()];
+
+        for (int i = 0; i < eventsToListen.size(); i++) {
+            String eventToListen = this.eventsToListen.get(i);
+
+            System.out.println("--------------------");
+            System.out.println(eventToListen);
+
+            EventName eventName = EventName.fromEventName(eventToListen);
+            String eventListener = eventListenerQueueName(GATEWAY, eventName);
+            System.out.println("--------------------");
+
+            queues[i] = eventListener;
+        }
+
+
+        return this.eventsToListen.stream()
+                .map(event -> eventListenerQueueName(GATEWAY, EventName.fromEventName(event)))
+                .toArray(String[]::new);
     }
 }

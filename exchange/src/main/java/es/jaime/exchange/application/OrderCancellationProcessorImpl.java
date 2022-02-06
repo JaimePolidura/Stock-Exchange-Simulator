@@ -23,7 +23,7 @@ public class OrderCancellationProcessorImpl implements OrderCancellationProcesso
     public void cancel(ExecutionOrder order, CancelOrder cancelOrder) {
         this.messagePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageName.ORDER_CANCELLED.getName(),
+                String.format(configuration.eventsRoutingKey(), MessageName.ORDER_CANCELLED.getName()),
                 new OrderCancelledMessage(order.getClientId(), cancelOrder.getOrderId(), order.getOrderId())
         );
 

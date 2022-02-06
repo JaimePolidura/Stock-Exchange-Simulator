@@ -16,8 +16,9 @@ public class OnStarted implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        messagePublisher.publish(configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageName.EXCHANGE_STARTED.getName(),
+        messagePublisher.publish(
+                configuration.eventsExchangeName(),
+                String.format(configuration.eventsRoutingKey(), MessageName.EXCHANGE_STARTED.getName()),
                 new ExchangeStarted(configuration.ticker()));
     }
 }

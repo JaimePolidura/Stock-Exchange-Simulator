@@ -22,4 +22,14 @@ public class ExchangeConfigurationMock implements ExchangeConfiguration {
     public String ticker() {
         return "not needed";
     }
+
+    @Override
+    public int initialDelay() {
+        return 0;
+    }
+
+    @Override
+    public String eventsRoutingKey() {
+        return null;
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.DependsOn;
 import java.util.ArrayList;
 import java.util.List;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.START_EXCHANGE;
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static java.lang.String.*;
 
 @Configuration("rabbitmq-declarables")
@@ -43,8 +43,8 @@ public class RabbitMQDeclarables {
                 //TODO Improve
                 if(listener.startsWith("exchange")) continue;
 
-                Queue queue = new Queue(format("sxs.events.%s.%s", event.getName(), listener));
-                String routingKey = format("sxs.events.%s.*", event.getName());
+                Queue queue = new Queue(eventListenerQueueName(listener, event));
+                String routingKey = RabbitMQNameFormatter.eventListenerRoutingKey(event);
 
                 Binding binding = BindingBuilder.bind(queue)
                         .to(exchangeEvents)
@@ -56,6 +56,7 @@ public class RabbitMQDeclarables {
         }
 
         declarables.addAll(eventNewOrders(exchangeEvents));
+        declarables.add(exchangeEvents);
 
         return declarables;
     }
@@ -63,16 +64,14 @@ public class RabbitMQDeclarables {
     private List<Declarable> eventNewOrders(TopicExchange eventsExchange){
         List<ListedCompany> listedCompanies = this.listedCompanyFinder.all();
         List<Declarable> toReturn = new ArrayList<>();
-        String eventName = EventName.ORDER_PUBLISHED.getName();
 
         for (ListedCompany listedCompany : listedCompanies) {
             String ticker = listedCompany.ticker().value();
-            String listenerName = ExchangesStarter.nameForExchangeContainer(ticker);
 
-            Queue queue = new Queue(format("sxs.events.%s.%s", eventName, listenerName));
+            Queue queue = new Queue(newOrdersQueueName(ticker));
             Binding binding = BindingBuilder.bind(queue)
                     .to(eventsExchange)
-                    .with(format("sxs.events.%s.%s", eventName, listenerName));
+                    .with(newOrdersQueueName(ticker));
 
             toReturn.add(queue);
             toReturn.add(binding);

@@ -16,6 +16,8 @@ services:
         environment:        
             - MYSQL_ROOT_PASSWORD=
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        volumes: 
+            - ./docker/dev-large-db-test/mysql:/var/lib/mysql
         entrypoint:
           sh -c "
             echo 'CREATE DATABASE IF NOT EXISTS sxs_gateway;' > /docker-entrypoint-initdb.d/init.sql;

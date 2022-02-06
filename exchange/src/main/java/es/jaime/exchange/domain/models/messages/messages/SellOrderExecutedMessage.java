@@ -18,6 +18,7 @@ public final class SellOrderExecutedMessage implements EventMessage {
     private final String date;
     private final OrderType orderType;
     private final String ticker;
+    private final String newPositionId;
 
     @Override
     public MessageName name() {
@@ -33,7 +34,8 @@ public final class SellOrderExecutedMessage implements EventMessage {
                 "date", date,
                 "orderId", orderId,
                 "type", orderType.toString(),
-                "ticker", ticker
+                "ticker", ticker,
+                "newPositionId", newPositionId
         );
     }
 

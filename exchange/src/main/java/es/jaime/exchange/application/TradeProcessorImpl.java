@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -48,18 +49,18 @@ public class TradeProcessorImpl implements TradeProcessor {
     private void publishBuyOrderExecutedMessage(BuyOrder order, double priceMatch, int quantity){
         this.queuePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageName.EXECUTED_BUY_ORDER.getName(),
+                String.format(configuration.eventsRoutingKey(), MessageName.EXECUTED_BUY_ORDER.getName()),
                 new BuyOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getTicker(), priceMatch,
-                        quantity, order.getDate(), OrderType.BUY)
+                        quantity, order.getDate(), OrderType.BUY, UUID.randomUUID().toString())
         );
     }
 
     private void publishSellOrderExecutedMessage(SellOrder order, double priceMatch, int quantity, String ticker){
         this.queuePublisher.publish(
                 configuration.eventsExchangeName(),
-                configuration.eventsExchangeName() + ".*." + MessageName.EXECUTED_SELL_ORDER.getName(),
+                String.format(configuration.eventsRoutingKey(), MessageName.EXECUTED_SELL_ORDER.getName()),
                 new SellOrderExecutedMessage(order.getOrderId(), order.getClientId(), order.getPositionId(),
-                        priceMatch, quantity, order.getDate(), OrderType.SELL, ticker)
+                        priceMatch, quantity, order.getDate(), OrderType.SELL, ticker, UUID.randomUUID().toString())
         );
     }
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
+
 @Component("rabbitmq-starter")
 @AllArgsConstructor
 @Order(1)
@@ -19,7 +21,7 @@ public class RabbitMQStarter implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        publisherRabbitMQ.publish("sxs.start", "sxs.start", new StartQueueMessage());
+        publisherRabbitMQ.publish(START_EXCHANGE, START_EXCHANGE, new StartQueueMessage());
     }
 
     private static class StartQueueMessage implements CommandMessage {

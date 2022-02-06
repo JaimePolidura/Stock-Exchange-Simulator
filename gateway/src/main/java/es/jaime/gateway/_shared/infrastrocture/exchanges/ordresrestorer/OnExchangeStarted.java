@@ -28,7 +28,7 @@ public class OnExchangeStarted{
         for (PendingOrder pendingOrder : pendingOrders) {
             Message message = pendingOrder.toMessage();
 
-            messagePublisher.publish(NEW_ORDERS_EXCHNAGE, newOrdersQueueName(ListedCompanyTicker.of(event.getTicker())), message);
+            messagePublisher.publish(EVENTS_EXCHANGE, newOrdersQueueName(event.getTicker()), message);
         }
     }
 }

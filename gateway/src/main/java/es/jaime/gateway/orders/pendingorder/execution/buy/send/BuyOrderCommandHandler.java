@@ -48,7 +48,7 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     }
 
     private void publishMessage(BuyOrderCommand command){
-        String routingKey = newOrdersQueueName(ListedCompanyTicker.of(command.getTicker().value()));
+        String routingKey = newOrdersQueueName((command.getTicker().value()));
 
         this.queuePublisher.publish(
                 EVENTS_EXCHANGE,

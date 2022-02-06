@@ -136,16 +136,16 @@ public class ExchangesStarter implements CommandLineRunner {
 
         dockerClient.startContainerCmd(containerID)
                 .exec();
-
     }
 
     private List<String> cmdToExchange(String ticker){
         return List.of(
-                RabbitMQNameFormatter.newOrdersQueueName(ListedCompanyTicker.of(ticker)),
+                RabbitMQNameFormatter.newOrdersQueueName(ticker),
                 RabbitMQNameFormatter.EVENTS_EXCHANGE,
                 configuration.get("EXCHANGE_DELAY_BETWEEN_CHECK"),
                 ticker,
-                configuration.get("EXCHANGE_INITIAL_DELAY")
+                configuration.get("EXCHANGE_INITIAL_DELAY"),
+                RabbitMQNameFormatter.EVENTS_ROUTING_KEY
         );
     }
 
