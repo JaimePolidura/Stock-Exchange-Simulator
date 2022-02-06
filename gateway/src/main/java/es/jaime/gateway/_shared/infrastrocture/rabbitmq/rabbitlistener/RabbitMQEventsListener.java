@@ -4,6 +4,7 @@ import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.event.DomainEvent;
 import es.jaime.gateway._shared.domain.event.EventBus;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
+import io.vavr.collection.List;
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static java.lang.String.*;
@@ -21,6 +23,11 @@ import static java.lang.String.*;
 //@Component
 @AllArgsConstructor
 public class RabbitMQEventsListener implements CommandLineRunner {
+    //TODO Improve using domaineventlistener information
+    private final List<String> eventsToListen = List.of(
+            "order-executed-buy", "order-executed-sell", "order-error", "order-cancelled", "exchange-started"
+    );
+
     private static final String CONSUMER_NAME = "domain-event-consumer";
 
     private final DomainEventListenersInformation eventListenersInformation;
@@ -54,8 +61,9 @@ public class RabbitMQEventsListener implements CommandLineRunner {
     }
 
     private String[] getQueuesNames(){
-        return Arrays.stream(EventName.values())
-                .map(event -> eventListenerQueueName(GATEWAY, event))
-                .toArray(String[]::new);
+        return this.eventsToListen
+                .map(event -> eventListenerQueueName(GATEWAY, EventName.valueOf(event)))
+                .collect(Collectors.toList())
+                .toArray(new String[0]);
     }
 }

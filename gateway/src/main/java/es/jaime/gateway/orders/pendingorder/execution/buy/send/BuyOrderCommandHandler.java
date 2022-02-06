@@ -11,7 +11,7 @@ import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrde
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.EVENTS_EXCHANGE;
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.newOrdersQueueName;
 
 @Service
@@ -50,14 +50,17 @@ public class BuyOrderCommandHandler implements CommandHandler<BuyOrderCommand> {
     private void publishMessage(BuyOrderCommand command){
         String routingKey = newOrdersQueueName(ListedCompanyTicker.of(command.getTicker().value()));
 
-        this.queuePublisher.publish(NEW_ORDERS_EXCHNAGE, routingKey, new SendBuyOrderMessage(
-                command.getOrderID(),
-                command.getClientID(),
-                command.getOrderDate(),
-                command.getPriceToExecute(),
-                command.getQuantity(),
-                command.getTicker(),
-                PendingOrderType.buy()
+        this.queuePublisher.publish(
+                EVENTS_EXCHANGE,
+                routingKey,
+                new SendBuyOrderMessage(
+                        command.getOrderID(),
+                        command.getClientID(),
+                        command.getOrderDate(),
+                        command.getPriceToExecute(),
+                        command.getQuantity(),
+                        command.getTicker(),
+                        PendingOrderType.buy()
         ));
     }
 }

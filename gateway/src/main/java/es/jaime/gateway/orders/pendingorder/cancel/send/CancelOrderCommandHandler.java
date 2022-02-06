@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.NEW_ORDERS_EXCHNAGE;
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.EVENTS_EXCHANGE;
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.newOrdersQueueName;
 
 @Service
@@ -55,7 +55,7 @@ public class CancelOrderCommandHandler implements CommandHandler<CancelOrderComm
         OrderTicker ticker = getTickerFromOrderId(command.getOrderIdToCancel());
 
         this.messagePublisher.publish(
-                NEW_ORDERS_EXCHNAGE,
+                EVENTS_EXCHANGE,
                 newOrdersQueueName(ListedCompanyTicker.of(ticker.value())),
                 CancelOrderMessage.create(
                         command.getOrderId(),
