@@ -8,10 +8,10 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 const queuesListener: string[] = [
-    "sxs.exchange.events.client-order-event-dispatcher.order-error",
-    "sxs.exchange.events.client-order-event-dispatcher.order-executed-buy",
-    "sxs.exchange.events.client-order-event-dispatcher.order-executed-sell",
-    "sxs.exchange.events.client-order-event-dispatcher.order-cancelled",
+    "sxs.events.order-error.client-order-event-dispatcher",
+    "sxs.events.order-executed-buy.client-order-event-dispatcher",
+    "sxs.events.order-executed-sell.client-order-event-dispatcher",
+    "sxs.events.order-cancelled.client-order-event-dispatcher",
 ];
 
 const gateway: string = "http://gateway:8080";
