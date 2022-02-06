@@ -1,7 +1,9 @@
-package es.jaime.gateway.orders.positions.closed.getlastprice;
+package es.jaime.gateway.orders.positions.open.getlastprice;
 
 import es.jaime.gateway._shared.domain.query.QueryHandler;
 import es.jaime.gateway.orders.pendingorder.execution._shared.domain.OrderPriceToExecute;
+import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningPrice;
+import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ public class GetLastPriceQueryHandler implements QueryHandler<GetLastPriceQuery,
 
     @Override
     public GetLastPriceQueryResponse handle(GetLastPriceQuery query) {
-        OrderPriceToExecute lastPrice = lastPriceStorer.getLastPriceFor(query.getTicker());
+        PositionOpeningPrice lastPrice = lastPriceStorer.getLastPriceFor(query.getTicker());
 
         return new GetLastPriceQueryResponse(lastPrice);
     }

@@ -45,16 +45,6 @@ public class SellOrderRepositoryMySQL extends DataBaseRepositoryValueObjects<Sel
     }
 
     @Override
-    public Optional<SellOrder> findLastOrderByStateAndByTicker(OrderState orderState, OrderTicker orderTicker) {
-        return buildObjectFromQuery(
-                Select.from("sell_orders").where("state").equal(orderState.value())
-                        .and("ticker").equal(orderTicker.value())
-                        .orderBy("date", Order.DESC)
-                        .limit(1)
-        );
-    }
-
-    @Override
     @SneakyThrows
     public void deleteByOrderId(OrderId orderId) {
         super.deleteById(orderId);

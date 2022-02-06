@@ -66,10 +66,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
     `quantity` int(10),
     `priceToExecute` double(10, 3),
     `positionIdToSell` varchar(50),
-    PRIMARY KEY (`orderId`),
-    INDEX clientIdIndex(clientId),
-    INDEX dateIndex(date),
-    INDEX tickerIndex(ticker)
+    PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP VIEW IF EXISTS buy_orders;

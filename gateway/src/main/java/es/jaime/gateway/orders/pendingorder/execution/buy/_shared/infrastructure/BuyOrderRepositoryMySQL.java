@@ -44,15 +44,6 @@ public class BuyOrderRepositoryMySQL extends DataBaseRepositoryValueObjects<BuyO
     }
 
     @Override
-    public Optional<BuyOrder> findLastOrderByStateAndByTicker(OrderState orderState, OrderTicker orderTicker) {
-        return buildObjectFromQuery(
-                Select.from("buy_orders").where("state").equal(orderState.value())
-                        .and("ticker").equal(orderTicker.value())
-                        .orderBy("date", Order.DESC).limit(1)
-        );
-    }
-
-    @Override
     public void deleteByOrderId(OrderId orderId) {
         super.deleteById(orderId);
     }

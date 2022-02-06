@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public final class SellOrderExecuted extends ExecutionOrderExecuted {
-    @Getter private
-    String positionId;
+    @Getter private String positionId;
 
     public SellOrderExecuted(String orderId, String clientId, String ticker, double priceToExecute,
-                             int quantity, String date, String positionId) {
-        super(orderId, clientId, ticker, priceToExecute, quantity, date);
+                             int quantity, String date, String positionId, String newPositionId) {
+        super(orderId, clientId, ticker, priceToExecute, quantity, date, newPositionId);
         this.positionId = positionId;
     }
 
@@ -31,7 +30,8 @@ public final class SellOrderExecuted extends ExecutionOrderExecuted {
                 Double.parseDouble(String.valueOf(body.get("priceToExecute"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
                 String.valueOf(body.get("date")),
-                String.valueOf(body.get("positionId"))
+                String.valueOf(body.get("positionId")),
+                String.valueOf(body.get("newPositionId"))
         );
     }
 

@@ -52,26 +52,4 @@ public class ExecutionOrderFinder {
 
         return toReturn;
     }
-
-    public Optional<ExecutionOrder> findLastOrderFor(OrderTicker ticker){
-        Optional<BuyOrder> orderBuyOptional = buyOrders.findLastOrderByStateAndByTicker(OrderState.executed(), ticker);
-        Optional<SellOrder> orderSellOptional = sellOrders.findLastOrderByStateAndByTicker(OrderState.executed(), ticker);
-
-        if(orderBuyOptional.isEmpty() && orderSellOptional.isEmpty()){
-            return Optional.empty();
-        }
-        if(orderBuyOptional.isEmpty()){
-            return orderSellOptional.map(sellOrder -> (ExecutionOrder) sellOrder);
-        }
-        if(orderSellOptional.isEmpty()){
-            return orderBuyOptional.map(buyOrder -> (ExecutionOrder) buyOrder);
-        }
-
-        LocalDateTime dateOfBuyOrder = LocalDateTime.parse(orderBuyOptional.get().getDate().value());
-        LocalDateTime dateOfSellOrder = LocalDateTime.parse(orderSellOptional.get().getDate().value());
-
-        return dateOfBuyOrder.compareTo(dateOfSellOrder) >= 0 ?
-                Optional.of(orderBuyOptional.get()) :
-                Optional.of(orderSellOptional.get());
-    }
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 import static java.lang.String.*;
 
-@Component
+//@Component
 @AllArgsConstructor
 public class RabbitMQEventsListener implements CommandLineRunner {
     private static final String CONSUMER_NAME = "domain-event-consumer";

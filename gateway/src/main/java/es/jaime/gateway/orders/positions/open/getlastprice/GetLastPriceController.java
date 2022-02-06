@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.positions.closed.getlastprice;
+package es.jaime.gateway.orders.positions.open.getlastprice;
 
 import es.jaime.gateway._shared.domain.query.QueryBus;
 import es.jaime.gateway._shared.infrastrocture.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GetLastPriceController extends Controller {
     private final QueryBus queryBus;
 
-    @GetMapping("/orders/lastprice/{ticker}")
+    @GetMapping("/lastprice/{ticker}")
     public ResponseEntity<Double> getLastPrice(@PathVariable String ticker){
         GetLastPriceQueryResponse response = this.queryBus.ask(new GetLastPriceQuery(ticker));
 

@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static java.lang.String.*;
+
 @Repository
 public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects<OpenPosition, OrderId> implements OpenPositionsRepository {
     private static final String TABLE = "open_positions";
@@ -49,6 +51,11 @@ public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects
     @Override
     public Optional<OpenPosition> findByPositionId(OrderId positionId) {
         return super.findById(positionId);
+    }
+
+    @Override
+    public Optional<OpenPosition> findLastOpenPositionsByTicker(OrderTicker ticker) {
+        return buildObjectFromQuery(format("SELECT * FROM %s WHERE ticker = %s ORDER BY date DESC LIMIT 1", TABLE, ticker.value()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package es.jaime.gateway.orders.positions.closed.getlastprice;
+package es.jaime.gateway.orders.positions.open.getlastprice;
 
 import es.jaime.gateway._shared.domain.query.Query;
 import es.jaime.gateway.orders._shared.domain.OrderTicker;

@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.Utils;
+import es.jaime.gateway._shared.infrastrocture.exchanges.ExchangesStarter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import lombok.AllArgsConstructor;
@@ -11,11 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
+import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.START_EXCHANGE;
+import static java.lang.String.*;
 
 @Configuration("rabbitmq-declarables")
 @DependsOn({"rabbitmq-configuration"})
@@ -26,66 +26,59 @@ public class RabbitMQDeclarables {
     @Bean
     public Declarables declarables() {
         List<Declarable> start = start();
-        List<Declarable> newOrders = newOrders();
-        List<Declarable> exchangeEventsListeners = exchangeEventsListeners();
+        List<Declarable> events = events();
 
-        return new Declarables(Utils.toList(start, newOrders, exchangeEventsListeners));
+        return new Declarables(Utils.toList(start, events));
     }
 
-    private List<Declarable> exchangeEventsListeners(){
-        List<Declarable> declarablesToReturn = new ArrayList<>();
-        TopicExchange exchange = new TopicExchange(EVENTS_EXCHANGE);
-
-        List<EventName> events = eventNames();
+    private List<Declarable> events(){
+        List<EventName> events = EventName.toListEvents();
+        TopicExchange exchangeEvents = new TopicExchange("sxs.events");
+        List<Declarable> declarables = new ArrayList<>();
 
         for (EventName event : events) {
             List<String> listeners = event.getListeners();
 
             for (String listener : listeners) {
-                String queueName = eventListenerQueueName(listener, event);
-                String routingKey = eventListenerRoutingKey(event);
+                //TODO Improve
+                if(listener.startsWith("exchange")) continue;
 
-                Queue queue = new Queue(queueName);
-                Binding binding = BindingBuilder
-                        .bind(queue)
-                        .to(exchange)
+                Queue queue = new Queue(format("sxs.events.%s.%s", event.getName(), listener));
+                String routingKey = format("sxs.events.%s.*", event.getName());
+
+                Binding binding = BindingBuilder.bind(queue)
+                        .to(exchangeEvents)
                         .with(routingKey);
 
-                declarablesToReturn.add(queue);
-                declarablesToReturn.add(binding);
+                declarables.add(binding);
+                declarables.add(queue);
             }
         }
 
-        declarablesToReturn.add(exchange);
+        declarables.addAll(eventNewOrders(exchangeEvents));
 
-        return declarablesToReturn;
+        return declarables;
     }
 
-    private List<EventName> eventNames() {
-        return Arrays.stream(EventName.values())
-                .collect(Collectors.toList());
-    }
-
-    private List<Declarable> newOrders() {
-        List<ListedCompany> listedCompanies = listedCompanyFinder.all();
-        List<Declarable> declarablesToReturn = new ArrayList<>();
-
-        TopicExchange newOrdersExchange = new TopicExchange(NEW_ORDERS_EXCHNAGE);
+    private List<Declarable> eventNewOrders(TopicExchange eventsExchange){
+        List<ListedCompany> listedCompanies = this.listedCompanyFinder.all();
+        List<Declarable> toReturn = new ArrayList<>();
+        String eventName = EventName.ORDER_PUBLISHED.getName();
 
         for (ListedCompany listedCompany : listedCompanies) {
-            String queueName = newOrdersQueueName(listedCompany.ticker());
+            String ticker = listedCompany.ticker().value();
+            String listenerName = ExchangesStarter.nameForExchangeContainer(ticker);
 
-            Queue queue = new Queue(queueName);
+            Queue queue = new Queue(format("sxs.events.%s.%s", eventName, listenerName));
             Binding binding = BindingBuilder.bind(queue)
-                    .to(newOrdersExchange)
-                    .with(queueName);
+                    .to(eventsExchange)
+                    .with(format("sxs.events.%s.%s", eventName, listenerName));
 
-            declarablesToReturn.add(queue);
-            declarablesToReturn.add(binding);
+            toReturn.add(queue);
+            toReturn.add(binding);
         }
-        declarablesToReturn.add(newOrdersExchange);
 
-        return declarablesToReturn;
+        return toReturn;
     }
 
     private List<Declarable> start(){

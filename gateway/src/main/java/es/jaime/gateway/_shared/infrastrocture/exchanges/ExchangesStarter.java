@@ -55,7 +55,7 @@ public class ExchangesStarter implements CommandLineRunner {
 
     private List<String> tickersOfExchangesNotStarted(List<String> tickers){
         List<String> containerExchangeNames = tickers.stream()
-                .map(this::nameForExchangeContainer)
+                .map(ExchangesStarter::nameForExchangeContainer)
                 .collect(Collectors.toList());
 
         List<Container> exchangesRunning = dockerClient.listContainersCmd().withNameFilter(containerExchangeNames).exec();
@@ -149,7 +149,7 @@ public class ExchangesStarter implements CommandLineRunner {
         );
     }
 
-    private String nameForExchangeContainer(String ticker){
+    public static String nameForExchangeContainer(String ticker){
         return format("exchange-%s", ticker);
     }
 }

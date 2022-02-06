@@ -12,8 +12,8 @@ import java.util.Map;
 @ToString
 public final class BuyOrderExecuted extends ExecutionOrderExecuted {
     public BuyOrderExecuted(String orderId, String clientId, String ticker, double executionPrice,
-                            int quantity, String date) {
-        super(orderId, clientId, ticker, executionPrice, quantity, date);
+                            int quantity, String date, String newPositionId) {
+        super(orderId, clientId, ticker, executionPrice, quantity, date, newPositionId);
     }
 
     public BuyOrderExecuted () {}
@@ -29,7 +29,8 @@ public final class BuyOrderExecuted extends ExecutionOrderExecuted {
                 String.valueOf(body.get("ticker")),
                 Double.parseDouble(String.valueOf(body.get("priceToExecute"))),
                 Integer.parseInt(String.valueOf(body.get("quantity"))),
-                String.valueOf(body.get("date"))
+                String.valueOf(body.get("date")),
+                String.valueOf(body.get("newPositionId"))
         );
     }
 
