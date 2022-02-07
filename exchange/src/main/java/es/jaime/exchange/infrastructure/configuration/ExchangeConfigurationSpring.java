@@ -19,6 +19,7 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
     private int initialDelay;
     private String ticker;
     private String eventsRoutingKey;
+    private String exchangeName;
 
     @Override
     public void run(String[] args) {
@@ -28,6 +29,7 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
         this.ticker = args[3];
         this.initialDelay = Integer.parseInt(args[4]);
         this.eventsRoutingKey = args[5];
+        this.exchangeName = args[6];
 
         System.out.println("ticker -> " + ticker);
     }
@@ -60,5 +62,10 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
     @Override
     public String eventsRoutingKey() {
         return this.eventsRoutingKey;
+    }
+
+    @Override
+    public String exchangeName() {
+        return null;
     }
 }

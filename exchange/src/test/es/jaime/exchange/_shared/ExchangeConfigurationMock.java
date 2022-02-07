@@ -32,4 +32,9 @@ public class ExchangeConfigurationMock implements ExchangeConfiguration {
     public String eventsRoutingKey() {
         return null;
     }
+
+    @Override
+    public String exchangeName() {
+        return null;
+    }
 }

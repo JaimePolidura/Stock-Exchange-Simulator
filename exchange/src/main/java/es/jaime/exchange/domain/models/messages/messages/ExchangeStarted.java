@@ -11,6 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class ExchangeStarted implements Message {
     @Getter private final String ticker;
+    @Getter private final String exchangeName;
 
     @Override
     public MessageTypes type() {
@@ -24,6 +25,9 @@ public class ExchangeStarted implements Message {
 
     @Override
     public Map<String, Object> body() {
-        return Map.of("tikcer", ticker);
+        return Map.of(
+            "tikcer", ticker,
+            "exchangeName", exchangeName
+        );
     }
 }

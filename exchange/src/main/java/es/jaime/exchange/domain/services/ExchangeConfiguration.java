@@ -7,4 +7,5 @@ public interface ExchangeConfiguration {
     String ticker();
     int initialDelay();
     String eventsRoutingKey();
+    String exchangeName();
 }
