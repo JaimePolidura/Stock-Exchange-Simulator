@@ -59,22 +59,6 @@ public class RabbitMQEventsListener implements CommandLineRunner {
     }
 
     private String[] getQueuesNames(){
-        String[] queues = new String[this.eventsToListen.size()];
-
-        for (int i = 0; i < eventsToListen.size(); i++) {
-            String eventToListen = this.eventsToListen.get(i);
-
-            System.out.println("--------------------");
-            System.out.println(eventToListen);
-
-            EventName eventName = EventName.fromEventName(eventToListen);
-            String eventListener = eventListenerQueueName(GATEWAY, eventName);
-            System.out.println("--------------------");
-
-            queues[i] = eventListener;
-        }
-
-
         return this.eventsToListen.stream()
                 .map(event -> eventListenerQueueName(GATEWAY, EventName.fromEventName(event)))
                 .toArray(String[]::new);
