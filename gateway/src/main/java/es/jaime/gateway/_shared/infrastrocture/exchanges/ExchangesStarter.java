@@ -7,8 +7,6 @@ import com.github.dockerjava.api.model.RestartPolicy;
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +14,6 @@ import org.springframework.core.annotation.Order;
 
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -42,7 +39,7 @@ public class ExchangesStarter implements CommandLineRunner {
     }
 
     private boolean isExchangeContainer(Container container){
-        return container.getImage().equalsIgnoreCase(this.configuration.get("EXCHANGE_CONTAINER_IMAGE_NAME"));
+        return container.getImage().equalsIgnoreCase(this.configuration.get("DOCKER_EXCHANGE_IMAGE"));
     }
 
     private void killContainer(Container container){
@@ -76,7 +73,7 @@ public class ExchangesStarter implements CommandLineRunner {
     }
 
     private void startDockerContainer(String ticker){
-        String nameForTheExchange = nameForExchangeContainer(ticker);
+        String nameForTheExchange = nameForSpecificExchangeOfTicker(ticker);
 
         String containerID = dockerClient.createContainerCmd(configuration.get("DOCKER_EXCHANGE_IMAGE"))
                 .withCmd(cmdToExchange(ticker, nameForTheExchange))
@@ -104,7 +101,11 @@ public class ExchangesStarter implements CommandLineRunner {
         );
     }
 
-    public static String nameForExchangeContainer(String ticker){
+    public static String nameForSpecificExchangeOfTicker(String ticker){
         return format("exchange-%s-%s", ticker, UUID.randomUUID());
+    }
+
+    public static String nameForExchangesOfTicker(String ticker){
+        return format("exchange-%s", ticker);
     }
 }

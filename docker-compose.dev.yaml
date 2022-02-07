@@ -13,6 +13,7 @@ services:
         container_name: gateway-mysql
         ports:
           - 3306:3306
+        restart: unless-stopped
         environment:        
             - MYSQL_ROOT_PASSWORD=
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -37,7 +38,8 @@ services:
         depends_on:
             - mysql
             - rabbitmq
-          
+            - active-orders-redis
+    
     client-order-event-dispatcher:
         image: sxs-client-order-event-dispatcher
         restart: unless-stopped
@@ -46,3 +48,10 @@ services:
         depends_on:
             - rabbitmq
             - gateway
+    
+    active-orders-redis: 
+        image: redis:6.2-alpine
+        restart: unless-stopped
+        command: redis-server --requirepass 29oumr982oyvtpiou2
+        ports:
+            - 6379:6379

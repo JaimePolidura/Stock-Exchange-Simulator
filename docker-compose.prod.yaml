@@ -46,3 +46,10 @@ services:
         depends_on:
             - rabbitmq
             - gateway
+      
+    active-orders-redis:
+        image: redis:6.2-alpine
+        restart: unless-stopped
+        command: redis-server --requirepass 29oumr982oyvtpiou2
+        ports:
+            - 6379:6379

@@ -2,10 +2,6 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.infrastrocture.exchanges.ExchangesStarter;
-import es.jaime.gateway._shared.infrastrocture.exchanges.ordresrestorer.ExchangeStarted;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
-
-import java.util.List;
 
 import static java.lang.String.*;
 
@@ -31,6 +27,6 @@ public final class RabbitMQNameFormatter {
     }
 
     public static String newOrdersQueueName(String ticker){
-        return eventListenerQueueName(ExchangesStarter.nameForExchangeContainer(ticker), EventName.ORDER_PUBLISHED);
+        return eventListenerQueueName(ExchangesStarter.nameForExchangesOfTicker(ticker), EventName.ORDER_PUBLISHED);
     }
 }
