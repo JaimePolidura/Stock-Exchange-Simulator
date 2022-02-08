@@ -5,6 +5,7 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.RestartPolicy;
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
+import es.jaime.gateway._shared.domain.Utils;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,13 @@ public class ExchangesStarter implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        this.removeExchanges();
-        this.startContainers(this.getTickers());
+        Executors.newCachedThreadPool().submit(() -> {
+            this.removeExistingRunningExchanges();
+            this.startExchanges(this.getTickers());
+        });
     }
 
-    private void removeExchanges(){
+    private void removeExistingRunningExchanges(){
         this.dockerClient.listContainersCmd().exec().stream()
                 .filter(this::isExchangeContainer)
                 .forEach(this::killContainer);
@@ -54,22 +57,16 @@ public class ExchangesStarter implements CommandLineRunner {
                 .collect(Collectors.toList());
     }
 
-    private void startContainers(List<String> tickersToStart){
-        Executors.newCachedThreadPool().submit(() -> {
-            try {
-                //By this we make sure that all queues have been initializedd
-                Thread.sleep(10000);
-                var exchangeReplicas = this.configuration.getInt("EXCHANGE_REPLICAS");
+    private void startExchanges(List<String> tickersToStart){
+        //By this we make sure that all queues have been initializedd
+        Utils.sleep(10000);
+        int exchangeReplicas = configuration.getInt("EXCHANGE_REPLICAS");
 
-                for (String tickerOfExchangeNotStarted : tickersToStart) {
-                    for (int i = 0; i < exchangeReplicas; i++) {
-                        startDockerContainer(tickerOfExchangeNotStarted);
-                    }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        for (String tickerOfExchangeNotStarted : tickersToStart) {
+            for (int i = 0; i < exchangeReplicas; i++) {
+                startDockerContainer(tickerOfExchangeNotStarted);
             }
-        });
+        }
     }
 
     private void startDockerContainer(String ticker){
@@ -97,7 +94,10 @@ public class ExchangesStarter implements CommandLineRunner {
                 ticker,
                 configuration.get("EXCHANGE_INITIAL_DELAY"),
                 RabbitMQNameFormatter.EVENTS_ROUTING_KEY,
-                exchangeName
+                exchangeName,
+                configuration.get("REDIS_HOST"),
+                configuration.get("REDIS_PORT"),
+                configuration.get("REDIS_PASSWORD")
         );
     }
 

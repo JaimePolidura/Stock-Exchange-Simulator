@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,18 @@ public class ExecutionOrderFinder {
     public List<ExecutionOrder> findByClientIdAndState(OrderClientId clientId, OrderState state){
         List<BuyOrder> orderBuyList = buyOrders.findByOrderClientIdAndState(clientId, state);
         List<SellOrder> orderSellList = sellOrders.findByOrderClientIdAndState(clientId, state);
+
+        List<ExecutionOrder> toReturn = new ArrayList<>(orderBuyList);
+        toReturn.addAll(orderSellList);
+
+        return toReturn;
+    }
+
+    public List<ExecutionOrder> findByOrdersId(List<OrderId> orderIds){
+        if(orderIds.size() == 0) return Collections.EMPTY_LIST;
+
+        List<BuyOrder> orderBuyList = buyOrders.findByOrdersId(orderIds);
+        List<SellOrder> orderSellList = sellOrders.findByOrdersId(orderIds);
 
         List<ExecutionOrder> toReturn = new ArrayList<>(orderBuyList);
         toReturn.addAll(orderSellList);

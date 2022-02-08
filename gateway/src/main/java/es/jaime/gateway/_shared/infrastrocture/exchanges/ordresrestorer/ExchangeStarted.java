@@ -12,12 +12,16 @@ import java.util.Map;
 @NoArgsConstructor
 public class ExchangeStarted extends DomainEvent {
     @Getter private String ticker;
+    @Getter private String exchangeName;
 
     @Override
     public ExchangeStarted fromPrimitives(Map<String, Object> primitives) {
         Map<String, Object> body = (Map<String, Object>) primitives.get("body");
 
-        return new ExchangeStarted(String.valueOf(body.get("ticker")));
+        return new ExchangeStarted(
+                String.valueOf(body.get("ticker")),
+                String.valueOf(body.get("exchangeName"))
+        );
     }
 
     @Override

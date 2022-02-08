@@ -1,5 +1,7 @@
 package es.jaime.gateway._shared.domain;
 
+import lombok.SneakyThrows;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,5 +44,10 @@ public final class Utils {
         }
 
         return toReturn;
+    }
+
+    @SneakyThrows
+    public static void sleep(long millis) {
+        Thread.sleep(millis);
     }
 }

@@ -15,6 +15,8 @@ public interface ExecutionOrderRepository<T extends ExecutionOrder> {
 
     Optional<T> findByOrderId(OrderId id);
 
+    List<T> findByOrdersId(List<OrderId> ordersId);
+
     List<T> findByOrderClientIdAndState(OrderClientId clientId, OrderState state);
 
     void deleteByOrderId(OrderId orderId);

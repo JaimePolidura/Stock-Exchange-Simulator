@@ -9,12 +9,13 @@ import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrde
 import es.jaime.gateway.orders.pendingorder.execution.buy._shared.domain.BuyOrderRepostory;
 import es.jaime.mapper.EntityMapper;
 import es.jaime.repository.DataBaseRepositoryValueObjects;
-import es.jaimetruman.select.Order;
 import es.jaimetruman.select.Select;
+import es.jaimetruman.select.SelectOptionFull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +35,22 @@ public class BuyOrderRepositoryMySQL extends DataBaseRepositoryValueObjects<BuyO
     @Override
     public Optional<BuyOrder> findByOrderId(OrderId id) {
         return super.findById(id);
+    }
+
+    @Override
+    public List<BuyOrder> findByOrdersId(List<OrderId> ordersId) {
+        SelectOptionFull selectQuery = Select.from("buy_orders")
+                .where("orderId").equal(ordersId.get(0).value());
+
+        if(ordersId.size() == 1) return buildListFromQuery(selectQuery);
+
+        for (int i = 1; i < ordersId.size(); i++) {
+            String orderId = ordersId.get(i).value();
+
+            selectQuery = selectQuery.or("orderId").equal(orderId);
+        }
+
+        return buildListFromQuery(selectQuery);
     }
 
     @Override

@@ -16,4 +16,6 @@ public interface OrdersCancelRepository {
     List<CancelOrder> findByClientIdAndOrderState(OrderClientId clientId, OrderState orderState);
 
     List<CancelOrder> findByTicker(OrderTicker orderTicker);
+
+    List<CancelOrder> findByOrdersId(List<OrderId> ordersId);
 }
