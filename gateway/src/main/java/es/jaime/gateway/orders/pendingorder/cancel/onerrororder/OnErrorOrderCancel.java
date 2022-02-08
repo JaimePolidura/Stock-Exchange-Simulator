@@ -20,7 +20,7 @@ public class OnErrorOrderCancel {
 
     @EventListener({ErrorDuringOrderExecution.class})
     public void on(ErrorDuringOrderExecution event){
-        Optional<CancelOrder> orderOptional = cancelOrders.findById(OrderId.of(event.getOrderId()));
+        Optional<CancelOrder> orderOptional = cancelOrders.findByOrderId(OrderId.of(event.getOrderId()));
 
         if(orderOptional.isPresent()){
             CancelOrder orderCancel = orderOptional.get();
