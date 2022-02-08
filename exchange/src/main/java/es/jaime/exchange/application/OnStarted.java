@@ -21,6 +21,10 @@ public class OnStarted implements CommandLineRunner {
         messagePublisher.publish(
                 configuration.eventsExchangeName(),
                 String.format(configuration.eventsRoutingKey(), MessageName.EXCHANGE_STARTED.getName()),
-                new ExchangeStarted(configuration.ticker(), configuration.exchangeName()));
+                new ExchangeStarted(
+                        configuration.ticker(),
+                        configuration.exchangeName()
+                )
+        );
     }
 }

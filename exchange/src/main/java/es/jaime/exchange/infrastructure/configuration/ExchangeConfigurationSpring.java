@@ -66,6 +66,6 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
 
     @Override
     public String exchangeName() {
-        return null;
+        return this.exchangeName;
     }
 }

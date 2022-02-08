@@ -34,14 +34,11 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
     @Override
     @SneakyThrows
     public void run(String... args) {
-        System.out.println("1");
         Thread.sleep(configuration.initialDelay());
-        System.out.println("2");
 
         AbstractMessageListenerContainer container = (AbstractMessageListenerContainer) registry.getListenerContainer(CONSUMER_NAME);
 
         container.addQueueNames(configuration.queueNewOrders());
-        System.out.println(configuration.queueNewOrders());
 
         container.start();
     }
@@ -51,11 +48,13 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
         System.out.println("recieved order: " + messageString);
 
         Map<String, Object> toMap = deserializeToMap(messageString);
-        String messageId = String.valueOf(toMap.get("id"));
+        Map<String, Object> body = (Map<String, Object>) toMap.get("body");
+        String messageId = valueOf(toMap.get("id"));
         String eventName = valueOf(toMap.get("name"));
+        String orderId = valueOf(body.get("orderId"));
 
-        if(activeOrderStorer.contains(messageId)){
-            System.out.printf("Duplicated message for id %s", messageId);
+        if(activeOrderStorer.contains(orderId)){
+            System.out.printf("Duplicated message for id %s", orderId);
             return;
         }
 
@@ -64,7 +63,6 @@ public class RabbitListenerNewOrders implements CommandLineRunner {
 
         this.eventBus.publish(domainEventToPublish);
     }
-
 
     private Map<String, Object> deserializeToMap(String rawString){
         return new JSONObject(rawString).toMap();
