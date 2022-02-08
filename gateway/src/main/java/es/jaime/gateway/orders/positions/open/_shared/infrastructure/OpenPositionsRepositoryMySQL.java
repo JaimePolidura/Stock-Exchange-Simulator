@@ -5,11 +5,10 @@ import es.jaime.gateway.orders._shared.domain.*;
 import es.jaime.gateway.orders.positions._shared.domain.ExecutedOrderType;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningDate;
 import es.jaime.gateway.orders.positions._shared.domain.PositionOpeningPrice;
-import es.jaime.gateway.orders.positions.closed._shared.domain.ClosedPositionClosingDate;
+import es.jaime.gateway.orders.positions._shared.infrastructure.PositionsRepositoryMySQL;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPosition;
 import es.jaime.gateway.orders.positions.open._shared.domain.OpenPositionsRepository;
 import es.jaime.mapper.EntityMapper;
-import es.jaime.repository.DataBaseRepositoryValueObjects;
 import es.jaimetruman.select.Select;
 import org.springframework.stereotype.Repository;
 
@@ -19,21 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Repository
-public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects<OpenPosition, OrderId> implements OpenPositionsRepository {
+public class OpenPositionsRepositoryMySQL extends PositionsRepositoryMySQL<OpenPosition> implements OpenPositionsRepository {
     private static final String TABLE = "open_positions";
 
     protected OpenPositionsRepositoryMySQL(DatabaseConfiguration databaseConfiguration) {
         super(databaseConfiguration);
-    }
-
-    @Override
-    public void save(OpenPosition openPosition) {
-        super.save(openPosition);
     }
 
     @Override
@@ -84,26 +77,6 @@ public class OpenPositionsRepositoryMySQL extends DataBaseRepositoryValueObjects
                 PositionOpeningPrice.of(resultSet.getDouble("openingPrice")),
                 PositionOpeningDate.of(resultSet.getString("openingDate"))
         );
-    }
-
-    @Override
-    protected Map<String, Object> toPrimitives(OpenPosition openPosition) {
-        return new HashMap<>() {{
-            put("orderId", openPosition.getOrderId().value());
-            put("clientId", openPosition.getClientId().value());
-            put("date", openPosition.getDate().value());
-            put("state", openPosition.getState().value());
-            put("ticker", openPosition.getTicker().value());
-            put("quantity", openPosition.getQuantity().value());
-            put("executedOrderType", openPosition.getExecutedOrderType().value());
-            put("openingPrice", openPosition.getOpeningPrice().value());
-            put("openingDate", openPosition.getOpeningDate().value());
-        }};
-    }
-
-    @Override
-    protected Function<OrderId, Object> idValueObjectToIdPrimitive() {
-        return OrderId::value;
     }
 
     @Override
