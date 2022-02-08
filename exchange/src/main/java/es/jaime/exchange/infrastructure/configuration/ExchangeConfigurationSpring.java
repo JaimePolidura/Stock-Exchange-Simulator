@@ -20,6 +20,9 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
     private String ticker;
     private String eventsRoutingKey;
     private String exchangeName;
+    private String redisHost;
+    private int redisPort;
+    private String redisPassword;
 
     @Override
     public void run(String[] args) {
@@ -30,6 +33,9 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
         this.initialDelay = Integer.parseInt(args[4]);
         this.eventsRoutingKey = args[5];
         this.exchangeName = args[6];
+        this.redisHost = args[7];
+        this.redisPort = Integer.parseInt(args[8]);
+        this.redisPassword = args[9];
 
         System.out.println("ticker -> " + ticker);
     }
@@ -67,5 +73,20 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
     @Override
     public String exchangeName() {
         return this.exchangeName;
+    }
+
+    @Override
+    public String redisHost() {
+        return this.redisHost;
+    }
+
+    @Override
+    public int redisPort() {
+        return this.redisPort;
+    }
+
+    @Override
+    public String redisPassword() {
+        return this.redisPassword;
     }
 }

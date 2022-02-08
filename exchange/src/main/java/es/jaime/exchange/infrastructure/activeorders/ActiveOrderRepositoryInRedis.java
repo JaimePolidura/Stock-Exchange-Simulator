@@ -3,30 +3,29 @@ package es.jaime.exchange.infrastructure.activeorders;
 import es.jaime.exchange.domain.repository.ActiveOrderRepository;
 import es.jaime.exchange.domain.services.ExchangeConfiguration;
 import org.springframework.stereotype.Repository;
-import redis.clients.jedis.Jedis;
 
 @Repository
 public class ActiveOrderRepositoryInRedis implements ActiveOrderRepository {
-    private final Jedis jedis;
+    private final RedisConnection redis;
     private final ExchangeConfiguration configuration;
 
-    public ActiveOrderRepositoryInRedis(Jedis jedis, ExchangeConfiguration configuration) {
-        this.jedis = jedis;
+    public ActiveOrderRepositoryInRedis(RedisConnection redis, ExchangeConfiguration configuration) {
+        this.redis = redis;
         this.configuration = configuration;
     }
 
     @Override
     public void save(String orderId) {
-        jedis.sadd(configuration.exchangeName(), orderId);
+        this.redis.command().sadd(configuration.exchangeName(), orderId);
     }
 
     @Override
     public boolean existsByOrderId(String orderId) {
-        return jedis.sismember(configuration.exchangeName(), orderId);
+        return redis.command().sismember(configuration.exchangeName(), orderId);
     }
 
     @Override
     public void removeByOrderId(String orderId) {
-        jedis.srem(configuration.exchangeName(), orderId);
+        redis.command().srem(configuration.exchangeName(), orderId);
     }
 }

@@ -8,4 +8,8 @@ public interface ExchangeConfiguration {
     int initialDelay();
     String eventsRoutingKey();
     String exchangeName();
+
+    String redisHost();
+    int redisPort();
+    String redisPassword();
 }
