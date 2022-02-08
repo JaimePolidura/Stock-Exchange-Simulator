@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.domain.activeorders;
+package es.jaime.gateway._shared.domain.exchange.activeorders;
 
 import es.jaime.gateway.orders._shared.domain.OrderId;
 

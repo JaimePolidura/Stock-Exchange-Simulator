@@ -1,12 +1,9 @@
 package es.jaime.gateway._shared.infrastrocture.exchanges.ordresrestorer;
 
-import es.jaime.gateway._shared.domain.activeorders.ActiveOrdersRepository;
+import es.jaime.gateway._shared.domain.exchange.activeorders.ActiveOrdersRepository;
 import es.jaime.gateway._shared.domain.messages.Message;
 import es.jaime.gateway._shared.domain.messages.MessagePublisher;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
-import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyTicker;
 import es.jaime.gateway.orders._shared.domain.OrderId;
-import es.jaime.gateway.orders._shared.domain.OrderTicker;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrder;
 import es.jaime.gateway.orders.pendingorder._shared.domain.PendingOrderFinder;
 import lombok.AllArgsConstructor;
@@ -14,7 +11,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
 

@@ -1,6 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.exchanges.activeorders;
 
-import es.jaime.gateway._shared.domain.activeorders.ActiveOrdersRepository;
+import es.jaime.gateway._shared.domain.exchange.activeorders.ActiveOrdersRepository;
 import es.jaime.gateway.orders._shared.domain.OrderId;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
