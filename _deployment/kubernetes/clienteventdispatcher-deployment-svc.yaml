@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-order-event-dispatcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-order-event-dispatcher
+  template:
+    metadata:
+      labels:
+        app: client-order-event-dispatcher
+    spec:
+      containers:
+        - image: sxs-client-order-event-dispatcher
+          name: client-order-event-dispatcher
+          ports:
+            - containerPort: 4000
+          resources: {}
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-order-event-dispatcher
+spec:
+  ports:
+    - name: "4000"
+      port: 4000
+      targetPort: 4000
+  selector:
+    app: client-order-event-dispatcher

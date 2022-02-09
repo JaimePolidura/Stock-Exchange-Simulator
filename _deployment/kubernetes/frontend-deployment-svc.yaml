@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-frontend
+  template:
+    metadata:
+      labels:
+        app: client-frontend
+    spec:
+      containers:
+        - image: sxs-client-frontend
+          name: client-frontend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          resources: {}
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-frontend
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 3000
+  selector:
+    app: client-frontend

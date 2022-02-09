@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 gateway/out/
 
-docker/
+_deployment/docker-compose/docker-data-volume
 
 ### STS ###
 .apt_generated

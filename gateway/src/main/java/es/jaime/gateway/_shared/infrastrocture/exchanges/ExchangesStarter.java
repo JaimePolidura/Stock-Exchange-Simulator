@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
-@Configuration
+//@Configuration
 @AllArgsConstructor
 @Order(2)
 public class ExchangesStarter implements CommandLineRunner {

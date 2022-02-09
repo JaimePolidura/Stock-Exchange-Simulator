@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: active-orders-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: active-orders-redis
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: active-orders-redis
+    spec:
+      containers:
+        - args:
+            - redis-server
+            - --requirepass
+            - 29oumr982oyvtpiou2
+          image: redis:6.2-alpine
+          name: active-orders-redis
+          ports:
+            - containerPort: 6379
+          resources: {}
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: active-orders-redis
+spec:
+  ports:
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: active-orders-redis
