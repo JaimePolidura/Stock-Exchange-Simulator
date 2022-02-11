@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/gateway")
 public class Controller {
     public String getLoggedUsername() { return SecurityContextHolder.getContext().getAuthentication().getName(); }
 

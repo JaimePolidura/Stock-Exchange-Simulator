@@ -1,7 +1,7 @@
 import {io} from "socket.io-client";
 import auth from "../AuthenticationService";
 
-const URL = 'ws://localhost:4000';
+const URL = 'ws://localhost/socket';
 const EXECUTED_BUY_ORDER = "order-executed-buy";
 const EXECUTED_SELL_ORDER = "order-executed-sell";
 const ERROR_ORDER = "order-error";

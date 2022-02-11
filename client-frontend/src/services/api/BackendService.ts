@@ -11,7 +11,7 @@ import {CancelOrderResponse} from "./requests/cancelorder/CancelOrderResponse";
 import {GetExecutionOrders} from "./requests/getexecutionorders/GetExecutionOrders";
 import {GetOpenPositionsAtDateResponse} from "./requests/getopenpositionsatdate/GetOpenPositionsAtDateResponse";
 
-const apiRoute = "http://localhost:8080/";
+const apiRoute = "http://localhost/gateway/";
 
 class BackendService {
 

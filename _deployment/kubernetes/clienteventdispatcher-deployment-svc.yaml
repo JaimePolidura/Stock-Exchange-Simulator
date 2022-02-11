@@ -13,13 +13,13 @@ spec:
         app: client-order-event-dispatcher
     spec:
       containers:
-        - image: sxs-client-order-event-dispatcher
+        - image: jaimetruman/sxs-client-order-event-dispatcher
           name: client-order-event-dispatcher
           ports:
             - containerPort: 4000
           resources: {}
       restartPolicy: Always
-
+      
 ---
 apiVersion: v1
 kind: Service
@@ -30,5 +30,6 @@ spec:
     - name: "4000"
       port: 4000
       targetPort: 4000
+      protocol: TCP
   selector:
     app: client-order-event-dispatcher

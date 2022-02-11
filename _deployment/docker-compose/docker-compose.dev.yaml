@@ -10,7 +10,7 @@ services:
         
     mysql:
         image: mysql:8
-        container_name: gateway-mysql
+        container_name: mysql-gateway
         ports:
           - 3306:3306
         restart: unless-stopped
@@ -32,7 +32,7 @@ services:
     
     gateway:
         restart: unless-stopped
-        image: sxs-gateway
+        image: jaimetruman/sxs-gateway:v2
         ports:
             - 8080:8080
         depends_on:
@@ -41,7 +41,7 @@ services:
             - active-orders-redis
     
     client-order-event-dispatcher:
-        image: sxs-client-order-event-dispatcher
+        image: jaimetruman/sxs-client-order-event-dispatcher:v1
         restart: unless-stopped
         ports:
             - 4000:4000 

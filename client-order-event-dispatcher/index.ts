@@ -14,7 +14,7 @@ const queuesListener: string[] = [
     "sxs.events.order-cancelled.client-order-event-dispatcher",
 ];
 
-const gateway: string = "http://gateway:8080";
+const gateway: string = "http://gateway:8080/gateway";
 
 const io = socketIo(server, {
     origin: "*",
