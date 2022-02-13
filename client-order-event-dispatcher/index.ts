@@ -1,36 +1,36 @@
-import {request, response} from "express";
-
 const axios = require('axios');
 const express = require("express");
 const app = express();
 const http = require('http');
 const ampq = require('amqplib/callback_api');
 const cors = require('cors');
-
-const socketIo = require('socket.io');
 const server = http.createServer(app);
 
 app.use(cors({ origin : '*' } ));
 
+const gateway = "http://gateway:8080";
+
 const queuesListener: string[] = [
-    "sxs.start",
     "sxs.events.order-error.client-order-event-dispatcher",
     "sxs.events.order-executed-buy.client-order-event-dispatcher",
     "sxs.events.order-executed-sell.client-order-event-dispatcher",
     "sxs.events.order-cancelled.client-order-event-dispatcher",
 ];
 
-const gateway: string = "http://gateway:8080";
-
-const io = socketIo(server, {
-    origin: "*",
-});
 
 server.listen(4000, () => {
     console.log("Server listening on port 4000");
 });
 
 app.get('/events', (request, response, next) => {
+    const username = request.query.username;
+    const token = request.query.token;
+
+    if(username == undefined || token == undefined){
+        returnError(response);
+    }
+    authenticate(response, username, token);
+
     response.setHeader('Content-Type', 'text/event-stream');
 
     ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
@@ -43,28 +43,35 @@ app.get('/events', (request, response, next) => {
 
             queuesListener.forEach(queue => {
                 channel.consume(queue, message => {
-                    let messageToJSON: string = message.content.toString();
+                    let messageToJSON: any = JSON.parse(message.content.toString());
 
-                    console.log("new message from exchange : " + message.content.toString());
+                    console.log("new message from exchange : " + messageToJSON);
 
-                    const data = `data: ${messageToJSON}\n\n`;
-                    response.write(data);
+                    messageToJSON.meta.to.forEach(to => {
+                        if(to == username){
+                            console.log(to);
 
-                    // messageToJSON.meta.to.forEach(to => {
-                    //     console.log(to);
-                    //
-                    //     const data = `data: ${to}\n\n`;
-                    //     response.write(data);
-                    // });
+                            const data = `data: ${JSON.stringify(messageToJSON)}\n\n`;
+                            response.write(data);
+                        }
+                    });
                 });
             });
         });
     });
-
-    request.on('close', () => {
-        console.log("closed");
-    });
 });
+
+const authenticate = (response, username: string, token: string): void => {
+    axios.get(`${gateway}/auth/isvalidtoken?username=${username}&token=${token}`)
+        .then(res => {if (res.data == false) returnError(response)})
+        .catch(err => returnError(response));
+}
+
+const returnError = response => {
+    response.status(403);
+    response.send("Invalid format");
+    response.end();
+}
 
 // io.on('connection', socket => {
 //     console.log("connected id: " + socket.id);

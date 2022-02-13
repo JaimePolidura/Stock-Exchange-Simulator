@@ -1,4 +1,3 @@
-import {io} from "socket.io-client";
 import auth from "../AuthenticationService";
 
 const URL = 'ws://localhost/socket';
@@ -15,20 +14,10 @@ class ClientEventDispatcherSocketService {
     onOrderCancelledCallback: any;
 
     connect(clientId: string): void{
-        let source = new EventSource("http://localhost/socket/events");
+        let source = new EventSource(`http://localhost/socket/events?username=${auth.username}&token=${auth.token}`);
         source.onmessage = message => {
             console.log("HOla " + message.data);
-        }
-
-        this.socket = io(URL, {
-            transports : ['websocket'],
-            auth: {username: auth.username, token: auth.token},
-        }).on(clientId, msg => {
-            console.log("newmessage")
-            console.log(msg);
-
-            this.onNewMessage(msg);
-        });
+        };
     }
 
     onNewMessage(msg: any): void{
