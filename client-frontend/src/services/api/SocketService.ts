@@ -15,6 +15,11 @@ class ClientEventDispatcherSocketService {
     onOrderCancelledCallback: any;
 
     connect(clientId: string): void{
+        let source = new EventSource("http://localhost/socket/events");
+        source.onmessage = message => {
+            console.log("HOla " + message.data);
+        }
+
         this.socket = io(URL, {
             transports : ['websocket'],
             auth: {username: auth.username, token: auth.token},

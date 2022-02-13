@@ -19,17 +19,17 @@ spec:
             - containerPort: 4000
           resources: {}
       restartPolicy: Always
-      
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: client-order-event-dispatcher
 spec:
+  selector:
+    app: client-order-event-dispatcher
   ports:
-    - name: "4000"
+    - name: "socket"
       port: 4000
       targetPort: 4000
       protocol: TCP
-  selector:
-    app: client-order-event-dispatcher
