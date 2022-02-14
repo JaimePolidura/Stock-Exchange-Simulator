@@ -11,7 +11,6 @@ import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -25,7 +24,7 @@ import static java.lang.String.format;
 @ConditionalOnProperty(value = "orchestration", havingValue = "docker-compose")
 @Order(50)
 @AllArgsConstructor
-public class ExchangesStarter implements CommandLineRunner {
+public class ExchangesStarterDockerCompose implements CommandLineRunner {
     private final ListedCompaniesRepository listedCompanies;
     private final DockerClient dockerClient;
     private final ApplicationConfiguration configuration;

@@ -2,7 +2,6 @@ package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.EventName;
 import es.jaime.gateway._shared.domain.Utils;
-import es.jaime.gateway._shared.infrastrocture.exchanges.ExchangesStarter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompany;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompanyFinderService;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter.*;
-import static java.lang.String.*;
 
 @Configuration("rabbitmq-declarables")
 @DependsOn({"rabbitmq-configuration"})
