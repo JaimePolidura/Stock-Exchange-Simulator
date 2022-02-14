@@ -10,6 +10,8 @@ import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -19,9 +21,10 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
-//@Configuration
+@Configuration
+@ConditionalOnProperty(value = "orchestration", havingValue = "docker-compose")
+@Order(50)
 @AllArgsConstructor
-@Order(2)
 public class ExchangesStarter implements CommandLineRunner {
     private final ListedCompaniesRepository listedCompanies;
     private final DockerClient dockerClient;

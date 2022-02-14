@@ -2,22 +2,25 @@ package es.jaime.gateway._shared.infrastrocture.configuration;
 
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.util.Map;
+import java.util.Set;
 
 @Configuration("configuration")
+@Order(1)
 public class ApplicationConfigurationInFile implements ApplicationConfiguration {
     private final Map<String, Object> configuration;
-    private final String configName;
+    private final Set<String> usingConfigNames;
 
-    public ApplicationConfigurationInFile(ConfigurationFileMapper fileMapper) {
+    public ApplicationConfigurationInFile(ConfigurationFileMapperSpring fileMapper) {
         this.configuration = fileMapper.getConfigMap();
-        this.configName = fileMapper.getConfigName();
+        this.usingConfigNames = fileMapper.getUsingConfigsNames();
     }
 
     @Override
-    public String getConfigName() {
-        return this.configName;
+    public Set<String> getUsingConfigsNames() {
+        return this.usingConfigNames;
     }
 
     @Override
