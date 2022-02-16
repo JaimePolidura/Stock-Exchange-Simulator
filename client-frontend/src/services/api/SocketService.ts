@@ -23,6 +23,8 @@ class ClientEventDispatcherSocketService {
     }
 
     onNewMessage(msg: any): void{
+        console.log(msg);
+
         if(msg.name == EXECUTED_SELL_ORDER) {
             this.onExecutedSellOrderCallback(msg);
         }else if(msg.name == EXECUTED_BUY_ORDER){
