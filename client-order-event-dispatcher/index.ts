@@ -2,26 +2,20 @@ const axios = require('axios');
 const express = require("express");
 const app = express();
 const http = require('http');
-const ampq = require('amqplib/callback_api');
 const cors = require('cors');
 const server = http.createServer(app);
-
-app.use(cors({ origin : '*' } ));
+const queueSubscriber: QueueSubscriber = require("./QueueSubscriber");
 
 const gateway = "http://gateway:8080";
+const websiteOrigin = "http://localhost:3000";
 
-const queuesListener: string[] = [
-    "sxs.events.order-error.client-order-event-dispatcher",
-    "sxs.events.order-executed-buy.client-order-event-dispatcher",
-    "sxs.events.order-executed-sell.client-order-event-dispatcher",
-    "sxs.events.order-cancelled.client-order-event-dispatcher",
-];
+app.use(cors({ origin : websiteOrigin } ));
 
 server.listen(4000, () => {
     console.log("Server listening on port 4000");
 });
 
-app.get('/events', (request, response, next) => {
+app.get('/events', (request, response) => {
     const username = request.query.username;
     const token = request.query.token;
 
@@ -32,31 +26,13 @@ app.get('/events', (request, response, next) => {
     authenticate(response, username, token);
 
     response.setHeader('Content-Type', 'text/event-stream');
+    response.setHeader('connection', 'keep-alive');
+    response.setHeader('Cache-Control', 'no-cache');
 
-    ampq.connect('amqp://rabbitmq', (errorConnection, connection) => {
-        if (errorConnection) throw errorConnection;
+    queueSubscriber.subscribe(username, message => {
+        const dataToSend = `data: ${JSON.stringify(message)}\n\n`;
 
-        console.log("connected to rabbitmq");
-
-        connection.createChannel((errorChannel, channel) => {
-            if (errorChannel) throw errorChannel;
-
-            queuesListener.forEach(queue => {
-                channel.consume(queue, message => {
-                    let messageToJSON: any = JSON.parse(message.content.toString());
-
-                    messageToJSON.meta.to.forEach(to => {
-                        console.log(to);
-                        console.log(username);
-
-                        if(to == username){
-                            const data = `data: ${JSON.stringify(messageToJSON)}\n\n`;
-                            response.write(data);
-                        }
-                    });
-                });
-            });
-        });<
+        response.write(dataToSend);
     });
 });
 
