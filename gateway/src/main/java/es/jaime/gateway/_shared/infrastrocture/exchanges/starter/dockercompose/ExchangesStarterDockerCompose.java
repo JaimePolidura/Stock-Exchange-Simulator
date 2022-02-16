@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.infrastrocture.exchanges;
+package es.jaime.gateway._shared.infrastrocture.exchanges.starter.dockercompose;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;

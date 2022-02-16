@@ -1,7 +1,7 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.EventName;
-import es.jaime.gateway._shared.infrastrocture.exchanges.ExchangesStarterDockerCompose;
+import es.jaime.gateway._shared.infrastrocture.exchanges.starter.dockercompose.ExchangesStarterDockerCompose;
 
 import static java.lang.String.*;
 

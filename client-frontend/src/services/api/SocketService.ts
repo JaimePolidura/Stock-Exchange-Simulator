@@ -15,8 +15,10 @@ class ClientEventDispatcherSocketService {
 
     connect(clientId: string): void{
         let source = new EventSource(`http://localhost/socket/events?username=${auth.username}&token=${auth.token}`);
-        source.onmessage = message => {
-            console.log("HOla " + message.data);
+        source.onmessage = (message: MessageEvent) => {
+            let data = JSON.parse(message.data);
+
+            this.onNewMessage(data);
         };
     }
 

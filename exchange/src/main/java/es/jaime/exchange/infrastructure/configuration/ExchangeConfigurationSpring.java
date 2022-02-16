@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.Executors;
 
 @Component("exchange-configuration")
-@Order(1)
-public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeConfiguration {
+public class ExchangeConfigurationSpring implements ExchangeConfiguration {
     private String queueNewOrders;
     private String eventsExchange;
     private int mathcingEngineSleepTime;
@@ -25,68 +24,52 @@ public class ExchangeConfigurationSpring implements CommandLineRunner, ExchangeC
     private String redisPassword;
 
     @Override
-    public void run(String[] args) {
-        this.queueNewOrders = args[0];
-        this.eventsExchange = args[1];
-        this.mathcingEngineSleepTime = Integer.parseInt(args[2]);
-        this.ticker = args[3];
-        this.initialDelay = Integer.parseInt(args[4]);
-        this.eventsRoutingKey = args[5];
-        this.exchangeName = args[6];
-        this.redisHost = args[7];
-        this.redisPort = Integer.parseInt(args[8]);
-        this.redisPassword = args[9];
-
-        System.out.println("ticker -> " + ticker);
-    }
-
-    @Override
     public String queueNewOrders() {
-        return this.queueNewOrders;
+        return System.getenv("NEW_ORDERS_QUEUE_NAME");
     }
 
     @Override
     public String eventsExchangeName() {
-        return this.eventsExchange;
+        return System.getenv("EVENTS_EXCHANGE");
     }
 
     @Override
     public int matchingEngineSleep() {
-        return this.mathcingEngineSleepTime;
+        return Integer.parseInt(System.getenv("EXCHANGE_DELAY_BETWEEN_CHECK"));
     }
 
     @Override
     public String ticker() {
-        return this.ticker;
+        return System.getenv("TICKER");
     }
 
     @Override
     public int initialDelay() {
-        return this.initialDelay;
+        return Integer.parseInt(System.getenv("EXCHANGE_INITIAL_DELAY"));
     }
 
     @Override
     public String eventsRoutingKey() {
-        return this.eventsRoutingKey;
+        return System.getenv("EVENTS_ROUTING_KEY");
     }
 
     @Override
     public String exchangeName() {
-        return this.exchangeName;
+        return System.getenv("EXCHANGE_NAME");
     }
 
     @Override
     public String redisHost() {
-        return this.redisHost;
+        return System.getenv("REDIS_HOST");
     }
 
     @Override
     public int redisPort() {
-        return this.redisPort;
+        return Integer.parseInt(System.getenv("REDIS_PORT"));
     }
 
     @Override
     public String redisPassword() {
-        return this.redisPassword;
+        return System.getenv("REDIS_PASSWORD");
     }
 }
