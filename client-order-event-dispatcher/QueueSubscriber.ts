@@ -10,9 +10,10 @@ const queuesToListen: string[] = [
 
 class QueueSubscriber {
     //Username -> callback on new message
-    private subscribers: { [username: string]: ((data: any) => void) };
+    private readonly subscribers: { [username: string]: ((data: any) => void) };
 
     constructor() {
+        this.subscribers = {};
         this.startListeningToQueues();
     }
 

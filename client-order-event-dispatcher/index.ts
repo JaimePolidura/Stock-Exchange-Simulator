@@ -1,10 +1,11 @@
+import queueSubscriber from "./QueueSubscriber";
+
 const axios = require('axios');
 const express = require("express");
 const app = express();
 const http = require('http');
 const cors = require('cors');
 const server = http.createServer(app);
-const queueSubscriber: QueueSubscriber = require("./QueueSubscriber");
 
 const gateway = "http://gateway:8080";
 const websiteOrigin = "http://localhost:3000";
