@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.infrastrocture.exchanges.starter.kubernetes;
+package es.jaime.gateway._shared.infrastrocture.exchanges.containers.kubernetes;
 
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import io.kubernetes.client.openapi.models.*;

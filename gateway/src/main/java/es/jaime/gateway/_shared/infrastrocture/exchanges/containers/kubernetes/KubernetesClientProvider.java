@@ -1,4 +1,4 @@
-package es.jaime.gateway._shared.infrastrocture.orchestration.kubernetes;
+package es.jaime.gateway._shared.infrastrocture.exchanges.containers.kubernetes;
 
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.Configuration;

@@ -1,7 +1,6 @@
 package es.jaime.gateway._shared.infrastrocture.rabbitmq;
 
 import es.jaime.gateway._shared.domain.EventName;
-import es.jaime.gateway._shared.infrastrocture.exchanges.starter.dockercompose.ExchangesStarterDockerCompose;
 
 import static java.lang.String.*;
 
@@ -27,6 +26,6 @@ public final class RabbitMQNameFormatter {
     }
 
     public static String newOrdersQueueName(String ticker){
-        return eventListenerQueueName(ExchangesStarterDockerCompose.nameForExchangesOfTicker(ticker), EventName.ORDER_PUBLISHED);
+        return eventListenerQueueName(String.format("exchange-%s", ticker), EventName.ORDER_PUBLISHED);
     }
 }
