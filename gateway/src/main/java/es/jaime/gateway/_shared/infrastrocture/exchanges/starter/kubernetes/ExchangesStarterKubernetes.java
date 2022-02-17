@@ -2,6 +2,7 @@ package es.jaime.gateway._shared.infrastrocture.exchanges.starter.kubernetes;
 
 import es.jaime.gateway._shared.domain.ApplicationConfiguration;
 import es.jaime.gateway._shared.domain.Utils;
+import es.jaime.gateway._shared.infrastrocture.orchestration.kubernetes.KubernetesPodService;
 import es.jaime.gateway._shared.infrastrocture.rabbitmq.RabbitMQNameFormatter;
 import es.jaime.gateway.listedcompanies._shared.domain.ListedCompaniesRepository;
 import io.kubernetes.client.openapi.ApiException;
@@ -16,9 +17,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import static es.jaime.gateway._shared.domain.Utils.*;
 import static java.lang.String.format;
 
 @Component
@@ -29,7 +32,7 @@ public class ExchangesStarterKubernetes implements CommandLineRunner {
     private final ListedCompaniesRepository listedCompanies;
     private final ApplicationConfiguration configuration;
     private final ExchangePodBuilder exchangePodBuilder;
-    private final CoreV1Api kubernetesApiClient;
+    private final KubernetesPodService kubernetesPodService;
 
     @SneakyThrows
     @Override
@@ -43,12 +46,19 @@ public class ExchangesStarterKubernetes implements CommandLineRunner {
     @SneakyThrows
     private void createAllPods(){
         List<String> tickersOfExchangesToStart = getTickersOfAllListedCompanies();
+        int replicasPerExchange = configuration.getInt("EXCHANGE_REPLICAS");
 
         for (String tickerOfExchange : tickersOfExchangesToStart) {
-            V1Pod pod = exchangePodBuilder.build(tickerOfExchange, environmentVariablesForExchange(tickerOfExchange));
-
-            kubernetesApiClient.createNamespacedPod("default", pod, null, null, null);
+            repeat(replicasPerExchange, () -> createPod(tickerOfExchange));
         }
+    }
+
+    private void createPod(String ticker){
+        String exchangeName = nameForExchange(ticker);
+
+        V1Pod pod = exchangePodBuilder.build(ticker, environmentVariablesForExchange(ticker, exchangeName), exchangeName);
+
+        this.kubernetesPodService.createPod(pod);
     }
 
     private List<String> getTickersOfAllListedCompanies(){
@@ -57,7 +67,7 @@ public class ExchangesStarterKubernetes implements CommandLineRunner {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, Object> environmentVariablesForExchange(String ticker){
+    private Map<String, Object> environmentVariablesForExchange(String ticker, String exchangeName){
         return Map.of(
                 "NEW_ORDERS_QUEUE_NAME", RabbitMQNameFormatter.newOrdersQueueName(ticker),
                 "EVENTS_EXCHANGE", RabbitMQNameFormatter.EVENTS_EXCHANGE,
@@ -65,34 +75,40 @@ public class ExchangesStarterKubernetes implements CommandLineRunner {
                 "TICKER", ticker,
                 "EXCHANGE_INITIAL_DELAY", configuration.get("EXCHANGE_INITIAL_DELAY"),
                 "EVENTS_ROUTING_KEY", RabbitMQNameFormatter.EVENTS_ROUTING_KEY,
-                "EXCHANGE_NAME", "exchange-" + ticker,
+                "EXCHANGE_NAME", exchangeName,
                 "REDIS_HOST", configuration.get("REDIS_HOST"),
                 "REDIS_PORT", configuration.get("REDIS_PORT"),
                 "REDIS_PASSWORD", configuration.get("REDIS_PASSWORD")
         );
     }
 
+    @SneakyThrows
     private void deleteAlreadyCreatedPods(){
-        List<String> exchangeNames = this.getAllExchangeNames();
+        List<String> exchangeNames = this.getAllExchangesNames();
 
         for (String exchangeName : exchangeNames) {
             try {
-                this.kubernetesApiClient.deleteNamespacedPod(exchangeName, "default", null, null, null, null, null, null);
+                this.kubernetesPodService.deletePodByName(exchangeName);
             } catch (ApiException e) {
                 //Not exists
             }
         }
 
-        Utils.sleep(10000);
+        sleep(10000);
     }
 
-    private List<String> getAllExchangeNames(){
-        return this.getTickersOfAllListedCompanies().stream()
-                .map(ExchangesStarterKubernetes::nameForExchange)
+    private List<String> getAllExchangesNames() throws ApiException {
+        return this.kubernetesPodService.listPods().stream()
+                .filter(pod -> kubernetesPodService.sameImage(pod, configuration.get("DOCKER_EXCHANGE_IMAGE")))
+                .map(pod -> pod.getSpec().getContainers().get(0).getName())
                 .collect(Collectors.toList());
     }
 
     public static String nameForExchange(String ticker){
-        return format("exchange-%s", ticker.toLowerCase());
+        return format("exchange-%s-%s", ticker.toLowerCase(), firstPartOfUUID());
+    }
+
+    private static String firstPartOfUUID(){
+        return UUID.randomUUID().toString().split("-")[0];
     }
 }

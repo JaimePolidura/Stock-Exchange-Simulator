@@ -21,29 +21,10 @@ public final class Utils {
         return toReturn;
     }
 
-    //A - B
-    public static <E> List<E> listDifference(List<E> a, List<E> b){
-        List<E> toReturn = new ArrayList<>();
-
-        for (E elementInA : a) {
-            if(!b.contains(elementInA)){
-                toReturn.add(elementInA);
-            }
+    public static void repeat(int times, Runnable runnable){
+        for (int i = 0; i < times; i++) {
+            runnable.run();
         }
-
-        return toReturn;
-    }
-
-    public static <E> List<E> listUnion(List<E> a, List<E> b){
-        List<E> toReturn = new ArrayList<>(a);
-
-        for (E elementInB : b) {
-            if(!toReturn.contains(elementInB)){
-                toReturn.add(elementInB);
-            }
-        }
-
-        return toReturn;
     }
 
     @SneakyThrows

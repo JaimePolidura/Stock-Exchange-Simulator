@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 public class ExchangePodBuilder {
     private final ApplicationConfiguration configuration;
 
-    public V1Pod build(String ticker, Map<String, Object> args){
-        String exchangeName = ExchangesStarterKubernetes.nameForExchange(ticker);
-
+    public V1Pod build(String ticker, Map<String, Object> args, String exchangeName){
         V1ObjectMeta meta = new V1ObjectMeta();
         meta.setLabels(Map.of("app", exchangeName));
         meta.setName(exchangeName);
@@ -48,10 +46,10 @@ public class ExchangePodBuilder {
     }
 
     private V1EnvVar environmentVariableFromEntry(Map.Entry<String, Object> entry){
-        var environtmentVariable = new V1EnvVar();
-        environtmentVariable.setName(entry.getKey());
-        environtmentVariable.setValue((String) entry.getValue());
+        var v1EnvVar = new V1EnvVar();
+        v1EnvVar.setName(entry.getKey());
+        v1EnvVar.setValue((String) entry.getValue());
 
-        return environtmentVariable;
+        return v1EnvVar;
     }
 }
